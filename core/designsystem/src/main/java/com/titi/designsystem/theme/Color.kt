@@ -1,5 +1,6 @@
 package com.titi.designsystem.theme
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
@@ -154,5 +155,101 @@ val TdsDarkColorsPalette = TdsColorsPalette(
     clearColor = Color(0x00000000)
 )
 
+enum class TdsColor {
+    d1,
+    d2,
+    d3,
+    d4,
+    d5,
+    d6,
+    d7,
+    d8,
+    d9,
+    d10,
+    d11,
+    d12,
+    customTextColor,
 
+    wrongTextFieldColor,
+    timerBackground,
+    stopwatchBackground,
+    warningRedColor,
+    progressTrackColor,
+    startButtonColor,
+    noTaskWarningRedColor,
+    tabBarNonSelectColor,
+    logoColor,
+    loginSignupBackgroundColor,
+
+    labelColor,
+    placeHolderTextColor,
+    secondaryLabelColor,
+    secondaryBackgroundColor,
+    secondaryGroupedBackgroundColor,
+    backgroundColor,
+    greenColor,
+    groupedBackgroundColor,
+    pinkColor,
+    redColor,
+    yellowColor,
+    tertiaryLabelColor,
+    tertiaryBackgroundColor,
+    tertiaryGroupedBackgroundColor,
+    tintColor,
+
+    grayColor,
+    blackColor,
+    darkGrayColor,
+    lightGrayColor,
+    whiteColor,
+    clearColor;
+
+    @Composable
+    fun getColor() = when (this) {
+        d1 -> TiTiTheme.colors.d1
+        d2 -> TiTiTheme.colors.d2
+        d3 -> TiTiTheme.colors.d3
+        d4 -> TiTiTheme.colors.d4
+        d5 -> TiTiTheme.colors.d5
+        d6 -> TiTiTheme.colors.d6
+        d7 -> TiTiTheme.colors.d7
+        d8 -> TiTiTheme.colors.d8
+        d9 -> TiTiTheme.colors.d9
+        d10 -> TiTiTheme.colors.d10
+        d11 -> TiTiTheme.colors.d11
+        d12 -> TiTiTheme.colors.d12
+        customTextColor -> TiTiTheme.colors.customTextColor
+        wrongTextFieldColor -> TiTiTheme.colors.wrongTextFieldColor
+        timerBackground -> TiTiTheme.colors.timerBackground
+        stopwatchBackground -> TiTiTheme.colors.stopwatchBackground
+        warningRedColor -> TiTiTheme.colors.warningRedColor
+        progressTrackColor -> TiTiTheme.colors.progressTrackColor
+        startButtonColor -> TiTiTheme.colors.startButtonColor
+        noTaskWarningRedColor -> TiTiTheme.colors.noTaskWarningRedColor
+        tabBarNonSelectColor -> TiTiTheme.colors.tabBarNonSelectColor
+        logoColor -> TiTiTheme.colors.logoColor
+        loginSignupBackgroundColor -> TiTiTheme.colors.loginSignupBackgroundColor
+        labelColor -> TiTiTheme.colors.labelColor
+        placeHolderTextColor -> TiTiTheme.colors.placeHolderTextColor
+        secondaryLabelColor -> TiTiTheme.colors.secondaryLabelColor
+        secondaryBackgroundColor -> TiTiTheme.colors.secondaryBackgroundColor
+        secondaryGroupedBackgroundColor -> TiTiTheme.colors.secondaryGroupedBackgroundColor
+        backgroundColor -> TiTiTheme.colors.backgroundColor
+        greenColor -> TiTiTheme.colors.greenColor
+        groupedBackgroundColor -> TiTiTheme.colors.groupedBackgroundColor
+        pinkColor -> TiTiTheme.colors.pinkColor
+        redColor -> TiTiTheme.colors.redColor
+        yellowColor -> TiTiTheme.colors.yellowColor
+        tertiaryLabelColor -> TiTiTheme.colors.tertiaryLabelColor
+        tertiaryBackgroundColor -> TiTiTheme.colors.tertiaryBackgroundColor
+        tertiaryGroupedBackgroundColor -> TiTiTheme.colors.tertiaryGroupedBackgroundColor
+        tintColor -> TiTiTheme.colors.tintColor
+        grayColor -> TiTiTheme.colors.grayColor
+        blackColor -> TiTiTheme.colors.blackColor
+        darkGrayColor -> TiTiTheme.colors.darkGrayColor
+        lightGrayColor -> TiTiTheme.colors.lightGrayColor
+        whiteColor -> TiTiTheme.colors.whiteColor
+        clearColor -> TiTiTheme.colors.clearColor
+    }
+}
 
