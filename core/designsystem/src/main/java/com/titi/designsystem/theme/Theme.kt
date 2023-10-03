@@ -11,17 +11,26 @@ val LocalTiTiColors = staticCompositionLocalOf {
     TdsColorsPalette()
 }
 
+val LocalTiTiTypography = staticCompositionLocalOf {
+    TdsTypography()
+}
+
 object TiTiTheme {
 
     val colors: TdsColorsPalette
         @Composable
         get() = LocalTiTiColors.current
 
+    val textStyle: TdsTypography
+        @Composable
+        get() = LocalTiTiTypography.current
+
 }
 
 @Composable
 fun TiTiTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    tdsTypography: TdsTypography = TiTiTheme.textStyle,
     content: @Composable () -> Unit,
 ) {
     val tdsColorsPalette =
@@ -31,6 +40,7 @@ fun TiTiTheme(
     CompositionLocalProvider(
         LocalTiTiColors provides tdsColorsPalette,
         LocalDensity provides Density(LocalDensity.current.density, 1f),
+        LocalTiTiTypography provides tdsTypography,
     ) {
         content()
     }
