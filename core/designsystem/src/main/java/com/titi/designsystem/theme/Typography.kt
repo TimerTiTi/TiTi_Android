@@ -1,5 +1,6 @@
 package com.titi.designsystem.theme
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -50,3 +51,22 @@ data class TdsTypography(
         fontSize = 1.sp,
     ),
 )
+
+enum class TdsTextStyle {
+    thinTextStyle,
+    extraLightTextStyle,
+    normalTextStyle,
+    semiBoldTextStyle,
+    extraBoldTextStyle,
+    blackTextStyle;
+
+    @Composable
+    fun getTextStyle() = when (this) {
+        thinTextStyle -> TiTiTheme.textStyle.thinTextStyle
+        extraLightTextStyle -> TiTiTheme.textStyle.extraLightTextStyle
+        normalTextStyle -> TiTiTheme.textStyle.normalTextStyle
+        semiBoldTextStyle -> TiTiTheme.textStyle.semiBoldTextStyle
+        extraBoldTextStyle -> TiTiTheme.textStyle.extraBoldTextStyle
+        blackTextStyle -> TiTiTheme.textStyle.blackTextStyle
+    }
+}
