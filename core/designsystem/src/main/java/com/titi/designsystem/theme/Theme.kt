@@ -8,12 +8,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 
 val LocalTiTiColors = staticCompositionLocalOf {
-    CustomColorsPalette()
+    TdsColorsPalette()
 }
 
 object TiTiTheme {
 
-    val colors: CustomColorsPalette
+    val colors: TdsColorsPalette
         @Composable
         get() = LocalTiTiColors.current
 
@@ -24,12 +24,12 @@ fun TiTiTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val customColorsPalette =
-        if (darkTheme) OnDarkCustomColorsPalette
-        else OnLightCustomColorsPalette
+    val tdsColorsPalette =
+        if (darkTheme) TdsDarkColorsPalette
+        else TdsLightColorsPalette
 
     CompositionLocalProvider(
-        LocalTiTiColors provides customColorsPalette,
+        LocalTiTiColors provides tdsColorsPalette,
         LocalDensity provides Density(LocalDensity.current.density, 1f),
     ) {
         content()
