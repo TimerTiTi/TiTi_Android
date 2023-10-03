@@ -1,25 +1,53 @@
 package com.titi.designsystem.component
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import com.titi.designsystem.theme.TiTiTheme
+
+data class TdsTime(
+    val hour: Int,
+    val minutes: Int,
+    val seconds: Int,
+)
 
 @Composable
 fun TdsTimeCounter(
     modifier: Modifier = Modifier,
-    hour: Int,
-    minutes: Int,
-    seconds: Int,
+    tdsTime: TdsTime,
+    color: Color,
+    textStyle: TextStyle
 ) {
     Row(modifier = modifier) {
-        TdsAnimatedCounter(count = hour)
-        Text(text = ":")
-        TdsAnimatedCounter(count = minutes)
-        Text(text = ":")
-        TdsAnimatedCounter(count = seconds)
+        TdsAnimatedCounter(
+            count = tdsTime.hour,
+            color = color,
+            textStyle = textStyle
+        )
+        TdsText(
+            text = ":",
+            color = color,
+            textStyle = textStyle
+        )
+        TdsAnimatedCounter(
+            count = tdsTime.minutes,
+            color = color,
+            textStyle = textStyle
+        )
+        TdsText(
+            text = ":",
+            color = color,
+            textStyle = textStyle
+        )
+        TdsAnimatedCounter(
+            count = tdsTime.seconds,
+            color = color,
+            textStyle = textStyle
+        )
     }
 }
 
@@ -28,9 +56,13 @@ fun TdsTimeCounter(
 private fun TdsTimeCounterPreview() {
     TiTiTheme {
         TdsTimeCounter(
-            hour = 1,
-            minutes = 10,
-            seconds = 55,
+            tdsTime = TdsTime(
+                hour = 20,
+                minutes = 20,
+                seconds = 20,
+            ),
+            color = TiTiTheme.colors.blackColor,
+            textStyle = TiTiTheme.textStyle.normalTextStyle.copy(fontSize = 40.sp)
         )
     }
 }
