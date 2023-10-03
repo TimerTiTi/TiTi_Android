@@ -15,15 +15,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import com.titi.designsystem.theme.TdsColor
+import com.titi.designsystem.theme.TdsTextStyle
 import com.titi.designsystem.theme.TiTiTheme
 
 @Composable
 fun TdsAnimatedCounter(
     modifier: Modifier = Modifier,
     count: Int,
-    color: Color,
-    textStyle: TextStyle
+    color: TdsColor,
+    textStyle: TdsTextStyle,
+    fontSize : TextUnit,
 ) {
     var oldCount by remember {
         mutableIntStateOf(count)
@@ -55,7 +59,8 @@ fun TdsAnimatedCounter(
                 TdsText(
                     text = character.toString(),
                     textStyle = textStyle,
-                    color = color
+                    fontSize = fontSize,
+                    color = color,
                 )
             }
         }
@@ -68,8 +73,9 @@ private fun TdsAnimatedCounterPreview() {
     TiTiTheme {
         TdsAnimatedCounter(
             count = 13,
-            color = TiTiTheme.colors.blackColor,
-            textStyle = TiTiTheme.textStyle.normalTextStyle.copy(fontSize = 24.sp)
+            color = TdsColor.blackColor,
+            textStyle = TdsTextStyle.blackTextStyle,
+            fontSize = 40.sp
         )
     }
 }
