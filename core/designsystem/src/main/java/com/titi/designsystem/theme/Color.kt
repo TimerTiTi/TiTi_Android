@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
 @Immutable
-data class CustomColorsPalette(
+data class TdsColorsPalette(
     val d1: Color = Color.Unspecified,
     val d2: Color = Color.Unspecified,
     val d3: Color = Color.Unspecified,
@@ -54,7 +54,7 @@ data class CustomColorsPalette(
     val clearColor: Color = Color.Unspecified
 )
 
-val OnLightCustomColorsPalette = CustomColorsPalette(
+val TdsLightColorsPalette = TdsColorsPalette(
     d1 = Color(0xFF8299E3),
     d2 = Color(0xFF9AC0DA),
     d3 = Color(0xFF97D2C2),
@@ -104,7 +104,7 @@ val OnLightCustomColorsPalette = CustomColorsPalette(
     clearColor = Color(0x00000000)
 )
 
-val OnDarkCustomColorsPalette = CustomColorsPalette(
+val TdsDarkColorsPalette = TdsColorsPalette(
     d1 = Color(0xFF87A6F8),
     d2 = Color(0xFFA7D7F9),
     d3 = Color(0xFFA7FAE8),
