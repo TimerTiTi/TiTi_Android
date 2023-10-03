@@ -6,6 +6,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.titi.designsystem.R
 
@@ -61,12 +63,12 @@ enum class TdsTextStyle {
     blackTextStyle;
 
     @Composable
-    fun getTextStyle() = when (this) {
-        thinTextStyle -> TiTiTheme.textStyle.thinTextStyle
-        extraLightTextStyle -> TiTiTheme.textStyle.extraLightTextStyle
-        normalTextStyle -> TiTiTheme.textStyle.normalTextStyle
-        semiBoldTextStyle -> TiTiTheme.textStyle.semiBoldTextStyle
-        extraBoldTextStyle -> TiTiTheme.textStyle.extraBoldTextStyle
-        blackTextStyle -> TiTiTheme.textStyle.blackTextStyle
+    fun getTextStyle(fontSize : TextUnit) = when (this) {
+        thinTextStyle -> TiTiTheme.textStyle.thinTextStyle.copy(fontSize = fontSize)
+        extraLightTextStyle -> TiTiTheme.textStyle.extraLightTextStyle.copy(fontSize = fontSize)
+        normalTextStyle -> TiTiTheme.textStyle.normalTextStyle.copy(fontSize = fontSize)
+        semiBoldTextStyle -> TiTiTheme.textStyle.semiBoldTextStyle.copy(fontSize = fontSize)
+        extraBoldTextStyle -> TiTiTheme.textStyle.extraBoldTextStyle.copy(fontSize = fontSize)
+        blackTextStyle -> TiTiTheme.textStyle.blackTextStyle.copy(fontSize = fontSize)
     }
 }
