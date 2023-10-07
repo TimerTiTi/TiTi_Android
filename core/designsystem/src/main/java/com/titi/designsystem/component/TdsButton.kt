@@ -2,11 +2,14 @@ package com.titi.designsystem.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -26,9 +29,12 @@ fun TdsTextButton(
     enabled: Boolean = true
 ) {
     Button(
-        modifier = modifier,
+        modifier = modifier
+            .widthIn(min = 36.dp)
+            .heightIn(min = 36.dp),
         onClick = onClick,
         enabled = enabled,
+        shape = RectangleShape,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
             disabledContainerColor = Color.Transparent,
@@ -42,6 +48,7 @@ fun TdsTextButton(
             fontSize = fontSize
         )
     }
+
 }
 
 @Preview
@@ -51,7 +58,7 @@ private fun TdsButtonPreview() {
         Column {
             TdsTextButton(
                 text = "ABC",
-                fontSize = 20.sp,
+                fontSize = 16.sp,
                 onClick = { },
                 textColor = TdsColor.blackColor
             )
