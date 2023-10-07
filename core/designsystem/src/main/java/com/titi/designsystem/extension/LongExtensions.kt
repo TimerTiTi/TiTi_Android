@@ -1,6 +1,6 @@
 package com.titi.designsystem.extension
 
-import com.titi.designsystem.component.TdsTime
+import com.titi.designsystem.model.TdsTime
 
 fun Long.getTdsTime() = TdsTime(
     hour = (this / 3600).toInt(),

@@ -7,15 +7,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import com.titi.designsystem.model.TdsTime
 import com.titi.designsystem.theme.TdsColor
 import com.titi.designsystem.theme.TdsTextStyle
 import com.titi.designsystem.theme.TiTiTheme
-
-data class TdsTime(
-    val hour: Int,
-    val minutes: Int,
-    val seconds: Int,
-)
 
 @Composable
 fun TdsTimeCounter(
