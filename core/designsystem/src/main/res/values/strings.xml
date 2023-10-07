@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sum_time">누적 시간</string>
+    <string name="timer">타이머</string>
+    <string name="stopwatch">스탑워치</string>
+    <string name="goal_time">총 남은시간</string>
+</resources>
