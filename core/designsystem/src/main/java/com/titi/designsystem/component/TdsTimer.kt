@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
@@ -44,6 +43,7 @@ fun TdsTimer(
         val outCircularTrackWidth = minSize * 0.05
         val inCircularSize = outCircularSize - outCircularTrackWidth * 2
         val inCircularTrackWidth = outCircularTrackWidth * 0.4
+        val contentSize = inCircularSize - inCircularTrackWidth * 2
 
         val subTextSize = minSize.value * 0.03
         val subTimerTextSize = minSize.value * 0.08
@@ -74,8 +74,7 @@ fun TdsTimer(
 
         Column(
             modifier = Modifier
-                .width(outCircularSize)
-                .height(outCircularSize - outCircularTrackWidth * 2 - inCircularTrackWidth * 2)
+                .size(contentSize)
                 .align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -91,6 +90,7 @@ fun TdsTimer(
             Spacer(modifier = Modifier.weight(1f))
 
             TdsTimeCounter(
+                modifier = Modifier.width(contentSize * 0.45),
                 tdsTime = savedSumTime.getTdsTime(),
                 color = TdsColor.customTextColor,
                 textStyle = TdsTextStyle.normalTextStyle,
@@ -109,6 +109,7 @@ fun TdsTimer(
             Spacer(modifier = Modifier.weight(1f))
 
             TdsTimeCounter(
+                modifier = Modifier.width(contentSize * 0.9),
                 tdsTime = savedTime.getTdsTime(),
                 color = TdsColor.customTextColor,
                 textStyle = TdsTextStyle.normalTextStyle,
@@ -127,6 +128,7 @@ fun TdsTimer(
             Spacer(modifier = Modifier.weight(1f))
 
             TdsTimeCounter(
+                modifier = Modifier.width(contentSize * 0.45),
                 tdsTime = savedGoalTime.getTdsTime(),
                 color = TdsColor.customTextColor,
                 textStyle = TdsTextStyle.normalTextStyle,
@@ -161,7 +163,7 @@ private fun TdsTimerPreview() {
             inCircularProgress = 0.3f,
             recordingMode = 1,
             savedSumTime = 11938,
-            savedTime = 590,
+            savedTime = 690,
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
         )
@@ -224,7 +226,7 @@ private fun TdsTimerPreview3() {
             inCircularProgress = 0.3f,
             recordingMode = 2,
             savedSumTime = 11938,
-            savedTime = 590,
+            savedTime = 690,
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
         )
