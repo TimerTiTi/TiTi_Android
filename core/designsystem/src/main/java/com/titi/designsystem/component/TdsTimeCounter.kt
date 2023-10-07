@@ -1,5 +1,6 @@
 package com.titi.designsystem.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,8 +25,12 @@ fun TdsTimeCounter(
     textStyle: TdsTextStyle,
     fontSize: TextUnit,
 ) {
-    Row(modifier = modifier) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.Center
+    ) {
         TdsAnimatedCounter(
+            modifier = Modifier.weight(1f),
             count = tdsTime.hour,
             color = color,
             textStyle = textStyle,
@@ -38,6 +43,7 @@ fun TdsTimeCounter(
             fontSize = fontSize
         )
         TdsAnimatedCounter(
+            modifier = Modifier.weight(1f),
             count = tdsTime.minutes,
             color = color,
             textStyle = textStyle,
@@ -50,6 +56,7 @@ fun TdsTimeCounter(
             fontSize = fontSize
         )
         TdsAnimatedCounter(
+            modifier = Modifier.weight(1f),
             count = tdsTime.seconds,
             color = color,
             textStyle = textStyle,
