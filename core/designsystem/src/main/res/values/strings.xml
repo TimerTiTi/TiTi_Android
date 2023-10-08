@@ -4,4 +4,6 @@
     <string name="timer">타이머</string>
     <string name="stopwatch">스탑워치</string>
     <string name="goal_time">총 남은시간</string>
+    <string name="task_set_goal_time">목표시간 설정: %1$s</string>
+    <string name="edit">Edit</string>
 </resources>
