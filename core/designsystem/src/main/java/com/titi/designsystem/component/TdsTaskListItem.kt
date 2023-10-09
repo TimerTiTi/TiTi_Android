@@ -49,6 +49,7 @@ fun TdsTaskListItem(
     onEdit: () -> Unit,
     onTargetTimeOn: (Boolean) -> Unit,
     onDelete: () -> Unit,
+    onLongClickMenu : () -> Unit,
 ) {
     val dismissState = rememberDismissState(confirmValueChange = { dismissValue ->
         when (dismissValue) {
@@ -153,7 +154,12 @@ fun TdsTaskListItem(
 
                     AnimatedVisibility(visible = editMode) {
                         Icon(
-                            modifier = Modifier.padding(start = 12.dp),
+                            modifier = Modifier
+                                .padding(start = 12.dp)
+                                .combinedClickable(
+                                    onClick = {},
+                                    onLongClick = {onLongClickMenu()}
+                                ),
                             painter = painterResource(id = R.drawable.menu_icon),
                             contentDescription = "menu",
                             tint = TdsColor.darkGrayColor.getColor()
@@ -187,6 +193,7 @@ private fun TdsTaskListItemPreview() {
             onEdit = {},
             onTargetTimeOn = {},
             onDelete = {},
+            onLongClickMenu = {},
         )
     }
 }
