@@ -31,6 +31,7 @@ fun TdsTimer(
     outCircularProgress: Float,
     inCircularLineTrackColor: TdsColor,
     inCircularProgress: Float,
+    fontColor : TdsColor,
     recordingMode: Int,
     savedSumTime: Long,
     savedTime: Long,
@@ -84,7 +85,7 @@ fun TdsTimer(
                 text = stringResource(R.string.sum_time),
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = subTextSize.sp,
-                color = TdsColor.customTextColor
+                color = fontColor
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -92,7 +93,7 @@ fun TdsTimer(
             TdsTimeCounter(
                 modifier = Modifier.width(contentSize * 0.45),
                 tdsTime = savedSumTime.getTdsTime(),
-                color = TdsColor.customTextColor,
+                color = fontColor,
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = subTimerTextSize.sp
             )
@@ -103,7 +104,7 @@ fun TdsTimer(
                 text = if (recordingMode == 1) stringResource(R.string.timer) else stringResource(R.string.stopwatch),
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = mainTextSize.sp,
-                color = TdsColor.customTextColor
+                color = fontColor
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -111,7 +112,7 @@ fun TdsTimer(
             TdsTimeCounter(
                 modifier = Modifier.width(contentSize * 0.9),
                 tdsTime = savedTime.getTdsTime(),
-                color = TdsColor.customTextColor,
+                color = fontColor,
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = mainTimerTextSize.sp
             )
@@ -122,7 +123,7 @@ fun TdsTimer(
                 text = stringResource(R.string.goal_time),
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = subTextSize.sp,
-                color = TdsColor.customTextColor
+                color = fontColor
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -130,7 +131,7 @@ fun TdsTimer(
             TdsTimeCounter(
                 modifier = Modifier.width(contentSize * 0.45),
                 tdsTime = savedGoalTime.getTdsTime(),
-                color = TdsColor.customTextColor,
+                color = fontColor,
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = subTimerTextSize.sp
             )
@@ -141,7 +142,7 @@ fun TdsTimer(
                 text = "To $finishGoalTime PM",
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = subTextSize.sp,
-                color = TdsColor.customTextColor
+                color = fontColor
             )
 
             Spacer(modifier = Modifier.weight(2f))
@@ -161,6 +162,7 @@ private fun TdsTimerPreview() {
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
+            fontColor = TdsColor.customTextColor,
             recordingMode = 1,
             savedSumTime = 11938,
             savedTime = 690,
@@ -182,6 +184,7 @@ private fun TdsTimerPreview1() {
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
+            fontColor = TdsColor.customTextColor,
             recordingMode = 1,
             savedSumTime = 11938,
             savedTime = 590,
@@ -203,6 +206,7 @@ private fun TdsTimerPreview2() {
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
+            fontColor = TdsColor.customTextColor,
             recordingMode = 2,
             savedSumTime = 11938,
             savedTime = 590,
@@ -224,6 +228,7 @@ private fun TdsTimerPreview3() {
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
+            fontColor = TdsColor.customTextColor,
             recordingMode = 2,
             savedSumTime = 11938,
             savedTime = 690,
