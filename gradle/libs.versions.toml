@@ -30,7 +30,8 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
 
-androidx-datastore-preference = { group = "androidx.datastore", name = "datastore-preference", version.ref = "datastore" }
+androidx-datastore = {group = "androidx.datastore", name="datastore", version.ref="datastore"}
+androidx-datastore-preference = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 androidx-datastore-preference-core = { group = "androidx.datastore", name = "datastore-preferences-core", version.ref = "datastore" }
 
 moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
@@ -69,6 +70,7 @@ moshi = [
 ]
 
 datastore = [
+    "androidx-datastore",
     "androidx-datastore-preference",
     "androidx-datastore-preference-core"
 ]
