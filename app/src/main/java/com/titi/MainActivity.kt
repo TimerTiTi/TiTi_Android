@@ -23,8 +23,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.titi.designsystem.theme.TdsColor
-import com.titi.designsystem.theme.TiTiTheme
+import com.titi.core.designsystem.theme.TdsColor
+import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.navigation.Screen
 
 class MainActivity : ComponentActivity() {

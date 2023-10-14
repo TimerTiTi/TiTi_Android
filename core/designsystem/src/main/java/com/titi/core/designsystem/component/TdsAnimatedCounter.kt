@@ -1,4 +1,4 @@
-package com.titi.designsystem.component
+package com.titi.core.designsystem.component
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInVertically
@@ -16,9 +16,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.titi.designsystem.theme.TdsColor
-import com.titi.designsystem.theme.TdsTextStyle
-import com.titi.designsystem.theme.TiTiTheme
+import com.titi.core.designsystem.theme.TdsColor
+import com.titi.core.designsystem.theme.TdsTextStyle
+import com.titi.core.designsystem.theme.TiTiTheme
 
 @Composable
 fun TdsAnimatedCounter(

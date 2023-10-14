@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "TiTi"
 include(":app")
 include(":core:designsystem")
+include(":feature:time")

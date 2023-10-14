@@ -1,4 +1,4 @@
-package com.titi.designsystem.theme
+package com.titi.core.designsystem.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable

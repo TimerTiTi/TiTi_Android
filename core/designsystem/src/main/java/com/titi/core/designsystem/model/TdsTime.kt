@@ -1,4 +1,4 @@
-package com.titi.designsystem.model
+package com.titi.core.designsystem.model
 
 data class TdsTime(
     val hour: Int,

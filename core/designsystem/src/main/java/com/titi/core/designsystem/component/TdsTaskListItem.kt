@@ -1,4 +1,4 @@
-package com.titi.designsystem.component
+package com.titi.core.designsystem.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -26,11 +26,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.titi.designsystem.R
-import com.titi.designsystem.extension.getTimeString
-import com.titi.designsystem.model.TdsTask
-import com.titi.designsystem.theme.TdsColor
-import com.titi.designsystem.theme.TdsTextStyle
-import com.titi.designsystem.theme.TiTiTheme
+import com.titi.core.designsystem.extension.getTimeString
+import com.titi.core.designsystem.model.TdsTask
+import com.titi.core.designsystem.theme.TdsColor
+import com.titi.core.designsystem.theme.TdsTextStyle
+import com.titi.core.designsystem.theme.TiTiTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

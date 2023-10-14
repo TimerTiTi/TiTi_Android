@@ -1,4 +1,4 @@
-package com.titi.designsystem.component
+package com.titi.core.designsystem.component
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.titi.designsystem.theme.TdsColor
+import com.titi.core.designsystem.theme.TdsColor
 
 @Composable
 fun RowScope.TdsDivider(
