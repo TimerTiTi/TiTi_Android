@@ -57,7 +57,7 @@ fun TdsTimer(
                 .align(Alignment.Center),
             progress = outCircularProgress,
             color = outCircularLineColor.getColor(),
-            trackColor = TdsColor.darkGrayColor.getColor(),
+            trackColor = TdsColor.lightGrayColor.getColor(),
             strokeWidth = outCircularTrackWidth,
             strokeCap = StrokeCap.Round
         )
@@ -158,11 +158,11 @@ private fun TdsTimerPreview() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
-            outCircularLineColor = TdsColor.greenColor,
+            outCircularLineColor = TdsColor.blueColor,
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
-            fontColor = TdsColor.customTextColor,
+            fontColor = TdsColor.textColor,
             recordingMode = 1,
             savedSumTime = 11938,
             savedTime = 690,
@@ -180,11 +180,11 @@ private fun TdsTimerPreview1() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
-            outCircularLineColor = TdsColor.greenColor,
+            outCircularLineColor = TdsColor.blueColor,
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
-            fontColor = TdsColor.customTextColor,
+            fontColor = TdsColor.textColor,
             recordingMode = 1,
             savedSumTime = 11938,
             savedTime = 590,
@@ -202,11 +202,11 @@ private fun TdsTimerPreview2() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
-            outCircularLineColor = TdsColor.greenColor,
+            outCircularLineColor = TdsColor.blueColor,
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
-            fontColor = TdsColor.customTextColor,
+            fontColor = TdsColor.textColor,
             recordingMode = 2,
             savedSumTime = 11938,
             savedTime = 590,
@@ -224,11 +224,11 @@ private fun TdsTimerPreview3() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
-            outCircularLineColor = TdsColor.greenColor,
+            outCircularLineColor = TdsColor.blueColor,
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
-            fontColor = TdsColor.customTextColor,
+            fontColor = TdsColor.textColor,
             recordingMode = 2,
             savedSumTime = 11938,
             savedTime = 690,

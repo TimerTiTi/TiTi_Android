@@ -69,7 +69,7 @@ fun TdsTaskListItem(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = TdsColor.wrongTextFieldColor.getColor())
+                    .background(color = TdsColor.redColor.getColor())
                     .padding(end = 12.dp),
                 contentAlignment = Alignment.CenterEnd
             ) {
@@ -77,7 +77,7 @@ fun TdsTaskListItem(
                     text = "Delete",
                     textStyle = TdsTextStyle.normalTextStyle,
                     fontSize = 16.sp,
-                    color = TdsColor.whiteColor
+                    color = TdsColor.backgroundColor
                 )
             }
         },
@@ -102,7 +102,7 @@ fun TdsTaskListItem(
                                 .clickable { onDelete() },
                             painter = painterResource(id = R.drawable.cancel_icon),
                             contentDescription = "cancel",
-                            tint = TdsColor.wrongTextFieldColor.getColor()
+                            tint = TdsColor.redColor.getColor()
                         )
                     }
 
@@ -111,7 +111,7 @@ fun TdsTaskListItem(
                             text = tdsTask.taskName,
                             textStyle = TdsTextStyle.extraBoldTextStyle,
                             fontSize = 20.sp,
-                            color = TdsColor.labelColor,
+                            color = TdsColor.textColor,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -125,7 +125,7 @@ fun TdsTaskListItem(
                                     ),
                                     textStyle = TdsTextStyle.normalTextStyle,
                                     fontSize = 14.sp,
-                                    color = TdsColor.darkGrayColor
+                                    color = TdsColor.lightGrayColor
                                 )
 
                                 Spacer(modifier = Modifier.width(8.dp))
@@ -162,7 +162,7 @@ fun TdsTaskListItem(
                                 ),
                             painter = painterResource(id = R.drawable.menu_icon),
                             contentDescription = "menu",
-                            tint = TdsColor.darkGrayColor.getColor()
+                            tint = TdsColor.lightGrayColor.getColor()
                         )
                     }
                 }
@@ -187,7 +187,7 @@ private fun TdsTaskListItemPreview() {
                 taskName = "English"
             ),
             editMode = false,
-            themeColor = TdsColor.greenColor,
+            themeColor = TdsColor.blueColor,
             onClickTask = {},
             onLongClickTask = {},
             onEdit = {},

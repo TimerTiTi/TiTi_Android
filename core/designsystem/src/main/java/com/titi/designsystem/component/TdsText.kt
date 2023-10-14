@@ -48,7 +48,7 @@ private fun TdsTextPreview() {
     TiTiTheme {
         TdsText(
             text = "ABC",
-            color = TdsColor.blackColor,
+            color = TdsColor.textColor,
             textStyle = TdsTextStyle.blackTextStyle,
             fontSize = 40.sp
         )

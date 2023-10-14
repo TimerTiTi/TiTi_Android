@@ -26,7 +26,7 @@ import com.titi.designsystem.theme.TiTiTheme
 fun TdsDialog(
     tdsDialogInfo: TdsDialogInfo,
     onShowDialog: (Boolean) -> Unit,
-    bodyContent: @Composable () -> Unit,
+    bodyContent: (@Composable () -> Unit)? = null,
 ) {
     Dialog(
         onDismissRequest = {
@@ -42,7 +42,7 @@ fun TdsDialog(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(14.dp)
         ) {
             Column(
                 modifier = Modifier.background(color = TdsColor.backgroundColor.getColor()),
@@ -52,9 +52,9 @@ fun TdsDialog(
 
                 TdsText(
                     text = tdsDialogInfo.title,
-                    textStyle = TdsTextStyle.extraBoldTextStyle,
-                    fontSize = 20.sp,
-                    color = TdsColor.labelColor
+                    textStyle = TdsTextStyle.semiBoldTextStyle,
+                    fontSize = 17.sp,
+                    color = TdsColor.textColor
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
@@ -62,15 +62,18 @@ fun TdsDialog(
                 TdsText(
                     text = tdsDialogInfo.message,
                     textStyle = TdsTextStyle.normalTextStyle,
-                    fontSize = 16.sp,
-                    color = TdsColor.labelColor
+                    fontSize = 13.sp,
+                    color = TdsColor.textColor
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
+                if(bodyContent != null){
+                    Spacer(modifier = Modifier.height(15.dp))
 
-                bodyContent()
+                    bodyContent()
 
-                Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(15.dp))
+                }
+
 
                 TdsDivider()
 
@@ -102,7 +105,7 @@ private fun TdsConfirmDialogButtons(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(36.dp)
+            .height(44.dp)
     ) {
         TdsTextButton(
             modifier = Modifier.weight(1f),
@@ -112,8 +115,8 @@ private fun TdsConfirmDialogButtons(
             },
             text = tdsDialogInfo.negativeText,
             textStyle = TdsTextStyle.normalTextStyle,
-            fontSize = 16.sp,
-            textColor = TdsColor.wrongTextFieldColor,
+            fontSize = 17.sp,
+            textColor = TdsColor.redColor,
         )
 
         TdsDivider()
@@ -127,7 +130,7 @@ private fun TdsConfirmDialogButtons(
             text = tdsDialogInfo.positiveText,
             textStyle = TdsTextStyle.normalTextStyle,
             fontSize = 16.sp,
-            textColor = TdsColor.tintColor,
+            textColor = TdsColor.blueColor,
         )
     }
 }
@@ -140,15 +143,15 @@ private fun TdsAlertDialogButton(
     TdsTextButton(
         modifier = Modifier
             .fillMaxWidth()
-            .height(36.dp),
+            .height(44.dp),
         onClick = {
             tdsDialogInfo.onConfirm?.invoke()
             onShowDialog(false)
         },
         text = tdsDialogInfo.confirmText,
         textStyle = TdsTextStyle.normalTextStyle,
-        fontSize = 16.sp,
-        textColor = TdsColor.tintColor,
+        fontSize = 17.sp,
+        textColor = TdsColor.blueColor,
     )
 }
 
@@ -173,7 +176,7 @@ private fun TdsConfirmDialogPreview() {
                     text = "tdsDialogInfo.message",
                     textStyle = TdsTextStyle.normalTextStyle,
                     fontSize = 12.sp,
-                    color = TdsColor.labelColor
+                    color = TdsColor.textColor
                 )
             }
         )
@@ -199,7 +202,7 @@ private fun TdsAlertDialogPreview() {
                     text = "hihi",
                     textStyle = TdsTextStyle.normalTextStyle,
                     fontSize = 12.sp,
-                    color = TdsColor.labelColor
+                    color = TdsColor.textColor
                 )
             }
         )

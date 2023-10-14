@@ -60,7 +60,7 @@ private fun TdsButtonPreview() {
                 text = "ABC",
                 fontSize = 16.sp,
                 onClick = { },
-                textColor = TdsColor.blackColor
+                textColor = TdsColor.textColor
             )
         }
     }
