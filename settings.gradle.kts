@@ -17,3 +17,4 @@ rootProject.name = "TiTi"
 include(":app")
 include(":core:designsystem")
 include(":feature:time")
+include(":core:util")
