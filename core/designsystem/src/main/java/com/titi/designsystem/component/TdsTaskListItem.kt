@@ -31,7 +31,7 @@ import com.titi.designsystem.theme.TdsColor
 import com.titi.designsystem.theme.TdsTextStyle
 import com.titi.designsystem.theme.TiTiTheme
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TdsTaskListItem(
     modifier: Modifier = Modifier,
