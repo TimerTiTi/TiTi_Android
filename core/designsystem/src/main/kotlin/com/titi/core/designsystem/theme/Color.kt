@@ -25,7 +25,9 @@ data class TdsColorsPalette(
     val blueColor: Color = Color.Unspecified,
     val dividerColor: Color = Color.Unspecified,
 
-    val lightGrayColor: Color = Color.Unspecified
+    val lightGrayColor: Color = Color.Unspecified,
+    val whiteColor : Color = Color.Unspecified,
+    val blackColor : Color = Color.Unspecified,
 )
 
 val TdsLightColorsPalette = TdsColorsPalette(
@@ -49,6 +51,8 @@ val TdsLightColorsPalette = TdsColorsPalette(
     dividerColor = Color(0x4D000000),
 
     lightGrayColor = Color(0xFF555555),
+    whiteColor = Color(0xFFFFFFFF),
+    blackColor = Color(0xFF000000),
 )
 
 val TdsDarkColorsPalette = TdsColorsPalette(
@@ -72,6 +76,8 @@ val TdsDarkColorsPalette = TdsColorsPalette(
     dividerColor = Color(0x99000000),
 
     lightGrayColor = Color(0xFF555555),
+    whiteColor = Color(0xFFFFFFFF),
+    blackColor = Color(0xFF000000),
 )
 
 enum class TdsColor {
@@ -94,7 +100,9 @@ enum class TdsColor {
     blueColor,
     dividerColor,
 
-    lightGrayColor;
+    lightGrayColor,
+    whiteColor,
+    blackColor;
 
     @Composable
     fun getColor() = when (this) {
@@ -118,6 +126,8 @@ enum class TdsColor {
         dividerColor -> TiTiTheme.colors.dividerColor
 
         lightGrayColor -> TiTiTheme.colors.lightGrayColor
+        whiteColor -> TiTiTheme.colors.whiteColor
+        blackColor -> TiTiTheme.colors.blackColor
     }
 }
 

@@ -17,12 +17,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
-import com.titi.designsystem.R
 import com.titi.core.designsystem.extension.getTdsTime
 import com.titi.core.designsystem.extension.times
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.designsystem.R
 
 @Composable
 fun TdsTimer(
@@ -139,7 +139,7 @@ fun TdsTimer(
             Spacer(modifier = Modifier.weight(1f))
 
             TdsText(
-                text = "To $finishGoalTime PM",
+                text = "To $finishGoalTime",
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = subTextSize.sp,
                 color = fontColor

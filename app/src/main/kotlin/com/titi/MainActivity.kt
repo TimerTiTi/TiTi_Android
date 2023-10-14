@@ -25,6 +25,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.feature.time.TimeScreen
 import com.titi.navigation.Screen
 
 class MainActivity : ComponentActivity() {
@@ -97,10 +98,16 @@ fun MainScreen(
             startDestination = Screen.Timer.route,
         ) {
             composable(Screen.Timer.route) {
-                Text(text = "ABC")
+                TimeScreen(
+                    backgroundColor = TdsColor.blueColor,
+                    recordingMode = 1
+                )
             }
             composable(Screen.StopWatch.route) {
-                Text(text = "ABCD")
+                TimeScreen(
+                    backgroundColor = TdsColor.blueColor,
+                    recordingMode = 2
+                )
             }
         }
     }

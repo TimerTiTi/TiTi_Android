@@ -6,4 +6,5 @@
     <string name="goal_time">총 남은시간</string>
     <string name="task_set_goal_time">목표시간 설정: %1$s</string>
     <string name="edit">Edit</string>
+    <string name="create_task_text">Task를 생성해주세요</string>
 </resources>
