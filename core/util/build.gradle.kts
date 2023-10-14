@@ -36,6 +36,8 @@ android {
 dependencies {
     implementation(libs.bundles.moshi)
 
+    implementation(libs.bundles.datastore)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.espresso.core)
