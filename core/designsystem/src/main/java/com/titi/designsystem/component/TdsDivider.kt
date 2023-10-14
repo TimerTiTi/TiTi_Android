@@ -16,7 +16,7 @@ import com.titi.designsystem.theme.TdsColor
 @Composable
 fun RowScope.TdsDivider(
     thickness: Dp = 1.dp,
-    color: TdsColor = TdsColor.lightGrayColor,
+    color: TdsColor = TdsColor.dividerColor,
 ) {
     Divider(
         modifier = Modifier
@@ -30,7 +30,7 @@ fun RowScope.TdsDivider(
 @Composable
 fun ColumnScope.TdsDivider(
     thickness: Dp = 1.dp,
-    color: TdsColor = TdsColor.lightGrayColor,
+    color: TdsColor = TdsColor.dividerColor,
 ) {
     Divider(
         modifier = Modifier

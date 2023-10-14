@@ -74,7 +74,7 @@ private fun TdsAnimatedCounterPreview() {
     TiTiTheme {
         TdsAnimatedCounter(
             count = 13,
-            color = TdsColor.blackColor,
+            color = TdsColor.textColor,
             textStyle = TdsTextStyle.blackTextStyle,
             fontSize = 40.sp
         )

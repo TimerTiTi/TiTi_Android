@@ -70,7 +70,7 @@ private fun TdsTimeCounterPreview() {
                 minutes = 20,
                 seconds = 20,
             ),
-            color = TdsColor.blackColor,
+            color = TdsColor.textColor,
             textStyle = TdsTextStyle.blackTextStyle,
             fontSize = 40.sp
         )
