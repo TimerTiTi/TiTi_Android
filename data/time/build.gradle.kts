@@ -36,6 +36,7 @@ android {
 dependencies {
     implementation(project(":core:util"))
 
+    implementation(libs.bundles.moshi)
     implementation(libs.bundles.datastore)
 
     implementation(libs.androidx.core.ktx)
