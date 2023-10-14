@@ -18,6 +18,7 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -111,7 +112,11 @@ fun TdsTaskListItem(
                 onCheckedChange = onTargetTimeOn,
                 colors = SwitchDefaults.colors(
                     checkedTrackColor = themeColor.getColor(),
+                    checkedBorderColor = Color.Transparent,
+                    checkedThumbColor = Color.White,
                     uncheckedTrackColor = themeColor.getColor(),
+                    uncheckedBorderColor = Color.Transparent,
+                    uncheckedThumbColor = Color.White,
                 )
             )
 
@@ -144,7 +149,7 @@ private fun TdsTaskListItemPreview() {
                 .padding(horizontal = 24.dp),
             tdsTask = TdsTask(
                 taskTargetTime = 12346,
-                isTaskTargetTimeOn = true,
+                isTaskTargetTimeOn = false,
                 taskName = "English"
             ),
             editMode = false,
