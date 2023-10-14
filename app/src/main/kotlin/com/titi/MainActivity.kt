@@ -93,7 +93,9 @@ fun MainScreen(
         }
     ) { innerPadding ->
         NavHost(
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier
+                .padding(innerPadding)
+                .background(TdsColor.backgroundColor.getColor()),
             navController = navController,
             startDestination = Screen.Timer.route,
         ) {
@@ -118,7 +120,7 @@ fun MainScreen(
 private fun MainScreenPreview() {
     TiTiTheme {
         MainScreen(
-            bottomNavigationBackgroundColor = TdsColor.redColor
+            bottomNavigationBackgroundColor = TdsColor.blueColor
         )
     }
 }
