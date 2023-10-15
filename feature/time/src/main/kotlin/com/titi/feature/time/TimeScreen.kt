@@ -1,5 +1,6 @@
 package com.titi.feature.time
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,9 +15,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,22 +30,31 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.airbnb.mvrx.compose.collectAsState
+import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.core.designsystem.component.TdsText
 import com.titi.core.designsystem.component.TdsTimer
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.core.util.addTimeToNow
 import com.titi.designsystem.R
 
 @Composable
 fun TimeScreen(
+    viewModel: TimeViewModel = mavericksViewModel(),
     backgroundColor: TdsColor,
     recordingMode: Int,
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.updateRecordingMode(recordingMode = recordingMode)
+    }
+
+    val uiState by viewModel.collectAsState()
+    Log.e("ABC",uiState.recordTimes.toString())
     TimeScreen(
         backgroundColor = backgroundColor,
-        recordingMode = recordingMode,
-        taskName = null,
+        uiState = uiState,
         onClickAddRecord = {},
         onClickStartRecord = {},
         onClickSettingTime = {},
@@ -50,17 +64,19 @@ fun TimeScreen(
 @Composable
 private fun TimeScreen(
     backgroundColor: TdsColor,
-    recordingMode: Int,
-    taskName: String?,
+    uiState: TimeUiState,
     onClickAddRecord: () -> Unit,
     onClickStartRecord: () -> Unit,
     onClickSettingTime: () -> Unit,
 ) {
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor.getColor())
-            .padding(top = 16.dp),
+            .padding(top = 16.dp)
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
@@ -68,10 +84,10 @@ private fun TimeScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
         ) {
-            //TODO 날짜 입력받고, 상태에 따른 컬러값
+            //TODO 상태에 따른 컬러값
             TdsText(
                 modifier = Modifier.align(Alignment.Center),
-                text = "2023.01.01",
+                text = uiState.todayDate,
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = 16.sp,
                 color = TdsColor.textColor
@@ -82,13 +98,13 @@ private fun TimeScreen(
                     .size(32.dp)
                     .align(Alignment.CenterEnd),
                 painter = painterResource(id = R.drawable.cancel_icon),
-                contentDescription = "asdf"
+                contentDescription = "setColorIcon"
             )
         }
 
         Spacer(modifier = Modifier.weight(1f))
 
-        if (taskName == null) {
+        if (uiState.recordTimes.recordTask == null) {
             TdsText(
                 modifier = Modifier
                     .border(
@@ -117,7 +133,7 @@ private fun TimeScreen(
                         vertical = 10.dp,
                         horizontal = 25.dp
                     ),
-                text = taskName,
+                text = uiState.recordTimes.recordTask,
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = 18.sp,
                 color = TdsColor.textColor
@@ -128,23 +144,29 @@ private fun TimeScreen(
 
         //TODO 타이머 색상 커스텀
         //TODO 기록 가져오기
-        TdsTimer(
-            outCircularLineColor = TdsColor.d3,
-            outCircularProgress = 0.3f,
-            inCircularLineTrackColor = TdsColor.whiteColor,
-            inCircularProgress = 0.2f,
-            fontColor = TdsColor.textColor,
-            recordingMode = recordingMode,
-            savedSumTime = 3000L,
-            savedTime = 3000L,
-            savedGoalTime = 3000L,
-            finishGoalTime = "05:30 PM",
-        )
+        with(uiState.recordTimes) {
+            TdsTimer(
+                outCircularLineColor = TdsColor.d3,
+                outCircularProgress = if (recordingMode == 1) {
+                    ((setTimerTime - savedTimerTime) / setTimerTime).toFloat()
+                } else {
+                    (savedStopWatchTime / 3600).toFloat()
+                },
+                inCircularLineTrackColor = TdsColor.whiteColor,
+                inCircularProgress = (savedSumTime / setGoalTime).toFloat(),
+                fontColor = TdsColor.textColor,
+                recordingMode = recordingMode,
+                savedSumTime = savedSumTime,
+                savedTime = if (recordingMode == 1) savedTimerTime else savedStopWatchTime,
+                savedGoalTime = savedGoalTime,
+                finishGoalTime = addTimeToNow(savedGoalTime),
+            )
+        }
 
         Spacer(modifier = Modifier.height(50.dp))
 
         Row(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
@@ -168,7 +190,7 @@ private fun TimeScreen(
             Icon(
                 modifier = Modifier.clickable { onClickSettingTime() },
                 painter = painterResource(
-                    id = if (recordingMode == 1) {
+                    id = if (uiState.recordTimes.recordingMode == 1) {
                         R.drawable.setting_timer_time_icon
                     } else {
                         R.drawable.setting_stopwatch_time_icon
@@ -189,8 +211,7 @@ private fun TimeScreenPreview() {
     TiTiTheme {
         TimeScreen(
             backgroundColor = TdsColor.blueColor,
-            recordingMode = 1,
-            taskName = null,
+            uiState = TimeUiState(),
             onClickAddRecord = {},
             onClickStartRecord = {},
             onClickSettingTime = {},

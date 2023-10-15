@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.feature.time"
+    namespace = "com.titi.data.time"
     compileSdk = 34
 
     defaultConfig {
@@ -33,39 +33,21 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
 }
 
 dependencies {
-    implementation(project(":core:designsystem"))
     implementation(project(":core:util"))
-    implementation(project(":data:time"))
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.bundles.moshi)
+    implementation(libs.bundles.datastore)
 
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.runtime)
-    implementation(platform(libs.androidx.compose.bom))
-
-    implementation(libs.bundles.compose.ui)
-
-    implementation(libs.bundles.mavericks)
-
-    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.appcompat)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }
