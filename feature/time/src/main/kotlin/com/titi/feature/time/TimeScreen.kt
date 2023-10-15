@@ -1,5 +1,6 @@
 package com.titi.feature.time
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -36,6 +37,7 @@ import com.titi.core.designsystem.component.TdsTimer
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.core.util.addTimeToNow
 import com.titi.designsystem.R
 
 @Composable
@@ -49,7 +51,7 @@ fun TimeScreen(
     }
 
     val uiState by viewModel.collectAsState()
-
+    Log.e("ABC",uiState.recordTimes.toString())
     TimeScreen(
         backgroundColor = backgroundColor,
         uiState = uiState,
@@ -146,7 +148,7 @@ private fun TimeScreen(
             TdsTimer(
                 outCircularLineColor = TdsColor.d3,
                 outCircularProgress = if (recordingMode == 1) {
-                    (savedTimerTime / setTimerTime).toFloat()
+                    ((setTimerTime - savedTimerTime) / setTimerTime).toFloat()
                 } else {
                     (savedStopWatchTime / 3600).toFloat()
                 },
@@ -157,7 +159,7 @@ private fun TimeScreen(
                 savedSumTime = savedSumTime,
                 savedTime = if (recordingMode == 1) savedTimerTime else savedStopWatchTime,
                 savedGoalTime = savedGoalTime,
-                finishGoalTime = "05:30 PM",
+                finishGoalTime = addTimeToNow(savedGoalTime),
             )
         }
 

@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
+    implementation(project(":core:util"))
     implementation(project(":data:time"))
 
     implementation(libs.androidx.core.ktx)

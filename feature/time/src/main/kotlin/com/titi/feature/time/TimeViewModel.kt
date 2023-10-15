@@ -5,6 +5,7 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
+import com.titi.core.util.getTodayDate
 import com.titi.data.time.repository.model.RecordTimes
 import com.titi.feature.time.usecase.GetRecordTimesFlowUseCase
 import com.titi.feature.time.usecase.UpdateRecordingModeUseCase
@@ -26,6 +27,10 @@ class TimeViewModel @AssistedInject constructor(
 ) : MavericksViewModel<TimeUiState>(initialState) {
 
     init {
+        setState {
+            copy(todayDate = getTodayDate())
+        }
+
         viewModelScope.launch {
             getRecordTimesFlowUseCase().collectLatest {
                 it?.let {

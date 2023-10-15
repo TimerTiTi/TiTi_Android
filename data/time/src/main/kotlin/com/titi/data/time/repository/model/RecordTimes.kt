@@ -7,8 +7,8 @@ data class RecordTimes(
     val setGoalTime: Long = 7200,
     val setTimerTime : Long = 3600,
     val savedSumTime: Long = 0,
-    val savedTimerTime: Long = 0,
+    val savedTimerTime: Long = 3600,
     val savedStopWatchTime : Long = 0,
-    val savedGoalTime: Long = 0,
+    val savedGoalTime: Long = 7200,
     val recordTask: String? = null,
 )
