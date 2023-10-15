@@ -17,6 +17,7 @@ datastore = "1.0.0"
 androidxHiltNavigationCompose = "1.0.0"
 hilt = "2.48.1"
 ksp = "1.9.10-1.0.13"
+mavericks = "3.0.7"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
@@ -44,6 +45,10 @@ moshi-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", v
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+
+mavericks = { group = "com.airbnb.android", name = "mavericks", version.ref = "mavericks" }
+mavericks-hilt = { group = "com.airbnb.android", name = "mavericks-hilt", version.ref = "mavericks" }
+mavericks-compose = { group = "com.airbnb.android", name = "mavericks-compose", version.ref = "mavericks" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
@@ -82,3 +87,8 @@ datastore = [
     "androidx-datastore-preference-core"
 ]
 
+mavericks = [
+    "mavericks",
+    "mavericks-compose",
+    "mavericks-hilt"
+]

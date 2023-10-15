@@ -54,6 +54,8 @@ dependencies {
 
     implementation(libs.bundles.compose.ui)
 
+    implementation(libs.bundles.mavericks)
+
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
