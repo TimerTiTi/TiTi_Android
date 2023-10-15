@@ -14,9 +14,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.airbnb.mvrx.compose.collectAsState
+import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.core.designsystem.component.TdsText
 import com.titi.core.designsystem.component.TdsTimer
 import com.titi.core.designsystem.theme.TdsColor
@@ -34,9 +39,12 @@ import com.titi.designsystem.R
 
 @Composable
 fun TimeScreen(
+    viewModel : TimeViewModel = mavericksViewModel(),
     backgroundColor: TdsColor,
     recordingMode: Int,
 ) {
+    val uiState by viewModel.collectAsState()
+
     TimeScreen(
         backgroundColor = backgroundColor,
         recordingMode = recordingMode,
@@ -56,11 +64,14 @@ private fun TimeScreen(
     onClickStartRecord: () -> Unit,
     onClickSettingTime: () -> Unit,
 ) {
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor.getColor())
-            .padding(top = 16.dp),
+            .padding(top = 16.dp)
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
@@ -144,7 +155,7 @@ private fun TimeScreen(
         Spacer(modifier = Modifier.height(50.dp))
 
         Row(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
