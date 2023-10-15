@@ -11,5 +11,4 @@ internal fun RecordTimes.toLocalModel() = com.titi.data.time.local.model.RecordT
     savedTimerTime = savedTimerTime,
     savedGoalTime = savedGoalTime,
     recordTask = recordTask,
-    recordTimeLine = recordTimeLine
 )

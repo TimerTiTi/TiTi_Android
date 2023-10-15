@@ -11,5 +11,4 @@ internal fun RecordTimes.toRepositoryModel() = com.titi.data.time.repository.mod
     savedTimerTime = savedTimerTime,
     savedGoalTime = savedGoalTime,
     recordTask = recordTask,
-    recordTimeLine = recordTimeLine
 )
