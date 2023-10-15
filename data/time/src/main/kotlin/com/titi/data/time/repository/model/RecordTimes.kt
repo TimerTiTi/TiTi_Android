@@ -1,13 +1,13 @@
 package com.titi.data.time.repository.model
 
 data class RecordTimes(
-    val recordingMode: Int,
-    val recording: Boolean,
-    val recordStartAt: String,
-    val setGoalTime: Long,
-    val savedSumTime: Long,
-    val savedTimerTime: Long,
-    val savedGoalTime: Long,
-    val recordTask: String,
-    val recordTimeLine: List<Long>,
+    val recordingMode: Int = 1,
+    val recording: Boolean = false,
+    val recordStartAt: String = "",
+    val setGoalTime: Long = 0,
+    val savedSumTime: Long = 0,
+    val savedTimerTime: Long = 0,
+    val savedGoalTime: Long = 0,
+    val recordTask: String = "",
+    val recordTimeLine: List<Long> = emptyList(),
 )
