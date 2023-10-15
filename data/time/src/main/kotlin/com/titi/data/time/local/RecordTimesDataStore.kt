@@ -1,4 +1,4 @@
-package com.titi.data.time
+package com.titi.data.time.local
 
 import android.content.Context
 import androidx.datastore.core.DataStore
