@@ -22,7 +22,7 @@ suspend inline fun <T : Any> DataStore<Preferences>.readValue(key: Preferences.K
     return data.catch { recoverOrThrow(it) }.map { it[key] }.firstOrNull()
 }
 
-suspend inline fun <T : Any> DataStore<Preferences>.readFlowValue(key: Preferences.Key<T>): Flow<T?> {
+fun <T : Any> DataStore<Preferences>.readFlowValue(key: Preferences.Key<T>): Flow<T?> {
     return data.catch { recoverOrThrow(it) }.map { it[key] }
 }
 
