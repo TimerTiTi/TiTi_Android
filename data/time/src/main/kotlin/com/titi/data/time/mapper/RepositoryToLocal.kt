@@ -7,8 +7,10 @@ internal fun RecordTimes.toLocalModel() = com.titi.data.time.local.model.RecordT
     recording = recording,
     recordStartAt = recordStartAt,
     setGoalTime = setGoalTime,
+    setTimerTime= setTimerTime,
     savedSumTime = savedSumTime,
     savedTimerTime = savedTimerTime,
+    savedStopWatchTime = savedStopWatchTime,
     savedGoalTime = savedGoalTime,
     recordTask = recordTask,
 )
