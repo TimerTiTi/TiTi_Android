@@ -9,9 +9,9 @@ import com.titi.core.util.fromJson
 import com.titi.core.util.readValue
 import com.titi.core.util.storeValue
 import com.titi.core.util.toJson
-import com.titi.data.time.model.RecordTimes
+import com.titi.data.time.local.model.RecordTimes
 
-class RecordTimesDataStore(context: Context) {
+internal class RecordTimesDataStore(context: Context) {
 
     private val dataStore: DataStore<Preferences> = context.dataStore
 

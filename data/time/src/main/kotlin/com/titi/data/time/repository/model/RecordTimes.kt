@@ -1,8 +1,5 @@
-package com.titi.data.time.model
+package com.titi.data.time.repository.model
 
-import com.squareup.moshi.JsonClass
-
-@JsonClass(generateAdapter = true)
 data class RecordTimes(
     val recordingMode: Int,
     val recording: Boolean,
