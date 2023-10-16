@@ -1,6 +1,5 @@
 package com.titi.feature.time
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
+import com.titi.core.designsystem.component.TdsIconButton
 import com.titi.core.designsystem.component.TdsText
 import com.titi.core.designsystem.component.TdsTimer
 import com.titi.core.designsystem.theme.TdsColor
@@ -51,10 +52,12 @@ fun TimeScreen(
     }
 
     val uiState by viewModel.collectAsState()
-    Log.e("ABC",uiState.recordTimes.toString())
+
     TimeScreen(
         backgroundColor = backgroundColor,
         uiState = uiState,
+        onClickColor = {},
+        onClickTask = {},
         onClickAddRecord = {},
         onClickStartRecord = {},
         onClickSettingTime = {},
@@ -65,6 +68,8 @@ fun TimeScreen(
 private fun TimeScreen(
     backgroundColor: TdsColor,
     uiState: TimeUiState,
+    onClickColor: () -> Unit,
+    onClickTask: () -> Unit,
     onClickAddRecord: () -> Unit,
     onClickStartRecord: () -> Unit,
     onClickSettingTime: () -> Unit,
@@ -93,13 +98,17 @@ private fun TimeScreen(
                 color = TdsColor.textColor
             )
 
-            Icon(
-                modifier = Modifier
-                    .size(32.dp)
-                    .align(Alignment.CenterEnd),
-                painter = painterResource(id = R.drawable.cancel_icon),
-                contentDescription = "setColorIcon"
-            )
+            TdsIconButton(
+                onClick = onClickColor,
+                size = 32.dp
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.cancel_icon),
+                    contentDescription = "setColorIcon",
+                    tint = Color.Unspecified
+                )
+            }
+
         }
 
         Spacer(modifier = Modifier.weight(1f))
@@ -112,6 +121,7 @@ private fun TimeScreen(
                         color = TdsColor.redColor.getColor(),
                         shape = RoundedCornerShape(12.dp)
                     )
+                    .clickable { onClickTask() }
                     .padding(
                         vertical = 10.dp,
                         horizontal = 25.dp
@@ -129,6 +139,7 @@ private fun TimeScreen(
                         color = TdsColor.textColor.getColor(),
                         shape = RoundedCornerShape(12.dp)
                     )
+                    .clickable { onClickTask() }
                     .padding(
                         vertical = 10.dp,
                         horizontal = 25.dp
@@ -143,7 +154,6 @@ private fun TimeScreen(
         Spacer(modifier = Modifier.height(50.dp))
 
         //TODO 타이머 색상 커스텀
-        //TODO 기록 가져오기
         with(uiState.recordTimes) {
             TdsTimer(
                 outCircularLineColor = TdsColor.d3,
@@ -170,34 +180,40 @@ private fun TimeScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Icon(
-                modifier = Modifier.clickable { onClickAddRecord() },
-                painter = painterResource(id = R.drawable.add_record_icon),
-                contentDescription = "addRecord"
-            )
+            TdsIconButton(onClick = onClickAddRecord, size = 50.dp) {
+                Icon(
+                    painter = painterResource(id = R.drawable.add_record_icon),
+                    contentDescription = "addRecord",
+                    tint = Color.Unspecified
+                )
+            }
 
             Spacer(modifier = Modifier.width(25.dp))
 
-            Icon(
-                modifier = Modifier.clickable { onClickStartRecord() },
-                painter = painterResource(id = R.drawable.start_record_icon),
-                contentDescription = "startRecord",
-                tint = Color.Unspecified
-            )
+            TdsIconButton(onClick = onClickStartRecord, size = 70.dp) {
+                Icon(
+                    painter = painterResource(id = R.drawable.start_record_icon),
+                    contentDescription = "startRecord",
+                    tint = Color.Unspecified
+                )
+            }
 
             Spacer(modifier = Modifier.width(25.dp))
 
-            Icon(
-                modifier = Modifier.clickable { onClickSettingTime() },
-                painter = painterResource(
-                    id = if (uiState.recordTimes.recordingMode == 1) {
-                        R.drawable.setting_timer_time_icon
-                    } else {
-                        R.drawable.setting_stopwatch_time_icon
-                    }
-                ),
-                contentDescription = "addRecord"
-            )
+            TdsIconButton(onClick = onClickSettingTime, size = 50.dp) {
+                Icon(
+                    painter = painterResource(
+                        id = if (uiState.recordTimes.recordingMode == 1) {
+                            R.drawable.setting_timer_time_icon
+                        } else {
+                            R.drawable.setting_stopwatch_time_icon
+                        }
+                    ),
+                    contentDescription = "addRecord",
+                    tint = Color.Unspecified
+                )
+            }
+
         }
 
         Spacer(modifier = Modifier.weight(1f))
@@ -212,6 +228,8 @@ private fun TimeScreenPreview() {
         TimeScreen(
             backgroundColor = TdsColor.blueColor,
             uiState = TimeUiState(),
+            onClickColor = {},
+            onClickTask = {},
             onClickAddRecord = {},
             onClickStartRecord = {},
             onClickSettingTime = {},
