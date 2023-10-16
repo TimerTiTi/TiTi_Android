@@ -21,7 +21,7 @@ import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
 
 @Composable
-fun TdsAnimatedCounter(
+internal fun TdsAnimatedCounter(
     modifier: Modifier = Modifier,
     count: Int,
     color: TdsColor,
