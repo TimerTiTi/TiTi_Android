@@ -48,9 +48,9 @@ dependencies {
     implementation(project(":domain:time"))
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.runtime)
     implementation(platform(libs.androidx.compose.bom))
 
