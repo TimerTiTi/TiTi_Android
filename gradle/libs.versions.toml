@@ -2,6 +2,9 @@
 agp = "8.3.0-alpha06"
 kotlin = "1.9.0"
 core-ktx = "1.10.1"
+compileSdk = "34"
+targetSdk = "34"
+minSdk = "21"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
@@ -21,8 +24,13 @@ mavericks = "3.0.7"
 threetenabp = "1.3.1"
 javax = "1"
 coroutine-core = "1.7.3"
+androidxComposeCompiler = "1.5.1"
+coroutine = "1.7.2"
 
 [libraries]
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 
@@ -53,6 +61,10 @@ mavericks = { group = "com.airbnb.android", name = "mavericks", version.ref = "m
 mavericks-hilt = { group = "com.airbnb.android", name = "mavericks-hilt", version.ref = "mavericks" }
 mavericks-compose = { group = "com.airbnb.android", name = "mavericks-compose", version.ref = "mavericks" }
 
+coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine" }
+coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutine" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutine" }
+
 threetenabp = { group = "com.jakewharton.threetenabp", name = "threetenabp", version.ref = "threetenabp" }
 
 javax = { group = "javax.inject", name = "javax.inject", version.ref = "javax" }
@@ -72,6 +84,7 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 [bundles]
 
