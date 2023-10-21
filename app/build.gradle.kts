@@ -54,8 +54,9 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
+
     implementation(project(":feature:time"))
-    implementation(project(":data:time"))
+    implementation(project(":data:time:impl"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
