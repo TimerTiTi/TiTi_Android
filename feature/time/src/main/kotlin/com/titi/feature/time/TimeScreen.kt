@@ -46,8 +46,8 @@ fun TimeScreen(
     backgroundColor: TdsColor,
     recordingMode: Int,
 ) {
-    LaunchedEffect(Unit) {
-        viewModel.updateRecordingMode(recordingMode = recordingMode)
+    LaunchedEffect(Unit){
+        viewModel.updateRecordingMode(recordingMode)
     }
 
     val uiState by viewModel.collectAsState()

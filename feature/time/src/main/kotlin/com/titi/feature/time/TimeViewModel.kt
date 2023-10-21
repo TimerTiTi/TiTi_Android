@@ -6,9 +6,9 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.core.util.getTodayDate
-import com.titi.data.time.repository.model.RecordTimes
-import com.titi.feature.time.usecase.GetRecordTimesFlowUseCase
-import com.titi.feature.time.usecase.UpdateRecordingModeUseCase
+import com.titi.domain.time.model.RecordTimes
+import com.titi.domain.time.usecase.GetRecordTimesFlowUseCase
+import com.titi.domain.time.usecase.UpdateRecordingModeUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -33,10 +33,8 @@ class TimeViewModel @AssistedInject constructor(
 
         viewModelScope.launch {
             getRecordTimesFlowUseCase().collectLatest {
-                it?.let {
-                    setState {
-                        copy(recordTimes = it)
-                    }
+                setState {
+                    copy(recordTimes = it)
                 }
             }
         }
@@ -45,7 +43,7 @@ class TimeViewModel @AssistedInject constructor(
 
     fun updateRecordingMode(recordingMode: Int) {
         viewModelScope.launch {
-            updateRecordingModeUseCase(recordingMode = recordingMode)
+            updateRecordingModeUseCase(recordingMode)
         }
     }
 
