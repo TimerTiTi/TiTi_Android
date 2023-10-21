@@ -1,4 +1,5 @@
 import com.android.build.gradle.LibraryExtension
+import com.titi.configureCoroutineAndroid
 import com.titi.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -16,6 +17,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
+                configureCoroutineAndroid()
                 defaultConfig.targetSdk = 34
             }
             dependencies {

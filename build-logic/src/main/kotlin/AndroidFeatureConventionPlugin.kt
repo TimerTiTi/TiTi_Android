@@ -17,13 +17,12 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("testImplementation", kotlin("test"))
                 add("androidTestImplementation", kotlin("test"))
 
-                add("implementation", libs.findLibrary("compose.navigation").get())
+                add("implementation", libs.findLibrary("androidx.compose.navigation").get())
                 add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
-                add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
 
                 add("implementation", libs.findLibrary("mavericks").get())
                 add("implementation", libs.findLibrary("mavericks.compose").get())
-                add("impementation", libs.findLibrary("mavericks.hilt").get())
+                add("implementation", libs.findLibrary("mavericks.hilt").get())
             }
         }
     }
