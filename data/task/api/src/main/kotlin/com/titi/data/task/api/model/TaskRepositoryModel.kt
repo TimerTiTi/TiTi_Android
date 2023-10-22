@@ -1,7 +1,7 @@
 package com.titi.data.task.api.model
 
 data class TaskRepositoryModel(
-    val position: Long,
+    val position: Int,
     val taskName: String,
     val taskTargetTime: Long,
     val isTaskTargetTimeOn: Boolean,
