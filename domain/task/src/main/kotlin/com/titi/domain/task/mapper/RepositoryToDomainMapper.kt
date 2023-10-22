@@ -3,7 +3,7 @@ package com.titi.domain.task.mapper
 import com.titi.data.task.api.model.TaskRepositoryModel
 import com.titi.domain.task.model.Task
 
-internal fun Task.toRepositoryModel() = TaskRepositoryModel(
+internal fun TaskRepositoryModel.toDomainModel() = Task(
     position = position,
     taskName = taskName,
     taskTargetTime = taskTargetTime,
