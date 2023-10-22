@@ -14,6 +14,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":data:task:api"))
+
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
 }

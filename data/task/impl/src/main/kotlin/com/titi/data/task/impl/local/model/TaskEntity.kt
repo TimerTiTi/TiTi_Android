@@ -16,5 +16,5 @@ data class TaskEntity(
     val taskTargetTime: Long,
     val isTaskTargetTimeOn: Boolean,
     val savedSumTime: Long,
-    val isDelete: Boolean = false,
+    val isDelete: Boolean,
 )
