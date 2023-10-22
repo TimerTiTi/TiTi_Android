@@ -62,6 +62,7 @@ fun TaskBottomSheet(
     var addTaskDialog by remember { mutableStateOf(false) }
     var taskName by remember { mutableStateOf("") }
 
+    var editMode by remember { mutableStateOf(false) }
 
     if (addTaskDialog) {
         taskName = ""
@@ -126,7 +127,10 @@ fun TaskBottomSheet(
         TaskBottomSheet(
             uiState = uiState,
             themeColor = themeColor,
-            onClickEditButton = {},
+            editMode = editMode,
+            onClickEditButton = {
+                editMode = !editMode
+            },
             onClickAddButton = {
                 addTaskDialog = true
             },
@@ -144,6 +148,7 @@ fun TaskBottomSheet(
 fun TaskBottomSheet(
     uiState: TaskUiState,
     themeColor: TdsColor,
+    editMode: Boolean,
     onClickEditButton: () -> Unit,
     onClickAddButton: () -> Unit,
     onClickTargetTimeEditButton: () -> Unit,
@@ -185,7 +190,7 @@ fun TaskBottomSheet(
 
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(horizontal = 20.dp)
         ) {
             items(uiState.tasks) { task ->
@@ -195,7 +200,7 @@ fun TaskBottomSheet(
                         isTaskTargetTimeOn = task.isTaskTargetTimeOn,
                         taskName = task.taskName
                     ),
-                    editMode = false,
+                    editMode = editMode,
                     themeColor = themeColor,
                     onClickTask = { },
                     onLongClickTask = { },
@@ -252,6 +257,7 @@ private fun TaskBottomSheetPreview() {
                 )
             ),
             themeColor = TdsColor.blueColor,
+            editMode = true,
             onClickEditButton = { },
             onClickAddButton = { },
             onClickTargetTimeEditButton = { },

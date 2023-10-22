@@ -62,7 +62,7 @@ fun TimeScreen(
 
     if (showTaskBottomSheet) {
         TaskBottomSheet(
-            modifier = Modifier.height(heightDp - 200.dp),
+            modifier = Modifier.height(heightDp - 150.dp),
             themeColor = TdsColor.blueColor,
             onCloseBottomSheet = { showTaskBottomSheet = false }
         )
