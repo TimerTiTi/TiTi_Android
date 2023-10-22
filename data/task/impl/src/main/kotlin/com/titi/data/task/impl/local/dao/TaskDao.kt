@@ -7,7 +7,7 @@ import com.titi.data.task.impl.local.model.TaskEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface TaskDao {
+internal interface TaskDao {
 
     @Upsert
     suspend fun upsertTask(taskEntity: TaskEntity)

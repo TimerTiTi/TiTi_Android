@@ -10,7 +10,7 @@ import com.titi.data.task.impl.local.model.TaskEntity
     version = 1,
     exportSchema = false
 )
-abstract class TaskDataBase : RoomDatabase() {
+internal abstract class TaskDataBase : RoomDatabase() {
 
     abstract fun getTaskDao(): TaskDao
 

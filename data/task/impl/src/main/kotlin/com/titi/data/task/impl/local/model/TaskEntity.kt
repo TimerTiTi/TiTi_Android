@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
     tableName = "tasks",
     indices = [Index(value = ["taskName"], unique = true)]
 )
-data class TaskEntity(
+internal data class TaskEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0,
     val position: Long,
