@@ -34,7 +34,9 @@ dependencies {
     implementation(project(":core:designsystem"))
 
     implementation(project(":feature:time"))
+
     implementation(project(":data:time:impl"))
+    implementation(project(":data:task:impl"))
 
     implementation(libs.threetenabp)
     implementation(libs.androidx.compose.navigation)
