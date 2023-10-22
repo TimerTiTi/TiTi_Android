@@ -9,6 +9,7 @@ import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.domain.task.model.Task
 import com.titi.domain.task.usecase.AddTaskUseCase
 import com.titi.domain.task.usecase.GetTasksUseCase
+import com.titi.domain.task.usecase.UpdateTaskUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -23,6 +24,7 @@ class TaskViewModel @AssistedInject constructor(
     @Assisted initialState: TaskUiState,
     private val getTasksUseCase: GetTasksUseCase,
     private val addTaskUseCase: AddTaskUseCase,
+    private val updateTaskUseCase: UpdateTaskUseCase,
 ) : MavericksViewModel<TaskUiState>(initialState) {
 
     init {
@@ -37,6 +39,12 @@ class TaskViewModel @AssistedInject constructor(
     fun addTask(taskName : String){
         viewModelScope.launch {
             addTaskUseCase(taskName)
+        }
+    }
+
+    fun updateTask(task : Task){
+        viewModelScope.launch {
+            updateTaskUseCase(task)
         }
     }
 

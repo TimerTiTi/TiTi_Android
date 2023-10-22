@@ -1,5 +1,6 @@
 package com.titi.feature.time
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -125,13 +126,15 @@ fun TaskBottomSheet(
         TaskBottomSheet(
             uiState = uiState,
             themeColor = themeColor,
-            onCloseBottomSheet = onCloseBottomSheet,
             onClickEditButton = {},
             onClickAddButton = {
                 addTaskDialog = true
             },
             onClickTargetTimeEditButton = {},
-            onClickTargetTimeSwitch = {},
+            onClickTargetTimeSwitch = {
+                viewModel.updateTask(it)
+                Log.e("ABC", it.toString())
+            },
         )
     }
 }
@@ -141,11 +144,10 @@ fun TaskBottomSheet(
 fun TaskBottomSheet(
     uiState: TaskUiState,
     themeColor: TdsColor,
-    onCloseBottomSheet: (Boolean) -> Unit,
     onClickEditButton: () -> Unit,
     onClickAddButton: () -> Unit,
     onClickTargetTimeEditButton: () -> Unit,
-    onClickTargetTimeSwitch: () -> Unit,
+    onClickTargetTimeSwitch: (Task) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         Box(
@@ -186,19 +188,25 @@ fun TaskBottomSheet(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
         ) {
-            items(uiState.tasks) {
+            items(uiState.tasks) { task ->
                 TdsTaskListItem(
                     tdsTask = TdsTask(
-                        taskTargetTime = it.taskTargetTime,
-                        isTaskTargetTimeOn = it.isTaskTargetTimeOn,
-                        taskName = it.taskName
+                        taskTargetTime = task.taskTargetTime,
+                        isTaskTargetTimeOn = task.isTaskTargetTimeOn,
+                        taskName = task.taskName
                     ),
                     editMode = false,
                     themeColor = themeColor,
                     onClickTask = { },
                     onLongClickTask = { },
                     onEdit = {},
-                    onTargetTimeOn = {},
+                    onTargetTimeOn = {
+                        onClickTargetTimeSwitch(
+                            task.copy(
+                                isTaskTargetTimeOn = it
+                            )
+                        )
+                    },
                     onDelete = { },
                     onLongClickMenu = {}
                 )
@@ -215,6 +223,7 @@ private fun TaskBottomSheetPreview() {
             uiState = TaskUiState(
                 tasks = listOf(
                     Task(
+                        id = 0,
                         position = 0,
                         taskName = "국어",
                         taskTargetTime = 3600,
@@ -223,6 +232,7 @@ private fun TaskBottomSheetPreview() {
                         isDelete = false
                     ),
                     Task(
+                        id = 1,
                         position = 1,
                         taskName = "영어",
                         taskTargetTime = 3600,
@@ -231,6 +241,7 @@ private fun TaskBottomSheetPreview() {
                         isDelete = false
                     ),
                     Task(
+                        id = 2,
                         position = 2,
                         taskName = "수학",
                         taskTargetTime = 3600,
@@ -241,7 +252,6 @@ private fun TaskBottomSheetPreview() {
                 )
             ),
             themeColor = TdsColor.blueColor,
-            onCloseBottomSheet = {},
             onClickEditButton = { },
             onClickAddButton = { },
             onClickTargetTimeEditButton = { },

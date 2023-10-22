@@ -15,6 +15,7 @@ class AddTaskUseCase @Inject constructor(
         if (task == null) {
             taskRepository.upsertTask(
                 Task(
+                    id = 0,
                     position = count,
                     taskName = taskName
                 ).toRepositoryModel()

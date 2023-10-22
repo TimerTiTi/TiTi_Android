@@ -1,6 +1,7 @@
 package com.titi.domain.task.model
 
 data class Task(
+    val id : Long,
     val position: Int,
     val taskName: String,
     val taskTargetTime: Long = 3600,
