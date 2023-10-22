@@ -7,4 +7,9 @@
     <string name="task_set_goal_time">목표시간 설정: %1$s</string>
     <string name="edit">Edit</string>
     <string name="create_task_text">Task를 생성해주세요</string>
+    <string name="tasks">Tasks</string>
+    <string name="Ok">OK</string>
+    <string name="Cancel">Cancel</string>
+    <string name="add_task_title">새로운 Task</string>
+    <string name="add_task_message">12자리 내의 새로운 Task명을 입력하세요</string>
 </resources>

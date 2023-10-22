@@ -17,5 +17,6 @@ dependencies {
     implementation(project(":data:task:api"))
 
     implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 }

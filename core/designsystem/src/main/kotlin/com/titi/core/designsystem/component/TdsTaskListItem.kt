@@ -72,7 +72,7 @@ fun TdsTaskListItem(
             Column {
                 TdsText(
                     text = tdsTask.taskName,
-                    textStyle = TdsTextStyle.extraBoldTextStyle,
+                    textStyle = TdsTextStyle.normalTextStyle,
                     fontSize = 20.sp,
                     color = TdsColor.textColor,
                     maxLines = 1,

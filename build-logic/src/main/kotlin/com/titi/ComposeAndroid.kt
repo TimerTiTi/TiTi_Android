@@ -3,6 +3,7 @@ package com.titi
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
+
 internal fun Project.configureAndroidCompose(
     commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
@@ -12,7 +13,8 @@ internal fun Project.configureAndroidCompose(
         }
 
         composeOptions {
-            kotlinCompilerExtensionVersion = libs.findVersion("androidxComposeCompiler").get().toString()
+            kotlinCompilerExtensionVersion =
+                libs.findVersion("androidxComposeCompiler").get().toString()
         }
 
         dependencies {
@@ -20,6 +22,7 @@ internal fun Project.configureAndroidCompose(
             add("implementation", platform(bom))
             add("androidTestImplementation", platform(bom))
 
+            add("implementation", libs.findLibrary("androidx-window").get())
             add("implementation", libs.findLibrary("androidx-compose-ui").get())
             add("implementation", libs.findLibrary("androidx-compose-ui-tooling").get())
             add("implementation", libs.findLibrary("androidx.compose.material3").get())
