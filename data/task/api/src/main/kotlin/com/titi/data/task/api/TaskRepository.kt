@@ -11,6 +11,6 @@ interface TaskRepository {
 
     suspend fun getTaskByTaskName(taskName: String): TaskRepositoryModel?
 
-    fun getTasks(): Flow<TaskRepositoryModel>
+    fun getTasks(): Flow<List<TaskRepositoryModel>>
 
 }

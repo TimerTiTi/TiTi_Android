@@ -11,7 +11,11 @@ class GetTasksUseCase @Inject constructor(
     private val taskRepository: TaskRepository
 ) {
 
-    operator fun invoke(): Flow<Task> =
-        taskRepository.getTasks().map { it.toDomainModel() }
+    operator fun invoke(): Flow<List<Task>> =
+        taskRepository.getTasks().map { taskRepositoryModels ->
+            taskRepositoryModels.map {
+                it.toDomainModel()
+            }
+        }
 
 }

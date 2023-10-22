@@ -19,6 +19,6 @@ internal interface TaskDao {
     suspend fun getTaskByTaskName(taskName: String): TaskEntity?
 
     @Query("SELECT * FROM tasks ORDER BY position ASC")
-    fun getTasks(): Flow<TaskEntity>
+    fun getTasks(): Flow<List<TaskEntity>>
 
 }

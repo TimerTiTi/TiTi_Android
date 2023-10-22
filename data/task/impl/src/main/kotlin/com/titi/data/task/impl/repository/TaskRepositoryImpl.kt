@@ -11,19 +11,23 @@ import javax.inject.Inject
 
 internal class TaskRepositoryImpl @Inject constructor(
     private val taskDao: TaskDao
-) : TaskRepository{
+) : TaskRepository {
 
     override suspend fun upsertTask(taskRepositoryModel: TaskRepositoryModel) {
-       taskDao.upsertTask(taskRepositoryModel.toLocalModel())
+        taskDao.upsertTask(taskRepositoryModel.toLocalModel())
     }
 
     override suspend fun count(): Int =
         taskDao.count()
 
     override suspend fun getTaskByTaskName(taskName: String): TaskRepositoryModel? =
-        taskDao.getTaskByTaskName(taskName=taskName)?.toRepositoryModel()
+        taskDao.getTaskByTaskName(taskName = taskName)?.toRepositoryModel()
 
-    override fun getTasks(): Flow<TaskRepositoryModel> =
-        taskDao.getTasks().map { it.toRepositoryModel() }
+    override fun getTasks(): Flow<List<TaskRepositoryModel>> =
+        taskDao.getTasks().map { taskEntities->
+            taskEntities.map {
+                it.toRepositoryModel()
+            }
+        }
 
 }
