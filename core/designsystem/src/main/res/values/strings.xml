@@ -12,4 +12,5 @@
     <string name="Cancel">Cancel</string>
     <string name="add_task_title">새로운 Task</string>
     <string name="add_task_message">12자리 내의 새로운 Task명을 입력하세요</string>
+    <string name="edit_task_target_time">목표시간 설정</string>
 </resources>

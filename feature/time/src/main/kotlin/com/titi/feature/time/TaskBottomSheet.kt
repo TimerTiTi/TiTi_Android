@@ -1,6 +1,5 @@
 package com.titi.feature.time
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,6 +35,7 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.core.designsystem.component.TdsDialog
 import com.titi.core.designsystem.component.TdsIconButton
+import com.titi.core.designsystem.component.TdsInputTimeTextField
 import com.titi.core.designsystem.component.TdsOutlinedInputTextField
 import com.titi.core.designsystem.component.TdsTaskListItem
 import com.titi.core.designsystem.component.TdsText
@@ -45,6 +45,7 @@ import com.titi.core.designsystem.model.TdsTask
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.core.util.getTimeToLong
 import com.titi.designsystem.R
 import com.titi.domain.task.model.Task
 import kotlinx.coroutines.android.awaitFrame
@@ -59,12 +60,12 @@ fun TaskBottomSheet(
 ) {
     val uiState by viewModel.collectAsState()
 
-    var addTaskDialog by remember { mutableStateOf(false) }
+    var showAddTaskDialog by remember { mutableStateOf(false) }
     var taskName by remember { mutableStateOf("") }
 
     var editMode by remember { mutableStateOf(false) }
 
-    if (addTaskDialog) {
+    if (showAddTaskDialog) {
         taskName = ""
         TdsDialog(
             tdsDialogInfo = TdsDialogInfo.Confirm(
@@ -77,7 +78,7 @@ fun TaskBottomSheet(
                 },
                 negativeText = stringResource(id = R.string.Cancel),
             ),
-            onShowDialog = { addTaskDialog = it }
+            onShowDialog = { showAddTaskDialog = it }
         ) {
             val addTaskFocusRequester = remember { FocusRequester() }
             val keyboard = LocalSoftwareKeyboardController.current
@@ -132,12 +133,13 @@ fun TaskBottomSheet(
                 editMode = !editMode
             },
             onClickAddButton = {
-                addTaskDialog = true
+                showAddTaskDialog = true
             },
-            onClickTargetTimeEditButton = {},
+            onClickTargetTimeEditButton = {
+                viewModel.updateTask(it)
+            },
             onClickTargetTimeSwitch = {
                 viewModel.updateTask(it)
-                Log.e("ABC", it.toString())
             },
         )
     }
@@ -151,9 +153,55 @@ fun TaskBottomSheet(
     editMode: Boolean,
     onClickEditButton: () -> Unit,
     onClickAddButton: () -> Unit,
-    onClickTargetTimeEditButton: () -> Unit,
+    onClickTargetTimeEditButton: (Task) -> Unit,
     onClickTargetTimeSwitch: (Task) -> Unit,
 ) {
+    var hour by remember { mutableStateOf("") }
+    var minutes by remember { mutableStateOf("") }
+    var seconds by remember { mutableStateOf("") }
+    var showTaskTargetTimeDialog by remember { mutableStateOf(false) }
+    var editTask by remember {
+        mutableStateOf(
+            Task(
+                id = 0,
+                position = 0,
+                taskName = "",
+            )
+        )
+    }
+
+    if (showTaskTargetTimeDialog) {
+        hour = ""
+        minutes = ""
+        seconds = ""
+
+        TdsDialog(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
+                title = editTask.taskName,
+                message = stringResource(id = R.string.edit_task_target_time),
+                cancelable = false,
+                positiveText = stringResource(id = R.string.Ok),
+                onPositive = {
+                    val targetTime = getTimeToLong(hour, minutes, seconds)
+                    onClickTargetTimeEditButton(editTask.copy(taskTargetTime = targetTime))
+                },
+                negativeText = stringResource(id = R.string.Cancel),
+            ),
+            onShowDialog = {
+                showTaskTargetTimeDialog = it
+            }
+        ) {
+            TdsInputTimeTextField(
+                hour = hour,
+                onHourChange = { hour = it },
+                minutes = minutes,
+                onMinutesChange = { minutes = it },
+                seconds = seconds,
+                onSecondsChange = { seconds = it }
+            )
+        }
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         Box(
             modifier = Modifier
@@ -204,7 +252,10 @@ fun TaskBottomSheet(
                     themeColor = themeColor,
                     onClickTask = { },
                     onLongClickTask = { },
-                    onEdit = {},
+                    onEdit = {
+                        editTask = task
+                        showTaskTargetTimeDialog = true
+                    },
                     onTargetTimeOn = {
                         onClickTargetTimeSwitch(
                             task.copy(
