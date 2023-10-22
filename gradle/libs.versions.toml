@@ -26,6 +26,7 @@ javax = "1"
 coroutine-core = "1.7.3"
 androidxComposeCompiler = "1.5.1"
 coroutine = "1.7.2"
+room = "2.6.0"
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -48,6 +49,9 @@ androidx-compose-navigation = { group = "androidx.navigation", name = "navigatio
 androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
 androidx-datastore-preference = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 androidx-datastore-preference-core = { group = "androidx.datastore", name = "datastore-preferences-core", version.ref = "datastore" }
+
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
 moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }
