@@ -103,7 +103,7 @@ private fun TimeScreen(
                 size = 32.dp
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.cancel_icon),
+                    painter = painterResource(id = R.drawable.color_selector_icon),
                     contentDescription = "setColorIcon",
                     tint = Color.Unspecified
                 )
