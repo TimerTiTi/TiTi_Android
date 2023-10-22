@@ -1,6 +1,7 @@
 import com.android.build.gradle.LibraryExtension
 import com.titi.configureCoroutineAndroid
 import com.titi.configureKotlinAndroid
+import com.titi.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -23,6 +24,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             dependencies {
                 add("androidTestImplementation", kotlin("test"))
                 add("testImplementation", kotlin("test"))
+                add("implementation", libs.findLibrary("androidx.junit.ktx").get())
             }
         }
     }
