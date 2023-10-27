@@ -1,5 +1,6 @@
 package com.titi.feature.time
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +29,8 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -156,6 +159,7 @@ fun TaskBottomSheet(
 }
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TaskBottomSheet(
     uiState: TaskUiState,
@@ -172,7 +176,7 @@ fun TaskBottomSheet(
     var hour by remember { mutableStateOf("") }
     var minutes by remember { mutableStateOf("") }
     var seconds by remember { mutableStateOf("") }
-    var editTaskName by remember { mutableStateOf("") }
+    var editTaskName by remember { mutableStateOf(TextFieldValue("")) }
 
     var showTaskTargetTimeDialog by remember { mutableStateOf(false) }
     var showTaskNameModifyDialog by remember { mutableStateOf(false) }
@@ -186,6 +190,9 @@ fun TaskBottomSheet(
             )
         )
     }
+
+    val modifyTaskNameFocusRequester = remember { FocusRequester() }
+    val keyboard = LocalSoftwareKeyboardController.current
 
     if (showTaskTargetTimeDialog) {
         hour = ""
@@ -220,14 +227,19 @@ fun TaskBottomSheet(
     }
 
     if (showTaskNameModifyDialog) {
-        editTaskName = editTask.taskName
+        LaunchedEffect(modifyTaskNameFocusRequester) {
+            modifyTaskNameFocusRequester.requestFocus()
+            awaitFrame()
+            keyboard?.show()
+        }
+
         val confirm = TdsDialogInfo.Confirm(
             title = stringResource(id = R.string.modify_task_title),
             message = stringResource(id = R.string.add_task_message),
             positiveText = stringResource(id = R.string.Ok),
             onPositive = {
-                if (editTaskName != editTask.taskName) {
-                    onModifyTaskName(Pair(editTask, editTaskName))
+                if (editTaskName.text != editTask.taskName) {
+                    onModifyTaskName(Pair(editTask, editTaskName.text))
                 }
             },
             negativeText = stringResource(id = R.string.Cancel),
@@ -243,10 +255,12 @@ fun TaskBottomSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(26.dp)
-                    .padding(horizontal = 15.dp),
+                    .padding(horizontal = 15.dp)
+                    .focusRequester(modifyTaskNameFocusRequester),
                 fontSize = 17.sp,
                 text = editTaskName,
                 onValueChange = {
+                    Log.e("ABC", it.text)
                     editTaskName = it
                 }
             )
@@ -312,6 +326,10 @@ fun TaskBottomSheet(
                     },
                     onLongClickTask = {
                         editTask = task
+                        editTaskName = editTaskName.copy(
+                            text = task.taskName,
+                            selection = TextRange(task.taskName.length)
+                        )
                         showTaskNameModifyDialog = true
                     },
                     onEdit = {

@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
@@ -52,6 +53,43 @@ fun TdsOutlinedInputTextField(
         ) {
             innerTextField()
             if (text.isBlank()) {
+                placeHolder?.let { it() }
+            }
+        }
+    }
+}
+
+@Composable
+fun TdsOutlinedInputTextField(
+    modifier: Modifier = Modifier,
+    fontSize: TextUnit,
+    text: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    placeHolder: (@Composable () -> Unit)? = null,
+) {
+    BasicTextField(
+        modifier = modifier,
+        value = text,
+        onValueChange = onValueChange,
+        textStyle = TdsTextStyle.normalTextStyle.getTextStyle(fontSize = fontSize)
+            .copy(textAlign = TextAlign.Center),
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions
+    ) { innerTextField ->
+        Box(
+            modifier = modifier
+                .border(
+                    width = 1.dp,
+                    color = TdsColor.dividerColor.getColor(),
+                    shape = RoundedCornerShape(4.dp)
+                )
+                .background(TdsColor.backgroundColor.getColor()),
+            contentAlignment = Alignment.Center
+        ) {
+            innerTextField()
+            if (text.text.isBlank()) {
                 placeHolder?.let { it() }
             }
         }
