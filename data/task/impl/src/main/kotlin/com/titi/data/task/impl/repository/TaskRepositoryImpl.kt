@@ -24,10 +24,13 @@ internal class TaskRepositoryImpl @Inject constructor(
         taskDao.getTaskByTaskName(taskName = taskName)?.toRepositoryModel()
 
     override fun getTasks(): Flow<List<TaskRepositoryModel>> =
-        taskDao.getTasks().map { taskEntities->
+        taskDao.getTasks().map { taskEntities ->
             taskEntities.map {
                 it.toRepositoryModel()
             }
         }
+
+    override suspend fun isExistTaskByTaskName(taskName: String): Boolean =
+        taskDao.isExistTaskByTaskName(taskName)
 
 }

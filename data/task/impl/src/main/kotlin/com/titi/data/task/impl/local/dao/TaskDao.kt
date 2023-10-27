@@ -21,4 +21,7 @@ internal interface TaskDao {
     @Query("SELECT * FROM tasks WHERE NOT isDelete ORDER BY position ASC")
     fun getTasks(): Flow<List<TaskEntity>>
 
+    @Query("SELECT EXISTS(SELECT * FROM tasks WHERE taskName = :taskName)")
+    suspend fun isExistTaskByTaskName(taskName : String) : Boolean
+
 }

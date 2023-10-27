@@ -56,7 +56,7 @@ fun TaskBottomSheet(
     modifier: Modifier = Modifier,
     viewModel: TaskViewModel = mavericksViewModel(),
     themeColor: TdsColor,
-    onCloseBottomSheet: (Boolean) -> Unit,
+    onCloseBottomSheet: () -> Unit,
 ) {
     val uiState by viewModel.collectAsState()
 
@@ -117,7 +117,7 @@ fun TaskBottomSheet(
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ModalBottomSheet(
         modifier = modifier.navigationBarsPadding(),
-        onDismissRequest = { onCloseBottomSheet(false) },
+        onDismissRequest = onCloseBottomSheet,
         sheetState = bottomSheetState,
         shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
         tonalElevation = 0.dp,
@@ -136,13 +136,17 @@ fun TaskBottomSheet(
                 showAddTaskDialog = true
             },
             onClickTask = {
-
+                viewModel.updateRecordTask(it.taskName)
+                onCloseBottomSheet()
             },
             onClickTargetTimeEditButton = {
                 viewModel.updateTask(it)
             },
             onClickTargetTimeSwitch = {
                 viewModel.updateTask(it)
+            },
+            onModifyTaskName = {
+                viewModel.updateTaskName(it.first, it.second)
             },
             onDeleteTask = {
                 viewModel.updateTask(it)
@@ -162,12 +166,17 @@ fun TaskBottomSheet(
     onClickTask: (Task) -> Unit,
     onClickTargetTimeEditButton: (Task) -> Unit,
     onClickTargetTimeSwitch: (Task) -> Unit,
+    onModifyTaskName: (Pair<Task, String>) -> Unit,
     onDeleteTask: (Task) -> Unit,
 ) {
     var hour by remember { mutableStateOf("") }
     var minutes by remember { mutableStateOf("") }
     var seconds by remember { mutableStateOf("") }
+    var editTaskName by remember { mutableStateOf("") }
+
     var showTaskTargetTimeDialog by remember { mutableStateOf(false) }
+    var showTaskNameModifyDialog by remember { mutableStateOf(false) }
+
     var editTask by remember {
         mutableStateOf(
             Task(
@@ -187,7 +196,6 @@ fun TaskBottomSheet(
             tdsDialogInfo = TdsDialogInfo.Confirm(
                 title = editTask.taskName,
                 message = stringResource(id = R.string.edit_task_target_time),
-                cancelable = false,
                 positiveText = stringResource(id = R.string.Ok),
                 onPositive = {
                     val targetTime = getTimeToLong(hour, minutes, seconds)
@@ -200,12 +208,47 @@ fun TaskBottomSheet(
             }
         ) {
             TdsInputTimeTextField(
+                modifier = Modifier.padding(horizontal = 15.dp),
                 hour = hour,
                 onHourChange = { hour = it },
                 minutes = minutes,
                 onMinutesChange = { minutes = it },
                 seconds = seconds,
                 onSecondsChange = { seconds = it }
+            )
+        }
+    }
+
+    if (showTaskNameModifyDialog) {
+        editTaskName = editTask.taskName
+        val confirm = TdsDialogInfo.Confirm(
+            title = stringResource(id = R.string.modify_task_title),
+            message = stringResource(id = R.string.add_task_message),
+            positiveText = stringResource(id = R.string.Ok),
+            onPositive = {
+                if (editTaskName != editTask.taskName) {
+                    onModifyTaskName(Pair(editTask, editTaskName))
+                }
+            },
+            negativeText = stringResource(id = R.string.Cancel),
+        )
+
+        TdsDialog(
+            tdsDialogInfo = confirm,
+            onShowDialog = {
+                showTaskNameModifyDialog = it
+            }
+        ) {
+            TdsOutlinedInputTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(26.dp)
+                    .padding(horizontal = 15.dp),
+                fontSize = 17.sp,
+                text = editTaskName,
+                onValueChange = {
+                    editTaskName = it
+                }
             )
         }
     }
@@ -262,8 +305,15 @@ fun TaskBottomSheet(
                     ),
                     editMode = editMode,
                     themeColor = themeColor,
-                    onClickTask = { onClickTask(task) },
-                    onLongClickTask = { },
+                    onClickTask = {
+                        if (!editMode) {
+                            onClickTask(task)
+                        }
+                    },
+                    onLongClickTask = {
+                        editTask = task
+                        showTaskNameModifyDialog = true
+                    },
                     onEdit = {
                         editTask = task
                         showTaskTargetTimeDialog = true
@@ -332,6 +382,7 @@ private fun TaskBottomSheetPreview() {
             onClickTask = {},
             onClickTargetTimeEditButton = { },
             onClickTargetTimeSwitch = {},
+            onModifyTaskName = {},
             onDeleteTask = {}
         )
     }

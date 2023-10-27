@@ -13,4 +13,6 @@ interface TaskRepository {
 
     fun getTasks(): Flow<List<TaskRepositoryModel>>
 
+    suspend fun isExistTaskByTaskName(taskName: String): Boolean
+
 }

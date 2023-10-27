@@ -14,4 +14,5 @@
     <string name="add_task_message" translatable="false">12자리 내의 새로운 Task명을 입력하세요</string>
     <string name="edit_task_target_time" translatable="false">목표시간 설정</string>
     <string name="done" translatable="false">Done</string>
+    <string name="modify_task_title" translatable="false">Task명 수정</string>
 </resources>
