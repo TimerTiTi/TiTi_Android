@@ -17,8 +17,8 @@ internal class TaskRepositoryImpl @Inject constructor(
         taskDao.upsertTask(taskRepositoryModel.toLocalModel())
     }
 
-    override suspend fun count(): Int =
-        taskDao.count()
+    override suspend fun getMaxPosition(): Int =
+        taskDao.getMaxPosition()
 
     override suspend fun getTaskByTaskName(taskName: String): TaskRepositoryModel? =
         taskDao.getTaskByTaskName(taskName = taskName)?.toRepositoryModel()

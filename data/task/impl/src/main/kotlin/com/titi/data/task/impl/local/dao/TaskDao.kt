@@ -12,13 +12,13 @@ internal interface TaskDao {
     @Upsert
     suspend fun upsertTask(taskEntity: TaskEntity)
 
-    @Query("SELECT count(*) FROM tasks")
-    suspend fun count(): Int
+    @Query("SELECT MAX(position) FROM tasks")
+    suspend fun getMaxPosition(): Int
 
     @Query("SELECT * FROM tasks WHERE taskName = :taskName")
     suspend fun getTaskByTaskName(taskName: String): TaskEntity?
 
-    @Query("SELECT * FROM tasks WHERE NOT isDelete ORDER BY position ASC")
+    @Query("SELECT * FROM tasks WHERE NOT isDelete ORDER BY position DESC")
     fun getTasks(): Flow<List<TaskEntity>>
 
     @Query("SELECT EXISTS(SELECT * FROM tasks WHERE taskName = :taskName)")

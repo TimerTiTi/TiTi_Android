@@ -7,7 +7,7 @@ interface TaskRepository {
 
     suspend fun upsertTask(taskRepositoryModel: TaskRepositoryModel)
 
-    suspend fun count(): Int
+    suspend fun getMaxPosition(): Int
 
     suspend fun getTaskByTaskName(taskName: String): TaskRepositoryModel?
 

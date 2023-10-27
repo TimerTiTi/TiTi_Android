@@ -11,17 +11,22 @@ class AddTaskUseCase @Inject constructor(
 
     suspend operator fun invoke(taskName: String) {
         val task = taskRepository.getTaskByTaskName(taskName)
-        val count = taskRepository.count()
+        val maxPosition = taskRepository.getMaxPosition()
         if (task == null) {
             taskRepository.upsertTask(
                 Task(
                     id = 0,
-                    position = count,
+                    position = maxPosition + 1,
                     taskName = taskName
                 ).toRepositoryModel()
             )
         } else {
-            taskRepository.upsertTask(task.copy(isDelete = false))
+            taskRepository.upsertTask(
+                task.copy(
+                    isDelete = false,
+                    position = maxPosition
+                )
+            )
         }
     }
 
