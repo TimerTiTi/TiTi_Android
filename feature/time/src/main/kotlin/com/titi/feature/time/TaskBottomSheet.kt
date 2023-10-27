@@ -141,6 +141,9 @@ fun TaskBottomSheet(
             onClickTargetTimeSwitch = {
                 viewModel.updateTask(it)
             },
+            onDeleteTask = {
+                viewModel.updateTask(it)
+            }
         )
     }
 }
@@ -155,6 +158,7 @@ fun TaskBottomSheet(
     onClickAddButton: () -> Unit,
     onClickTargetTimeEditButton: (Task) -> Unit,
     onClickTargetTimeSwitch: (Task) -> Unit,
+    onDeleteTask: (Task) -> Unit,
 ) {
     var hour by remember { mutableStateOf("") }
     var minutes by remember { mutableStateOf("") }
@@ -263,7 +267,13 @@ fun TaskBottomSheet(
                             )
                         )
                     },
-                    onDelete = { },
+                    onDelete = {
+                        onDeleteTask(
+                            task.copy(
+                                isDelete = true
+                            )
+                        )
+                    },
                     onLongClickMenu = {}
                 )
             }
@@ -312,7 +322,8 @@ private fun TaskBottomSheetPreview() {
             onClickEditButton = { },
             onClickAddButton = { },
             onClickTargetTimeEditButton = { },
-            onClickTargetTimeSwitch = {}
+            onClickTargetTimeSwitch = {},
+            onDeleteTask = {}
         )
     }
 }

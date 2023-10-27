@@ -59,14 +59,16 @@ fun TdsTaskListItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AnimatedVisibility(visible = editMode) {
-                Icon(
-                    modifier = Modifier
-                        .padding(end = 12.dp)
-                        .clickable { onDelete() },
-                    painter = painterResource(id = R.drawable.cancel_icon),
-                    contentDescription = "cancel",
-                    tint = TdsColor.redColor.getColor()
-                )
+                TdsIconButton(
+                    modifier = Modifier.padding(end = 12.dp),
+                    onClick = { onDelete() }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.cancel_icon),
+                        contentDescription = "cancel",
+                        tint = TdsColor.redColor.getColor()
+                    )
+                }
             }
 
             Column {

@@ -18,7 +18,7 @@ internal interface TaskDao {
     @Query("SELECT * FROM tasks WHERE taskName = :taskName")
     suspend fun getTaskByTaskName(taskName: String): TaskEntity?
 
-    @Query("SELECT * FROM tasks ORDER BY position ASC")
+    @Query("SELECT * FROM tasks WHERE NOT isDelete ORDER BY position ASC")
     fun getTasks(): Flow<List<TaskEntity>>
 
 }
