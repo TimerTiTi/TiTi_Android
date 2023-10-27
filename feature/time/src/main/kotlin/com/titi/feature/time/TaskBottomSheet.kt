@@ -135,6 +135,9 @@ fun TaskBottomSheet(
             onClickAddButton = {
                 showAddTaskDialog = true
             },
+            onClickTask = {
+
+            },
             onClickTargetTimeEditButton = {
                 viewModel.updateTask(it)
             },
@@ -156,6 +159,7 @@ fun TaskBottomSheet(
     editMode: Boolean,
     onClickEditButton: () -> Unit,
     onClickAddButton: () -> Unit,
+    onClickTask: (Task) -> Unit,
     onClickTargetTimeEditButton: (Task) -> Unit,
     onClickTargetTimeSwitch: (Task) -> Unit,
     onDeleteTask: (Task) -> Unit,
@@ -214,7 +218,11 @@ fun TaskBottomSheet(
         ) {
             TdsTextButton(
                 modifier = Modifier.align(Alignment.CenterStart),
-                text = stringResource(id = R.string.edit),
+                text = if (editMode) {
+                    stringResource(id = R.string.done)
+                } else {
+                    stringResource(id = R.string.edit)
+                },
                 textColor = themeColor,
                 fontSize = 18.sp,
                 onClick = onClickEditButton
@@ -254,7 +262,7 @@ fun TaskBottomSheet(
                     ),
                     editMode = editMode,
                     themeColor = themeColor,
-                    onClickTask = { },
+                    onClickTask = { onClickTask(task) },
                     onLongClickTask = { },
                     onEdit = {
                         editTask = task
@@ -321,6 +329,7 @@ private fun TaskBottomSheetPreview() {
             editMode = true,
             onClickEditButton = { },
             onClickAddButton = { },
+            onClickTask = {},
             onClickTargetTimeEditButton = { },
             onClickTargetTimeSwitch = {},
             onDeleteTask = {}
