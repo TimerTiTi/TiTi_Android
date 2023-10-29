@@ -11,6 +11,7 @@ import com.titi.domain.task.usecase.AddTaskUseCase
 import com.titi.domain.task.usecase.GetTasksUseCase
 import com.titi.domain.task.usecase.UpdateTaskNameUseCase
 import com.titi.domain.task.usecase.UpdateTaskUseCase
+import com.titi.domain.task.usecase.UpdateTasksPositionUseCase
 import com.titi.domain.time.usecase.UpdateRecordTaskUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -29,6 +30,7 @@ class TaskViewModel @AssistedInject constructor(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val updateRecordTaskUseCase: UpdateRecordTaskUseCase,
     private val updateTaskNameUseCase: UpdateTaskNameUseCase,
+    private val updateTasksPositionUseCase: UpdateTasksPositionUseCase,
 ) : MavericksViewModel<TaskUiState>(initialState) {
 
     init {
@@ -40,27 +42,36 @@ class TaskViewModel @AssistedInject constructor(
             }
     }
 
-    fun addTask(taskName : String){
+    fun addTask(taskName: String) {
         viewModelScope.launch {
             addTaskUseCase(taskName)
         }
     }
 
-    fun updateTask(task : Task){
+    fun updateTask(task: Task) {
         viewModelScope.launch {
             updateTaskUseCase(task)
         }
     }
 
-    fun updateRecordTask(taskName:String){
+    fun updateRecordTask(taskName: String) {
         viewModelScope.launch {
             updateRecordTaskUseCase(taskName)
         }
     }
 
-    fun updateTaskName(task : Task, updateTaskName : String){
+    fun updateTaskName(task: Task, updateTaskName: String) {
         viewModelScope.launch {
             updateTaskNameUseCase(task, updateTaskName)
+        }
+    }
+
+    fun moveTask(fromTask: Task, toTask: Task) {
+        viewModelScope.launch {
+            updateTasksPositionUseCase(
+                fromTask = fromTask,
+                toTask = toTask
+            )
         }
     }
 

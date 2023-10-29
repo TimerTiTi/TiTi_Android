@@ -24,7 +24,7 @@ class AddTaskUseCase @Inject constructor(
             taskRepository.upsertTask(
                 task.copy(
                     isDelete = false,
-                    position = maxPosition
+                    position = maxPosition + 1
                 )
             )
         }

@@ -15,4 +15,9 @@ interface TaskRepository {
 
     suspend fun isExistTaskByTaskName(taskName: String): Boolean
 
+    suspend fun updateTasksPosition(
+        fromTask : TaskRepositoryModel,
+        toTask : TaskRepositoryModel
+    )
+
 }
