@@ -16,13 +16,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.window.layout.WindowMetricsCalculator
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.feature.time.TimeScreen
@@ -33,10 +36,22 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val metrics = WindowMetricsCalculator.getOrCreate()
+            .computeCurrentWindowMetrics(this)
+        val widthDp = metrics.bounds.width() /
+                resources.displayMetrics.density
+        val heightDp = metrics.bounds.height() /
+                resources.displayMetrics.density
+
         setContent {
             TiTiTheme {
                 MainScreen(
-                    bottomNavigationBackgroundColor = TdsColor.blueColor
+                    bottomNavigationBackgroundColor = TdsColor.blueColor,
+                    widthDp = widthDp.dp,
+                    heightDp = heightDp.dp,
                 )
             }
         }
@@ -46,6 +61,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(
     bottomNavigationBackgroundColor: TdsColor,
+    widthDp: Dp,
+    heightDp: Dp
 ) {
     val navController = rememberNavController()
     val items = listOf(
@@ -104,13 +121,17 @@ fun MainScreen(
             composable(Screen.Timer.route) {
                 TimeScreen(
                     backgroundColor = TdsColor.blueColor,
-                    recordingMode = 1
+                    recordingMode = 1,
+                    widthDp = widthDp,
+                    heightDp = heightDp,
                 )
             }
             composable(Screen.StopWatch.route) {
                 TimeScreen(
                     backgroundColor = TdsColor.blueColor,
-                    recordingMode = 2
+                    recordingMode = 2,
+                    widthDp = widthDp,
+                    heightDp = heightDp,
                 )
             }
         }
@@ -122,7 +143,9 @@ fun MainScreen(
 private fun MainScreenPreview() {
     TiTiTheme {
         MainScreen(
-            bottomNavigationBackgroundColor = TdsColor.blueColor
+            bottomNavigationBackgroundColor = TdsColor.blueColor,
+            widthDp = 800.dp,
+            heightDp = 1200.dp
         )
     }
 }

@@ -21,12 +21,16 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.mvrx.compose.collectAsState
@@ -45,18 +49,32 @@ fun TimeScreen(
     viewModel: TimeViewModel = mavericksViewModel(),
     backgroundColor: TdsColor,
     recordingMode: Int,
+    widthDp: Dp,
+    heightDp: Dp
 ) {
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         viewModel.updateRecordingMode(recordingMode)
     }
 
     val uiState by viewModel.collectAsState()
 
+    var showTaskBottomSheet by remember { mutableStateOf(false) }
+
+    if (showTaskBottomSheet) {
+        TaskBottomSheet(
+            modifier = Modifier.height(heightDp - 150.dp),
+            themeColor = TdsColor.blueColor,
+            onCloseBottomSheet = { showTaskBottomSheet = false }
+        )
+    }
+
     TimeScreen(
         backgroundColor = backgroundColor,
         uiState = uiState,
         onClickColor = {},
-        onClickTask = {},
+        onClickTask = {
+            showTaskBottomSheet = true
+        },
         onClickAddRecord = {},
         onClickStartRecord = {},
         onClickSettingTime = {},
@@ -103,7 +121,7 @@ private fun TimeScreen(
                 size = 32.dp
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.cancel_icon),
+                    painter = painterResource(id = R.drawable.color_selector_icon),
                     contentDescription = "setColorIcon",
                     tint = Color.Unspecified
                 )
