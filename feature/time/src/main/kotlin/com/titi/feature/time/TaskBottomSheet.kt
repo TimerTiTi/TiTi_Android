@@ -1,6 +1,7 @@
 package com.titi.feature.time
 
-import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -48,6 +50,9 @@ import com.titi.core.designsystem.model.TdsTask
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.core.designsystem.util.DraggableItem
+import com.titi.core.designsystem.util.dragContainer
+import com.titi.core.designsystem.util.rememberDragDropState
 import com.titi.core.util.getTimeToLong
 import com.titi.designsystem.R
 import com.titi.domain.task.model.Task
@@ -153,13 +158,19 @@ fun TaskBottomSheet(
             },
             onDeleteTask = {
                 viewModel.updateTask(it)
+            },
+            onTaskMove = {
+                viewModel.moveTask(
+                    uiState.tasks[it.first],
+                    uiState.tasks[it.second]
+                )
             }
         )
     }
 }
 
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun TaskBottomSheet(
     uiState: TaskUiState,
@@ -172,6 +183,7 @@ fun TaskBottomSheet(
     onClickTargetTimeSwitch: (Task) -> Unit,
     onModifyTaskName: (Pair<Task, String>) -> Unit,
     onDeleteTask: (Task) -> Unit,
+    onTaskMove: (Pair<Int, Int>) -> Unit,
 ) {
     var hour by remember { mutableStateOf("") }
     var minutes by remember { mutableStateOf("") }
@@ -260,7 +272,6 @@ fun TaskBottomSheet(
                 fontSize = 17.sp,
                 text = editTaskName,
                 onValueChange = {
-                    Log.e("ABC", it.text)
                     editTaskName = it
                 }
             )
@@ -305,53 +316,78 @@ fun TaskBottomSheet(
             }
         }
 
-        LazyColumn(
-            modifier = Modifier
+        val listState = rememberLazyListState()
+        val dragDropState = rememberDragDropState(lazyListState = listState) { from, to ->
+            onTaskMove(Pair(from, to))
+        }
+        val modifier = if (editMode) {
+            Modifier
+                .dragContainer(dragDropState)
                 .fillMaxSize()
                 .padding(horizontal = 20.dp)
+        } else {
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp)
+        }
+
+        LazyColumn(
+            modifier = modifier,
+            state = listState,
         ) {
-            items(uiState.tasks) { task ->
-                TdsTaskListItem(
-                    tdsTask = TdsTask(
-                        taskTargetTime = task.taskTargetTime,
-                        isTaskTargetTimeOn = task.isTaskTargetTimeOn,
-                        taskName = task.taskName
-                    ),
-                    editMode = editMode,
-                    themeColor = themeColor,
-                    onClickTask = {
-                        if (!editMode) {
-                            onClickTask(task)
+            itemsIndexed(uiState.tasks) { index, task ->
+                DraggableItem(dragDropState = dragDropState, index = index) { isDragging ->
+                    TdsTaskListItem(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                color = if (isDragging) {
+                                    TdsColor.dividerColor.getColor()
+                                } else {
+                                    TdsColor.backgroundColor.getColor()
+                                }
+                            ),
+                        tdsTask = TdsTask(
+                            taskTargetTime = task.taskTargetTime,
+                            isTaskTargetTimeOn = task.isTaskTargetTimeOn,
+                            taskName = task.taskName
+                        ),
+                        editMode = editMode,
+                        themeColor = themeColor,
+                        onClickTask = {
+                            if (!editMode) {
+                                onClickTask(task)
+                            }
+                        },
+                        onLongClickTask = {
+                            editTask = task
+                            editTaskName = editTaskName.copy(
+                                text = task.taskName,
+                                selection = TextRange(task.taskName.length)
+                            )
+                            showTaskNameModifyDialog = true
+                        },
+                        onEdit = {
+                            editTask = task
+                            showTaskTargetTimeDialog = true
+                        },
+                        onTargetTimeOn = {
+                            onClickTargetTimeSwitch(
+                                task.copy(
+                                    isTaskTargetTimeOn = it
+                                )
+                            )
+                        },
+                        onDelete = {
+                            onDeleteTask(
+                                task.copy(
+                                    isDelete = true
+                                )
+                            )
                         }
-                    },
-                    onLongClickTask = {
-                        editTask = task
-                        editTaskName = editTaskName.copy(
-                            text = task.taskName,
-                            selection = TextRange(task.taskName.length)
-                        )
-                        showTaskNameModifyDialog = true
-                    },
-                    onEdit = {
-                        editTask = task
-                        showTaskTargetTimeDialog = true
-                    },
-                    onTargetTimeOn = {
-                        onClickTargetTimeSwitch(
-                            task.copy(
-                                isTaskTargetTimeOn = it
-                            )
-                        )
-                    },
-                    onDelete = {
-                        onDeleteTask(
-                            task.copy(
-                                isDelete = true
-                            )
-                        )
-                    },
-                    onLongClickMenu = {}
-                )
+                    )
+                }
+
             }
         }
     }
@@ -401,7 +437,8 @@ private fun TaskBottomSheetPreview() {
             onClickTargetTimeEditButton = { },
             onClickTargetTimeSwitch = {},
             onModifyTaskName = {},
-            onDeleteTask = {}
+            onDeleteTask = {},
+            onTaskMove = {},
         )
     }
 }

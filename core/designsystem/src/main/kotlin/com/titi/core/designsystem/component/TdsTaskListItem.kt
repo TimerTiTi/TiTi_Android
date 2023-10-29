@@ -2,7 +2,6 @@ package com.titi.core.designsystem.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
@@ -43,92 +42,85 @@ fun TdsTaskListItem(
     onEdit: () -> Unit,
     onTargetTimeOn: (Boolean) -> Unit,
     onDelete: () -> Unit,
-    onLongClickMenu: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = TdsColor.backgroundColor.getColor())
-            .combinedClickable(
-                onClick = onClickTask,
-                onLongClick = onLongClickTask
-            )
-    ) {
-        Row(
-            modifier = modifier,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            AnimatedVisibility(visible = editMode) {
-                TdsIconButton(
-                    modifier = Modifier.padding(end = 12.dp),
-                    onClick = { onDelete() }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.cancel_icon),
-                        contentDescription = "cancel",
-                        tint = TdsColor.redColor.getColor()
-                    )
-                }
-            }
-
-            Column {
-                TdsText(
-                    text = tdsTask.taskName,
-                    textStyle = TdsTextStyle.normalTextStyle,
-                    fontSize = 20.sp,
-                    color = TdsColor.textColor,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                AnimatedVisibility(visible = tdsTask.isTaskTargetTimeOn) {
-                    Row(modifier = Modifier.padding(top = 4.dp)) {
-                        TdsText(
-                            text = stringResource(
-                                R.string.task_set_goal_time,
-                                tdsTask.taskTargetTime.getTimeString()
-                            ),
-                            textStyle = TdsTextStyle.normalTextStyle,
-                            fontSize = 14.sp,
-                            color = TdsColor.lightGrayColor
-                        )
-
-                        Spacer(modifier = Modifier.width(8.dp))
-
-                        TdsText(
-                            modifier = Modifier.clickable { onEdit() },
-                            text = stringResource(R.string.edit),
-                            textStyle = TdsTextStyle.normalTextStyle,
-                            fontSize = 14.sp,
-                            color = themeColor
+    Column(modifier = modifier) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .combinedClickable(
+                        onClick = onClickTask,
+                        onLongClick = onLongClickTask
+                    ),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                AnimatedVisibility(visible = editMode) {
+                    TdsIconButton(
+                        modifier = Modifier.padding(end = 12.dp),
+                        onClick = { onDelete() }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.cancel_icon),
+                            contentDescription = "cancel",
+                            tint = TdsColor.redColor.getColor()
                         )
                     }
                 }
-            }
 
-            Spacer(modifier = Modifier.weight(1f))
+                Column {
+                    TdsText(
+                        text = tdsTask.taskName,
+                        textStyle = TdsTextStyle.normalTextStyle,
+                        fontSize = 20.sp,
+                        color = TdsColor.textColor,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
 
-            Switch(
-                checked = tdsTask.isTaskTargetTimeOn,
-                onCheckedChange = onTargetTimeOn,
-                colors = SwitchDefaults.colors(
-                    checkedTrackColor = themeColor.getColor(),
-                    checkedBorderColor = Color.Transparent,
-                    checkedThumbColor = Color.White,
-                    uncheckedTrackColor = TdsColor.dividerColor.getColor(),
-                    uncheckedBorderColor = Color.Transparent,
-                    uncheckedThumbColor = Color.White,
+                    AnimatedVisibility(visible = tdsTask.isTaskTargetTimeOn) {
+                        Row(modifier = Modifier.padding(top = 4.dp)) {
+                            TdsText(
+                                text = stringResource(
+                                    R.string.task_set_goal_time,
+                                    tdsTask.taskTargetTime.getTimeString()
+                                ),
+                                textStyle = TdsTextStyle.normalTextStyle,
+                                fontSize = 14.sp,
+                                color = TdsColor.lightGrayColor
+                            )
+
+                            Spacer(modifier = Modifier.width(8.dp))
+
+                            TdsText(
+                                modifier = Modifier.clickable { onEdit() },
+                                text = stringResource(R.string.edit),
+                                textStyle = TdsTextStyle.normalTextStyle,
+                                fontSize = 14.sp,
+                                color = themeColor
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Switch(
+                    checked = tdsTask.isTaskTargetTimeOn,
+                    onCheckedChange = onTargetTimeOn,
+                    colors = SwitchDefaults.colors(
+                        checkedTrackColor = themeColor.getColor(),
+                        checkedBorderColor = Color.Transparent,
+                        checkedThumbColor = Color.White,
+                        uncheckedTrackColor = TdsColor.dividerColor.getColor(),
+                        uncheckedBorderColor = Color.Transparent,
+                        uncheckedThumbColor = Color.White,
+                    )
                 )
-            )
+            }
 
             AnimatedVisibility(visible = editMode) {
                 Icon(
-                    modifier = Modifier
-                        .padding(start = 12.dp)
-                        .combinedClickable(
-                            onClick = {},
-                            onLongClick = { onLongClickMenu() }
-                        ),
+                    modifier = Modifier.padding(start = 12.dp),
                     painter = painterResource(id = R.drawable.menu_icon),
                     contentDescription = "menu",
                     tint = TdsColor.lightGrayColor.getColor()
@@ -153,14 +145,13 @@ private fun TdsTaskListItemPreview() {
                 isTaskTargetTimeOn = false,
                 taskName = "English"
             ),
-            editMode = false,
+            editMode = true,
             themeColor = TdsColor.blueColor,
             onClickTask = {},
             onLongClickTask = {},
             onEdit = {},
             onTargetTimeOn = {},
             onDelete = {},
-            onLongClickMenu = {},
         )
     }
 }
