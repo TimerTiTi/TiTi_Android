@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 internal data class ColorEntity(
     val timerBackgroundColor: Long,
-    val timerTextColor: Long,
+    val isTimerBlackTextColor: Boolean,
     val stopwatchBackgroundColor: Long,
-    val stopwatchTextColor: Long,
+    val isStopwatchBlackTextColor: Boolean,
 )

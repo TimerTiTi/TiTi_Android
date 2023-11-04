@@ -120,7 +120,6 @@ fun MainScreen(
         ) {
             composable(Screen.Timer.route) {
                 TimeScreen(
-                    backgroundColor = TdsColor.blueColor,
                     recordingMode = 1,
                     widthDp = widthDp,
                     heightDp = heightDp,
@@ -128,7 +127,6 @@ fun MainScreen(
             }
             composable(Screen.StopWatch.route) {
                 TimeScreen(
-                    backgroundColor = TdsColor.blueColor,
                     recordingMode = 2,
                     widthDp = widthDp,
                     heightDp = heightDp,

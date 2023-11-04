@@ -50,7 +50,6 @@ import com.titi.feature.time.content.ColorSelectContent
 @Composable
 fun TimeScreen(
     viewModel: TimeViewModel = mavericksViewModel(),
-    backgroundColor: TdsColor,
     recordingMode: Int,
     widthDp: Dp,
     heightDp: Dp
@@ -93,7 +92,7 @@ fun TimeScreen(
     }
 
     TimeScreen(
-        backgroundColor = backgroundColor,
+        recordingMode = recordingMode,
         uiState = uiState,
         onClickColor = {
             showSelectColorPopUp = true
@@ -109,7 +108,7 @@ fun TimeScreen(
 
 @Composable
 private fun TimeScreen(
-    backgroundColor: TdsColor,
+    recordingMode: Int,
     uiState: TimeUiState,
     onClickColor: () -> Unit,
     onClickTask: () -> Unit,
@@ -122,7 +121,13 @@ private fun TimeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(backgroundColor.getColor())
+            .background(
+                if (recordingMode == 1) {
+                    Color(uiState.timeColor.timerBackgroundColor)
+                } else {
+                    Color(uiState.timeColor.stopwatchBackgroundColor)
+                }
+            )
             .padding(top = 16.dp)
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -239,7 +244,7 @@ private fun TimeScreen(
             TdsIconButton(onClick = onClickSettingTime, size = 50.dp) {
                 Icon(
                     painter = painterResource(
-                        id = if (uiState.recordTimes.recordingMode == 1) {
+                        id = if (recordingMode == 1) {
                             R.drawable.setting_timer_time_icon
                         } else {
                             R.drawable.setting_stopwatch_time_icon
@@ -261,7 +266,7 @@ private fun TimeScreen(
 private fun TimeScreenPreview() {
     TiTiTheme {
         TimeScreen(
-            backgroundColor = TdsColor.blueColor,
+            recordingMode = 1,
             uiState = TimeUiState(),
             onClickColor = {},
             onClickTask = {},

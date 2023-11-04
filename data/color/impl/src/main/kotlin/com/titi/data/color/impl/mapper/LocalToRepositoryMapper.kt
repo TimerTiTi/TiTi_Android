@@ -5,7 +5,7 @@ import com.titi.data.color.impl.local.model.ColorEntity
 
 internal fun ColorEntity.toRepositoryModel() = ColorRepositoryModel(
     timerBackgroundColor = timerBackgroundColor,
-    timerTextColor = timerTextColor,
+    isTimerBlackTextColor = isTimerBlackTextColor,
     stopwatchBackgroundColor = stopwatchBackgroundColor,
-    stopwatchTextColor = stopwatchTextColor
+    isStopwatchBlackTextColor = isStopwatchBlackTextColor
 )
