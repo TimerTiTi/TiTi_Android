@@ -129,7 +129,8 @@ private fun ColorSelectContentPreview() {
         ColorSelectContent(
             backgroundColor = Color.Blue,
             textColor = Color.Black,
-            onClickBackgroundColor = {}
+            onClickBackgroundColor = {},
+            onClickTextColor = {}
         )
     }
 }

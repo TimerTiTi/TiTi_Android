@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.data.time.impl"
+    namespace = "com.titi.data.color.impl"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -14,7 +14,7 @@ android {
 
 dependencies {
     implementation(project(":core:util"))
-    implementation(project(":data:time:api"))
+    implementation(project(":data:color:api"))
 
     implementation(libs.bundles.moshi)
     implementation(libs.bundles.datastore)

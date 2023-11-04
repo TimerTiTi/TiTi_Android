@@ -1,10 +1,9 @@
 plugins {
     id("titi.android.library")
-    id("titi.android.library.compose")
 }
 
 android {
-    namespace = "com.titi.designsystem"
+    namespace = "com.titi.data.color.api"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
