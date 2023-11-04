@@ -93,6 +93,24 @@ fun TimeScreen(
 
     TimeScreen(
         recordingMode = recordingMode,
+        backgroundColor = if (recordingMode == 1) {
+            Color(uiState.timeColor.timerBackgroundColor)
+        } else {
+            Color(uiState.timeColor.stopwatchBackgroundColor)
+        },
+        textColor = if (recordingMode == 1) {
+            if (uiState.timeColor.isTimerBlackTextColor) {
+                TdsColor.blackColor
+            } else {
+                TdsColor.whiteColor
+            }
+        } else {
+            if (uiState.timeColor.isStopwatchBlackTextColor) {
+                TdsColor.blackColor
+            } else {
+                TdsColor.whiteColor
+            }
+        },
         uiState = uiState,
         onClickColor = {
             showSelectColorPopUp = true
@@ -109,6 +127,8 @@ fun TimeScreen(
 @Composable
 private fun TimeScreen(
     recordingMode: Int,
+    backgroundColor: Color,
+    textColor: TdsColor,
     uiState: TimeUiState,
     onClickColor: () -> Unit,
     onClickTask: () -> Unit,
@@ -121,13 +141,7 @@ private fun TimeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                if (recordingMode == 1) {
-                    Color(uiState.timeColor.timerBackgroundColor)
-                } else {
-                    Color(uiState.timeColor.stopwatchBackgroundColor)
-                }
-            )
+            .background(backgroundColor)
             .padding(top = 16.dp)
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -143,7 +157,7 @@ private fun TimeScreen(
                 text = uiState.todayDate,
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = 16.sp,
-                color = TdsColor.textColor
+                color = textColor
             )
 
             TdsIconButton(
@@ -180,14 +194,14 @@ private fun TimeScreen(
             OutlinedButton(
                 onClick = onClickTask,
                 shape = RoundedCornerShape(12.dp),
-                border = BorderStroke(2.dp, TdsColor.textColor.getColor()),
+                border = BorderStroke(2.dp, textColor.getColor()),
                 contentPadding = PaddingValues(horizontal = 25.dp, vertical = 10.dp)
             ) {
                 TdsText(
                     text = uiState.recordTimes.recordTask,
                     textStyle = TdsTextStyle.normalTextStyle,
                     fontSize = 18.sp,
-                    color = TdsColor.textColor
+                    color = textColor
                 )
             }
         }
@@ -197,15 +211,19 @@ private fun TimeScreen(
         //TODO 타이머 색상 커스텀
         with(uiState.recordTimes) {
             TdsTimer(
-                outCircularLineColor = TdsColor.d3,
+                outCircularLineColor = textColor,
                 outCircularProgress = if (recordingMode == 1) {
                     ((setTimerTime - savedTimerTime) / setTimerTime).toFloat()
                 } else {
                     (savedStopWatchTime / 3600).toFloat()
                 },
-                inCircularLineTrackColor = TdsColor.whiteColor,
+                inCircularLineTrackColor = if (textColor == TdsColor.whiteColor) {
+                    TdsColor.blackColor
+                } else {
+                    TdsColor.whiteColor
+                },
                 inCircularProgress = (savedSumTime / setGoalTime).toFloat(),
-                fontColor = TdsColor.textColor,
+                fontColor = textColor,
                 recordingMode = recordingMode,
                 savedSumTime = savedSumTime,
                 savedTime = if (recordingMode == 1) savedTimerTime else savedStopWatchTime,
@@ -267,6 +285,8 @@ private fun TimeScreenPreview() {
     TiTiTheme {
         TimeScreen(
             recordingMode = 1,
+            backgroundColor = Color.Blue,
+            textColor = TdsColor.blackColor,
             uiState = TimeUiState(),
             onClickColor = {},
             onClickTask = {},
