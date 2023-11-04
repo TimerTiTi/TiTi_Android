@@ -12,6 +12,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,6 +25,7 @@ import com.titi.core.designsystem.theme.TiTiTheme
 
 @Composable
 fun TdsDialog(
+    modifier: Modifier = Modifier.background(color = TdsColor.backgroundColor.getColor()),
     tdsDialogInfo: TdsDialogInfo,
     onShowDialog: (Boolean) -> Unit,
     bodyContent: (@Composable () -> Unit)? = null,
@@ -42,10 +44,11 @@ fun TdsDialog(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            shape = RoundedCornerShape(14.dp)
+            shape = RoundedCornerShape(14.dp),
+            color = Color.Transparent
         ) {
             Column(
-                modifier = Modifier.background(color = TdsColor.backgroundColor.getColor()),
+                modifier = modifier,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(24.dp))
