@@ -66,7 +66,11 @@ fun TimeScreen(
     if (showTaskBottomSheet) {
         TaskBottomSheet(
             modifier = Modifier.height(heightDp - 150.dp),
-            themeColor = TdsColor.blueColor,
+            themeColor = if (recordingMode == 1) {
+                Color(uiState.timeColor.timerBackgroundColor)
+            } else {
+                Color(uiState.timeColor.stopwatchBackgroundColor)
+            },
             onCloseBottomSheet = { showTaskBottomSheet = false }
         )
     }
@@ -84,9 +88,28 @@ fun TimeScreen(
         ) {
             ColorSelectContent(
                 backgroundColor = Color.Blue,
-                textColor = Color.White,
+                textColor = if (recordingMode == 1) {
+                    if (uiState.timeColor.isTimerBlackTextColor) {
+                        Color.Black
+                    } else {
+                        Color.White
+                    }
+                } else {
+                    if (uiState.timeColor.isStopwatchBlackTextColor) {
+                        Color.Black
+                    } else {
+                        Color.White
+                    }
+                },
                 onClickBackgroundColor = {},
-                onClickTextColor = {}
+                onClickTextColor = {
+                    val updateColor = if (recordingMode == 1) {
+                        uiState.timeColor.copy(isTimerBlackTextColor = it)
+                    } else {
+                        uiState.timeColor.copy(isStopwatchBlackTextColor = it)
+                    }
+                    viewModel.updateColor(updateColor)
+                }
             )
         }
     }
@@ -208,7 +231,6 @@ private fun TimeScreen(
 
         Spacer(modifier = Modifier.height(50.dp))
 
-        //TODO 타이머 색상 커스텀
         with(uiState.recordTimes) {
             TdsTimer(
                 outCircularLineColor = textColor,

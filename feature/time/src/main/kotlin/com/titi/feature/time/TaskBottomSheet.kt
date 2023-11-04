@@ -28,6 +28,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -63,7 +64,7 @@ import kotlinx.coroutines.android.awaitFrame
 fun TaskBottomSheet(
     modifier: Modifier = Modifier,
     viewModel: TaskViewModel = mavericksViewModel(),
-    themeColor: TdsColor,
+    themeColor: Color,
     onCloseBottomSheet: () -> Unit,
 ) {
     val uiState by viewModel.collectAsState()
@@ -174,7 +175,7 @@ fun TaskBottomSheet(
 @Composable
 fun TaskBottomSheet(
     uiState: TaskUiState,
-    themeColor: TdsColor,
+    themeColor: Color,
     editMode: Boolean,
     onClickEditButton: () -> Unit,
     onClickAddButton: () -> Unit,
@@ -311,7 +312,7 @@ fun TaskBottomSheet(
                 Icon(
                     painter = painterResource(id = R.drawable.add_icon),
                     contentDescription = "add",
-                    tint = themeColor.getColor()
+                    tint = themeColor
                 )
             }
         }
@@ -429,7 +430,7 @@ private fun TaskBottomSheetPreview() {
                     ),
                 )
             ),
-            themeColor = TdsColor.blueColor,
+            themeColor = TdsColor.blueColor.getColor(),
             editMode = true,
             onClickEditButton = { },
             onClickAddButton = { },

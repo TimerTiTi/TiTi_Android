@@ -63,6 +63,39 @@ fun TdsTextButton(
 }
 
 @Composable
+fun TdsTextButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    textStyle: TdsTextStyle = TdsTextStyle.normalTextStyle,
+    textColor: Color,
+    fontSize: TextUnit,
+    onClick: () -> Unit,
+    enabled: Boolean = true
+) {
+    Button(
+        modifier = modifier
+            .widthIn(min = 36.dp)
+            .heightIn(min = 36.dp),
+        onClick = onClick,
+        enabled = enabled,
+        shape = RectangleShape,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent,
+        ),
+        contentPadding = PaddingValues(12.dp, 8.dp)
+    ) {
+        TdsText(
+            text = text,
+            textStyle = textStyle,
+            color = textColor,
+            fontSize = fontSize
+        )
+    }
+
+}
+
+@Composable
 fun TdsIconButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,

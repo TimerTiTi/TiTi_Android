@@ -36,7 +36,7 @@ fun TdsTaskListItem(
     modifier: Modifier = Modifier,
     tdsTask: TdsTask,
     editMode: Boolean,
-    themeColor: TdsColor,
+    themeColor: Color,
     onClickTask: () -> Unit,
     onLongClickTask: () -> Unit,
     onEdit: () -> Unit,
@@ -108,7 +108,7 @@ fun TdsTaskListItem(
                     checked = tdsTask.isTaskTargetTimeOn,
                     onCheckedChange = onTargetTimeOn,
                     colors = SwitchDefaults.colors(
-                        checkedTrackColor = themeColor.getColor(),
+                        checkedTrackColor = themeColor,
                         checkedBorderColor = Color.Transparent,
                         checkedThumbColor = Color.White,
                         uncheckedTrackColor = TdsColor.dividerColor.getColor(),
@@ -146,7 +146,7 @@ private fun TdsTaskListItemPreview() {
                 taskName = "English"
             ),
             editMode = true,
-            themeColor = TdsColor.blueColor,
+            themeColor = TdsColor.blueColor.getColor(),
             onClickTask = {},
             onLongClickTask = {},
             onEdit = {},

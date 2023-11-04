@@ -36,7 +36,7 @@ fun ColorSelectContent(
     backgroundColor: Color,
     textColor: Color,
     onClickBackgroundColor: () -> Unit,
-    onClickTextColor : (Long) -> Unit,
+    onClickTextColor : (Boolean) -> Unit,
 ) {
     val builder = rememberBalloonBuilder {
         setArrowSize(10)
@@ -82,7 +82,7 @@ fun ColorSelectContent(
                             .clip(RoundedCornerShape(4.dp))
                             .background(color = Color.Black)
                             .clickable {
-                                onClickTextColor(0xFF000000)
+                                onClickTextColor(true)
                             }
                     )
 
@@ -94,7 +94,7 @@ fun ColorSelectContent(
                             .clip(RoundedCornerShape(4.dp))
                             .background(color = Color.White)
                             .clickable {
-                                onClickTextColor(0xFFFFFFFF)
+                                onClickTextColor(false)
                             }
                     )
                 }
