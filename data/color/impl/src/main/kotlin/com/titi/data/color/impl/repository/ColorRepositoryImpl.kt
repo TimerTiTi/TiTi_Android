@@ -17,6 +17,10 @@ internal class ColorRepositoryImpl @Inject constructor(
         colorDataStore.setColor(colorRepositoryModel.toLocal())
     }
 
+    override suspend fun getColor(): ColorRepositoryModel? {
+        return colorDataStore.getColor()?.toRepositoryModel()
+    }
+
     override fun getColorFlow(): Flow<ColorRepositoryModel?> {
         return colorDataStore.getColorFlow().map { it?.toRepositoryModel() }
     }

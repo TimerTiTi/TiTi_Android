@@ -7,6 +7,8 @@ interface ColorRepository {
 
     suspend fun setColor(colorRepositoryModel: ColorRepositoryModel)
 
-    fun getColorFlow() : Flow<ColorRepositoryModel?>
+    suspend fun getColor(): ColorRepositoryModel?
+
+    fun getColorFlow(): Flow<ColorRepositoryModel?>
 
 }

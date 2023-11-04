@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.titi.core.util.fromJson
 import com.titi.core.util.readFlowValue
+import com.titi.core.util.readValue
 import com.titi.core.util.storeValue
 import com.titi.core.util.toJson
 import com.titi.data.color.impl.local.model.ColorEntity
@@ -20,6 +21,9 @@ internal class ColorDataStore(context: Context) {
     suspend fun setColor(colorEntity: ColorEntity) {
         dataStore.storeValue(COLOR_KEY, colorEntity.toJson())
     }
+
+    suspend fun getColor(): ColorEntity? =
+        dataStore.readValue(COLOR_KEY)?.fromJson()
 
     fun getColorFlow(): Flow<ColorEntity?> =
         dataStore.readFlowValue(COLOR_KEY).map { it?.fromJson() }
