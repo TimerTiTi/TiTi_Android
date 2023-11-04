@@ -57,16 +57,18 @@ fun TdsDialog(
                     color = TdsColor.textColor
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                tdsDialogInfo.message?.let { message ->
+                    Spacer(modifier = Modifier.height(4.dp))
 
-                TdsText(
-                    text = tdsDialogInfo.message,
-                    textStyle = TdsTextStyle.normalTextStyle,
-                    fontSize = 13.sp,
-                    color = TdsColor.textColor
-                )
+                    TdsText(
+                        text = message,
+                        textStyle = TdsTextStyle.normalTextStyle,
+                        fontSize = 13.sp,
+                        color = TdsColor.textColor
+                    )
+                }
 
-                if(bodyContent != null){
+                if (bodyContent != null) {
                     Spacer(modifier = Modifier.height(15.dp))
 
                     bodyContent()
