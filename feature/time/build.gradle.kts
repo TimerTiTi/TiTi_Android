@@ -18,4 +18,6 @@ dependencies {
 
     implementation(project(":domain:time"))
     implementation(project(":domain:task"))
+
+    implementation(libs.balloon)
 }

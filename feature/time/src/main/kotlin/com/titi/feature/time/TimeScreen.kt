@@ -35,14 +35,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
+import com.titi.core.designsystem.component.TdsDialog
 import com.titi.core.designsystem.component.TdsIconButton
 import com.titi.core.designsystem.component.TdsText
 import com.titi.core.designsystem.component.TdsTimer
+import com.titi.core.designsystem.model.TdsDialogInfo
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.core.util.addTimeToNow
 import com.titi.designsystem.R
+import com.titi.feature.time.content.ColorSelectContent
 
 @Composable
 fun TimeScreen(
@@ -59,6 +62,7 @@ fun TimeScreen(
     val uiState by viewModel.collectAsState()
 
     var showTaskBottomSheet by remember { mutableStateOf(false) }
+    var showSelectColorPopUp by remember { mutableStateOf(false) }
 
     if (showTaskBottomSheet) {
         TaskBottomSheet(
@@ -68,10 +72,32 @@ fun TimeScreen(
         )
     }
 
+    if (showSelectColorPopUp) {
+        TdsDialog(
+            modifier = Modifier.background(color = Color(0xCCFFFFFF)),
+            tdsDialogInfo = TdsDialogInfo.Alert(
+                title = stringResource(id = R.string.custom_color),
+                confirmText = stringResource(id = R.string.Ok),
+            ),
+            onShowDialog = {
+                showSelectColorPopUp = it
+            }
+        ) {
+            ColorSelectContent(
+                backgroundColor = Color.Blue,
+                textColor = Color.White,
+                onClickBackgroundColor = {},
+                onClickTextColor = {}
+            )
+        }
+    }
+
     TimeScreen(
         backgroundColor = backgroundColor,
         uiState = uiState,
-        onClickColor = {},
+        onClickColor = {
+            showSelectColorPopUp = true
+        },
         onClickTask = {
             showTaskBottomSheet = true
         },
@@ -229,7 +255,6 @@ private fun TimeScreen(
         Spacer(modifier = Modifier.weight(1f))
     }
 }
-
 
 @Preview
 @Composable
