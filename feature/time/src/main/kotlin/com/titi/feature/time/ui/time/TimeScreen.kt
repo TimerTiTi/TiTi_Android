@@ -1,4 +1,4 @@
-package com.titi.feature.time
+package com.titi.feature.time.ui.time
 
 import android.content.Intent
 import androidx.compose.foundation.BorderStroke
@@ -47,9 +47,11 @@ import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.core.util.addTimeToNow
 import com.titi.designsystem.R
-import com.titi.feature.time.ColorActivity.Companion.RECORDING_MODE_KEY
-import com.titi.feature.time.ColorActivity.Companion.TIME_COLOR_KEY
 import com.titi.feature.time.content.ColorSelectContent
+import com.titi.feature.time.ui.color.ColorActivity
+import com.titi.feature.time.ui.color.ColorActivity.Companion.RECORDING_MODE_KEY
+import com.titi.feature.time.ui.color.ColorActivity.Companion.TIME_COLOR_KEY
+import com.titi.feature.time.ui.task.TaskBottomSheet
 
 @Composable
 fun TimeScreen(

@@ -3,9 +3,9 @@ package com.titi.feature.time.di
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.MavericksViewModelComponent
 import com.airbnb.mvrx.hilt.ViewModelKey
-import com.titi.feature.time.ColorViewModel
-import com.titi.feature.time.TaskViewModel
-import com.titi.feature.time.TimeViewModel
+import com.titi.feature.time.ui.color.ColorViewModel
+import com.titi.feature.time.ui.task.TaskViewModel
+import com.titi.feature.time.ui.time.TimeViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

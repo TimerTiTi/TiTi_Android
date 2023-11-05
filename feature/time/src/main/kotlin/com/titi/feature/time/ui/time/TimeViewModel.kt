@@ -1,4 +1,4 @@
-package com.titi.feature.time
+package com.titi.feature.time.ui.time
 
 import android.util.Log
 import com.airbnb.mvrx.MavericksState

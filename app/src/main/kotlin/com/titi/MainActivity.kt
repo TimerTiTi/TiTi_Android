@@ -31,7 +31,7 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TiTiTheme
-import com.titi.feature.time.TimeScreen
+import com.titi.feature.time.ui.time.TimeScreen
 import com.titi.navigation.Screen
 import dagger.hilt.android.AndroidEntryPoint
 
