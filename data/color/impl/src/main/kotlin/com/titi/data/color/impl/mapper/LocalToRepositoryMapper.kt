@@ -1,6 +1,8 @@
 package com.titi.data.color.impl.mapper
 
+import com.titi.data.color.api.model.BackgroundColorRepositoryModel
 import com.titi.data.color.api.model.ColorRepositoryModel
+import com.titi.data.color.impl.local.model.BackgroundColorEntity
 import com.titi.data.color.impl.local.model.ColorEntity
 
 internal fun ColorEntity.toRepositoryModel() = ColorRepositoryModel(
@@ -8,4 +10,8 @@ internal fun ColorEntity.toRepositoryModel() = ColorRepositoryModel(
     isTimerBlackTextColor = isTimerBlackTextColor,
     stopwatchBackgroundColor = stopwatchBackgroundColor,
     isStopwatchBlackTextColor = isStopwatchBlackTextColor
+)
+
+internal fun BackgroundColorEntity.toRepositoryModel() = BackgroundColorRepositoryModel(
+    backgroundColors = backgroundColors
 )

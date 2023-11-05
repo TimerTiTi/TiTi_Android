@@ -1,6 +1,7 @@
 package com.titi.data.color.impl.repository
 
 import com.titi.data.color.api.ColorRepository
+import com.titi.data.color.api.model.BackgroundColorRepositoryModel
 import com.titi.data.color.api.model.ColorRepositoryModel
 import com.titi.data.color.impl.local.ColorDataStore
 import com.titi.data.color.impl.mapper.toLocal
@@ -17,8 +18,16 @@ internal class ColorRepositoryImpl @Inject constructor(
         colorDataStore.setColor(colorRepositoryModel.toLocal())
     }
 
+    override suspend fun setBackgroundColors(backgroundColorRepositoryModel: BackgroundColorRepositoryModel) {
+        colorDataStore.setBackgroundColors(backgroundColorRepositoryModel.toLocal())
+    }
+
     override suspend fun getColor(): ColorRepositoryModel? {
         return colorDataStore.getColor()?.toRepositoryModel()
+    }
+
+    override suspend fun getBackgroundColors(): BackgroundColorRepositoryModel? {
+        return colorDataStore.getBackgroundColors()?.toRepositoryModel()
     }
 
     override fun getColorFlow(): Flow<ColorRepositoryModel?> {
