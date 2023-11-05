@@ -86,9 +86,14 @@ fun TimeScreen(
     if (showSelectColorPopUp) {
         TdsDialog(
             modifier = Modifier.background(color = Color(0xCCFFFFFF)),
-            tdsDialogInfo = TdsDialogInfo.Alert(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
                 title = stringResource(id = R.string.custom_color),
-                confirmText = stringResource(id = R.string.Ok),
+                positiveText = stringResource(id = R.string.Ok),
+                negativeText = stringResource(id = R.string.Cancel),
+                onPositive = {},
+                onNegative = {
+                    viewModel.rollBackTimeColor()
+                },
             ),
             onShowDialog = {
                 showSelectColorPopUp = it
@@ -158,6 +163,7 @@ fun TimeScreen(
         },
         uiState = uiState,
         onClickColor = {
+            viewModel.savePrevTimeColor(uiState.timeColor)
             showSelectColorPopUp = true
         },
         onClickTask = {

@@ -51,6 +51,8 @@ class TimeViewModel @AssistedInject constructor(
         }
     }
 
+    private lateinit var prevTimeColor: TimeColor
+
     fun updateRecordingMode(recordingMode: Int) {
         viewModelScope.launch {
             updateRecordingModeUseCase(recordingMode)
@@ -60,6 +62,18 @@ class TimeViewModel @AssistedInject constructor(
     fun updateColor(timeColor: TimeColor) {
         viewModelScope.launch {
             updateColorUseCase(timeColor = timeColor)
+        }
+    }
+
+    fun savePrevTimeColor(timeColor: TimeColor) {
+        prevTimeColor = timeColor
+    }
+
+    fun rollBackTimeColor() {
+        viewModelScope.launch {
+            if (::prevTimeColor.isInitialized) {
+                updateColorUseCase(timeColor = prevTimeColor)
+            }
         }
     }
 
