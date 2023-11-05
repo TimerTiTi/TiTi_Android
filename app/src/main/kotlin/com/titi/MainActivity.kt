@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -26,6 +27,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.WindowMetricsCalculator
+import com.airbnb.mvrx.compose.collectAsState
+import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.feature.time.TimeScreen
@@ -41,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
         val metrics = WindowMetricsCalculator.getOrCreate()
             .computeCurrentWindowMetrics(this)
-        val widthDp = metrics.bounds.width() /
+        val widthDp = metrics.bounds.width()
                 resources.displayMetrics.density
         val heightDp = metrics.bounds.height() /
                 resources.displayMetrics.density
@@ -49,7 +52,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             TiTiTheme {
                 MainScreen(
-                    bottomNavigationBackgroundColor = TdsColor.blueColor,
                     widthDp = widthDp.dp,
                     heightDp = heightDp.dp,
                 )
@@ -60,7 +62,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(
-    bottomNavigationBackgroundColor: TdsColor,
+    viewModel: MainViewModel = mavericksViewModel(),
     widthDp: Dp,
     heightDp: Dp
 ) {
@@ -70,21 +72,27 @@ fun MainScreen(
         Screen.StopWatch
     )
 
+    val uiState by viewModel.collectAsState()
+
     Scaffold(
         bottomBar = {
             NavigationBar(
-                containerColor = bottomNavigationBackgroundColor.getColor(),
+                containerColor = when (uiState.bottomNavigationPosition) {
+                    0 -> Color(uiState.timeColor.timerBackgroundColor)
+                    1 -> Color(uiState.timeColor.stopwatchBackgroundColor)
+                    else -> TdsColor.backgroundColor.getColor()
+                },
                 tonalElevation = 0.dp
             ) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
-                items.forEach { screen ->
+                items.forEachIndexed() { index, screen ->
                     NavigationBarItem(
-                        modifier = Modifier.background(bottomNavigationBackgroundColor.getColor()),
                         label = { Text(text = screen.route) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
+                            viewModel.updateBottomNavigationPosition(index)
                             navController.navigate(screen.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
@@ -102,7 +110,11 @@ fun MainScreen(
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = TdsColor.textColor.getColor(),
                             selectedTextColor = TdsColor.textColor.getColor(),
-                            indicatorColor = bottomNavigationBackgroundColor.getColor(),
+                            indicatorColor = when (uiState.bottomNavigationPosition) {
+                                0 -> Color(uiState.timeColor.timerBackgroundColor)
+                                1 -> Color(uiState.timeColor.stopwatchBackgroundColor)
+                                else -> TdsColor.backgroundColor.getColor()
+                            },
                             unselectedIconColor = TdsColor.lightGrayColor.getColor(),
                             unselectedTextColor = TdsColor.lightGrayColor.getColor()
                         )
@@ -141,7 +153,6 @@ fun MainScreen(
 private fun MainScreenPreview() {
     TiTiTheme {
         MainScreen(
-            bottomNavigationBackgroundColor = TdsColor.blueColor,
             widthDp = 800.dp,
             heightDp = 1200.dp
         )

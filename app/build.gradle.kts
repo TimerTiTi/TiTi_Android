@@ -34,6 +34,8 @@ dependencies {
 
     implementation(project(":feature:time"))
 
+    implementation(project(":domain:color"))
+
     implementation(project(":data:time:impl"))
     implementation(project(":data:task:impl"))
     implementation(project(":data:color:impl"))
