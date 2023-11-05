@@ -18,4 +18,5 @@
     <string name="custom_color">커스텀컬러</string>
     <string name="background">배경</string>
     <string name="text">텍스트</string>
+    <string name="setting_background_text">해당 색상을 배경색으로 설정하시겠습니까?</string>
 </resources>
