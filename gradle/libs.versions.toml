@@ -32,6 +32,7 @@ junitKtx = "1.1.5"
 window = "1.0.0"
 balloon = "1.6.2"
 material3 = "1.1.2"
+colorPicker = "1.0.5"
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -80,6 +81,8 @@ coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-
 threetenabp = { group = "com.jakewharton.threetenabp", name = "threetenabp", version.ref = "threetenabp" }
 
 balloon = { group = "com.github.skydoves", name = "balloon-compose", version.ref = "balloon" }
+
+color_picker = { group = "com.github.skydoves", name = "colorpicker-compose", version.ref = "colorPicker" }
 
 javax = { group = "javax.inject", name = "javax.inject", version.ref = "javax" }
 coroutine-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine-core" }

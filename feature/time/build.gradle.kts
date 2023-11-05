@@ -20,4 +20,5 @@ dependencies {
     implementation(project(":domain:color"))
 
     implementation(libs.balloon)
+    implementation(libs.color.picker)
 }
