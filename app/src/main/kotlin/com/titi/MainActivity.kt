@@ -4,11 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.WindowMetricsCalculator
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
+import com.titi.core.designsystem.component.TdsNavigationBarItem
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.feature.time.ui.time.TimeScreen
@@ -45,7 +47,7 @@ class MainActivity : ComponentActivity() {
         val metrics = WindowMetricsCalculator.getOrCreate()
             .computeCurrentWindowMetrics(this)
         val widthDp = metrics.bounds.width()
-                resources.displayMetrics.density
+        resources.displayMetrics.density
         val heightDp = metrics.bounds.height() /
                 resources.displayMetrics.density
 
@@ -88,7 +90,7 @@ fun MainScreen(
                 val currentDestination = navBackStackEntry?.destination
 
                 items.forEachIndexed() { index, screen ->
-                    NavigationBarItem(
+                    TdsNavigationBarItem(
                         label = { Text(text = screen.route) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
@@ -107,17 +109,6 @@ fun MainScreen(
                                 contentDescription = screen.route,
                             )
                         },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = TdsColor.textColor.getColor(),
-                            selectedTextColor = TdsColor.textColor.getColor(),
-                            indicatorColor = when (uiState.bottomNavigationPosition) {
-                                0 -> Color(uiState.timeColor.timerBackgroundColor)
-                                1 -> Color(uiState.timeColor.stopwatchBackgroundColor)
-                                else -> TdsColor.backgroundColor.getColor()
-                            },
-                            unselectedIconColor = TdsColor.lightGrayColor.getColor(),
-                            unselectedTextColor = TdsColor.lightGrayColor.getColor()
-                        )
                     )
                 }
             }
@@ -145,6 +136,23 @@ fun MainScreen(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun TiTiNavigationItem(
+    modifier: Modifier = Modifier,
+    selected: Boolean,
+    onClick: () -> Unit,
+    icon: @Composable () -> Unit,
+    label: @Composable () -> Unit,
+) {
+    Column {
+        icon()
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        label()
     }
 }
 
