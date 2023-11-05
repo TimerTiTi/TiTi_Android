@@ -4,16 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -26,9 +28,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.WindowMetricsCalculator
+import com.airbnb.mvrx.compose.collectAsState
+import com.airbnb.mvrx.compose.mavericksViewModel
+import com.titi.core.designsystem.component.TdsNavigationBarItem
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TiTiTheme
-import com.titi.feature.time.TimeScreen
+import com.titi.feature.time.ui.time.TimeScreen
 import com.titi.navigation.Screen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,15 +46,14 @@ class MainActivity : ComponentActivity() {
 
         val metrics = WindowMetricsCalculator.getOrCreate()
             .computeCurrentWindowMetrics(this)
-        val widthDp = metrics.bounds.width() /
-                resources.displayMetrics.density
+        val widthDp = metrics.bounds.width()
+        resources.displayMetrics.density
         val heightDp = metrics.bounds.height() /
                 resources.displayMetrics.density
 
         setContent {
             TiTiTheme {
                 MainScreen(
-                    bottomNavigationBackgroundColor = TdsColor.blueColor,
                     widthDp = widthDp.dp,
                     heightDp = heightDp.dp,
                 )
@@ -60,7 +64,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(
-    bottomNavigationBackgroundColor: TdsColor,
+    viewModel: MainViewModel = mavericksViewModel(),
     widthDp: Dp,
     heightDp: Dp
 ) {
@@ -70,21 +74,27 @@ fun MainScreen(
         Screen.StopWatch
     )
 
+    val uiState by viewModel.collectAsState()
+
     Scaffold(
         bottomBar = {
             NavigationBar(
-                containerColor = bottomNavigationBackgroundColor.getColor(),
+                containerColor = when (uiState.bottomNavigationPosition) {
+                    0 -> Color(uiState.timeColor.timerBackgroundColor)
+                    1 -> Color(uiState.timeColor.stopwatchBackgroundColor)
+                    else -> TdsColor.backgroundColor.getColor()
+                },
                 tonalElevation = 0.dp
             ) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
-                items.forEach { screen ->
-                    NavigationBarItem(
-                        modifier = Modifier.background(bottomNavigationBackgroundColor.getColor()),
+                items.forEachIndexed() { index, screen ->
+                    TdsNavigationBarItem(
                         label = { Text(text = screen.route) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
+                            viewModel.updateBottomNavigationPosition(index)
                             navController.navigate(screen.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
@@ -99,13 +109,6 @@ fun MainScreen(
                                 contentDescription = screen.route,
                             )
                         },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = TdsColor.textColor.getColor(),
-                            selectedTextColor = TdsColor.textColor.getColor(),
-                            indicatorColor = bottomNavigationBackgroundColor.getColor(),
-                            unselectedIconColor = TdsColor.lightGrayColor.getColor(),
-                            unselectedTextColor = TdsColor.lightGrayColor.getColor()
-                        )
                     )
                 }
             }
@@ -120,7 +123,6 @@ fun MainScreen(
         ) {
             composable(Screen.Timer.route) {
                 TimeScreen(
-                    backgroundColor = TdsColor.blueColor,
                     recordingMode = 1,
                     widthDp = widthDp,
                     heightDp = heightDp,
@@ -128,7 +130,6 @@ fun MainScreen(
             }
             composable(Screen.StopWatch.route) {
                 TimeScreen(
-                    backgroundColor = TdsColor.blueColor,
                     recordingMode = 2,
                     widthDp = widthDp,
                     heightDp = heightDp,
@@ -138,12 +139,28 @@ fun MainScreen(
     }
 }
 
+@Composable
+private fun TiTiNavigationItem(
+    modifier: Modifier = Modifier,
+    selected: Boolean,
+    onClick: () -> Unit,
+    icon: @Composable () -> Unit,
+    label: @Composable () -> Unit,
+) {
+    Column {
+        icon()
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        label()
+    }
+}
+
 @Preview
 @Composable
 private fun MainScreenPreview() {
     TiTiTheme {
         MainScreen(
-            bottomNavigationBackgroundColor = TdsColor.blueColor,
             widthDp = 800.dp,
             heightDp = 1200.dp
         )

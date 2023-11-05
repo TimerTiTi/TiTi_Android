@@ -1,4 +1,3 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     id("titi.android.application.compose")
     id("titi.android.hilt")
@@ -35,8 +34,11 @@ dependencies {
 
     implementation(project(":feature:time"))
 
+    implementation(project(":domain:color"))
+
     implementation(project(":data:time:impl"))
     implementation(project(":data:task:impl"))
+    implementation(project(":data:color:impl"))
 
     implementation(libs.threetenabp)
     implementation(libs.androidx.compose.navigation)

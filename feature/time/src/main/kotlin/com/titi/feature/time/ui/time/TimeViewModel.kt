@@ -1,4 +1,4 @@
-package com.titi.feature.time
+package com.titi.feature.time.ui.time
 
 import android.util.Log
 import com.airbnb.mvrx.MavericksState
@@ -7,6 +7,9 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.core.util.getTodayDate
+import com.titi.domain.color.model.TimeColor
+import com.titi.domain.color.usecase.GetColorUseCase
+import com.titi.domain.color.usecase.UpdateColorUseCase
 import com.titi.domain.time.model.RecordTimes
 import com.titi.domain.time.usecase.GetRecordTimesFlowUseCase
 import com.titi.domain.time.usecase.UpdateRecordingModeUseCase
@@ -18,13 +21,16 @@ import kotlinx.coroutines.launch
 
 data class TimeUiState(
     val todayDate: String = "",
-    val recordTimes: RecordTimes = RecordTimes()
+    val recordTimes: RecordTimes = RecordTimes(),
+    val timeColor: TimeColor = TimeColor(),
 ) : MavericksState
 
 class TimeViewModel @AssistedInject constructor(
     @Assisted initialState: TimeUiState,
-    private val getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
+    getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
     private val updateRecordingModeUseCase: UpdateRecordingModeUseCase,
+    getColorUseCase: GetColorUseCase,
+    private val updateColorUseCase: UpdateColorUseCase,
 ) : MavericksViewModel<TimeUiState>(initialState) {
 
     init {
@@ -37,11 +43,37 @@ class TimeViewModel @AssistedInject constructor(
         }.setOnEach {
             copy(recordTimes = it)
         }
+
+        getColorUseCase().catch {
+            Log.e("TimeViewModel", it.message.toString())
+        }.setOnEach {
+            copy(timeColor = it)
+        }
     }
+
+    private lateinit var prevTimeColor: TimeColor
 
     fun updateRecordingMode(recordingMode: Int) {
         viewModelScope.launch {
             updateRecordingModeUseCase(recordingMode)
+        }
+    }
+
+    fun updateColor(timeColor: TimeColor) {
+        viewModelScope.launch {
+            updateColorUseCase(timeColor = timeColor)
+        }
+    }
+
+    fun savePrevTimeColor(timeColor: TimeColor) {
+        prevTimeColor = timeColor
+    }
+
+    fun rollBackTimeColor() {
+        viewModelScope.launch {
+            if (::prevTimeColor.isInitialized) {
+                updateColorUseCase(timeColor = prevTimeColor)
+            }
         }
     }
 

@@ -1,4 +1,3 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     id("titi.android.feature")
     id("titi.android.library.compose")
@@ -18,4 +17,8 @@ dependencies {
 
     implementation(project(":domain:time"))
     implementation(project(":domain:task"))
+    implementation(project(":domain:color"))
+
+    implementation(libs.balloon)
+    implementation(libs.color.picker)
 }
