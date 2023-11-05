@@ -93,7 +93,11 @@ fun TimeScreen(
             }
         ) {
             ColorSelectContent(
-                backgroundColor = Color.Blue,
+                backgroundColor = if (recordingMode == 1) {
+                    Color(uiState.timeColor.timerBackgroundColor)
+                } else {
+                    Color(uiState.timeColor.stopwatchBackgroundColor)
+                },
                 textColor = if (recordingMode == 1) {
                     if (uiState.timeColor.isTimerBlackTextColor) {
                         Color.Black
