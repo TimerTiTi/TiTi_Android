@@ -1,5 +1,6 @@
 package com.titi.feature.time
 
+import android.content.Intent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,6 +59,8 @@ fun TimeScreen(
     LaunchedEffect(Unit) {
         viewModel.updateRecordingMode(recordingMode)
     }
+
+    val context = LocalContext.current
 
     val uiState by viewModel.collectAsState()
 
@@ -101,7 +105,9 @@ fun TimeScreen(
                         Color.White
                     }
                 },
-                onClickBackgroundColor = {},
+                onClickBackgroundColor = {
+                    context.startActivity(Intent(context, ColorActivity::class.java))
+                },
                 onClickTextColor = {
                     val updateColor = if (recordingMode == 1) {
                         uiState.timeColor.copy(isTimerBlackTextColor = it)

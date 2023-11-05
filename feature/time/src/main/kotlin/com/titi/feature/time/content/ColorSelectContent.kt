@@ -67,6 +67,7 @@ fun ColorSelectContent(
                     .size(32.dp)
                     .clip(RoundedCornerShape(4.dp))
                     .background(color = backgroundColor)
+                    .clickable { onClickBackgroundColor() }
             )
         }
 
