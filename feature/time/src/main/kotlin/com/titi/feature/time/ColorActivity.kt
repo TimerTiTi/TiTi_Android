@@ -1,5 +1,6 @@
 package com.titi.feature.time
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,12 +21,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.airbnb.mvrx.compose.collectAsState
+import com.airbnb.mvrx.compose.mavericksViewModel
 import com.github.skydoves.colorpicker.compose.AlphaSlider
 import com.github.skydoves.colorpicker.compose.AlphaTile
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
@@ -36,6 +41,7 @@ import com.titi.core.designsystem.extension.complementary
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.domain.color.model.TimeColor
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,6 +53,12 @@ class ColorActivity : ComponentActivity() {
         setContent {
             TiTiTheme {
                 ColorScreen(
+                    recordingMode = intent.getIntExtra(RECORDING_MODE_KEY, 1),
+                    timeColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        intent.getParcelableExtra(TIME_COLOR_KEY, TimeColor::class.java)
+                    } else {
+                        intent.getParcelableExtra(TIME_COLOR_KEY)
+                    } ?: TimeColor(),
                     onClickCancel = { finish() },
                     onClickConfirm = { finish() }
                 )
@@ -54,14 +66,23 @@ class ColorActivity : ComponentActivity() {
         }
     }
 
+    companion object {
+        const val RECORDING_MODE_KEY = "recordingModeKey"
+        const val TIME_COLOR_KEY = "timeColorKey"
+    }
+
 }
 
 @Composable
 fun ColorScreen(
+    viewModel: ColorViewModel = mavericksViewModel(),
+    recordingMode: Int,
+    timeColor: TimeColor,
     onClickCancel: () -> Unit,
     onClickConfirm: () -> Unit
 ) {
     val controller = rememberColorPickerController()
+    val uiState by viewModel.collectAsState()
 
     Column(
         modifier = Modifier
@@ -121,7 +142,7 @@ fun ColorScreen(
 
             ColorPresetContent(
                 modifier = Modifier.fillMaxWidth(),
-                colors = emptyList()
+                colors = uiState.colors
             )
         }
 
@@ -139,7 +160,15 @@ fun ColorScreen(
             color = controller.selectedColor.value,
             onClickCancel = onClickCancel,
             onClickConfirm = {
-
+                viewModel.addBackgroundColor(
+                    colors = uiState.colors,
+                    color = controller.selectedColor.value.toArgb().toLong()
+                )
+                viewModel.updateColor(
+                    recordingMode = recordingMode,
+                    timeColor = timeColor,
+                    color = controller.selectedColor.value.toArgb().toLong()
+                )
                 onClickConfirm()
             },
         )
@@ -219,6 +248,8 @@ private fun ColorButtons(
 private fun ColorScreenPreview() {
     TiTiTheme {
         ColorScreen(
+            recordingMode = 1,
+            timeColor = TimeColor(),
             onClickCancel = {},
             onClickConfirm = {}
         )

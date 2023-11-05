@@ -47,6 +47,8 @@ import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.core.util.addTimeToNow
 import com.titi.designsystem.R
+import com.titi.feature.time.ColorActivity.Companion.RECORDING_MODE_KEY
+import com.titi.feature.time.ColorActivity.Companion.TIME_COLOR_KEY
 import com.titi.feature.time.content.ColorSelectContent
 
 @Composable
@@ -106,7 +108,15 @@ fun TimeScreen(
                     }
                 },
                 onClickBackgroundColor = {
-                    context.startActivity(Intent(context, ColorActivity::class.java))
+                    context.startActivity(
+                        Intent(
+                            context,
+                            ColorActivity::class.java
+                        ).apply {
+                            putExtra(RECORDING_MODE_KEY, recordingMode)
+                            putExtra(TIME_COLOR_KEY, uiState.timeColor)
+                        }
+                    )
                 },
                 onClickTextColor = {
                     val updateColor = if (recordingMode == 1) {
