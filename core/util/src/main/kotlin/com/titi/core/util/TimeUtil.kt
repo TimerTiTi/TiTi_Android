@@ -21,4 +21,9 @@ fun getTimeToLong(
     hour: String,
     minutes: String,
     seconds: String,
-): Long = hour.toLong() * 3600 + minutes.toLong() * 60 + seconds.toLong()
+): Long {
+    val hourLong = hour.toLongOrNull() ?: 0
+    val minutesLong = minutes.toLongOrNull() ?: 0
+    val secondsLong = seconds.toLongOrNull() ?: 0
+    return hourLong * 3600 + minutesLong * 60 + secondsLong
+}
