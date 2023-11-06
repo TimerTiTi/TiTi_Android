@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 
-class MapConverter {
+internal class MapConverter {
 
     private val moshi = Moshi.Builder().build()
     private val mapType = Types

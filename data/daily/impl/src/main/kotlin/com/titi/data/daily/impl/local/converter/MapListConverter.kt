@@ -5,7 +5,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.titi.data.daily.impl.local.model.TaskHistoryEntity
 
-class MapListConverter {
+internal class MapListConverter {
 
     private val moshi = Moshi.Builder().build()
     private val mapType = Types

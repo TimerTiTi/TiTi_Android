@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "dailies")
-data class DailyEntity(
+internal data class DailyEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val status: String?,
@@ -15,7 +15,7 @@ data class DailyEntity(
     val taskHistories: Map<String, List<TaskHistoryEntity>>
 )
 
-data class TaskHistoryEntity(
+internal data class TaskHistoryEntity(
     val startDate: String,
     val endDate: String,
 )
