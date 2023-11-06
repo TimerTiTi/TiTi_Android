@@ -219,7 +219,9 @@ fun TaskBottomSheet(
                 positiveText = stringResource(id = R.string.Ok),
                 onPositive = {
                     val targetTime = getTimeToLong(hour, minutes, seconds)
-                    onClickTargetTimeEditButton(editTask.copy(taskTargetTime = targetTime))
+                    if (targetTime > 0) {
+                        onClickTargetTimeEditButton(editTask.copy(taskTargetTime = targetTime))
+                    }
                 },
                 negativeText = stringResource(id = R.string.Cancel),
             ),
