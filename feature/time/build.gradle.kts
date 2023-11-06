@@ -18,6 +18,7 @@ dependencies {
     implementation(project(":domain:time"))
     implementation(project(":domain:task"))
     implementation(project(":domain:color"))
+    implementation(project(":domain:daily"))
 
     implementation(libs.balloon)
     implementation(libs.color.picker)
