@@ -13,6 +13,7 @@ import com.titi.domain.color.usecase.UpdateColorUseCase
 import com.titi.domain.time.model.RecordTimes
 import com.titi.domain.time.usecase.GetRecordTimesFlowUseCase
 import com.titi.domain.time.usecase.UpdateRecordingModeUseCase
+import com.titi.domain.time.usecase.UpdateSetGoalTimeUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -31,6 +32,7 @@ class TimeViewModel @AssistedInject constructor(
     private val updateRecordingModeUseCase: UpdateRecordingModeUseCase,
     getColorUseCase: GetColorUseCase,
     private val updateColorUseCase: UpdateColorUseCase,
+    private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
 ) : MavericksViewModel<TimeUiState>(initialState) {
 
     init {
@@ -74,6 +76,12 @@ class TimeViewModel @AssistedInject constructor(
             if (::prevTimeColor.isInitialized) {
                 updateColorUseCase(timeColor = prevTimeColor)
             }
+        }
+    }
+
+    fun updateSetGoalTime(setGoalTime: Long) {
+        viewModelScope.launch {
+            updateSetGoalTimeUseCase(setGoalTime)
         }
     }
 
