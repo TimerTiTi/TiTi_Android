@@ -7,7 +7,7 @@ import com.squareup.moshi.Types
 internal class ListConverter {
 
     private val moshi = Moshi.Builder().build()
-    private val intListType = Types.newParameterizedType(List::class.java, Int::class.java)
+    private val intListType = Types.newParameterizedType(List::class.java, Integer::class.java)
 
     @TypeConverter
     fun fromJsonString(value: String): List<Int>? {

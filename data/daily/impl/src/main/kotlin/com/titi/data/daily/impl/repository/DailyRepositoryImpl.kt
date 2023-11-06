@@ -10,8 +10,8 @@ internal class DailyRepositoryImpl @Inject constructor(
     private val dailyDao: DailyDao
 ) : DailyRepository {
 
-    override suspend fun getDaily(): DailyRepositoryModel {
-        return dailyDao.getDaily().toRepository()
+    override suspend fun getDaily(): DailyRepositoryModel? {
+        return dailyDao.getDaily()?.toRepository()
     }
 
 }

@@ -8,6 +8,6 @@ import com.titi.data.daily.impl.local.model.DailyEntity
 internal interface DailyDao {
 
     @Query("SELECT * FROM dailies ORDER BY id DESC LIMIT 1")
-    suspend fun getDaily() : DailyEntity
+    suspend fun getDaily() : DailyEntity?
 
 }
