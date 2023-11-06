@@ -6,8 +6,8 @@ data class DailyRepositoryModel(
     val day: String,
     val timeline: List<Int>,
     val maxTime: Int,
-    val tasks: Map<String, Int>,
-    val taskHistories: Map<String, List<TaskHistoryRepositoryModel>>
+    val tasks: Map<String, Int>?,
+    val taskHistories: Map<String, List<TaskHistoryRepositoryModel>>?
 )
 
 data class TaskHistoryRepositoryModel(

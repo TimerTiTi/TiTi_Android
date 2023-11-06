@@ -6,4 +6,6 @@ interface DailyRepository {
 
     suspend fun getDaily() : DailyRepositoryModel?
 
+    suspend fun upsert(dailyRepositoryModel: DailyRepositoryModel)
+
 }

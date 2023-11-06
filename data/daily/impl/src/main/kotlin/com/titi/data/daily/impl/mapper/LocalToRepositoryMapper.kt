@@ -12,7 +12,7 @@ internal fun DailyEntity.toRepository() = DailyRepositoryModel(
     timeline = timeline,
     maxTime = maxTime,
     tasks = tasks,
-    taskHistories = taskHistories.mapValues { taskHistoryMap ->
+    taskHistories = taskHistories?.mapValues { taskHistoryMap ->
         taskHistoryMap.value.map { taskHistory ->
             taskHistory.toRepository()
         }
