@@ -19,5 +19,5 @@ internal data class DailyEntity(
 @JsonClass(generateAdapter = true)
 internal data class TaskHistoryEntity(
     val startDate: String,
-    val endDate: String,
+    val endDate: String?,
 )
