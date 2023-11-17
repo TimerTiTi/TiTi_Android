@@ -20,6 +20,7 @@ dependencies {
     implementation(project(":domain:color"))
     implementation(project(":domain:daily"))
 
+    implementation(libs.threetenabp)
     implementation(libs.balloon)
     implementation(libs.color.picker)
 }
