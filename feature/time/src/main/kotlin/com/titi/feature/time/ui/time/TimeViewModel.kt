@@ -17,6 +17,8 @@ import com.titi.domain.color.usecase.UpdateColorUseCase
 import com.titi.domain.time.model.RecordTimes
 import com.titi.domain.time.usecase.GetRecordTimesFlowUseCase
 import com.titi.domain.time.usecase.UpdateRecordingModeUseCase
+import com.titi.domain.time.usecase.UpdateSavedStopWatchTimeUseCase
+import com.titi.domain.time.usecase.UpdateSavedTimerTimeUseCase
 import com.titi.domain.time.usecase.UpdateSetGoalTimeUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -42,6 +44,8 @@ class TimeViewModel @AssistedInject constructor(
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
     private val addDailyUseCase: AddDailyUseCase,
     getCurrentDailyUseCase: GetCurrentDailyUseCase,
+    private val updateSavedTimerTimeUseCase: UpdateSavedTimerTimeUseCase,
+    private val updateSavedStopWatchTimeUseCase: UpdateSavedStopWatchTimeUseCase
 ) : MavericksViewModel<TimeUiState>(initialState) {
 
     init {
@@ -95,7 +99,7 @@ class TimeViewModel @AssistedInject constructor(
     }
 
     fun updateSetGoalTime(
-        recordTimes : RecordTimes,
+        recordTimes: RecordTimes,
         setGoalTime: Long
     ) {
         viewModelScope.launch {
@@ -109,6 +113,24 @@ class TimeViewModel @AssistedInject constructor(
     fun addDaily() {
         viewModelScope.launch {
             addDailyUseCase()
+        }
+    }
+
+    fun updateSavedTimerTime(
+        recordTimes: RecordTimes,
+        timerTime: Long,
+    ) {
+        viewModelScope.launch {
+            updateSavedTimerTimeUseCase(
+                recordTimes,
+                timerTime
+            )
+        }
+    }
+
+    fun updateSavedStopWatchTime(recordTimes: RecordTimes) {
+        viewModelScope.launch {
+            updateSavedStopWatchTimeUseCase(recordTimes)
         }
     }
 
