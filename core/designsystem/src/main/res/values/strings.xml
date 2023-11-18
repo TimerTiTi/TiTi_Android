@@ -21,4 +21,6 @@
     <string name="setting_background_text">해당 색상을 배경색으로 설정하시겠습니까?</string>
     <string name="add_daily_title">새로운 기록 설정</string>
     <string name="add_daily_message">%1$s 목표시간 설정</string>
+    <string name="set_timer_time_title">타이머 시간 설정</string>
+    <string name="set_timer_time_message">종료예정 : %1$s</string>
 </resources>

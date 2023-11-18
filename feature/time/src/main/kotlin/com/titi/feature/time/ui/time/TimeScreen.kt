@@ -22,6 +22,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -68,11 +69,17 @@ fun TimeScreen(
 
     val context = LocalContext.current
 
+    var hour by remember { mutableStateOf("") }
+    var minutes by remember { mutableStateOf("") }
+    var seconds by remember { mutableStateOf("") }
+    var setTimerTime by remember { mutableLongStateOf(0) }
+
     val uiState by viewModel.collectAsState()
 
     var showTaskBottomSheet by remember { mutableStateOf(false) }
     var showSelectColorPopUp by remember { mutableStateOf(false) }
     var showAddDailyPopUp by remember { mutableStateOf(false) }
+    var showUpdateTimerPopUp by remember { mutableStateOf(false) }
 
     if (showTaskBottomSheet) {
         TaskBottomSheet(
@@ -144,10 +151,6 @@ fun TimeScreen(
         }
     }
 
-    var hour by remember { mutableStateOf("") }
-    var minutes by remember { mutableStateOf("") }
-    var seconds by remember { mutableStateOf("") }
-
     if (showAddDailyPopUp) {
         hour = ""
         minutes = ""
@@ -186,6 +189,50 @@ fun TimeScreen(
         }
     }
 
+    if (showUpdateTimerPopUp) {
+        TdsDialog(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
+                title = stringResource(R.string.set_timer_time_title),
+                message = stringResource(
+                    R.string.set_timer_time_message,
+                    addTimeToNow(setTimerTime)
+                ),
+                positiveText = stringResource(id = R.string.Ok),
+                negativeText = stringResource(id = R.string.Cancel),
+                onPositive = {
+                    if (setTimerTime > 0) {
+                        viewModel.updateSavedTimerTime(
+                            uiState.recordTimes,
+                            setTimerTime
+                        )
+                    }
+                },
+            ),
+            onShowDialog = {
+                showUpdateTimerPopUp = it
+            }
+        ) {
+            TdsInputTimeTextField(
+                modifier = Modifier.padding(horizontal = 15.dp),
+                hour = hour,
+                onHourChange = {
+                    hour = it
+                    setTimerTime = getTimeToLong(hour, minutes, seconds)
+                },
+                minutes = minutes,
+                onMinutesChange = {
+                    minutes = it
+                    setTimerTime = getTimeToLong(hour, minutes, seconds)
+                },
+                seconds = seconds,
+                onSecondsChange = {
+                    seconds = it
+                    setTimerTime = getTimeToLong(hour, minutes, seconds)
+                }
+            )
+        }
+    }
+
     TimeScreen(
         recordingMode = recordingMode,
         backgroundColor = if (recordingMode == 1) {
@@ -218,7 +265,18 @@ fun TimeScreen(
             showAddDailyPopUp = true
         },
         onClickStartRecord = {},
-        onClickSettingTime = {},
+        onClickSettingTime = {
+            if (recordingMode == 1) {
+                hour = ""
+                minutes = ""
+                seconds = ""
+                setTimerTime = 0
+
+                showUpdateTimerPopUp = true
+            } else {
+                viewModel.updateSavedStopWatchTime(uiState.recordTimes)
+            }
+        },
     )
 }
 
