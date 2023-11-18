@@ -1,6 +1,5 @@
 package com.titi.core.util
 
-import android.util.Log
 import org.threeten.bp.Duration
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
@@ -29,10 +28,14 @@ fun getTimeToLong(
     return hourLong * 3600 + minutesLong * 60 + secondsLong
 }
 
-fun isAfterSixAM(dateTime : String) : Boolean {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-    val dateTime = LocalDateTime.parse(dateTime, formatter)
-    val todaySixAM = LocalDateTime.now().withHour(6)
-    Log.e("ABC", todaySixAM.toString())
-    return dateTime.isAfter(todaySixAM)
+fun isAfterSixAM(dateTime: String?): Boolean {
+    if (dateTime.isNullOrBlank()) {
+        return false
+    } else {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
+        val dateTime = LocalDateTime.parse(dateTime, formatter)
+        val todaySixAM = LocalDateTime.now().withHour(6).withMinute(0)
+
+        return dateTime.isAfter(todaySixAM)
+    }
 }

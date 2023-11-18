@@ -162,7 +162,10 @@ fun TimeScreen(
                 onPositive = {
                     val setGoalTime = getTimeToLong(hour, minutes, seconds)
                     if (setGoalTime > 0) {
-                        viewModel.updateSetGoalTime(setGoalTime)
+                        viewModel.updateSetGoalTime(
+                            uiState.recordTimes,
+                            setGoalTime
+                        )
                         viewModel.addDaily()
                     }
                 },

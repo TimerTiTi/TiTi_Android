@@ -7,7 +7,10 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.core.util.getTodayDate
+import com.titi.core.util.isAfterSixAM
+import com.titi.doamin.daily.model.Daily
 import com.titi.doamin.daily.usecase.AddDailyUseCase
+import com.titi.doamin.daily.usecase.GetCurrentDailyUseCase
 import com.titi.domain.color.model.TimeColor
 import com.titi.domain.color.usecase.GetColorUseCase
 import com.titi.domain.color.usecase.UpdateColorUseCase
@@ -25,7 +28,10 @@ data class TimeUiState(
     val todayDate: String = "",
     val recordTimes: RecordTimes = RecordTimes(),
     val timeColor: TimeColor = TimeColor(),
-) : MavericksState
+    val daily: Daily? = null,
+) : MavericksState {
+    val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day?.toString())
+}
 
 class TimeViewModel @AssistedInject constructor(
     @Assisted initialState: TimeUiState,
@@ -35,6 +41,7 @@ class TimeViewModel @AssistedInject constructor(
     private val updateColorUseCase: UpdateColorUseCase,
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
     private val addDailyUseCase: AddDailyUseCase,
+    getCurrentDailyUseCase: GetCurrentDailyUseCase,
 ) : MavericksViewModel<TimeUiState>(initialState) {
 
     init {
@@ -52,6 +59,12 @@ class TimeViewModel @AssistedInject constructor(
             Log.e("TimeViewModel", it.message.toString())
         }.setOnEach {
             copy(timeColor = it)
+        }
+
+        getCurrentDailyUseCase().catch {
+            Log.e("TimeViewModel", it.message.toString())
+        }.setOnEach {
+            copy(daily = it)
         }
     }
 
@@ -81,13 +94,19 @@ class TimeViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateSetGoalTime(setGoalTime: Long) {
+    fun updateSetGoalTime(
+        recordTimes : RecordTimes,
+        setGoalTime: Long
+    ) {
         viewModelScope.launch {
-            updateSetGoalTimeUseCase(setGoalTime)
+            updateSetGoalTimeUseCase(
+                recordTimes,
+                setGoalTime
+            )
         }
     }
 
-    fun addDaily(){
+    fun addDaily() {
         viewModelScope.launch {
             addDailyUseCase()
         }
