@@ -249,13 +249,12 @@ private fun TimeScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
         ) {
-            //TODO 상태에 따른 컬러값
             TdsText(
                 modifier = Modifier.align(Alignment.Center),
                 text = uiState.todayDate,
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = 16.sp,
-                color = textColor
+                color = if (uiState.isDailyAfter6AM) textColor else TdsColor.redColor
             )
 
             TdsIconButton(
