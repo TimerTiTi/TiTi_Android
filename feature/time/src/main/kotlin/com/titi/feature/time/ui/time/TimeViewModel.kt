@@ -7,6 +7,7 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.core.util.getTodayDate
+import com.titi.doamin.daily.usecase.AddDailyUseCase
 import com.titi.domain.color.model.TimeColor
 import com.titi.domain.color.usecase.GetColorUseCase
 import com.titi.domain.color.usecase.UpdateColorUseCase
@@ -33,6 +34,7 @@ class TimeViewModel @AssistedInject constructor(
     getColorUseCase: GetColorUseCase,
     private val updateColorUseCase: UpdateColorUseCase,
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
+    private val addDailyUseCase: AddDailyUseCase,
 ) : MavericksViewModel<TimeUiState>(initialState) {
 
     init {
@@ -82,6 +84,12 @@ class TimeViewModel @AssistedInject constructor(
     fun updateSetGoalTime(setGoalTime: Long) {
         viewModelScope.launch {
             updateSetGoalTimeUseCase(setGoalTime)
+        }
+    }
+
+    fun addDaily(){
+        viewModelScope.launch {
+            addDailyUseCase()
         }
     }
 

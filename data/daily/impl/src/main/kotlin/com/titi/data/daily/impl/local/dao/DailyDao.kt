@@ -8,8 +8,8 @@ import com.titi.data.daily.impl.local.model.DailyEntity
 @Dao
 internal interface DailyDao {
 
-    @Query("SELECT * FROM dailies ORDER BY id DESC LIMIT 1")
-    suspend fun getDaily() : DailyEntity?
+    @Query("SELECT * FROM dailies WHERE date(day) = date('now') ORDER BY id DESC LIMIT 1")
+    suspend fun getCurrentDaily() : DailyEntity?
 
     @Upsert
     suspend fun upsert(dailyEntity: DailyEntity)

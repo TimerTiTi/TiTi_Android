@@ -163,6 +163,7 @@ fun TimeScreen(
                     val setGoalTime = getTimeToLong(hour, minutes, seconds)
                     if (setGoalTime > 0) {
                         viewModel.updateSetGoalTime(setGoalTime)
+                        viewModel.addDaily()
                     }
                 },
             ),
