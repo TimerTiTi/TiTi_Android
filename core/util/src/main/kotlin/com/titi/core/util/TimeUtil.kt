@@ -21,4 +21,21 @@ fun getTimeToLong(
     hour: String,
     minutes: String,
     seconds: String,
-): Long = hour.toLong() * 3600 + minutes.toLong() * 60 + seconds.toLong()
+): Long {
+    val hourLong = hour.toLongOrNull() ?: 0
+    val minutesLong = minutes.toLongOrNull() ?: 0
+    val secondsLong = seconds.toLongOrNull() ?: 0
+    return hourLong * 3600 + minutesLong * 60 + secondsLong
+}
+
+fun isAfterSixAM(dateTime: String?): Boolean {
+    if (dateTime.isNullOrBlank()) {
+        return false
+    } else {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
+        val dateTime = LocalDateTime.parse(dateTime, formatter)
+        val todaySixAM = LocalDateTime.now().withHour(6).withMinute(0)
+
+        return dateTime.isAfter(todaySixAM)
+    }
+}

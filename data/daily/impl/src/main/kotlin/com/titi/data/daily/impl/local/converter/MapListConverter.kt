@@ -1,0 +1,31 @@
+package com.titi.data.daily.impl.local.converter
+
+import androidx.room.TypeConverter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.titi.data.daily.impl.local.model.TaskHistoryEntity
+
+internal class MapListConverter {
+
+    private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+    private val mapType = Types
+        .newParameterizedType(
+            Map::class.java,
+            String::class.java,
+            List::class.java,
+        )
+
+    @TypeConverter
+    fun fromJsonString(json: String): Map<String, List<TaskHistoryEntity>>? {
+        val adapter = moshi.adapter<Map<String, List<TaskHistoryEntity>>>(mapType)
+        return adapter.fromJson(json)
+    }
+
+    @TypeConverter
+    fun toJsonString(data: Map<String, List<TaskHistoryEntity>>): String {
+        val adapter = moshi.adapter<Map<String, List<TaskHistoryEntity>>>(mapType)
+        return adapter.toJson(data)
+    }
+
+}

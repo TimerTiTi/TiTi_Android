@@ -7,12 +7,17 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.core.util.getTodayDate
+import com.titi.core.util.isAfterSixAM
+import com.titi.doamin.daily.model.Daily
+import com.titi.doamin.daily.usecase.AddDailyUseCase
+import com.titi.doamin.daily.usecase.GetCurrentDailyUseCase
 import com.titi.domain.color.model.TimeColor
 import com.titi.domain.color.usecase.GetColorUseCase
 import com.titi.domain.color.usecase.UpdateColorUseCase
 import com.titi.domain.time.model.RecordTimes
 import com.titi.domain.time.usecase.GetRecordTimesFlowUseCase
 import com.titi.domain.time.usecase.UpdateRecordingModeUseCase
+import com.titi.domain.time.usecase.UpdateSetGoalTimeUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -23,7 +28,10 @@ data class TimeUiState(
     val todayDate: String = "",
     val recordTimes: RecordTimes = RecordTimes(),
     val timeColor: TimeColor = TimeColor(),
-) : MavericksState
+    val daily: Daily? = null,
+) : MavericksState {
+    val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day?.toString())
+}
 
 class TimeViewModel @AssistedInject constructor(
     @Assisted initialState: TimeUiState,
@@ -31,6 +39,9 @@ class TimeViewModel @AssistedInject constructor(
     private val updateRecordingModeUseCase: UpdateRecordingModeUseCase,
     getColorUseCase: GetColorUseCase,
     private val updateColorUseCase: UpdateColorUseCase,
+    private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
+    private val addDailyUseCase: AddDailyUseCase,
+    getCurrentDailyUseCase: GetCurrentDailyUseCase,
 ) : MavericksViewModel<TimeUiState>(initialState) {
 
     init {
@@ -48,6 +59,12 @@ class TimeViewModel @AssistedInject constructor(
             Log.e("TimeViewModel", it.message.toString())
         }.setOnEach {
             copy(timeColor = it)
+        }
+
+        getCurrentDailyUseCase().catch {
+            Log.e("TimeViewModel", it.message.toString())
+        }.setOnEach {
+            copy(daily = it)
         }
     }
 
@@ -74,6 +91,24 @@ class TimeViewModel @AssistedInject constructor(
             if (::prevTimeColor.isInitialized) {
                 updateColorUseCase(timeColor = prevTimeColor)
             }
+        }
+    }
+
+    fun updateSetGoalTime(
+        recordTimes : RecordTimes,
+        setGoalTime: Long
+    ) {
+        viewModelScope.launch {
+            updateSetGoalTimeUseCase(
+                recordTimes,
+                setGoalTime
+            )
+        }
+    }
+
+    fun addDaily() {
+        viewModelScope.launch {
+            addDailyUseCase()
         }
     }
 

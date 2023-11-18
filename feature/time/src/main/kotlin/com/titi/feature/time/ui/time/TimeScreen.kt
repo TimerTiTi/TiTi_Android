@@ -39,6 +39,7 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.core.designsystem.component.TdsDialog
 import com.titi.core.designsystem.component.TdsIconButton
+import com.titi.core.designsystem.component.TdsInputTimeTextField
 import com.titi.core.designsystem.component.TdsText
 import com.titi.core.designsystem.component.TdsTimer
 import com.titi.core.designsystem.model.TdsDialogInfo
@@ -46,6 +47,7 @@ import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.core.util.addTimeToNow
+import com.titi.core.util.getTimeToLong
 import com.titi.designsystem.R
 import com.titi.feature.time.content.ColorSelectContent
 import com.titi.feature.time.ui.color.ColorActivity
@@ -70,6 +72,7 @@ fun TimeScreen(
 
     var showTaskBottomSheet by remember { mutableStateOf(false) }
     var showSelectColorPopUp by remember { mutableStateOf(false) }
+    var showAddDailyPopUp by remember { mutableStateOf(false) }
 
     if (showTaskBottomSheet) {
         TaskBottomSheet(
@@ -141,6 +144,48 @@ fun TimeScreen(
         }
     }
 
+    var hour by remember { mutableStateOf("") }
+    var minutes by remember { mutableStateOf("") }
+    var seconds by remember { mutableStateOf("") }
+
+    if (showAddDailyPopUp) {
+        hour = ""
+        minutes = ""
+        seconds = ""
+
+        TdsDialog(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
+                title = stringResource(R.string.add_daily_title),
+                message = stringResource(R.string.add_daily_message, uiState.todayDate),
+                positiveText = stringResource(id = R.string.Ok),
+                negativeText = stringResource(id = R.string.Cancel),
+                onPositive = {
+                    val setGoalTime = getTimeToLong(hour, minutes, seconds)
+                    if (setGoalTime > 0) {
+                        viewModel.updateSetGoalTime(
+                            uiState.recordTimes,
+                            setGoalTime
+                        )
+                        viewModel.addDaily()
+                    }
+                },
+            ),
+            onShowDialog = {
+                showAddDailyPopUp = it
+            }
+        ) {
+            TdsInputTimeTextField(
+                modifier = Modifier.padding(horizontal = 15.dp),
+                hour = hour,
+                onHourChange = { hour = it },
+                minutes = minutes,
+                onMinutesChange = { minutes = it },
+                seconds = seconds,
+                onSecondsChange = { seconds = it }
+            )
+        }
+    }
+
     TimeScreen(
         recordingMode = recordingMode,
         backgroundColor = if (recordingMode == 1) {
@@ -169,7 +214,9 @@ fun TimeScreen(
         onClickTask = {
             showTaskBottomSheet = true
         },
-        onClickAddRecord = {},
+        onClickAddDaily = {
+            showAddDailyPopUp = true
+        },
         onClickStartRecord = {},
         onClickSettingTime = {},
     )
@@ -183,7 +230,7 @@ private fun TimeScreen(
     uiState: TimeUiState,
     onClickColor: () -> Unit,
     onClickTask: () -> Unit,
-    onClickAddRecord: () -> Unit,
+    onClickAddDaily: () -> Unit,
     onClickStartRecord: () -> Unit,
     onClickSettingTime: () -> Unit,
 ) {
@@ -202,13 +249,12 @@ private fun TimeScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
         ) {
-            //TODO 상태에 따른 컬러값
             TdsText(
                 modifier = Modifier.align(Alignment.Center),
                 text = uiState.todayDate,
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = 16.sp,
-                color = textColor
+                color = if (uiState.isDailyAfter6AM) textColor else TdsColor.redColor
             )
 
             TdsIconButton(
@@ -289,7 +335,10 @@ private fun TimeScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            TdsIconButton(onClick = onClickAddRecord, size = 50.dp) {
+            TdsIconButton(
+                onClick = onClickAddDaily,
+                size = 50.dp
+            ) {
                 Icon(
                     painter = painterResource(id = R.drawable.add_record_icon),
                     contentDescription = "addRecord",
@@ -299,7 +348,10 @@ private fun TimeScreen(
 
             Spacer(modifier = Modifier.width(25.dp))
 
-            TdsIconButton(onClick = onClickStartRecord, size = 70.dp) {
+            TdsIconButton(
+                onClick = onClickStartRecord,
+                size = 70.dp
+            ) {
                 Icon(
                     painter = painterResource(id = R.drawable.start_record_icon),
                     contentDescription = "startRecord",
@@ -309,7 +361,10 @@ private fun TimeScreen(
 
             Spacer(modifier = Modifier.width(25.dp))
 
-            TdsIconButton(onClick = onClickSettingTime, size = 50.dp) {
+            TdsIconButton(
+                onClick = onClickSettingTime,
+                size = 50.dp
+            ) {
                 Icon(
                     painter = painterResource(
                         id = if (recordingMode == 1) {
@@ -340,7 +395,7 @@ private fun TimeScreenPreview() {
             uiState = TimeUiState(),
             onClickColor = {},
             onClickTask = {},
-            onClickAddRecord = {},
+            onClickAddDaily = {},
             onClickStartRecord = {},
             onClickSettingTime = {},
         )
