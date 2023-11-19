@@ -33,6 +33,7 @@ data class TimeUiState(
     val daily: Daily? = null,
 ) : MavericksState {
     val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day?.toString())
+    val isSetTask : Boolean = recordTimes.recordTask != null
 }
 
 class TimeViewModel @AssistedInject constructor(
