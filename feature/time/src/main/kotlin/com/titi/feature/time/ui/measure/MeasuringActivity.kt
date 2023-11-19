@@ -156,12 +156,12 @@ private fun MeasuringScreen(
             TdsTimer(
                 outCircularLineColor = themeColor,
                 outCircularProgress = if (recordingMode == 1) {
-                    ((setTimerTime - savedTimerTime + uiState.measureTime) / setTimerTime).toFloat()
+                    (setTimerTime - savedTimerTime + uiState.measureTime).toFloat() / setTimerTime.toFloat()
                 } else {
-                    ((savedStopWatchTime + uiState.measureTime) / 3600).toFloat()
+                    ((savedStopWatchTime + uiState.measureTime).toFloat() / 3600f)
                 },
                 inCircularLineTrackColor = TdsColor.whiteColor,
-                inCircularProgress = ((savedSumTime + uiState.measureTime) / setGoalTime).toFloat(),
+                inCircularProgress = (savedSumTime + uiState.measureTime).toFloat() / setGoalTime.toFloat(),
                 fontColor = TdsColor.whiteColor,
                 themeColor = themeColor,
                 recordingMode = recordingMode,
