@@ -44,10 +44,10 @@ fun isAfterSixAM(dateTime: String?): Boolean {
 }
 
 fun getMeasureTime(dateTime: String): Long {
-    val dateTime = LocalDateTime.parse(dateTime)
-    val todayTime = LocalDateTime.now()
+    val inputDateTime = LocalDateTime.parse(dateTime)
+    val currentDateTime = LocalDateTime.now()
 
-    return Duration.between(dateTime, todayTime).seconds
+    return Duration.between(inputDateTime, currentDateTime).seconds
 }
 
 fun addTimeLine(
