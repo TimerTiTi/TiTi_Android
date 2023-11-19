@@ -15,5 +15,7 @@ android {
 dependencies {
     implementation(project(":data:time:api"))
 
+    implementation(libs.threetenabp)
+
     implementation(libs.javax)
 }
