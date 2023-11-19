@@ -29,13 +29,17 @@ fun getTimeToLong(
 }
 
 fun isAfterSixAM(dateTime: String?): Boolean {
-    if (dateTime.isNullOrBlank()) {
-        return false
+    return if (dateTime.isNullOrBlank()) {
+        false
     } else {
-        val dateTime = LocalDateTime.parse(dateTime)
-        val todaySixAM = LocalDateTime.now().withHour(6).withMinute(0)
+        val inputDateTime = LocalDateTime.parse(dateTime)
+        val currentDateTime = LocalDateTime.now()
 
-        return dateTime.isAfter(todaySixAM)
+        if (inputDateTime.dayOfMonth == currentDateTime.dayOfMonth) {
+            true
+        } else {
+            currentDateTime.hour <= 6
+        }
     }
 }
 
