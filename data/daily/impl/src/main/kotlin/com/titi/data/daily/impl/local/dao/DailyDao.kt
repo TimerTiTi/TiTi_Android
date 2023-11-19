@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 internal interface DailyDao {
 
-    @Query("SELECT * FROM dailies WHERE date(day) = date('now') ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM dailies WHERE date(day) = date('now', 'localtime') ORDER BY id DESC LIMIT 1")
     suspend fun getCurrentDaily(): DailyEntity?
 
-    @Query("SELECT * FROM dailies WHERE date(day) = date('now') ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM dailies WHERE date(day) = date('now', 'localtime')  ORDER BY id DESC LIMIT 1")
     fun getCurrentDailyFlow(): Flow<DailyEntity?>
 
     @Upsert
