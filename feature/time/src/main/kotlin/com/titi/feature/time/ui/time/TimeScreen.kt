@@ -417,7 +417,7 @@ private fun TimeScreen(
 
         with(uiState.recordTimes) {
             TdsTimer(
-                outCircularLineColor = textColor,
+                outCircularLineColor = textColor.getColor(),
                 outCircularProgress = if (recordingMode == 1) {
                     ((setTimerTime - savedTimerTime) / setTimerTime).toFloat()
                 } else {

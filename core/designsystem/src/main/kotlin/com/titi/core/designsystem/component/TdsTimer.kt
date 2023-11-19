@@ -27,7 +27,7 @@ import com.titi.designsystem.R
 @Composable
 fun TdsTimer(
     modifier: Modifier = Modifier,
-    outCircularLineColor: TdsColor,
+    outCircularLineColor: Color,
     outCircularProgress: Float,
     inCircularLineTrackColor: TdsColor,
     inCircularProgress: Float,
@@ -57,7 +57,7 @@ fun TdsTimer(
                 .size(outCircularSize)
                 .align(Alignment.Center),
             progress = outCircularProgress,
-            color = outCircularLineColor.getColor(),
+            color = outCircularLineColor,
             trackColor = TdsColor.lightGrayColor.getColor(),
             strokeWidth = outCircularTrackWidth,
             strokeCap = StrokeCap.Round
@@ -159,7 +159,7 @@ private fun TdsTimerPreview() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
-            outCircularLineColor = TdsColor.blueColor,
+            outCircularLineColor = TdsColor.blueColor.getColor(),
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
@@ -181,7 +181,7 @@ private fun TdsTimerPreview1() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
-            outCircularLineColor = TdsColor.blueColor,
+            outCircularLineColor = TdsColor.blueColor.getColor(),
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
@@ -203,7 +203,7 @@ private fun TdsTimerPreview2() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
-            outCircularLineColor = TdsColor.blueColor,
+            outCircularLineColor = TdsColor.blueColor.getColor(),
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
@@ -225,7 +225,7 @@ private fun TdsTimerPreview3() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
-            outCircularLineColor = TdsColor.blueColor,
+            outCircularLineColor = TdsColor.blueColor.getColor(),
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
