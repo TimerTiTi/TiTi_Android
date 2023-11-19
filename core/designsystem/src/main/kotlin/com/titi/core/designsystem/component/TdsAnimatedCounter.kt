@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
@@ -24,7 +25,7 @@ import com.titi.core.designsystem.theme.TiTiTheme
 internal fun TdsAnimatedCounter(
     modifier: Modifier = Modifier,
     count: Int,
-    color: TdsColor,
+    color: Color,
     textStyle: TdsTextStyle,
     fontSize: TextUnit,
 ) {
@@ -74,7 +75,7 @@ private fun TdsAnimatedCounterPreview() {
     TiTiTheme {
         TdsAnimatedCounter(
             count = 13,
-            color = TdsColor.textColor,
+            color = TdsColor.textColor.getColor(),
             textStyle = TdsTextStyle.blackTextStyle,
             fontSize = 40.sp
         )

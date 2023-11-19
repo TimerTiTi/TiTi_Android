@@ -31,7 +31,8 @@ fun TdsTimer(
     outCircularProgress: Float,
     inCircularLineTrackColor: TdsColor,
     inCircularProgress: Float,
-    fontColor : TdsColor,
+    fontColor: TdsColor,
+    themeColor: Color? = null,
     recordingMode: Int,
     savedSumTime: Long,
     savedTime: Long,
@@ -93,7 +94,7 @@ fun TdsTimer(
             TdsTimeCounter(
                 modifier = Modifier.width(contentSize * 0.45),
                 tdsTime = savedSumTime.getTdsTime(),
-                color = fontColor,
+                color = fontColor.getColor(),
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = subTimerTextSize.sp
             )
@@ -112,7 +113,7 @@ fun TdsTimer(
             TdsTimeCounter(
                 modifier = Modifier.width(contentSize * 0.9),
                 tdsTime = savedTime.getTdsTime(),
-                color = fontColor,
+                color = themeColor ?: fontColor.getColor(),
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = mainTimerTextSize.sp
             )
@@ -131,7 +132,7 @@ fun TdsTimer(
             TdsTimeCounter(
                 modifier = Modifier.width(contentSize * 0.45),
                 tdsTime = savedGoalTime.getTdsTime(),
-                color = fontColor,
+                color = fontColor.getColor(),
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = subTimerTextSize.sp
             )

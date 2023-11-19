@@ -51,11 +51,20 @@ class MeasuringActivity : ComponentActivity() {
 
         setContent {
             TiTiTheme {
-                MeasuringScreen(
-                    onFinishClick = {
-                        finish()
-                    }
-                )
+                if (recordTimes != null && backgroundColor != null) {
+                    MeasuringScreen(
+                        themeColor = if (recordTimes.recordingMode == 1) {
+                            Color(backgroundColor.timerBackgroundColor)
+                        } else {
+                            Color(backgroundColor.stopwatchBackgroundColor)
+                        },
+                        onFinishClick = {
+                            finish()
+                        }
+                    )
+                } else {
+                    finish()
+                }
             }
         }
     }
@@ -69,7 +78,8 @@ class MeasuringActivity : ComponentActivity() {
 
 @Composable
 fun MeasuringScreen(
-    onFinishClick : () -> Unit,
+    themeColor: Color,
+    onFinishClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -101,6 +111,7 @@ fun MeasuringScreen(
             inCircularLineTrackColor = TdsColor.whiteColor,
             inCircularProgress = 10f,
             fontColor = TdsColor.whiteColor,
+            themeColor = themeColor,
             recordingMode = 1,
             savedSumTime = 1000L,
             savedTime = 1000L,
