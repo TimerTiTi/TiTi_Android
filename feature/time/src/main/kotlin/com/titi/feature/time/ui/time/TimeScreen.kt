@@ -55,6 +55,7 @@ import com.titi.feature.time.ui.color.ColorActivity
 import com.titi.feature.time.ui.color.ColorActivity.Companion.RECORDING_MODE_KEY
 import com.titi.feature.time.ui.color.ColorActivity.Companion.TIME_COLOR_KEY
 import com.titi.feature.time.ui.measure.MeasuringActivity
+import com.titi.feature.time.ui.measure.MeasuringActivity.Companion.BACKGROUND_COLOR_KEY
 import com.titi.feature.time.ui.measure.MeasuringActivity.Companion.RECORD_TIMES_KEY
 import com.titi.feature.time.ui.task.TaskBottomSheet
 import org.threeten.bp.LocalDateTime
@@ -294,7 +295,9 @@ fun TimeScreen(
                     recording = true,
                     recordStartAt = LocalDateTime.now().toString()
                 )
+
                 viewModel.updateMeasuringState(updateRecordTimes)
+
                 context.startActivity(
                     Intent(
                         context,
@@ -303,6 +306,10 @@ fun TimeScreen(
                         putExtra(
                             RECORD_TIMES_KEY,
                             updateRecordTimes
+                        )
+                        putExtra(
+                            BACKGROUND_COLOR_KEY,
+                            uiState.timeColor
                         )
                     }
                 )
