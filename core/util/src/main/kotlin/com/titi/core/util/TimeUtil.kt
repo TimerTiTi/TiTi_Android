@@ -39,3 +39,11 @@ fun isAfterSixAM(dateTime: String?): Boolean {
         return dateTime.isAfter(todaySixAM)
     }
 }
+
+fun getMeasureTime(dateTime: String): Long {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
+    val dateTime = LocalDateTime.parse(dateTime, formatter)
+    val todayTime = LocalDateTime.now()
+
+    return Duration.between(dateTime, todayTime).seconds
+}
