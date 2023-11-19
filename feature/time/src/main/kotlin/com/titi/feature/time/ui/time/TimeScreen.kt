@@ -1,7 +1,6 @@
 package com.titi.feature.time.ui.time
 
 import android.content.Intent
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -55,6 +54,8 @@ import com.titi.feature.time.content.ColorSelectContent
 import com.titi.feature.time.ui.color.ColorActivity
 import com.titi.feature.time.ui.color.ColorActivity.Companion.RECORDING_MODE_KEY
 import com.titi.feature.time.ui.color.ColorActivity.Companion.TIME_COLOR_KEY
+import com.titi.feature.time.ui.measure.MeasuringActivity
+import com.titi.feature.time.ui.measure.MeasuringActivity.Companion.RECORD_TIMES_KEY
 import com.titi.feature.time.ui.task.TaskBottomSheet
 import org.threeten.bp.LocalDateTime
 
@@ -294,7 +295,17 @@ fun TimeScreen(
                     recordStartAt = LocalDateTime.now().toString()
                 )
                 viewModel.updateMeasuringState(updateRecordTimes)
-                Log.e("ABC", updateRecordTimes.toString())
+                context.startActivity(
+                    Intent(
+                        context,
+                        MeasuringActivity::class.java
+                    ).apply {
+                        putExtra(
+                            RECORD_TIMES_KEY,
+                            updateRecordTimes
+                        )
+                    }
+                )
             } else {
                 showCheckTaskDailyPopUp = true
             }
