@@ -11,7 +11,7 @@ internal class MapConverter {
         .newParameterizedType(
             Map::class.java,
             String::class.java,
-            Long::class.java
+            Long::class.javaObjectType
         )
 
     @TypeConverter
