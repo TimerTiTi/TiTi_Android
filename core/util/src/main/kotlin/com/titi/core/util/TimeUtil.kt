@@ -32,8 +32,7 @@ fun isAfterSixAM(dateTime: String?): Boolean {
     if (dateTime.isNullOrBlank()) {
         return false
     } else {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
-        val dateTime = LocalDateTime.parse(dateTime, formatter)
+        val dateTime = LocalDateTime.parse(dateTime)
         val todaySixAM = LocalDateTime.now().withHour(6).withMinute(0)
 
         return dateTime.isAfter(todaySixAM)
@@ -41,8 +40,7 @@ fun isAfterSixAM(dateTime: String?): Boolean {
 }
 
 fun getMeasureTime(dateTime: String): Long {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
-    val dateTime = LocalDateTime.parse(dateTime, formatter)
+    val dateTime = LocalDateTime.parse(dateTime)
     val todayTime = LocalDateTime.now()
 
     return Duration.between(dateTime, todayTime).seconds
