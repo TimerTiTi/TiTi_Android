@@ -87,7 +87,9 @@ fun MeasuringScreen(
     themeColor: Color,
     onFinishClick: () -> Unit,
 ) {
-    val viewModel : MeasuringViewModel = mavericksActivityViewModel(argsFactory = {recordTimes.recordStartAt ?: LocalDateTime.now().toString()})
+    val viewModel: MeasuringViewModel = mavericksActivityViewModel(argsFactory = {
+        recordTimes.recordStartAt ?: LocalDateTime.now().toString()
+    })
 
     val uiState by viewModel.collectAsState()
 
@@ -150,23 +152,27 @@ private fun MeasuringScreen(
 
         Spacer(modifier = Modifier.height(50.dp))
 
-        with(recordTimes){
+        with(recordTimes) {
             TdsTimer(
                 outCircularLineColor = themeColor,
-                outCircularProgress =  if (recordingMode == 1) {
-                    ((setTimerTime - savedTimerTime) / setTimerTime).toFloat()
+                outCircularProgress = if (recordingMode == 1) {
+                    ((setTimerTime - savedTimerTime + uiState.measureTime) / setTimerTime).toFloat()
                 } else {
-                    (savedStopWatchTime / 3600).toFloat()
+                    ((savedStopWatchTime + uiState.measureTime) / 3600).toFloat()
                 },
                 inCircularLineTrackColor = TdsColor.whiteColor,
-                inCircularProgress = 10f,
+                inCircularProgress = ((savedSumTime + uiState.measureTime) / setGoalTime).toFloat(),
                 fontColor = TdsColor.whiteColor,
                 themeColor = themeColor,
-                recordingMode = 1,
-                savedSumTime = 1000L,
-                savedTime = 1000L,
-                savedGoalTime = 1000L,
-                finishGoalTime = addTimeToNow(1000L),
+                recordingMode = recordingMode,
+                savedSumTime = savedSumTime + uiState.measureTime,
+                savedTime = if (recordingMode == 1) {
+                    savedTimerTime - uiState.measureTime
+                } else {
+                    savedStopWatchTime + uiState.measureTime
+                },
+                savedGoalTime = savedGoalTime - uiState.measureTime,
+                finishGoalTime = addTimeToNow(savedGoalTime - uiState.measureTime),
             )
         }
 
