@@ -18,7 +18,7 @@ class AddDailyUseCase @Inject constructor(
                 recentDaily.copy(
                     status = null,
                     day = LocalDateTime.now().toString(),
-                    timeline = IntArray(24) { 0 }.toList(),
+                    timeline = LongArray(24) { 0 }.toList(),
                     maxTime = 0,
                     tasks = null,
                     taskHistories = null,

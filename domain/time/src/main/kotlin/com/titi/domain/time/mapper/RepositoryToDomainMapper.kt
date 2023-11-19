@@ -7,7 +7,11 @@ import org.threeten.bp.LocalDateTime
 internal fun RecordTimesRepositoryModel.toDomainModel() = RecordTimes(
     recordingMode = recordingMode,
     recording = recording,
-    recordStartAt = recordStartAt?.let { LocalDateTime.parse(it) },
+    recordStartAt = if (recordStartAt.isNullOrBlank()) {
+        null
+    } else {
+        LocalDateTime.parse(recordStartAt)
+    },
     setGoalTime = setGoalTime,
     setTimerTime = setTimerTime,
     savedSumTime = savedSumTime,
