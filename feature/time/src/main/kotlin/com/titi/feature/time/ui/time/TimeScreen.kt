@@ -1,6 +1,7 @@
 package com.titi.feature.time.ui.time
 
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -55,6 +56,7 @@ import com.titi.feature.time.ui.color.ColorActivity
 import com.titi.feature.time.ui.color.ColorActivity.Companion.RECORDING_MODE_KEY
 import com.titi.feature.time.ui.color.ColorActivity.Companion.TIME_COLOR_KEY
 import com.titi.feature.time.ui.task.TaskBottomSheet
+import org.threeten.bp.LocalDateTime
 
 @Composable
 fun TimeScreen(
@@ -287,7 +289,12 @@ fun TimeScreen(
         },
         onClickStartRecord = {
             if (uiState.isDailyAfter6AM && uiState.isSetTask) {
-                //TODO 측정 화면으로 넘기기
+                val updateRecordTimes = uiState.recordTimes.copy(
+                    recording = true,
+                    recordStartAt = LocalDateTime.now().toString()
+                )
+                viewModel.updateMeasuringState(updateRecordTimes)
+                Log.e("ABC", updateRecordTimes.toString())
             } else {
                 showCheckTaskDailyPopUp = true
             }
