@@ -3,7 +3,7 @@ package com.titi.domain.task.usecase
 import com.titi.data.task.api.TaskRepository
 import javax.inject.Inject
 
-class AddTaskSumTimeUseCase @Inject constructor(
+class AddMeasureTimeAtTaskUseCase @Inject constructor(
     private val taskRepository: TaskRepository
 ) {
 

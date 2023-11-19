@@ -5,7 +5,7 @@ import com.titi.domain.time.mapper.toRepositoryModel
 import com.titi.domain.time.model.RecordTimes
 import javax.inject.Inject
 
-class AddTimeStateUseCase @Inject constructor(
+class AddMeasureTimeAtRecordTimesUseCase @Inject constructor(
     private val recordTimesRepository: RecordTimesRepository
 ) {
 
