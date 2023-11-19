@@ -1,5 +1,9 @@
 package com.titi.domain.time.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class RecordTimes(
     val recordingMode: Int = 1,
     val recording: Boolean = false,
@@ -11,4 +15,4 @@ data class RecordTimes(
     val savedStopWatchTime: Long = 0,
     val savedGoalTime: Long = 7200,
     val recordTask: String? = null,
-)
+) : Parcelable
