@@ -58,6 +58,7 @@ class MeasuringActivity : ComponentActivity() {
                         } else {
                             Color(backgroundColor.stopwatchBackgroundColor)
                         },
+                        onSleepClick = {},
                         onFinishClick = {
                             finish()
                         }
@@ -79,6 +80,7 @@ class MeasuringActivity : ComponentActivity() {
 @Composable
 fun MeasuringScreen(
     themeColor: Color,
+    onSleepClick: () -> Unit,
     onFinishClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -91,7 +93,19 @@ fun MeasuringScreen(
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
+        TdsIconButton(
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .align(Alignment.Start),
+            size = 32.dp,
+            onClick = onSleepClick,
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.non_sleep_icon),
+                contentDescription = "sleepIcon",
+                tint = Color.White
+            )
+        }
 
         Spacer(modifier = Modifier.weight(1f))
 
