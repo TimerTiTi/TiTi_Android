@@ -1,13 +1,14 @@
 plugins {
-   id("titi.android.library")
+    id("titi.android.library")
+    id("kotlin-parcelize")
 }
 
 android {
     namespace = "com.titi.domain.time"
 
     defaultConfig {
-       testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-     }
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 
 }
 

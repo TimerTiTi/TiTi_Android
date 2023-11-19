@@ -54,7 +54,10 @@ import com.titi.feature.time.content.ColorSelectContent
 import com.titi.feature.time.ui.color.ColorActivity
 import com.titi.feature.time.ui.color.ColorActivity.Companion.RECORDING_MODE_KEY
 import com.titi.feature.time.ui.color.ColorActivity.Companion.TIME_COLOR_KEY
+import com.titi.feature.time.ui.measure.MeasuringActivity
+import com.titi.feature.time.ui.measure.MeasuringActivity.Companion.RECORD_TIMES_KEY
 import com.titi.feature.time.ui.task.TaskBottomSheet
+import org.threeten.bp.LocalDateTime
 
 @Composable
 fun TimeScreen(
@@ -79,6 +82,7 @@ fun TimeScreen(
     var showTaskBottomSheet by remember { mutableStateOf(false) }
     var showSelectColorPopUp by remember { mutableStateOf(false) }
     var showAddDailyPopUp by remember { mutableStateOf(false) }
+    var showCheckTaskDailyPopUp by remember { mutableStateOf(false) }
     var showUpdateTimerPopUp by remember { mutableStateOf(false) }
 
     if (showTaskBottomSheet) {
@@ -233,6 +237,26 @@ fun TimeScreen(
         }
     }
 
+    if (showCheckTaskDailyPopUp) {
+        TdsDialog(
+            tdsDialogInfo = TdsDialogInfo.Alert(
+                title = if (!uiState.isSetTask && !uiState.isDailyAfter6AM) {
+                    stringResource(id = R.string.daily_task_check_title)
+                } else if (!uiState.isSetTask) {
+                    stringResource(id = R.string.task_check_title)
+                } else {
+                    stringResource(id = R.string.daily_check_title)
+                },
+                confirmText = stringResource(id = R.string.Ok),
+            ),
+            onShowDialog = {
+                showCheckTaskDailyPopUp = it
+            }
+        ) {
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+    }
+
     TimeScreen(
         recordingMode = recordingMode,
         backgroundColor = if (recordingMode == 1) {
@@ -264,7 +288,28 @@ fun TimeScreen(
         onClickAddDaily = {
             showAddDailyPopUp = true
         },
-        onClickStartRecord = {},
+        onClickStartRecord = {
+            if (uiState.isDailyAfter6AM && uiState.isSetTask) {
+                val updateRecordTimes = uiState.recordTimes.copy(
+                    recording = true,
+                    recordStartAt = LocalDateTime.now().toString()
+                )
+                viewModel.updateMeasuringState(updateRecordTimes)
+                context.startActivity(
+                    Intent(
+                        context,
+                        MeasuringActivity::class.java
+                    ).apply {
+                        putExtra(
+                            RECORD_TIMES_KEY,
+                            updateRecordTimes
+                        )
+                    }
+                )
+            } else {
+                showCheckTaskDailyPopUp = true
+            }
+        },
         onClickSettingTime = {
             if (recordingMode == 1) {
                 hour = ""
@@ -331,7 +376,7 @@ private fun TimeScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        if (uiState.recordTimes.recordTask == null) {
+        if (!uiState.isSetTask) {
             OutlinedButton(
                 onClick = onClickTask,
                 shape = RoundedCornerShape(12.dp),

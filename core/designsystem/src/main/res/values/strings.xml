@@ -23,4 +23,7 @@
     <string name="add_daily_message">%1$s 목표시간 설정</string>
     <string name="set_timer_time_title">타이머 시간 설정</string>
     <string name="set_timer_time_message">종료예정 : %1$s</string>
+    <string name="daily_task_check_title">Task와 Daily를 확인해주세요.</string>
+    <string name="daily_check_title">Daily를 생성해주세요.</string>
+    <string name="task_check_title">Task를 선택해주세요.</string>
 </resources>

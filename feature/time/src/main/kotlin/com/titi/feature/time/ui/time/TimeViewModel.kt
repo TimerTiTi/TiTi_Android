@@ -16,6 +16,7 @@ import com.titi.domain.color.usecase.GetColorUseCase
 import com.titi.domain.color.usecase.UpdateColorUseCase
 import com.titi.domain.time.model.RecordTimes
 import com.titi.domain.time.usecase.GetRecordTimesFlowUseCase
+import com.titi.domain.time.usecase.UpdateMeasuringStateUseCase
 import com.titi.domain.time.usecase.UpdateRecordingModeUseCase
 import com.titi.domain.time.usecase.UpdateSavedStopWatchTimeUseCase
 import com.titi.domain.time.usecase.UpdateSavedTimerTimeUseCase
@@ -33,6 +34,7 @@ data class TimeUiState(
     val daily: Daily? = null,
 ) : MavericksState {
     val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day?.toString())
+    val isSetTask: Boolean = recordTimes.recordTask != null
 }
 
 class TimeViewModel @AssistedInject constructor(
@@ -45,7 +47,8 @@ class TimeViewModel @AssistedInject constructor(
     private val addDailyUseCase: AddDailyUseCase,
     getCurrentDailyUseCase: GetCurrentDailyUseCase,
     private val updateSavedTimerTimeUseCase: UpdateSavedTimerTimeUseCase,
-    private val updateSavedStopWatchTimeUseCase: UpdateSavedStopWatchTimeUseCase
+    private val updateSavedStopWatchTimeUseCase: UpdateSavedStopWatchTimeUseCase,
+    private val updateMeasuringStateUseCase: UpdateMeasuringStateUseCase
 ) : MavericksViewModel<TimeUiState>(initialState) {
 
     init {
@@ -131,6 +134,12 @@ class TimeViewModel @AssistedInject constructor(
     fun updateSavedStopWatchTime(recordTimes: RecordTimes) {
         viewModelScope.launch {
             updateSavedStopWatchTimeUseCase(recordTimes)
+        }
+    }
+
+    fun updateMeasuringState(recordTimes: RecordTimes) {
+        viewModelScope.launch {
+            updateMeasuringStateUseCase(recordTimes)
         }
     }
 

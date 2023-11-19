@@ -5,7 +5,11 @@
 
         <activity
             android:name=".ui.color.ColorActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.measure.MeasuringActivity"
+            android:exported="false" />
 
     </application>
 </manifest>
