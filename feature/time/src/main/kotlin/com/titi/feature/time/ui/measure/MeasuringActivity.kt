@@ -100,7 +100,14 @@ fun MeasuringScreen(
         onSleepClick = {
             viewModel.updateSleepMode()
         },
-        onFinishClick = onFinishClick
+        onFinishClick = {
+            viewModel.stopMeasuring(
+                recordTimes = recordTimes,
+                measureTime = uiState.measureTime,
+                endTime = LocalDateTime.now(),
+            )
+            onFinishClick()
+        }
     )
 }
 

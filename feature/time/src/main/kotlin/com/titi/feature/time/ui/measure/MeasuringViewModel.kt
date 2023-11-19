@@ -6,13 +6,17 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.core.util.getMeasureTime
+import com.titi.doamin.daily.usecase.AddMeasureTimeAtDailyUseCase
+import com.titi.domain.task.usecase.AddMeasureTimeAtTaskUseCase
 import com.titi.domain.time.model.RecordTimes
+import com.titi.domain.time.usecase.AddMeasureTimeAtRecordTimesUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDateTime
 
 data class MeasuringUiState(
     val isSleepMode: Boolean = false,
@@ -23,6 +27,9 @@ data class MeasuringUiState(
 
 class MeasuringViewModel @AssistedInject constructor(
     @Assisted initialState: MeasuringUiState,
+    private val addMeasureTimeAtDailyUseCase: AddMeasureTimeAtDailyUseCase,
+    private val addMeasureTimeAtRecordTimesUseCase: AddMeasureTimeAtRecordTimesUseCase,
+    private val addMeasureTimeAtTaskUseCase: AddMeasureTimeAtTaskUseCase
 ) : MavericksViewModel<MeasuringUiState>(initialState) {
 
     init {
@@ -42,9 +49,38 @@ class MeasuringViewModel @AssistedInject constructor(
 
     fun stopMeasuring(
         recordTimes: RecordTimes,
-        measureTime: Long
-    ){
+        measureTime: Long,
+        endTime: LocalDateTime
+    ) {
+        viewModelScope.launch {
+            val taskName = recordTimes.recordTask
+            val startTime = recordTimes.recordStartAt
 
+            if (taskName != null && startTime != null) {
+                launch {
+                    addMeasureTimeAtDailyUseCase(
+                        taskName = taskName,
+                        startTime = startTime,
+                        endTime = endTime,
+                        measureTime = measureTime
+                    )
+                }
+
+                launch {
+                    addMeasureTimeAtRecordTimesUseCase(
+                        recordTimes = recordTimes,
+                        measureTime = measureTime
+                    )
+                }
+
+                launch {
+                    addMeasureTimeAtTaskUseCase(
+                        taskName = taskName,
+                        measureTime = measureTime
+                    )
+                }
+            }
+        }
     }
 
     @AssistedFactory
