@@ -4,9 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -136,23 +133,6 @@ fun MainScreen(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun TiTiNavigationItem(
-    modifier: Modifier = Modifier,
-    selected: Boolean,
-    onClick: () -> Unit,
-    icon: @Composable () -> Unit,
-    label: @Composable () -> Unit,
-) {
-    Column {
-        icon()
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        label()
     }
 }
 
