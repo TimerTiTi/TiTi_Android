@@ -4,6 +4,7 @@ import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.MavericksViewModelComponent
 import com.airbnb.mvrx.hilt.ViewModelKey
 import com.titi.feature.time.ui.color.ColorViewModel
+import com.titi.feature.time.ui.measure.MeasuringViewModel
 import com.titi.feature.time.ui.task.TaskViewModel
 import com.titi.feature.time.ui.time.TimeViewModel
 import dagger.Binds
@@ -29,5 +30,10 @@ internal interface ViewModelModule {
     @IntoMap
     @ViewModelKey(ColorViewModel::class)
     fun colorViewModelFactory(factory: ColorViewModel.Factory): AssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MeasuringViewModel::class)
+    fun measuringViewModelFactory(factory: MeasuringViewModel.Factory): AssistedViewModelFactory<*, *>
 
 }

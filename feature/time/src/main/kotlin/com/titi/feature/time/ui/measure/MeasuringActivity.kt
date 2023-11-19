@@ -14,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,6 +22,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.airbnb.mvrx.compose.collectAsState
+import com.airbnb.mvrx.compose.mavericksActivityViewModel
 import com.titi.core.designsystem.component.TdsIconButton
 import com.titi.core.designsystem.component.TdsText
 import com.titi.core.designsystem.component.TdsTimer
@@ -31,6 +34,7 @@ import com.titi.core.util.addTimeToNow
 import com.titi.designsystem.R
 import com.titi.domain.color.model.TimeColor
 import com.titi.domain.time.model.RecordTimes
+import org.threeten.bp.LocalDateTime
 
 class MeasuringActivity : ComponentActivity() {
 
@@ -53,12 +57,12 @@ class MeasuringActivity : ComponentActivity() {
             TiTiTheme {
                 if (recordTimes != null && backgroundColor != null) {
                     MeasuringScreen(
+                        recordTimes = recordTimes,
                         themeColor = if (recordTimes.recordingMode == 1) {
                             Color(backgroundColor.timerBackgroundColor)
                         } else {
                             Color(backgroundColor.stopwatchBackgroundColor)
                         },
-                        onSleepClick = {},
                         onFinishClick = {
                             finish()
                         }
@@ -79,6 +83,29 @@ class MeasuringActivity : ComponentActivity() {
 
 @Composable
 fun MeasuringScreen(
+    recordTimes: RecordTimes,
+    themeColor: Color,
+    onFinishClick: () -> Unit,
+) {
+    val viewModel : MeasuringViewModel = mavericksActivityViewModel(argsFactory = {recordTimes.recordStartAt ?: LocalDateTime.now().toString()})
+
+    val uiState by viewModel.collectAsState()
+
+    MeasuringScreen(
+        uiState = uiState,
+        recordTimes = recordTimes,
+        themeColor = themeColor,
+        onSleepClick = {
+            viewModel.updateSleepMode()
+        },
+        onFinishClick = onFinishClick
+    )
+}
+
+@Composable
+private fun MeasuringScreen(
+    uiState: MeasuringUiState,
+    recordTimes: RecordTimes,
     themeColor: Color,
     onSleepClick: () -> Unit,
     onFinishClick: () -> Unit,
@@ -101,7 +128,11 @@ fun MeasuringScreen(
             onClick = onSleepClick,
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.non_sleep_icon),
+                painter = if (uiState.isSleepMode) {
+                    painterResource(id = R.drawable.sleep_icon)
+                } else {
+                    painterResource(id = R.drawable.non_sleep_icon)
+                },
                 contentDescription = "sleepIcon",
                 tint = Color.White
             )
@@ -111,7 +142,7 @@ fun MeasuringScreen(
 
         TdsText(
             modifier = Modifier.padding(vertical = 12.dp),
-            text = "국어",
+            text = recordTimes.recordTask,
             textStyle = TdsTextStyle.normalTextStyle,
             fontSize = 18.sp,
             color = Color.White
@@ -119,19 +150,25 @@ fun MeasuringScreen(
 
         Spacer(modifier = Modifier.height(50.dp))
 
-        TdsTimer(
-            outCircularLineColor = TdsColor.redColor,
-            outCircularProgress = 10f,
-            inCircularLineTrackColor = TdsColor.whiteColor,
-            inCircularProgress = 10f,
-            fontColor = TdsColor.whiteColor,
-            themeColor = themeColor,
-            recordingMode = 1,
-            savedSumTime = 1000L,
-            savedTime = 1000L,
-            savedGoalTime = 1000L,
-            finishGoalTime = addTimeToNow(1000L),
-        )
+        with(recordTimes){
+            TdsTimer(
+                outCircularLineColor = themeColor,
+                outCircularProgress =  if (recordingMode == 1) {
+                    ((setTimerTime - savedTimerTime) / setTimerTime).toFloat()
+                } else {
+                    (savedStopWatchTime / 3600).toFloat()
+                },
+                inCircularLineTrackColor = TdsColor.whiteColor,
+                inCircularProgress = 10f,
+                fontColor = TdsColor.whiteColor,
+                themeColor = themeColor,
+                recordingMode = 1,
+                savedSumTime = 1000L,
+                savedTime = 1000L,
+                savedGoalTime = 1000L,
+                finishGoalTime = addTimeToNow(1000L),
+            )
+        }
 
         Spacer(modifier = Modifier.height(50.dp))
 
