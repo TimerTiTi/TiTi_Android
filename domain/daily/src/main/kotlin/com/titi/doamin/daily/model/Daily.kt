@@ -8,11 +8,11 @@ data class Daily(
     val day: LocalDateTime = LocalDateTime.now(),
     val timeLine: List<Int> = IntArray(24) { 0 }.toList(),
     val maxTime: Int = 0,
-    val tasks: Map<String, Int>? = null,
+    val tasks: Map<String, Long>? = null,
     val taskHistories: Map<String, List<TaskHistory>>? = null
 )
 
 data class TaskHistory(
     val startDate: LocalDateTime,
-    val endDate: LocalDateTime? = null,
+    val endDate: LocalDateTime,
 )

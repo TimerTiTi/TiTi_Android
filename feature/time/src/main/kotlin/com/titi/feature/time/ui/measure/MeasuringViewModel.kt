@@ -6,6 +6,7 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.core.util.getMeasureTime
+import com.titi.domain.time.model.RecordTimes
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -37,6 +38,13 @@ class MeasuringViewModel @AssistedInject constructor(
         setState {
             copy(isSleepMode = !isSleepMode)
         }
+    }
+
+    fun stopMeasuring(
+        recordTimes: RecordTimes,
+        measureTime: Long
+    ){
+
     }
 
     @AssistedFactory

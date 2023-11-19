@@ -12,12 +12,12 @@ internal data class DailyEntity(
     val day: String,
     val timeline: List<Int>,
     val maxTime: Int,
-    val tasks: Map<String, Int>?,
+    val tasks: Map<String, Long>?,
     val taskHistories: Map<String, List<TaskHistoryEntity>>?
 )
 
 @JsonClass(generateAdapter = true)
 internal data class TaskHistoryEntity(
     val startDate: String,
-    val endDate: String?,
+    val endDate: String,
 )

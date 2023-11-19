@@ -11,18 +11,18 @@ internal class MapConverter {
         .newParameterizedType(
             Map::class.java,
             String::class.java,
-            Integer::class.java
+            Long::class.java
         )
 
     @TypeConverter
-    fun fromJsonString(json: String): Map<String, Int>? {
-        val adapter = moshi.adapter<Map<String, Int>>(mapType)
+    fun fromJsonString(json: String): Map<String, Long>? {
+        val adapter = moshi.adapter<Map<String, Long>>(mapType)
         return adapter.fromJson(json)
     }
 
     @TypeConverter
-    fun toJsonString(data: Map<String, Int>): String {
-        val adapter = moshi.adapter<Map<String, Int>>(mapType)
+    fun toJsonString(data: Map<String, Long>): String {
+        val adapter = moshi.adapter<Map<String, Long>>(mapType)
         return adapter.toJson(data)
     }
 
