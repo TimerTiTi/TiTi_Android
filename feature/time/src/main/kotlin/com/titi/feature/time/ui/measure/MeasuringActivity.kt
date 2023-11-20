@@ -163,22 +163,57 @@ private fun MeasuringScreen(
             TdsTimer(
                 outCircularLineColor = themeColor,
                 outCircularProgress = if (recordingMode == 1) {
-                    (setTimerTime - savedTimerTime + uiState.measureTime).toFloat() / setTimerTime.toFloat()
+                    if (uiState.isSleepMode) {
+                        ((setTimerTime - savedTimerTime + uiState.measureTime) - (setTimerTime - savedTimerTime + uiState.measureTime) % 60) / setTimerTime.toFloat()
+                    } else {
+                        (setTimerTime - savedTimerTime + uiState.measureTime) / setTimerTime.toFloat()
+                    }
+
                 } else {
-                    ((savedStopWatchTime + uiState.measureTime).toFloat() / 3600f)
+                    if (uiState.isSleepMode) {
+                        ((savedStopWatchTime + uiState.measureTime) - (savedStopWatchTime + uiState.measureTime) % 60) / 3600f
+                    } else {
+                        (savedStopWatchTime + uiState.measureTime) / 3600f
+                    }
                 },
                 inCircularLineTrackColor = TdsColor.whiteColor,
-                inCircularProgress = (savedSumTime + uiState.measureTime).toFloat() / setGoalTime.toFloat(),
+                inCircularProgress = if (uiState.isSleepMode) {
+                    (savedSumTime + uiState.measureTime - (savedSumTime + uiState.measureTime) % 60) / setGoalTime.toFloat()
+                } else {
+                    (savedSumTime + uiState.measureTime) / setGoalTime.toFloat()
+                },
                 fontColor = TdsColor.whiteColor,
                 themeColor = themeColor,
                 recordingMode = recordingMode,
-                savedSumTime = savedSumTime + uiState.measureTime,
-                savedTime = if (recordingMode == 1) {
-                    savedTimerTime - uiState.measureTime
+                savedSumTime = if (uiState.isSleepMode) {
+                    (savedSumTime + uiState.measureTime) - (savedSumTime + uiState.measureTime) % 60
                 } else {
-                    savedStopWatchTime + uiState.measureTime
+                    savedSumTime + uiState.measureTime
                 },
-                savedGoalTime = savedGoalTime - uiState.measureTime,
+                savedTime = if (recordingMode == 1) {
+                    if (uiState.isSleepMode) {
+                        val total = savedTimerTime - uiState.measureTime
+                        if (total % 60 == 0L) {
+                            total
+                        } else {
+                            total - total % 60 + 60
+                        }
+                    } else {
+                        savedTimerTime - uiState.measureTime
+                    }
+                } else {
+                    if (uiState.isSleepMode) {
+                        (savedStopWatchTime + uiState.measureTime) - (savedStopWatchTime + uiState.measureTime) % 60
+                    } else {
+                        savedStopWatchTime + uiState.measureTime
+                    }
+                },
+                savedGoalTime = if (uiState.isSleepMode) {
+                    val total = savedGoalTime - uiState.measureTime
+                    total - total % 60
+                } else {
+                    savedGoalTime - uiState.measureTime
+                },
                 finishGoalTime = addTimeToNow(savedGoalTime - uiState.measureTime),
             )
         }
