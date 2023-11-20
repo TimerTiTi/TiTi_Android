@@ -419,16 +419,16 @@ private fun TimeScreen(
             TdsTimer(
                 outCircularLineColor = textColor.getColor(),
                 outCircularProgress = if (recordingMode == 1) {
-                    ((setTimerTime - savedTimerTime) / setTimerTime).toFloat()
+                    (setTimerTime - savedTimerTime).toFloat() / setTimerTime.toFloat()
                 } else {
-                    (savedStopWatchTime / 3600).toFloat()
+                    savedStopWatchTime.toFloat() / 3600f
                 },
                 inCircularLineTrackColor = if (textColor == TdsColor.whiteColor) {
                     TdsColor.blackColor
                 } else {
                     TdsColor.whiteColor
                 },
-                inCircularProgress = (savedSumTime / setGoalTime).toFloat(),
+                inCircularProgress = savedSumTime.toFloat() / setGoalTime.toFloat(),
                 fontColor = textColor,
                 recordingMode = recordingMode,
                 savedSumTime = savedSumTime,
