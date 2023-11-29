@@ -12,7 +12,7 @@ internal interface DailyDao {
     @Query("SELECT * FROM dailies WHERE date(day) = date('now', 'localtime') ORDER BY id DESC LIMIT 1")
     suspend fun getCurrentDaily(): DailyEntity?
 
-    @Query("SELECT * FROM dailies WHERE date(day) = date('now', 'localtime')  ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM dailies ORDER BY id DESC LIMIT 1")
     fun getCurrentDailyFlow(): Flow<DailyEntity?>
 
     @Upsert
