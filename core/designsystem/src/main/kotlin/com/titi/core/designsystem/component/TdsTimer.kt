@@ -3,6 +3,7 @@ package com.titi.core.designsystem.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -41,7 +42,7 @@ fun TdsTimer(
 ) {
     BoxWithConstraints(modifier = modifier) {
         val minSize = min(maxHeight, maxWidth)
-        val outCircularSize = minSize * 0.8
+        val outCircularSize = minSize * 0.85
         val outCircularTrackWidth = minSize * 0.05
         val inCircularSize = outCircularSize - outCircularTrackWidth * 2
         val inCircularTrackWidth = outCircularTrackWidth * 0.4
@@ -106,7 +107,11 @@ fun TdsTimer(
             Spacer(modifier = Modifier.weight(2f))
 
             TdsText(
-                text = if (recordingMode == 1) stringResource(R.string.timer) else stringResource(R.string.stopwatch),
+                text = if (recordingMode == 1) {
+                    stringResource(R.string.timer)
+                } else {
+                    stringResource(R.string.stopwatch)
+                },
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = mainTextSize.sp,
                 color = fontColor
@@ -114,13 +119,25 @@ fun TdsTimer(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            TdsTimeCounter(
+            Row(
                 modifier = Modifier.width(contentSize * 0.9),
-                tdsTime = savedTime.getTdsTime(),
-                color = themeColor ?: fontColor.getColor(),
-                textStyle = TdsTextStyle.normalTextStyle,
-                fontSize = mainTimerTextSize.sp
-            )
+            ) {
+                if (savedTime < 0) {
+                    TdsText(
+                        text = "+",
+                        textStyle = TdsTextStyle.normalTextStyle,
+                        fontSize = mainTimerTextSize.sp,
+                        color = themeColor ?: fontColor.getColor()
+                    )
+                }
+
+                TdsTimeCounter(
+                    tdsTime = savedTime.getTdsTime(),
+                    color = themeColor ?: fontColor.getColor(),
+                    textStyle = TdsTextStyle.normalTextStyle,
+                    fontSize = mainTimerTextSize.sp
+                )
+            }
 
             Spacer(modifier = Modifier.weight(2f))
 
@@ -133,13 +150,23 @@ fun TdsTimer(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            TdsTimeCounter(
-                modifier = Modifier.width(contentSize * 0.45),
-                tdsTime = savedGoalTime.getTdsTime(),
-                color = fontColor.getColor(),
-                textStyle = TdsTextStyle.normalTextStyle,
-                fontSize = subTimerTextSize.sp
-            )
+            Row(modifier = Modifier.width(contentSize * 0.45)) {
+                if (savedGoalTime < 0) {
+                    TdsText(
+                        text = "+",
+                        textStyle = TdsTextStyle.normalTextStyle,
+                        fontSize = subTimerTextSize.sp,
+                        color = fontColor.getColor()
+                    )
+                }
+                TdsTimeCounter(
+                    tdsTime = savedGoalTime.getTdsTime(),
+                    color = fontColor.getColor(),
+                    textStyle = TdsTextStyle.normalTextStyle,
+                    fontSize = subTimerTextSize.sp
+                )
+            }
+
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -170,8 +197,8 @@ private fun TdsTimerPreview() {
             fontColor = TdsColor.textColor,
             recordingMode = 1,
             savedSumTime = 11938,
-            savedTime = 50,
-            savedGoalTime = 2462,
+            savedTime = -50,
+            savedGoalTime = -1000,
             finishGoalTime = "11:57",
         )
     }
