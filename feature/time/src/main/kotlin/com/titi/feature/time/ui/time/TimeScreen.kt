@@ -455,7 +455,11 @@ private fun TimeScreen(
                 Icon(
                     painter = painterResource(id = R.drawable.add_record_icon),
                     contentDescription = "addRecord",
-                    tint = Color.Unspecified
+                    tint = if(uiState.isDailyAfter6AM) {
+                        Color.Unspecified
+                    }else {
+                        TdsColor.redColor.getColor()
+                    }
                 )
             }
 
