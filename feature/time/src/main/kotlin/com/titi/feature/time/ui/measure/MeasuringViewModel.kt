@@ -1,5 +1,6 @@
 package com.titi.feature.time.ui.measure
 
+import android.util.Log
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
@@ -7,6 +8,8 @@ import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.core.util.getMeasureTime
 import com.titi.doamin.daily.usecase.AddMeasureTimeAtDailyUseCase
+import com.titi.domain.sleep.GetSleepModeFlowUseCase
+import com.titi.domain.sleep.SetSleepModeUseCase
 import com.titi.domain.task.usecase.AddMeasureTimeAtTaskUseCase
 import com.titi.domain.time.model.RecordTimes
 import com.titi.domain.time.usecase.AddMeasureTimeAtRecordTimesUseCase
@@ -15,6 +18,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 
@@ -29,7 +33,9 @@ class MeasuringViewModel @AssistedInject constructor(
     @Assisted initialState: MeasuringUiState,
     private val addMeasureTimeAtDailyUseCase: AddMeasureTimeAtDailyUseCase,
     private val addMeasureTimeAtRecordTimesUseCase: AddMeasureTimeAtRecordTimesUseCase,
-    private val addMeasureTimeAtTaskUseCase: AddMeasureTimeAtTaskUseCase
+    private val addMeasureTimeAtTaskUseCase: AddMeasureTimeAtTaskUseCase,
+    getSleepModeFlowUseCase: GetSleepModeFlowUseCase,
+    private val setSleepModeUseCase: SetSleepModeUseCase
 ) : MavericksViewModel<MeasuringUiState>(initialState) {
 
     init {
@@ -39,11 +45,17 @@ class MeasuringViewModel @AssistedInject constructor(
                 setState { copy(measureTime = measureTime + 1) }
             }
         }
+
+        getSleepModeFlowUseCase().catch {
+            Log.e("TimeViewModel", it.message.toString())
+        }.setOnEach {
+            copy(isSleepMode = it)
+        }
     }
 
-    fun updateSleepMode() {
-        setState {
-            copy(isSleepMode = !isSleepMode)
+    fun setSleepMode(isSleepMode: Boolean) {
+        viewModelScope.launch {
+            setSleepModeUseCase(isSleepMode)
         }
     }
 

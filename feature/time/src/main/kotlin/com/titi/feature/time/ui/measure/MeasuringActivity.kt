@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.mvrx.compose.collectAsState
@@ -87,9 +86,11 @@ fun MeasuringScreen(
     themeColor: Color,
     onFinishClick: () -> Unit,
 ) {
-    val viewModel: MeasuringViewModel = mavericksActivityViewModel(argsFactory = {
-        recordTimes.recordStartAt ?: LocalDateTime.now().toString()
-    })
+    val viewModel: MeasuringViewModel = mavericksActivityViewModel(
+        argsFactory = {
+            recordTimes.recordStartAt ?: LocalDateTime.now().toString()
+        }
+    )
 
     val uiState by viewModel.collectAsState()
 
@@ -98,7 +99,7 @@ fun MeasuringScreen(
         recordTimes = recordTimes,
         themeColor = themeColor,
         onSleepClick = {
-            viewModel.updateSleepMode()
+            viewModel.setSleepMode(!uiState.isSleepMode)
         },
         onFinishClick = {
             viewModel.stopMeasuring(
@@ -234,13 +235,5 @@ private fun MeasuringScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         Spacer(modifier = Modifier.height(80.dp))
-    }
-}
-
-@Preview
-@Composable
-private fun MeasuringScreenPreview() {
-    TiTiTheme {
-
     }
 }
