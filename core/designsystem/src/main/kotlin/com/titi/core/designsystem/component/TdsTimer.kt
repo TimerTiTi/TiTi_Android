@@ -57,7 +57,11 @@ fun TdsTimer(
                 .size(outCircularSize)
                 .align(Alignment.Center),
             progress = outCircularProgress,
-            color = outCircularLineColor,
+            color = if (savedTime < 60 && recordingMode == 1) {
+                TdsColor.redColor.getColor()
+            } else {
+                outCircularLineColor
+            },
             trackColor = TdsColor.lightGrayColor.getColor(),
             strokeWidth = outCircularTrackWidth,
             strokeCap = StrokeCap.Round
@@ -166,7 +170,7 @@ private fun TdsTimerPreview() {
             fontColor = TdsColor.textColor,
             recordingMode = 1,
             savedSumTime = 11938,
-            savedTime = 690,
+            savedTime = 50,
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
         )
