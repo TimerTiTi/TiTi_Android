@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":data:task:impl"))
     implementation(project(":data:color:impl"))
     implementation(project(":data:daily:impl"))
+    implementation(project(":data:sleep:impl"))
 
     implementation(libs.threetenabp)
     implementation(libs.androidx.compose.navigation)
