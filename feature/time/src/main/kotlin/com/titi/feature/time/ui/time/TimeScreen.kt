@@ -1,6 +1,7 @@
 package com.titi.feature.time.ui.time
 
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -206,7 +207,7 @@ fun TimeScreen(
                 negativeText = stringResource(id = R.string.Cancel),
                 onPositive = {
                     if (setTimerTime > 0) {
-                        viewModel.updateSavedTimerTime(
+                        viewModel.updateSetTimerTime(
                             uiState.recordTimes,
                             setTimerTime
                         )
@@ -419,6 +420,8 @@ private fun TimeScreen(
             TdsTimer(
                 outCircularLineColor = textColor.getColor(),
                 outCircularProgress = if (recordingMode == 1) {
+                    Log.e("ABC", setTimerTime.toString())
+                    Log.e("ABC", savedTimerTime.toString())
                     (setTimerTime - savedTimerTime).toFloat() / setTimerTime.toFloat()
                 } else {
                     savedStopWatchTime.toFloat() / 3600f

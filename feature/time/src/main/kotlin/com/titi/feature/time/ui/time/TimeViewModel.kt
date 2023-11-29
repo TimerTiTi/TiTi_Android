@@ -19,8 +19,8 @@ import com.titi.domain.time.usecase.GetRecordTimesFlowUseCase
 import com.titi.domain.time.usecase.UpdateMeasuringStateUseCase
 import com.titi.domain.time.usecase.UpdateRecordingModeUseCase
 import com.titi.domain.time.usecase.UpdateSavedStopWatchTimeUseCase
-import com.titi.domain.time.usecase.UpdateSavedTimerTimeUseCase
 import com.titi.domain.time.usecase.UpdateSetGoalTimeUseCase
+import com.titi.domain.time.usecase.UpdateSetTimerTimeUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -46,7 +46,7 @@ class TimeViewModel @AssistedInject constructor(
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
     private val addDailyUseCase: AddDailyUseCase,
     getCurrentDailyUseCase: GetCurrentDailyUseCase,
-    private val updateSavedTimerTimeUseCase: UpdateSavedTimerTimeUseCase,
+    private val updateSetTimerTimeUseCase: UpdateSetTimerTimeUseCase,
     private val updateSavedStopWatchTimeUseCase: UpdateSavedStopWatchTimeUseCase,
     private val updateMeasuringStateUseCase: UpdateMeasuringStateUseCase
 ) : MavericksViewModel<TimeUiState>(initialState) {
@@ -119,12 +119,12 @@ class TimeViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateSavedTimerTime(
+    fun updateSetTimerTime(
         recordTimes: RecordTimes,
         timerTime: Long,
     ) {
         viewModelScope.launch {
-            updateSavedTimerTimeUseCase(
+            updateSetTimerTimeUseCase(
                 recordTimes,
                 timerTime
             )
