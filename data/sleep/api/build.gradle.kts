@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.daangn.data.sleep.api"
+    namespace = "com.titi.data.sleep.api"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
