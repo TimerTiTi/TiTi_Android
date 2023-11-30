@@ -42,6 +42,8 @@ dependencies {
     implementation(project(":data:daily:impl"))
     implementation(project(":data:sleep:impl"))
 
+    implementation(project(":domain:time"))
+
     implementation(libs.threetenabp)
     implementation(libs.androidx.compose.navigation)
     implementation(libs.bundles.mavericks)

@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksActivityViewModel
 import com.titi.core.designsystem.component.TdsIconButton
@@ -88,7 +89,7 @@ fun MeasuringScreen(
 ) {
     val viewModel: MeasuringViewModel = mavericksActivityViewModel(
         argsFactory = {
-            recordTimes.recordStartAt ?: LocalDateTime.now().toString()
+            recordTimes.asMavericksArgs()
         }
     )
 

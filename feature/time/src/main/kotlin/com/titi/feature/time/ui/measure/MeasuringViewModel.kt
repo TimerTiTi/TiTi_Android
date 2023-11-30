@@ -1,6 +1,9 @@
 package com.titi.feature.time.ui.measure
 
+import android.os.Build
+import android.os.Bundle
 import android.util.Log
+import com.airbnb.mvrx.Mavericks
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
@@ -26,7 +29,19 @@ data class MeasuringUiState(
     val isSleepMode: Boolean = false,
     val measureTime: Long = 0,
 ) : MavericksState {
-    constructor(startTime: String) : this(measureTime = getMeasureTime(startTime))
+
+    constructor(args: Bundle) : this(
+        measureTime = getMeasureTime(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                args.getParcelable(
+                    Mavericks.KEY_ARG,
+                    RecordTimes::class.java
+                )
+            } else {
+                args.getParcelable(Mavericks.KEY_ARG) as? RecordTimes
+            }?.recordStartAt?.toString() ?: LocalDateTime.now().toString()
+        )
+    )
 }
 
 class MeasuringViewModel @AssistedInject constructor(
@@ -47,7 +62,7 @@ class MeasuringViewModel @AssistedInject constructor(
         }
 
         getSleepModeFlowUseCase().catch {
-            Log.e("TimeViewModel", it.message.toString())
+            Log.e("MeasuringViewModel", it.message.toString())
         }.setOnEach {
             copy(isSleepMode = it)
         }
