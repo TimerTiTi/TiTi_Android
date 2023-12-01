@@ -25,7 +25,7 @@ data class TaskUiState(
 
 class TaskViewModel @AssistedInject constructor(
     @Assisted initialState: TaskUiState,
-    private val getTasksUseCase: GetTasksUseCase,
+    getTasksUseCase: GetTasksUseCase,
     private val addTaskUseCase: AddTaskUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val updateRecordTaskUseCase: UpdateRecordTaskUseCase,

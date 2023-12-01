@@ -1,6 +1,7 @@
 package com.titi.feature.time.ui.time
 
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -80,7 +81,7 @@ fun TimeScreen(
     var setTimerTime by remember { mutableLongStateOf(0) }
 
     val uiState by viewModel.collectAsState()
-
+    Log.e("ABC", uiState.recordTimes.currentTask.toString())
     var showTaskBottomSheet by remember { mutableStateOf(false) }
     var showSelectColorPopUp by remember { mutableStateOf(false) }
     var showAddDailyPopUp by remember { mutableStateOf(false) }
@@ -406,7 +407,7 @@ private fun TimeScreen(
                 contentPadding = PaddingValues(horizontal = 25.dp, vertical = 10.dp)
             ) {
                 TdsText(
-                    text = uiState.recordTimes.recordTask,
+                    text = uiState.recordTimes.currentTask?.taskName,
                     textStyle = TdsTextStyle.normalTextStyle,
                     fontSize = 18.sp,
                     color = textColor

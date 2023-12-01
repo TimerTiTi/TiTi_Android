@@ -10,5 +10,5 @@ data class RecordTimesRepositoryModel(
     val savedTimerTime: Long,
     val savedStopWatchTime: Long,
     val savedGoalTime: Long,
-    val recordTask: String?,
+    val currentTaskRepositoryModel: CurrentTaskRepositoryModel?,
 )

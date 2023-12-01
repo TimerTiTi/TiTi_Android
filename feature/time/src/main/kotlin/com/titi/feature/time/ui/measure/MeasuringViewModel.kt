@@ -81,7 +81,7 @@ class MeasuringViewModel @AssistedInject constructor(
         endTime: ZonedDateTime
     ) {
         viewModelScope.launch {
-            val taskName = recordTimes.recordTask
+            val taskName = recordTimes.currentTask?.taskName
             val startTime = recordTimes.recordStartAt
 
             if (taskName != null && startTime != null) {

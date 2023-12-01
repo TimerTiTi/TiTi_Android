@@ -154,7 +154,7 @@ private fun MeasuringScreen(
 
         TdsText(
             modifier = Modifier.padding(vertical = 12.dp),
-            text = recordTimes.recordTask,
+            text = recordTimes.currentTask?.taskName,
             textStyle = TdsTextStyle.normalTextStyle,
             fontSize = 18.sp,
             color = Color.White

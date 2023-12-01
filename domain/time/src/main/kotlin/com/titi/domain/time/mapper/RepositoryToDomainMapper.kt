@@ -1,6 +1,8 @@
 package com.titi.domain.time.mapper
 
+import com.titi.data.time.api.model.CurrentTaskRepositoryModel
 import com.titi.data.time.api.model.RecordTimesRepositoryModel
+import com.titi.domain.time.model.CurrentTask
 import com.titi.domain.time.model.RecordTimes
 import org.threeten.bp.ZonedDateTime
 
@@ -18,5 +20,11 @@ internal fun RecordTimesRepositoryModel.toDomainModel() = RecordTimes(
     savedTimerTime = savedTimerTime,
     savedStopWatchTime = savedStopWatchTime,
     savedGoalTime = savedGoalTime,
-    recordTask = recordTask
+    currentTask = currentTaskRepositoryModel?.toDomainModel()
+)
+
+internal fun CurrentTaskRepositoryModel.toDomainModel() = CurrentTask(
+    taskName = taskName,
+    taskTargetTime = taskTargetTime,
+    isTaskTargetTimeOn = isTaskTargetTimeOn
 )
