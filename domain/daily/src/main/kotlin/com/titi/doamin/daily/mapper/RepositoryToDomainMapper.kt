@@ -4,12 +4,12 @@ import com.titi.data.daily.api.model.DailyRepositoryModel
 import com.titi.data.daily.api.model.TaskHistoryRepositoryModel
 import com.titi.doamin.daily.model.Daily
 import com.titi.doamin.daily.model.TaskHistory
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZonedDateTime
 
 internal fun DailyRepositoryModel.toDomain() = Daily(
     id = id,
     status = status,
-    day = LocalDateTime.parse(day),
+    day = ZonedDateTime.parse(day),
     timeLine = timeline,
     maxTime = maxTime,
     tasks = tasks,
@@ -17,6 +17,6 @@ internal fun DailyRepositoryModel.toDomain() = Daily(
 )
 
 internal fun TaskHistoryRepositoryModel.toDomain() = TaskHistory(
-    startDate = LocalDateTime.parse(startDate),
-    endDate = LocalDateTime.parse(endDate)
+    startDate = ZonedDateTime.parse(startDate),
+    endDate = ZonedDateTime.parse(endDate)
 )

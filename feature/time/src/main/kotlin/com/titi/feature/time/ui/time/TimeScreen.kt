@@ -58,8 +58,8 @@ import com.titi.feature.time.ui.measure.MeasuringActivity
 import com.titi.feature.time.ui.measure.MeasuringActivity.Companion.BACKGROUND_COLOR_KEY
 import com.titi.feature.time.ui.measure.MeasuringActivity.Companion.RECORD_TIMES_KEY
 import com.titi.feature.time.ui.task.TaskBottomSheet
-import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZonedDateTime
 
 @Composable
 fun TimeScreen(
@@ -294,7 +294,7 @@ fun TimeScreen(
             if (uiState.isDailyAfter6AM && uiState.isSetTask) {
                 val updateRecordTimes = uiState.recordTimes.copy(
                     recording = true,
-                    recordStartAt = LocalDateTime.now(ZoneOffset.UTC)
+                    recordStartAt = ZonedDateTime.now(ZoneOffset.UTC)
                 )
 
                 viewModel.updateMeasuringState(updateRecordTimes)

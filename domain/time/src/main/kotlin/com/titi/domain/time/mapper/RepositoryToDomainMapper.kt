@@ -2,7 +2,7 @@ package com.titi.domain.time.mapper
 
 import com.titi.data.time.api.model.RecordTimesRepositoryModel
 import com.titi.domain.time.model.RecordTimes
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZonedDateTime
 
 internal fun RecordTimesRepositoryModel.toDomainModel() = RecordTimes(
     recordingMode = recordingMode,
@@ -10,7 +10,7 @@ internal fun RecordTimesRepositoryModel.toDomainModel() = RecordTimes(
     recordStartAt = if (recordStartAt.isNullOrBlank()) {
         null
     } else {
-        LocalDateTime.parse(recordStartAt)
+        ZonedDateTime.parse(recordStartAt)
     },
     setGoalTime = setGoalTime,
     setTimerTime = setTimerTime,

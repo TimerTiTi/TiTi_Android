@@ -23,8 +23,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZonedDateTime
 
 data class MeasuringUiState(
     val isSleepMode: Boolean = false,
@@ -40,7 +40,7 @@ data class MeasuringUiState(
                 )
             } else {
                 args.getParcelable(Mavericks.KEY_ARG) as? RecordTimes
-            }?.recordStartAt?.toString() ?: LocalDateTime.now(ZoneOffset.UTC).toString()
+            }?.recordStartAt?.toString() ?: ZonedDateTime.now(ZoneOffset.UTC).toString()
         )
     )
 }
@@ -78,7 +78,7 @@ class MeasuringViewModel @AssistedInject constructor(
     fun stopMeasuring(
         recordTimes: RecordTimes,
         measureTime: Long,
-        endTime: LocalDateTime
+        endTime: ZonedDateTime
     ) {
         viewModelScope.launch {
             val taskName = recordTimes.recordTask

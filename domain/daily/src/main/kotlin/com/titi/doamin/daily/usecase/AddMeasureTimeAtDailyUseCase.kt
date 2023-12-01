@@ -5,7 +5,7 @@ import com.titi.data.daily.api.DailyRepository
 import com.titi.doamin.daily.mapper.toDomain
 import com.titi.doamin.daily.mapper.toRepositoryModel
 import com.titi.doamin.daily.model.TaskHistory
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZonedDateTime
 import javax.inject.Inject
 import kotlin.math.max
 
@@ -15,8 +15,8 @@ class AddMeasureTimeAtDailyUseCase @Inject constructor(
 
     suspend operator fun invoke(
         taskName: String,
-        startTime: LocalDateTime,
-        endTime: LocalDateTime,
+        startTime: ZonedDateTime,
+        endTime: ZonedDateTime,
         measureTime: Long
     ) {
         val recentDaily = dailyRepository.getCurrentDaily()?.toDomain()

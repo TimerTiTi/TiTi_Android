@@ -2,13 +2,13 @@ package com.titi.domain.time.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZonedDateTime
 
 @Parcelize
 data class RecordTimes(
     val recordingMode: Int = 1,
     val recording: Boolean = false,
-    val recordStartAt: LocalDateTime? = null,
+    val recordStartAt: ZonedDateTime? = null,
     val setGoalTime: Long = 7200,
     val setTimerTime: Long = 3600,
     val savedSumTime: Long = 0,
