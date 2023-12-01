@@ -4,6 +4,7 @@
     <string name="timer" translatable="false">타이머</string>
     <string name="stopwatch" translatable="false">스탑워치</string>
     <string name="goal_time" translatable="false">총 남은시간</string>
+    <string name="task_time">Task 남은시간</string>
     <string name="task_set_goal_time" translatable="false">목표시간 설정: %1$s</string>
     <string name="edit" translatable="false">Edit</string>
     <string name="create_task_text" translatable="false">Task를 생성해주세요</string>

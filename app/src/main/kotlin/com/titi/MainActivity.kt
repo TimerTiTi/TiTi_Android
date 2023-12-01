@@ -1,6 +1,5 @@
 package com.titi
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,11 +10,9 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -33,7 +30,6 @@ import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.core.designsystem.component.TdsNavigationBarItem
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TiTiTheme
-import com.titi.feature.time.ui.measure.MeasuringActivity
 import com.titi.feature.time.ui.time.TimeScreen
 import com.titi.navigation.Screen
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,26 +73,26 @@ fun MainScreen(
 
     val uiState by viewModel.collectAsState()
 
-    val context = LocalContext.current
-    LaunchedEffect(uiState.recordTimes.recording) {
-        if (uiState.recordTimes.recording) {
-            context.startActivity(
-                Intent(
-                    context,
-                    MeasuringActivity::class.java
-                ).apply {
-                    putExtra(
-                        MeasuringActivity.RECORD_TIMES_KEY,
-                        uiState.recordTimes
-                    )
-                    putExtra(
-                        MeasuringActivity.BACKGROUND_COLOR_KEY,
-                        uiState.timeColor
-                    )
-                }
-            )
-        }
-    }
+//    val context = LocalContext.current
+//    LaunchedEffect(uiState.recordTimes.recording) {
+//        if (uiState.recordTimes.recording) {
+//            context.startActivity(
+//                Intent(
+//                    context,
+//                    MeasuringActivity::class.java
+//                ).apply {
+//                    putExtra(
+//                        MeasuringActivity.RECORD_TIMES_KEY,
+//                        uiState.recordTimes
+//                    )
+//                    putExtra(
+//                        MeasuringActivity.BACKGROUND_COLOR_KEY,
+//                        uiState.timeColor
+//                    )
+//                }
+//            )
+//        }
+//    }
 
     Scaffold(
         bottomBar = {

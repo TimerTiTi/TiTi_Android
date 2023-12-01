@@ -39,6 +39,7 @@ fun TdsTimer(
     savedTime: Long,
     savedGoalTime: Long,
     finishGoalTime: String,
+    isTaskTargetTimeOn: Boolean
 ) {
     BoxWithConstraints(modifier = modifier) {
         val minSize = min(maxHeight, maxWidth)
@@ -142,7 +143,11 @@ fun TdsTimer(
             Spacer(modifier = Modifier.weight(2f))
 
             TdsText(
-                text = stringResource(R.string.goal_time),
+                text = if (isTaskTargetTimeOn) {
+                    stringResource(id = R.string.task_time)
+                } else {
+                    stringResource(id = R.string.goal_time)
+                },
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = subTextSize.sp,
                 color = fontColor
@@ -200,6 +205,7 @@ private fun TdsTimerPreview() {
             savedTime = -50,
             savedGoalTime = -1000,
             finishGoalTime = "11:57",
+            isTaskTargetTimeOn = false
         )
     }
 }
@@ -222,6 +228,7 @@ private fun TdsTimerPreview1() {
             savedTime = 590,
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
+            isTaskTargetTimeOn = false
         )
     }
 }
@@ -244,6 +251,7 @@ private fun TdsTimerPreview2() {
             savedTime = 590,
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
+            isTaskTargetTimeOn = false
         )
     }
 }
@@ -266,6 +274,7 @@ private fun TdsTimerPreview3() {
             savedTime = 690,
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
+            isTaskTargetTimeOn = false
         )
     }
 }

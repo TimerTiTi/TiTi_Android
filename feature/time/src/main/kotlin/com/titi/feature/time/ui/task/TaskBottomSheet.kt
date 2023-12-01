@@ -145,7 +145,7 @@ fun TaskBottomSheet(
                 showAddTaskDialog = true
             },
             onClickTask = {
-                viewModel.updateRecordTask(it.taskName)
+                viewModel.updateRecordTask(it)
                 onCloseBottomSheet()
             },
             onClickTargetTimeEditButton = {

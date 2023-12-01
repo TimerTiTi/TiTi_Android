@@ -7,21 +7,15 @@ import com.titi.domain.time.model.CurrentTask
 import com.titi.domain.time.model.RecordTimes
 import javax.inject.Inject
 
-class UpdateRecordTaskUseCase @Inject constructor(
+class UpdateCurrentTaskUseCase @Inject constructor(
     private val recordTimesRepository: RecordTimesRepository
 ) {
 
-    suspend operator fun invoke(recordTask: String) {
+    suspend operator fun invoke(currentTask: CurrentTask) {
         val recordTimes = recordTimesRepository.getRecordTimes()?.toDomainModel() ?: RecordTimes()
 
-        val updateRecordTimes = if (recordTimes.currentTask == null) {
-            recordTimes.copy(currentTask = CurrentTask(taskName = recordTask))
-        } else {
-            recordTimes.copy(currentTask = recordTimes.currentTask.copy(taskName = recordTask))
-        }
-
         recordTimesRepository.setRecordTimes(
-            updateRecordTimes.toRepositoryModel()
+            recordTimes.copy(currentTask = currentTask).toRepositoryModel()
         )
     }
 

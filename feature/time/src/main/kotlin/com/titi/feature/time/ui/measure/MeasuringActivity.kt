@@ -218,6 +218,7 @@ private fun MeasuringScreen(
                     savedGoalTime - uiState.measureTime
                 },
                 finishGoalTime = addTimeToNow(savedGoalTime - uiState.measureTime),
+                isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false
             )
         }
 
