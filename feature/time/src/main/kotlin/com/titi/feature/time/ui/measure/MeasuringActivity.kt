@@ -1,7 +1,10 @@
 package com.titi.feature.time.ui.measure
 
+import android.app.Activity
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -14,10 +17,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -95,6 +101,20 @@ fun MeasuringScreen(
     )
 
     val uiState by viewModel.collectAsState()
+
+    val context = LocalContext.current
+    DisposableEffect(Unit) {
+        onDispose {
+            setBrightness(context, isSleepMode = false)
+        }
+    }
+
+    LaunchedEffect(uiState.isSleepMode) {
+        setBrightness(
+            context = context,
+            isSleepMode = uiState.isSleepMode
+        )
+    }
 
     MeasuringScreen(
         uiState = uiState,
@@ -239,4 +259,12 @@ private fun MeasuringScreen(
 
         Spacer(modifier = Modifier.height(80.dp))
     }
+}
+
+fun setBrightness(context: Context, isSleepMode: Boolean) {
+    val activity = context as? Activity ?: return
+    val layoutParams: WindowManager.LayoutParams = activity.window.attributes
+    layoutParams.screenBrightness =
+        if (isSleepMode) 5f / 255 else WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
+    activity.window.attributes = layoutParams
 }
