@@ -24,6 +24,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneOffset
 
 data class MeasuringUiState(
     val isSleepMode: Boolean = false,
@@ -39,7 +40,7 @@ data class MeasuringUiState(
                 )
             } else {
                 args.getParcelable(Mavericks.KEY_ARG) as? RecordTimes
-            }?.recordStartAt?.toString() ?: LocalDateTime.now().toString()
+            }?.recordStartAt?.toString() ?: LocalDateTime.now(ZoneOffset.UTC).toString()
         )
     )
 }

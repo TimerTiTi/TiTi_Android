@@ -35,6 +35,7 @@ import com.titi.designsystem.R
 import com.titi.domain.color.model.TimeColor
 import com.titi.domain.time.model.RecordTimes
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneOffset
 
 class MeasuringActivity : ComponentActivity() {
 
@@ -106,7 +107,7 @@ fun MeasuringScreen(
             viewModel.stopMeasuring(
                 recordTimes = recordTimes,
                 measureTime = uiState.measureTime,
-                endTime = LocalDateTime.now(),
+                endTime = LocalDateTime.now(ZoneOffset.UTC),
             )
             onFinishClick()
         }
