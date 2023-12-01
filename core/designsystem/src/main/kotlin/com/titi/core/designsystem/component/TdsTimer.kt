@@ -1,5 +1,6 @@
 package com.titi.core.designsystem.component
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -54,11 +55,20 @@ fun TdsTimer(
         val mainTextSize = minSize.value * 0.04
         val mainTimerTextSize = minSize.value * 0.175
 
+        val outCircularAnimateProgress = animateFloatAsState(
+            targetValue = outCircularProgress,
+            label = "outCircularAnimateProgress"
+        )
+        val inCircularAnimateProgress = animateFloatAsState(
+            targetValue = inCircularProgress,
+            label = "inCircularAnimateProgress"
+        )
+
         CircularProgressIndicator(
             modifier = Modifier
                 .size(outCircularSize)
                 .align(Alignment.Center),
-            progress = outCircularProgress,
+            progress = outCircularAnimateProgress.value,
             color = if (savedTime < 60 && recordingMode == 1) {
                 TdsColor.redColor.getColor()
             } else {
@@ -73,7 +83,7 @@ fun TdsTimer(
             modifier = Modifier
                 .size(inCircularSize)
                 .align(Alignment.Center),
-            progress = inCircularProgress,
+            progress = inCircularAnimateProgress.value,
             color = inCircularLineTrackColor.getColor(),
             trackColor = Color.Transparent,
             strokeWidth = inCircularTrackWidth,
