@@ -1,8 +1,10 @@
 package com.titi.core.designsystem.component
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -27,20 +29,22 @@ import com.titi.designsystem.R
 @Composable
 fun TdsTimer(
     modifier: Modifier = Modifier,
-    outCircularLineColor: TdsColor,
+    outCircularLineColor: Color,
     outCircularProgress: Float,
     inCircularLineTrackColor: TdsColor,
     inCircularProgress: Float,
-    fontColor : TdsColor,
+    fontColor: TdsColor,
+    themeColor: Color? = null,
     recordingMode: Int,
     savedSumTime: Long,
     savedTime: Long,
     savedGoalTime: Long,
     finishGoalTime: String,
+    isTaskTargetTimeOn: Boolean
 ) {
     BoxWithConstraints(modifier = modifier) {
         val minSize = min(maxHeight, maxWidth)
-        val outCircularSize = minSize * 0.8
+        val outCircularSize = minSize * 0.85
         val outCircularTrackWidth = minSize * 0.05
         val inCircularSize = outCircularSize - outCircularTrackWidth * 2
         val inCircularTrackWidth = outCircularTrackWidth * 0.4
@@ -51,12 +55,25 @@ fun TdsTimer(
         val mainTextSize = minSize.value * 0.04
         val mainTimerTextSize = minSize.value * 0.175
 
+        val outCircularAnimateProgress = animateFloatAsState(
+            targetValue = outCircularProgress,
+            label = "outCircularAnimateProgress"
+        )
+        val inCircularAnimateProgress = animateFloatAsState(
+            targetValue = inCircularProgress,
+            label = "inCircularAnimateProgress"
+        )
+
         CircularProgressIndicator(
             modifier = Modifier
                 .size(outCircularSize)
                 .align(Alignment.Center),
-            progress = outCircularProgress,
-            color = outCircularLineColor.getColor(),
+            progress = outCircularAnimateProgress.value,
+            color = if (savedTime < 60 && recordingMode == 1) {
+                TdsColor.redColor.getColor()
+            } else {
+                outCircularLineColor
+            },
             trackColor = TdsColor.lightGrayColor.getColor(),
             strokeWidth = outCircularTrackWidth,
             strokeCap = StrokeCap.Round
@@ -66,7 +83,7 @@ fun TdsTimer(
             modifier = Modifier
                 .size(inCircularSize)
                 .align(Alignment.Center),
-            progress = inCircularProgress,
+            progress = inCircularAnimateProgress.value,
             color = inCircularLineTrackColor.getColor(),
             trackColor = Color.Transparent,
             strokeWidth = inCircularTrackWidth,
@@ -93,7 +110,7 @@ fun TdsTimer(
             TdsTimeCounter(
                 modifier = Modifier.width(contentSize * 0.45),
                 tdsTime = savedSumTime.getTdsTime(),
-                color = fontColor,
+                color = fontColor.getColor(),
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = subTimerTextSize.sp
             )
@@ -101,7 +118,11 @@ fun TdsTimer(
             Spacer(modifier = Modifier.weight(2f))
 
             TdsText(
-                text = if (recordingMode == 1) stringResource(R.string.timer) else stringResource(R.string.stopwatch),
+                text = if (recordingMode == 1) {
+                    stringResource(R.string.timer)
+                } else {
+                    stringResource(R.string.stopwatch)
+                },
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = mainTextSize.sp,
                 color = fontColor
@@ -109,18 +130,34 @@ fun TdsTimer(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            TdsTimeCounter(
+            Row(
                 modifier = Modifier.width(contentSize * 0.9),
-                tdsTime = savedTime.getTdsTime(),
-                color = fontColor,
-                textStyle = TdsTextStyle.normalTextStyle,
-                fontSize = mainTimerTextSize.sp
-            )
+            ) {
+                if (savedTime < 0) {
+                    TdsText(
+                        text = "+",
+                        textStyle = TdsTextStyle.normalTextStyle,
+                        fontSize = mainTimerTextSize.sp,
+                        color = themeColor ?: fontColor.getColor()
+                    )
+                }
+
+                TdsTimeCounter(
+                    tdsTime = savedTime.getTdsTime(),
+                    color = themeColor ?: fontColor.getColor(),
+                    textStyle = TdsTextStyle.normalTextStyle,
+                    fontSize = mainTimerTextSize.sp
+                )
+            }
 
             Spacer(modifier = Modifier.weight(2f))
 
             TdsText(
-                text = stringResource(R.string.goal_time),
+                text = if (isTaskTargetTimeOn) {
+                    stringResource(id = R.string.task_time)
+                } else {
+                    stringResource(id = R.string.goal_time)
+                },
                 textStyle = TdsTextStyle.normalTextStyle,
                 fontSize = subTextSize.sp,
                 color = fontColor
@@ -128,13 +165,23 @@ fun TdsTimer(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            TdsTimeCounter(
-                modifier = Modifier.width(contentSize * 0.45),
-                tdsTime = savedGoalTime.getTdsTime(),
-                color = fontColor,
-                textStyle = TdsTextStyle.normalTextStyle,
-                fontSize = subTimerTextSize.sp
-            )
+            Row(modifier = Modifier.width(contentSize * 0.45)) {
+                if (savedGoalTime < 0) {
+                    TdsText(
+                        text = "+",
+                        textStyle = TdsTextStyle.normalTextStyle,
+                        fontSize = subTimerTextSize.sp,
+                        color = fontColor.getColor()
+                    )
+                }
+                TdsTimeCounter(
+                    tdsTime = savedGoalTime.getTdsTime(),
+                    color = fontColor.getColor(),
+                    textStyle = TdsTextStyle.normalTextStyle,
+                    fontSize = subTimerTextSize.sp
+                )
+            }
+
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -158,16 +205,17 @@ private fun TdsTimerPreview() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
-            outCircularLineColor = TdsColor.blueColor,
+            outCircularLineColor = TdsColor.blueColor.getColor(),
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
             fontColor = TdsColor.textColor,
             recordingMode = 1,
             savedSumTime = 11938,
-            savedTime = 690,
-            savedGoalTime = 2462,
+            savedTime = -50,
+            savedGoalTime = -1000,
             finishGoalTime = "11:57",
+            isTaskTargetTimeOn = false
         )
     }
 }
@@ -180,7 +228,7 @@ private fun TdsTimerPreview1() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
-            outCircularLineColor = TdsColor.blueColor,
+            outCircularLineColor = TdsColor.blueColor.getColor(),
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
@@ -190,6 +238,7 @@ private fun TdsTimerPreview1() {
             savedTime = 590,
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
+            isTaskTargetTimeOn = false
         )
     }
 }
@@ -202,7 +251,7 @@ private fun TdsTimerPreview2() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
-            outCircularLineColor = TdsColor.blueColor,
+            outCircularLineColor = TdsColor.blueColor.getColor(),
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
@@ -212,6 +261,7 @@ private fun TdsTimerPreview2() {
             savedTime = 590,
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
+            isTaskTargetTimeOn = false
         )
     }
 }
@@ -224,7 +274,7 @@ private fun TdsTimerPreview3() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
-            outCircularLineColor = TdsColor.blueColor,
+            outCircularLineColor = TdsColor.blueColor.getColor(),
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
             inCircularProgress = 0.3f,
@@ -234,6 +284,7 @@ private fun TdsTimerPreview3() {
             savedTime = 690,
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
+            isTaskTargetTimeOn = false
         )
     }
 }

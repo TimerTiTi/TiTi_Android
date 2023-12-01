@@ -1,6 +1,8 @@
 package com.titi.data.time.impl.mapper
 
+import com.titi.data.time.api.model.CurrentTaskRepositoryModel
 import com.titi.data.time.api.model.RecordTimesRepositoryModel
+import com.titi.data.time.impl.local.model.CurrentTaskEntity
 import com.titi.data.time.impl.local.model.RecordTimesEntity
 
 internal fun RecordTimesEntity.toRepositoryModel() = RecordTimesRepositoryModel(
@@ -13,5 +15,11 @@ internal fun RecordTimesEntity.toRepositoryModel() = RecordTimesRepositoryModel(
     savedTimerTime = savedTimerTime,
     savedStopWatchTime = savedStopWatchTime,
     savedGoalTime = savedGoalTime,
-    recordTask = recordTask,
+    currentTaskRepositoryModel = currentTaskEntity?.toRepositoryModel(),
+)
+
+internal fun CurrentTaskEntity.toRepositoryModel() = CurrentTaskRepositoryModel(
+    taskName = taskName,
+    taskTargetTime = taskTargetTime,
+    isTaskTargetTimeOn = isTaskTargetTimeOn
 )

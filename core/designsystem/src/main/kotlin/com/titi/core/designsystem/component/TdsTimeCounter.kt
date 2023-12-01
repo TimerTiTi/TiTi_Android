@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
@@ -16,7 +17,7 @@ import com.titi.core.designsystem.theme.TiTiTheme
 fun TdsTimeCounter(
     modifier: Modifier = Modifier,
     tdsTime: TdsTime,
-    color: TdsColor,
+    color: Color,
     textStyle: TdsTextStyle,
     fontSize: TextUnit,
 ) {
@@ -70,7 +71,7 @@ private fun TdsTimeCounterPreview() {
                 minutes = 20,
                 seconds = 20,
             ),
-            color = TdsColor.textColor,
+            color = TdsColor.textColor.getColor(),
             textStyle = TdsTextStyle.blackTextStyle,
             fontSize = 40.sp
         )

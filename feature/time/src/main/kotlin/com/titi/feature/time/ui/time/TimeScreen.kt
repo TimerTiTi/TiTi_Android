@@ -55,9 +55,11 @@ import com.titi.feature.time.ui.color.ColorActivity
 import com.titi.feature.time.ui.color.ColorActivity.Companion.RECORDING_MODE_KEY
 import com.titi.feature.time.ui.color.ColorActivity.Companion.TIME_COLOR_KEY
 import com.titi.feature.time.ui.measure.MeasuringActivity
+import com.titi.feature.time.ui.measure.MeasuringActivity.Companion.BACKGROUND_COLOR_KEY
 import com.titi.feature.time.ui.measure.MeasuringActivity.Companion.RECORD_TIMES_KEY
 import com.titi.feature.time.ui.task.TaskBottomSheet
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZonedDateTime
 
 @Composable
 fun TimeScreen(
@@ -205,7 +207,7 @@ fun TimeScreen(
                 negativeText = stringResource(id = R.string.Cancel),
                 onPositive = {
                     if (setTimerTime > 0) {
-                        viewModel.updateSavedTimerTime(
+                        viewModel.updateSetTimerTime(
                             uiState.recordTimes,
                             setTimerTime
                         )
@@ -292,9 +294,11 @@ fun TimeScreen(
             if (uiState.isDailyAfter6AM && uiState.isSetTask) {
                 val updateRecordTimes = uiState.recordTimes.copy(
                     recording = true,
-                    recordStartAt = LocalDateTime.now().toString()
+                    recordStartAt = ZonedDateTime.now(ZoneOffset.UTC)
                 )
+
                 viewModel.updateMeasuringState(updateRecordTimes)
+
                 context.startActivity(
                     Intent(
                         context,
@@ -303,6 +307,10 @@ fun TimeScreen(
                         putExtra(
                             RECORD_TIMES_KEY,
                             updateRecordTimes
+                        )
+                        putExtra(
+                            BACKGROUND_COLOR_KEY,
+                            uiState.timeColor
                         )
                     }
                 )
@@ -398,7 +406,7 @@ private fun TimeScreen(
                 contentPadding = PaddingValues(horizontal = 25.dp, vertical = 10.dp)
             ) {
                 TdsText(
-                    text = uiState.recordTimes.recordTask,
+                    text = uiState.recordTimes.currentTask?.taskName,
                     textStyle = TdsTextStyle.normalTextStyle,
                     fontSize = 18.sp,
                     color = textColor
@@ -410,24 +418,39 @@ private fun TimeScreen(
 
         with(uiState.recordTimes) {
             TdsTimer(
-                outCircularLineColor = textColor,
+                outCircularLineColor = textColor.getColor(),
                 outCircularProgress = if (recordingMode == 1) {
-                    ((setTimerTime - savedTimerTime) / setTimerTime).toFloat()
+                    (setTimerTime - savedTimerTime).toFloat() / setTimerTime.toFloat()
                 } else {
-                    (savedStopWatchTime / 3600).toFloat()
+                    savedStopWatchTime.toFloat() / 3600f
                 },
                 inCircularLineTrackColor = if (textColor == TdsColor.whiteColor) {
                     TdsColor.blackColor
                 } else {
                     TdsColor.whiteColor
                 },
-                inCircularProgress = (savedSumTime / setGoalTime).toFloat(),
+                inCircularProgress = savedSumTime.toFloat() / setGoalTime.toFloat(),
                 fontColor = textColor,
                 recordingMode = recordingMode,
                 savedSumTime = savedSumTime,
                 savedTime = if (recordingMode == 1) savedTimerTime else savedStopWatchTime,
-                savedGoalTime = savedGoalTime,
-                finishGoalTime = addTimeToNow(savedGoalTime),
+                savedGoalTime = currentTask?.let {
+                    if (it.isTaskTargetTimeOn) {
+                        it.taskTargetTime - (uiState.daily?.tasks?.get(it.taskName) ?: 0)
+                    } else {
+                        savedGoalTime
+                    }
+                } ?: savedGoalTime,
+                finishGoalTime = addTimeToNow(
+                    currentTask?.let {
+                        if (it.isTaskTargetTimeOn) {
+                            it.taskTargetTime - (uiState.daily?.tasks?.get(it.taskName) ?: 0)
+                        } else {
+                            savedGoalTime
+                        }
+                    } ?: savedGoalTime
+                ),
+                isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false
             )
         }
 
@@ -445,7 +468,11 @@ private fun TimeScreen(
                 Icon(
                     painter = painterResource(id = R.drawable.add_record_icon),
                     contentDescription = "addRecord",
-                    tint = Color.Unspecified
+                    tint = if (uiState.isDailyAfter6AM) {
+                        Color.Unspecified
+                    } else {
+                        TdsColor.redColor.getColor()
+                    }
                 )
             }
 

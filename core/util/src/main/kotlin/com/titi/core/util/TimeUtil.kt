@@ -1,18 +1,17 @@
 package com.titi.core.util
 
 import org.threeten.bp.Duration
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneId
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 fun getTodayDate(): String {
-    val now = LocalDate.now(ZoneId.systemDefault())
+    val now = ZonedDateTime.now()
     return now.format(DateTimeFormatter.ofPattern("uuuu.MM.dd"))
 }
 
 fun addTimeToNow(time: Long): String {
-    val now = LocalDateTime.now(ZoneId.systemDefault())
+    val now = ZonedDateTime.now()
     val interval = Duration.ofSeconds(time)
     return now.plus(interval).format(DateTimeFormatter.ofPattern("hh.mm a"))
 }
@@ -29,13 +28,46 @@ fun getTimeToLong(
 }
 
 fun isAfterSixAM(dateTime: String?): Boolean {
-    if (dateTime.isNullOrBlank()) {
-        return false
+    return if (dateTime.isNullOrBlank()) {
+        false
     } else {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
-        val dateTime = LocalDateTime.parse(dateTime, formatter)
-        val todaySixAM = LocalDateTime.now().withHour(6).withMinute(0)
+        val inputDateTime = ZonedDateTime.parse(dateTime)
+        val currentDateTime = ZonedDateTime.now(ZoneOffset.UTC)
 
-        return dateTime.isAfter(todaySixAM)
+        if (inputDateTime.dayOfMonth == currentDateTime.dayOfMonth) {
+            true
+        } else {
+            currentDateTime.hour <= 6
+        }
     }
+}
+
+fun getMeasureTime(dateTime: String): Long {
+    val inputDateTime = ZonedDateTime.parse(dateTime)
+    val currentDateTime = ZonedDateTime.now(ZoneOffset.UTC)
+
+    return Duration.between(inputDateTime, currentDateTime).seconds
+}
+
+fun addTimeLine(
+    startTime: ZonedDateTime,
+    endTime: ZonedDateTime,
+    timeLine: List<Long>
+): List<Long> {
+    var current = startTime
+    val updateTimeLine = timeLine.toMutableList()
+
+    while (current.isBefore(endTime)) {
+        val diffSeconds = if (current.hour == endTime.hour) {
+            Duration.between(current, endTime).seconds
+        } else {
+            val nextTime = current.plusHours(1).withMinute(0).withSecond(0)
+            Duration.between(current, nextTime).seconds
+        }
+
+        updateTimeLine[current.hour] += diffSeconds
+        current = current.plusHours(1).withMinute(0).withSecond(0)
+    }
+
+    return updateTimeLine.toList()
 }

@@ -8,30 +8,40 @@ import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.domain.color.model.TimeColor
 import com.titi.domain.color.usecase.GetColorUseCase
+import com.titi.domain.time.model.RecordTimes
+import com.titi.domain.time.usecase.GetRecordTimesFlowUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.catch
 
 data class MainUiState(
+    val recordTimes: RecordTimes = RecordTimes(),
     val timeColor: TimeColor = TimeColor(),
-    val bottomNavigationPosition : Int = 0,
+    val bottomNavigationPosition: Int = 0,
 ) : MavericksState
 
 class MainViewModel @AssistedInject constructor(
     @Assisted initialState: MainUiState,
-    getColorUseCase: GetColorUseCase
+    getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
+    getColorUseCase: GetColorUseCase,
 ) : MavericksViewModel<MainUiState>(initialState) {
 
     init {
         getColorUseCase().catch {
-            Log.e("TimeViewModel", it.message.toString())
+            Log.e("MainViewModel", it.message.toString())
         }.setOnEach {
             copy(timeColor = it)
         }
+
+        getRecordTimesFlowUseCase().catch {
+            Log.e("MainViewModel", it.message.toString())
+        }.setOnEach {
+            copy(recordTimes = it)
+        }
     }
 
-    fun updateBottomNavigationPosition(position : Int){
+    fun updateBottomNavigationPosition(position: Int) {
         setState {
             copy(bottomNavigationPosition = position)
         }

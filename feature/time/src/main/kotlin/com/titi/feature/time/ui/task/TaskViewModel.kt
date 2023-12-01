@@ -12,7 +12,8 @@ import com.titi.domain.task.usecase.GetTasksUseCase
 import com.titi.domain.task.usecase.UpdateTaskNameUseCase
 import com.titi.domain.task.usecase.UpdateTaskUseCase
 import com.titi.domain.task.usecase.UpdateTasksPositionUseCase
-import com.titi.domain.time.usecase.UpdateRecordTaskUseCase
+import com.titi.domain.time.model.CurrentTask
+import com.titi.domain.time.usecase.UpdateCurrentTaskUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -25,10 +26,10 @@ data class TaskUiState(
 
 class TaskViewModel @AssistedInject constructor(
     @Assisted initialState: TaskUiState,
-    private val getTasksUseCase: GetTasksUseCase,
+    getTasksUseCase: GetTasksUseCase,
     private val addTaskUseCase: AddTaskUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
-    private val updateRecordTaskUseCase: UpdateRecordTaskUseCase,
+    private val updateCurrentTaskUseCase: UpdateCurrentTaskUseCase,
     private val updateTaskNameUseCase: UpdateTaskNameUseCase,
     private val updateTasksPositionUseCase: UpdateTasksPositionUseCase,
 ) : MavericksViewModel<TaskUiState>(initialState) {
@@ -54,9 +55,15 @@ class TaskViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateRecordTask(taskName: String) {
+    fun updateRecordTask(task: Task) {
         viewModelScope.launch {
-            updateRecordTaskUseCase(taskName)
+            updateCurrentTaskUseCase(
+                CurrentTask(
+                    taskName = task.taskName,
+                    isTaskTargetTimeOn = task.isTaskTargetTimeOn,
+                    taskTargetTime = task.taskTargetTime
+                )
+            )
         }
     }
 
