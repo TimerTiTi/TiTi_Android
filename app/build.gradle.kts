@@ -1,6 +1,7 @@
 plugins {
     id("titi.android.application.compose")
     id("titi.android.hilt")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -48,4 +49,8 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(libs.bundles.mavericks)
 
+    implementation(libs.androidx.splashscreen)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(project(":core:util"))
 }

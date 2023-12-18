@@ -40,7 +40,7 @@ data class MeasuringUiState(
                 )
             } else {
                 args.getParcelable(Mavericks.KEY_ARG) as? RecordTimes
-            }?.recordStartAt?.toString() ?: ZonedDateTime.now(ZoneOffset.UTC).toString()
+            }?.recordStartAt ?: ZonedDateTime.now(ZoneOffset.UTC).toString()
         )
     )
 }
@@ -82,7 +82,7 @@ class MeasuringViewModel @AssistedInject constructor(
     ) {
         viewModelScope.launch {
             val taskName = recordTimes.currentTask?.taskName
-            val startTime = recordTimes.recordStartAt
+            val startTime =ZonedDateTime.parse(recordTimes.recordStartAt ?: ZonedDateTime.now().toString())
 
             if (taskName != null && startTime != null) {
                 launch {

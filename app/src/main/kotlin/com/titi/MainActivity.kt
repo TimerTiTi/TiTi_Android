@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -17,19 +18,24 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.window.layout.WindowMetricsCalculator
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.core.designsystem.component.TdsNavigationBarItem
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.core.util.fromJson
+import com.titi.core.util.toJson
 import com.titi.feature.time.ui.time.TimeScreen
 import com.titi.navigation.Screen
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,11 +54,61 @@ class MainActivity : ComponentActivity() {
         val heightDp = metrics.bounds.height() /
                 resources.displayMetrics.density
 
+        val splashScreen = installSplashScreen()
+
         setContent {
             TiTiTheme {
-                MainScreen(
+                MainNavGraph(
+                    onReady = {
+                        splashScreen.setKeepOnScreenCondition { false }
+                    },
                     widthDp = widthDp.dp,
                     heightDp = heightDp.dp,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun MainNavGraph(
+    onReady: () -> Unit,
+    widthDp: Dp,
+    heightDp: Dp
+) {
+    val navController = rememberNavController()
+
+    Scaffold {
+        NavHost(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it.calculateBottomPadding()),
+            navController = navController,
+            startDestination = "Splash"
+        ) {
+
+            composable(route = "Splash") {
+                SplashScreen(
+                    onReady = { splashScreenResult ->
+                        onReady()
+                        navController.navigate("Main/${splashScreenResult.toJson()}")
+                    }
+                )
+            }
+
+            composable(
+                route = "Main/{splashScreenResult}",
+                arguments = listOf(navArgument("splashScreenResult") { type = NavType.StringType })
+            ) { backstackEntry ->
+                val splashScreenResult = backstackEntry
+                    .arguments
+                    ?.getString("splashScreenResult")
+                    ?.fromJson<SplashResultState>()
+                    ?: SplashResultState()
+
+                MainScreen(
+                    widthDp = widthDp,
+                    heightDp = heightDp
                 )
             }
         }
@@ -72,27 +128,6 @@ fun MainScreen(
     )
 
     val uiState by viewModel.collectAsState()
-
-//    val context = LocalContext.current
-//    LaunchedEffect(uiState.recordTimes.recording) {
-//        if (uiState.recordTimes.recording) {
-//            context.startActivity(
-//                Intent(
-//                    context,
-//                    MeasuringActivity::class.java
-//                ).apply {
-//                    putExtra(
-//                        MeasuringActivity.RECORD_TIMES_KEY,
-//                        uiState.recordTimes
-//                    )
-//                    putExtra(
-//                        MeasuringActivity.BACKGROUND_COLOR_KEY,
-//                        uiState.timeColor
-//                    )
-//                }
-//            )
-//        }
-//    }
 
     Scaffold(
         bottomBar = {

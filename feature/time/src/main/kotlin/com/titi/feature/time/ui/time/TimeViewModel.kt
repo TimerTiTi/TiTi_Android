@@ -12,7 +12,7 @@ import com.titi.doamin.daily.model.Daily
 import com.titi.doamin.daily.usecase.AddDailyUseCase
 import com.titi.doamin.daily.usecase.GetCurrentDailyUseCase
 import com.titi.domain.color.model.TimeColor
-import com.titi.domain.color.usecase.GetColorUseCase
+import com.titi.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.domain.color.usecase.UpdateColorUseCase
 import com.titi.domain.time.model.RecordTimes
 import com.titi.domain.time.usecase.GetRecordTimesFlowUseCase
@@ -41,7 +41,7 @@ class TimeViewModel @AssistedInject constructor(
     @Assisted initialState: TimeUiState,
     getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
     private val updateRecordingModeUseCase: UpdateRecordingModeUseCase,
-    getColorUseCase: GetColorUseCase,
+    getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
     private val updateColorUseCase: UpdateColorUseCase,
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
     private val addDailyUseCase: AddDailyUseCase,
@@ -62,7 +62,7 @@ class TimeViewModel @AssistedInject constructor(
             copy(recordTimes = it)
         }
 
-        getColorUseCase().catch {
+        getTimeColorFlowUseCase().catch {
             Log.e("TimeViewModel", it.message.toString())
         }.setOnEach {
             copy(timeColor = it)

@@ -7,7 +7,7 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.domain.color.model.TimeColor
-import com.titi.domain.color.usecase.GetColorUseCase
+import com.titi.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.domain.time.model.RecordTimes
 import com.titi.domain.time.usecase.GetRecordTimesFlowUseCase
 import dagger.assisted.Assisted
@@ -24,11 +24,11 @@ data class MainUiState(
 class MainViewModel @AssistedInject constructor(
     @Assisted initialState: MainUiState,
     getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
-    getColorUseCase: GetColorUseCase,
+    getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
 ) : MavericksViewModel<MainUiState>(initialState) {
 
     init {
-        getColorUseCase().catch {
+        getTimeColorFlowUseCase().catch {
             Log.e("MainViewModel", it.message.toString())
         }.setOnEach {
             copy(timeColor = it)

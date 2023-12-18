@@ -294,7 +294,7 @@ fun TimeScreen(
             if (uiState.isDailyAfter6AM && uiState.isSetTask) {
                 val updateRecordTimes = uiState.recordTimes.copy(
                     recording = true,
-                    recordStartAt = ZonedDateTime.now(ZoneOffset.UTC)
+                    recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString()
                 )
 
                 viewModel.updateMeasuringState(updateRecordTimes)
