@@ -1,4 +1,4 @@
-package com.titi.feature.time
+package com.titi.feature.time.content
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

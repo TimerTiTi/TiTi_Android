@@ -1,4 +1,4 @@
-package com.titi.feature.time
+package com.titi.feature.time.content
 
 import android.content.Intent
 import androidx.compose.foundation.background
@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import com.titi.core.designsystem.component.TdsDialog
 import com.titi.core.designsystem.model.TdsDialogInfo
 import com.titi.designsystem.R
-import com.titi.feature.time.content.ColorSelectContent
 import com.titi.feature.time.ui.color.ColorActivity
 
 @Composable
