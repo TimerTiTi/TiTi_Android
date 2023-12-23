@@ -1,4 +1,4 @@
-package com.titi.feature.time
+package com.titi.feature.time.content
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
