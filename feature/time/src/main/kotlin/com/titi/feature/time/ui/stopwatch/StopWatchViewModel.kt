@@ -1,17 +1,12 @@
-package com.titi.feature.time.ui.time
+package com.titi.feature.time.ui.stopwatch
 
 import android.util.Log
-import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
-import com.titi.core.util.getTodayDate
-import com.titi.core.util.isAfterSixAM
-import com.titi.doamin.daily.model.Daily
 import com.titi.doamin.daily.usecase.AddDailyUseCase
 import com.titi.doamin.daily.usecase.GetCurrentDailyUseCase
-import com.titi.domain.color.model.TimeColor
 import com.titi.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.domain.color.usecase.UpdateColorUseCase
 import com.titi.domain.time.model.RecordTimes
@@ -20,42 +15,28 @@ import com.titi.domain.time.usecase.UpdateMeasuringStateUseCase
 import com.titi.domain.time.usecase.UpdateRecordingModeUseCase
 import com.titi.domain.time.usecase.UpdateSavedStopWatchTimeUseCase
 import com.titi.domain.time.usecase.UpdateSetGoalTimeUseCase
-import com.titi.domain.time.usecase.UpdateSetTimerTimeUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-data class TimeUiState(
-    val todayDate: String = "",
-    val recordTimes: RecordTimes = RecordTimes(),
-    val timeColor: TimeColor = TimeColor(),
-    val daily: Daily? = null,
-) : MavericksState {
-    val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day?.toString())
-    val isSetTask: Boolean = recordTimes.currentTask?.taskName != null
-}
-
-class TimeViewModel @AssistedInject constructor(
-    @Assisted initialState: TimeUiState,
+class StopWatchViewModel @AssistedInject constructor(
+    @Assisted initialState: StopWatchUiState,
     getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
-    private val updateRecordingModeUseCase: UpdateRecordingModeUseCase,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
+    getCurrentDailyUseCase: GetCurrentDailyUseCase,
+    private val updateRecordingModeUseCase: UpdateRecordingModeUseCase,
     private val updateColorUseCase: UpdateColorUseCase,
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
     private val addDailyUseCase: AddDailyUseCase,
-    getCurrentDailyUseCase: GetCurrentDailyUseCase,
-    private val updateSetTimerTimeUseCase: UpdateSetTimerTimeUseCase,
+    private val updateMeasuringStateUseCase: UpdateMeasuringStateUseCase,
     private val updateSavedStopWatchTimeUseCase: UpdateSavedStopWatchTimeUseCase,
-    private val updateMeasuringStateUseCase: UpdateMeasuringStateUseCase
-) : MavericksViewModel<TimeUiState>(initialState) {
+) : MavericksViewModel<StopWatchUiState>(initialState) {
+
+    private lateinit var prevStopWatchColor: StopWatchColor
 
     init {
-        setState {
-            copy(todayDate = getTodayDate())
-        }
-
         getRecordTimesFlowUseCase().catch {
             Log.e("TimeViewModel", it.message.toString())
         }.setOnEach {
@@ -75,30 +56,35 @@ class TimeViewModel @AssistedInject constructor(
         }
     }
 
-    private lateinit var prevTimeColor: TimeColor
-
-    fun updateRecordingMode(recordingMode: Int) {
+    fun updateRecordingMode() {
         viewModelScope.launch {
-            updateRecordingModeUseCase(recordingMode)
+            updateRecordingModeUseCase(1)
         }
     }
 
-    fun updateColor(timeColor: TimeColor) {
+    fun updateColor(isTextBlackColor: Boolean = false) {
         viewModelScope.launch {
-            updateColorUseCase(timeColor = timeColor)
+            updateColorUseCase(
+                recordingMode = 1,
+                isTextColorBlack = isTextBlackColor
+            )
         }
     }
 
-    fun savePrevTimeColor(timeColor: TimeColor) {
-        prevTimeColor = timeColor
-    }
-
-    fun rollBackTimeColor() {
+    fun rollBackTimerColor() {
         viewModelScope.launch {
-            if (::prevTimeColor.isInitialized) {
-                updateColorUseCase(timeColor = prevTimeColor)
+            if (::prevStopWatchColor.isInitialized) {
+                updateColorUseCase(
+                    recordingMode = 1,
+                    backgroundColor = prevStopWatchColor.backgroundColor,
+                    isTextColorBlack = prevStopWatchColor.isTextColorBlack
+                )
             }
         }
+    }
+
+    fun savePrevTimerColor(stopWatchColor: StopWatchColor) {
+        prevStopWatchColor = stopWatchColor
     }
 
     fun updateSetGoalTime(
@@ -119,15 +105,9 @@ class TimeViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateSetTimerTime(
-        recordTimes: RecordTimes,
-        timerTime: Long,
-    ) {
+    fun updateMeasuringState(recordTimes: RecordTimes) {
         viewModelScope.launch {
-            updateSetTimerTimeUseCase(
-                recordTimes,
-                timerTime
-            )
+            updateMeasuringStateUseCase(recordTimes)
         }
     }
 
@@ -137,18 +117,12 @@ class TimeViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateMeasuringState(recordTimes: RecordTimes) {
-        viewModelScope.launch {
-            updateMeasuringStateUseCase(recordTimes)
-        }
-    }
-
     @AssistedFactory
-    interface Factory : AssistedViewModelFactory<TimeViewModel, TimeUiState> {
-        override fun create(state: TimeUiState): TimeViewModel
+    interface Factory : AssistedViewModelFactory<StopWatchViewModel, StopWatchUiState> {
+        override fun create(state: StopWatchUiState): StopWatchViewModel
     }
 
     companion object :
-        MavericksViewModelFactory<TimeViewModel, TimeUiState> by hiltMavericksViewModelFactory()
+        MavericksViewModelFactory<StopWatchViewModel, StopWatchUiState> by hiltMavericksViewModelFactory()
 
 }

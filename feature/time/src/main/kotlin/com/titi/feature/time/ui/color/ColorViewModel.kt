@@ -7,7 +7,7 @@ import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.domain.color.usecase.AddBackgroundColorsUseCase
 import com.titi.domain.color.usecase.GetBackgroundColorsUseCase
-import com.titi.domain.color.usecase.UpdateColor2UseCase
+import com.titi.domain.color.usecase.UpdateColorUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -21,7 +21,7 @@ class ColorViewModel @AssistedInject constructor(
     @Assisted initialState: ColorUiState,
     getBackgroundColorsUseCase: GetBackgroundColorsUseCase,
     private val addBackgroundColorsUseCase: AddBackgroundColorsUseCase,
-    private val updateColor2UseCase: UpdateColor2UseCase
+    private val updateColorUseCase: UpdateColorUseCase
 ) : MavericksViewModel<ColorUiState>(initialState) {
 
     init {
@@ -46,7 +46,7 @@ class ColorViewModel @AssistedInject constructor(
         color: Long,
     ) {
         viewModelScope.launch {
-            updateColor2UseCase(
+            updateColorUseCase(
                 recordingMode = recordingMode,
                 backgroundColor = color
             )
