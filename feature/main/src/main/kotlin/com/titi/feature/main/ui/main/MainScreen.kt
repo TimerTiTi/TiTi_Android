@@ -11,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -24,13 +23,16 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.core.designsystem.component.TdsNavigationBarItem
 import com.titi.core.designsystem.theme.TdsColor
-import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.core.ui.TiTiBottomNavigationScreen
+import com.titi.feature.main.ui.splash.SplashResultState
+import com.titi.feature.main.ui.splash.toFeatureTimeModel
+import com.titi.feature.time.TimerScreen
 import com.titi.feature.time.ui.time.TimeScreen
 
 @Composable
 fun MainScreen(
     viewModel: MainViewModel = mavericksViewModel(),
+    splashResultState: SplashResultState,
     widthDp: Dp,
     heightDp: Dp
 ) {
@@ -88,10 +90,10 @@ fun MainScreen(
             startDestination = TiTiBottomNavigationScreen.Timer.route,
         ) {
             composable(TiTiBottomNavigationScreen.Timer.route) {
-                TimeScreen(
-                    recordingMode = 1,
+                TimerScreen(
+                    splashResultState = splashResultState.toFeatureTimeModel(),
                     widthDp = widthDp,
-                    heightDp = heightDp,
+                    heightDp = heightDp
                 )
             }
             composable(TiTiBottomNavigationScreen.StopWatch.route) {
@@ -102,17 +104,6 @@ fun MainScreen(
                 )
             }
         }
-    }
-}
-
-@Preview
-@Composable
-private fun MainScreenPreview() {
-    TiTiTheme {
-        MainScreen(
-            widthDp = 800.dp,
-            heightDp = 1200.dp
-        )
     }
 }
 

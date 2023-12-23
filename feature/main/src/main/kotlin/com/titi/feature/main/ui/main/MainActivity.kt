@@ -23,7 +23,7 @@ import com.titi.core.ui.TiTiDestinations.SPLASH_ROUTE
 import com.titi.core.ui.TiTiNavigationActions
 import com.titi.core.util.fromJson
 import com.titi.core.util.toJson
-import com.titi.feature.main.model.SplashResultState
+import com.titi.feature.main.ui.splash.SplashResultState
 import com.titi.feature.main.ui.splash.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -94,6 +94,7 @@ fun MainNavGraph(
                     ?: SplashResultState()
 
                 MainScreen(
+                    splashResultState = splashScreenResult,
                     widthDp = widthDp,
                     heightDp = heightDp
                 )
