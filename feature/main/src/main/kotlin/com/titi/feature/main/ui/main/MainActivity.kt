@@ -1,4 +1,4 @@
-package com.titi
+package com.titi.feature.main.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
@@ -36,16 +35,16 @@ import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.core.util.fromJson
 import com.titi.core.util.toJson
+import com.titi.feature.main.Screen
+import com.titi.feature.main.model.SplashResultState
+import com.titi.feature.main.ui.splash.SplashScreen
 import com.titi.feature.time.ui.time.TimeScreen
-import com.titi.navigation.Screen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val metrics = WindowMetricsCalculator.getOrCreate()
             .computeCurrentWindowMetrics(this)

@@ -1,4 +1,4 @@
-package com.titi
+package com.titi.feature.main.model
 
 import com.titi.domain.color.model.TimeColor
 import com.titi.domain.time.model.RecordTimes

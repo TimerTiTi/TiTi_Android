@@ -31,11 +31,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:designsystem"))
-
-    implementation(project(":feature:time"))
-
-    implementation(project(":domain:color"))
+    implementation(project(":feature:main"))
 
     implementation(project(":data:time:impl"))
     implementation(project(":data:task:impl"))
@@ -43,14 +39,6 @@ dependencies {
     implementation(project(":data:daily:impl"))
     implementation(project(":data:sleep:impl"))
 
-    implementation(project(":domain:time"))
-
-    implementation(libs.threetenabp)
-    implementation(libs.androidx.compose.navigation)
     implementation(libs.bundles.mavericks)
-
-    implementation(libs.androidx.splashscreen)
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(project(":core:util"))
+    implementation(libs.threetenabp)
 }

@@ -1,9 +1,10 @@
-package com.titi
+package com.titi.feature.main.ui.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.titi.domain.color.usecase.GetTimeColorUseCase
 import com.titi.domain.time.usecase.GetRecordTimesUseCase
+import com.titi.feature.main.model.SplashResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
