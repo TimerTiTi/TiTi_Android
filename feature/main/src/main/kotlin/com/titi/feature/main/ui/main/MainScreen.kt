@@ -26,8 +26,8 @@ import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.ui.TiTiBottomNavigationScreen
 import com.titi.feature.main.ui.splash.SplashResultState
 import com.titi.feature.main.ui.splash.toFeatureTimeModel
-import com.titi.feature.time.TimerScreen
 import com.titi.feature.time.ui.time.TimeScreen
+import com.titi.feature.time.ui.timer.TimerScreen
 
 @Composable
 fun MainScreen(
