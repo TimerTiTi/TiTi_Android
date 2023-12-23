@@ -15,6 +15,7 @@ android {
 dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:util"))
+    implementation(project(":core:ui"))
 
     implementation(project(":domain:color"))
     implementation(project(":domain:time"))

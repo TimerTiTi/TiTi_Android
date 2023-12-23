@@ -3,42 +3,28 @@ package com.titi.feature.main.ui.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import androidx.window.layout.WindowMetricsCalculator
-import com.airbnb.mvrx.compose.collectAsState
-import com.airbnb.mvrx.compose.mavericksViewModel
-import com.titi.core.designsystem.component.TdsNavigationBarItem
-import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.core.ui.TiTiArgs.MAIN_ARGS
+import com.titi.core.ui.TiTiDestinations.MAIN_ROUTE
+import com.titi.core.ui.TiTiDestinations.SPLASH_ROUTE
+import com.titi.core.ui.TiTiNavigationActions
 import com.titi.core.util.fromJson
 import com.titi.core.util.toJson
-import com.titi.feature.main.Screen
 import com.titi.feature.main.model.SplashResultState
 import com.titi.feature.main.ui.splash.SplashScreen
-import com.titi.feature.time.ui.time.TimeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -76,6 +62,9 @@ fun MainNavGraph(
     heightDp: Dp
 ) {
     val navController = rememberNavController()
+    val titiNavigationActions = remember(navController) {
+        TiTiNavigationActions(navController = navController)
+    }
 
     Scaffold {
         NavHost(
@@ -83,25 +72,24 @@ fun MainNavGraph(
                 .fillMaxSize()
                 .padding(it.calculateBottomPadding()),
             navController = navController,
-            startDestination = "Splash"
+            startDestination = SPLASH_ROUTE
         ) {
 
-            composable(route = "Splash") {
+            composable(route = SPLASH_ROUTE) {
                 SplashScreen(
                     onReady = { splashScreenResult ->
                         onReady()
-                        navController.navigate("Main/${splashScreenResult.toJson()}")
+                        titiNavigationActions.navigateToMain(splashScreenResult.toJson())
                     }
                 )
             }
 
             composable(
-                route = "Main/{splashScreenResult}",
-                arguments = listOf(navArgument("splashScreenResult") { type = NavType.StringType })
+                route = MAIN_ROUTE,
             ) { backstackEntry ->
                 val splashScreenResult = backstackEntry
                     .arguments
-                    ?.getString("splashScreenResult")
+                    ?.getString(MAIN_ARGS)
                     ?.fromJson<SplashResultState>()
                     ?: SplashResultState()
 
@@ -113,92 +101,3 @@ fun MainNavGraph(
         }
     }
 }
-
-@Composable
-fun MainScreen(
-    viewModel: MainViewModel = mavericksViewModel(),
-    widthDp: Dp,
-    heightDp: Dp
-) {
-    val navController = rememberNavController()
-    val items = listOf(
-        Screen.Timer,
-        Screen.StopWatch
-    )
-
-    val uiState by viewModel.collectAsState()
-
-    Scaffold(
-        bottomBar = {
-            NavigationBar(
-                containerColor = when (uiState.bottomNavigationPosition) {
-                    0 -> Color(uiState.timeColor.timerBackgroundColor)
-                    1 -> Color(uiState.timeColor.stopwatchBackgroundColor)
-                    else -> TdsColor.backgroundColor.getColor()
-                },
-                tonalElevation = 0.dp
-            ) {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
-
-                items.forEachIndexed() { index, screen ->
-                    TdsNavigationBarItem(
-                        label = { Text(text = screen.route) },
-                        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                        onClick = {
-                            viewModel.updateBottomNavigationPosition(index)
-                            navController.navigate(screen.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        icon = {
-                            Icon(
-                                painter = painterResource(id = screen.drawableResourceId),
-                                contentDescription = screen.route,
-                            )
-                        },
-                    )
-                }
-            }
-        }
-    ) { innerPadding ->
-        NavHost(
-            modifier = Modifier
-                .padding(innerPadding)
-                .background(TdsColor.backgroundColor.getColor()),
-            navController = navController,
-            startDestination = Screen.Timer.route,
-        ) {
-            composable(Screen.Timer.route) {
-                TimeScreen(
-                    recordingMode = 1,
-                    widthDp = widthDp,
-                    heightDp = heightDp,
-                )
-            }
-            composable(Screen.StopWatch.route) {
-                TimeScreen(
-                    recordingMode = 2,
-                    widthDp = widthDp,
-                    heightDp = heightDp,
-                )
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun MainScreenPreview() {
-    TiTiTheme {
-        MainScreen(
-            widthDp = 800.dp,
-            heightDp = 1200.dp
-        )
-    }
-}
-

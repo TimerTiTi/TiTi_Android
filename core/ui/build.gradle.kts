@@ -12,5 +12,7 @@ android {
 }
 
 dependencies {
-    
+    implementation(project(":core:designsystem"))
+
+    implementation(libs.androidx.compose.navigation)
 }
