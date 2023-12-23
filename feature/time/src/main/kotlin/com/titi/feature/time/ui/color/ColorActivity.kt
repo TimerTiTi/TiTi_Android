@@ -1,6 +1,5 @@
 package com.titi.feature.time.ui.color
 
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -52,7 +51,6 @@ import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.designsystem.R
-import com.titi.domain.color.model.TimeColor
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -65,11 +63,6 @@ class ColorActivity : ComponentActivity() {
             TiTiTheme {
                 ColorScreen(
                     recordingMode = intent.getIntExtra(RECORDING_MODE_KEY, 1),
-                    timeColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        intent.getParcelableExtra(TIME_COLOR_KEY, TimeColor::class.java)
-                    } else {
-                        intent.getParcelableExtra(TIME_COLOR_KEY)
-                    } ?: TimeColor(),
                     onClickCancel = { finish() },
                     onClickConfirm = { finish() },
                 )
@@ -79,7 +72,6 @@ class ColorActivity : ComponentActivity() {
 
     companion object {
         const val RECORDING_MODE_KEY = "recordingModeKey"
-        const val TIME_COLOR_KEY = "timeColorKey"
     }
 
 }
@@ -88,7 +80,6 @@ class ColorActivity : ComponentActivity() {
 fun ColorScreen(
     viewModel: ColorViewModel = mavericksViewModel(),
     recordingMode: Int,
-    timeColor: TimeColor,
     onClickCancel: () -> Unit,
     onClickConfirm: () -> Unit,
 ) {
@@ -107,7 +98,6 @@ fun ColorScreen(
                 onPositive = {
                     viewModel.updateColor(
                         recordingMode = recordingMode,
-                        timeColor = timeColor,
                         color = selectedColor
                     )
                     onClickConfirm()
@@ -224,7 +214,6 @@ fun ColorScreen(
                 )
                 viewModel.updateColor(
                     recordingMode = recordingMode,
-                    timeColor = timeColor,
                     color = controller.selectedColor.value.toArgb().toLong()
                 )
                 onClickConfirm()
@@ -319,7 +308,6 @@ private fun ColorScreenPreview() {
     TiTiTheme {
         ColorScreen(
             recordingMode = 1,
-            timeColor = TimeColor(),
             onClickCancel = {},
             onClickConfirm = {},
         )

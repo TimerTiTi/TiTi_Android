@@ -5,10 +5,9 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
-import com.titi.domain.color.model.TimeColor
 import com.titi.domain.color.usecase.AddBackgroundColorsUseCase
 import com.titi.domain.color.usecase.GetBackgroundColorsUseCase
-import com.titi.domain.color.usecase.UpdateColorUseCase
+import com.titi.domain.color.usecase.UpdateColor2UseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -22,7 +21,7 @@ class ColorViewModel @AssistedInject constructor(
     @Assisted initialState: ColorUiState,
     getBackgroundColorsUseCase: GetBackgroundColorsUseCase,
     private val addBackgroundColorsUseCase: AddBackgroundColorsUseCase,
-    private val updateColorUseCase: UpdateColorUseCase
+    private val updateColor2UseCase: UpdateColor2UseCase
 ) : MavericksViewModel<ColorUiState>(initialState) {
 
     init {
@@ -44,17 +43,13 @@ class ColorViewModel @AssistedInject constructor(
 
     fun updateColor(
         recordingMode: Int,
-        timeColor: TimeColor,
         color: Long,
     ) {
         viewModelScope.launch {
-            val updateTimeColor = if (recordingMode == 1) {
-                timeColor.copy(timerBackgroundColor = color)
-            } else {
-                timeColor.copy(stopwatchBackgroundColor = color)
-            }
-
-            updateColorUseCase(updateTimeColor)
+            updateColor2UseCase(
+                recordingMode = recordingMode,
+                backgroundColor = color
+            )
         }
     }
 
