@@ -24,5 +24,4 @@ dependencies {
 
     implementation(libs.threetenabp)
     implementation(libs.balloon)
-    implementation(libs.color.picker)
 }
