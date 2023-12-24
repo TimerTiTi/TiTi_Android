@@ -2,9 +2,11 @@ package com.titi.feature.measure.ui
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -38,6 +40,7 @@ import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.core.ui.TiTiDeepLinkArgs.MEASURE_ARGS
 import com.titi.core.util.addTimeToNow
 import com.titi.core.util.fromJson
+import com.titi.core.util.toJson
 import com.titi.designsystem.R
 import com.titi.domain.time.model.RecordTimes
 import com.titi.feature.measure.SplashResultState
@@ -52,6 +55,8 @@ class MeasuringActivity : ComponentActivity() {
         val splashResultState =
             intent.data?.getQueryParameter(MEASURE_ARGS)?.fromJson<SplashResultState>()
 
+        val resultIntent = Intent()
+
         setContent {
             TiTiTheme {
                 splashResultState?.let {
@@ -62,7 +67,9 @@ class MeasuringActivity : ComponentActivity() {
                         } else {
                             Color(it.timeColor.stopwatchBackgroundColor)
                         },
-                        onFinishClick = {
+                        onFinish = {
+                            resultIntent.putExtra(MEASURE_ARGS, it.toJson())
+                            setResult(RESULT_OK, resultIntent)
                             finish()
                         }
                     )
@@ -77,17 +84,25 @@ class MeasuringActivity : ComponentActivity() {
 fun MeasuringScreen(
     recordTimes: RecordTimes,
     themeColor: Color,
-    onFinishClick: () -> Unit,
+    onFinish: () -> Unit,
 ) {
     val viewModel: MeasuringViewModel = mavericksActivityViewModel(
         argsFactory = {
             recordTimes.asMavericksArgs()
         }
     )
-
     val uiState by viewModel.collectAsState()
-
     val context = LocalContext.current
+
+    BackHandler {
+        viewModel.stopMeasuring(
+            recordTimes = recordTimes,
+            measureTime = uiState.measureTime,
+            endTime = ZonedDateTime.now(ZoneOffset.UTC),
+        )
+        onFinish()
+    }
+
     DisposableEffect(Unit) {
         onDispose {
             setBrightness(context, isSleepMode = false)
@@ -114,7 +129,7 @@ fun MeasuringScreen(
                 measureTime = uiState.measureTime,
                 endTime = ZonedDateTime.now(ZoneOffset.UTC),
             )
-            onFinishClick()
+            onFinish()
         }
     )
 }

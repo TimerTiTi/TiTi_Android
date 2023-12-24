@@ -1,8 +1,12 @@
 package com.titi.feature.main.ui.main
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -18,9 +22,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.WindowMetricsCalculator
 import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.core.ui.TiTiArgs.MAIN_ARGS
+import com.titi.core.ui.TiTiDeepLinkArgs.MEASURE_ARGS
 import com.titi.core.ui.TiTiDestinations.MAIN_ROUTE
 import com.titi.core.ui.TiTiDestinations.SPLASH_ROUTE
 import com.titi.core.ui.TiTiNavigationActions
+import com.titi.core.ui.createMeasureUri
 import com.titi.core.util.fromJson
 import com.titi.core.util.toJson
 import com.titi.feature.main.ui.splash.SplashResultState
@@ -66,6 +72,17 @@ fun MainNavGraph(
         TiTiNavigationActions(navController = navController)
     }
 
+    val measureResult =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                result.data?.let { splashResultState ->
+                    splashResultState.getStringExtra(MEASURE_ARGS)?.let {
+                        titiNavigationActions.navigateToMain(it)
+                    }
+                }
+            }
+        }
+
     Scaffold {
         NavHost(
             modifier = Modifier
@@ -79,7 +96,17 @@ fun MainNavGraph(
                 SplashScreen(
                     onReady = { splashResultState ->
                         onReady()
-                        titiNavigationActions.navigateToMain(splashResultState.toJson())
+
+                        if (splashResultState.recordTimes.recording) {
+                            measureResult.launch(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    createMeasureUri(splashResultState.toJson())
+                                )
+                            )
+                        } else {
+                            titiNavigationActions.navigateToMain(splashResultState.toJson())
+                        }
                     }
                 )
             }
