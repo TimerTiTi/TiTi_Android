@@ -45,7 +45,8 @@ import org.threeten.bp.ZonedDateTime
 fun TimerScreen(
     splashResultState: SplashResultState,
     widthDp: Dp,
-    heightDp: Dp
+    heightDp: Dp,
+    onNavigateToColor : () -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: TimerViewModel = mavericksViewModel(
@@ -82,13 +83,13 @@ fun TimerScreen(
             } else {
                 Color.White
             },
-            recordingMode = 1,
             onNegative = {
                 viewModel.rollBackTimerColor()
             },
             onShowDialog = {
                 showSelectColorDialog = it
             },
+            onClickBackgroundColor = onNavigateToColor,
             onClickTextColor = {
                 viewModel.updateColor(it)
             }

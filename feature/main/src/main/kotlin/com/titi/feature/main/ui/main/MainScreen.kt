@@ -1,5 +1,7 @@
 package com.titi.feature.main.ui.main
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -10,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -24,6 +27,7 @@ import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.core.designsystem.component.TdsNavigationBarItem
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.ui.TiTiBottomNavigationScreen
+import com.titi.feature.color.ui.ColorActivity
 import com.titi.feature.main.ui.splash.SplashResultState
 import com.titi.feature.main.ui.splash.toFeatureTimeModel
 import com.titi.feature.time.ui.stopwatch.StopWatchScreen
@@ -37,6 +41,8 @@ fun MainScreen(
     heightDp: Dp
 ) {
     val navController = rememberNavController()
+    val context = LocalContext.current
+
     val items = listOf(
         TiTiBottomNavigationScreen.Timer,
         TiTiBottomNavigationScreen.StopWatch
@@ -93,17 +99,33 @@ fun MainScreen(
                 TimerScreen(
                     splashResultState = splashResultState.toFeatureTimeModel(),
                     widthDp = widthDp,
-                    heightDp = heightDp
+                    heightDp = heightDp,
+                    onNavigateToColor = {
+                        context.startColorActivity(1)
+                    }
                 )
             }
             composable(TiTiBottomNavigationScreen.StopWatch.route) {
                 StopWatchScreen(
                     splashResultState = splashResultState.toFeatureTimeModel(),
                     widthDp = widthDp,
-                    heightDp = heightDp
+                    heightDp = heightDp,
+                    onNavigateToColor = {
+                        context.startColorActivity(2)
+                    }
                 )
             }
         }
     }
 }
 
+fun Context.startColorActivity(recordingMode: Int) {
+    startActivity(
+        Intent(
+            this,
+            ColorActivity::class.java
+        ).apply {
+            putExtra(ColorActivity.RECORDING_MODE_KEY, recordingMode)
+        }
+    )
+}

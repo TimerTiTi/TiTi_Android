@@ -44,7 +44,8 @@ import org.threeten.bp.ZonedDateTime
 fun StopWatchScreen(
     splashResultState: SplashResultState,
     widthDp: Dp,
-    heightDp: Dp
+    heightDp: Dp,
+    onNavigateToColor: () -> Unit
 ) {
     val context = LocalContext.current
     val viewModel: StopWatchViewModel = mavericksViewModel(
@@ -80,13 +81,13 @@ fun StopWatchScreen(
             } else {
                 Color.White
             },
-            recordingMode = 2,
             onNegative = {
                 viewModel.rollBackTimerColor()
             },
             onShowDialog = {
                 showSelectColorDialog = it
             },
+            onClickBackgroundColor = onNavigateToColor,
             onClickTextColor = {
                 viewModel.updateColor(it)
             }
