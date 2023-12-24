@@ -77,9 +77,9 @@ fun MainNavGraph(
 
             composable(route = SPLASH_ROUTE) {
                 SplashScreen(
-                    onReady = { splashScreenResult ->
+                    onReady = { splashResultState ->
                         onReady()
-                        titiNavigationActions.navigateToMain(splashScreenResult.toJson())
+                        titiNavigationActions.navigateToMain(splashResultState.toJson())
                     }
                 )
             }
@@ -87,14 +87,14 @@ fun MainNavGraph(
             composable(
                 route = MAIN_ROUTE,
             ) { backstackEntry ->
-                val splashScreenResult = backstackEntry
+                val splashResultState = backstackEntry
                     .arguments
                     ?.getString(MAIN_ARGS)
                     ?.fromJson<SplashResultState>()
                     ?: SplashResultState()
 
                 MainScreen(
-                    splashResultState = splashScreenResult,
+                    splashResultState = splashResultState,
                     widthDp = widthDp,
                     heightDp = heightDp
                 )
