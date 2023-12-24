@@ -50,6 +50,7 @@ import com.titi.core.designsystem.model.TdsDialogInfo
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.core.ui.TiTiDeepLinkArgs.COLOR_ARGS
 import com.titi.designsystem.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -59,19 +60,17 @@ class ColorActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val recordingMode = intent.data?.getQueryParameter(COLOR_ARGS)?.toInt() ?: 1
+
         setContent {
             TiTiTheme {
                 ColorScreen(
-                    recordingMode = intent.getIntExtra(RECORDING_MODE_KEY, 1),
+                    recordingMode = recordingMode,
                     onClickCancel = { finish() },
                     onClickConfirm = { finish() },
                 )
             }
         }
-    }
-
-    companion object {
-        const val RECORDING_MODE_KEY = "recordingModeKey"
     }
 
 }

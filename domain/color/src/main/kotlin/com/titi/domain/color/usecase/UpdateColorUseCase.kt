@@ -30,12 +30,12 @@ class UpdateColorUseCase @Inject constructor(
         } else {
             if (backgroundColor != null) {
                 timeColor.copy(
-                    timerBackgroundColor = backgroundColor,
-                    isTimerBlackTextColor = isTextColorBlack,
+                    stopwatchBackgroundColor = backgroundColor,
+                    isStopwatchBlackTextColor = isTextColorBlack,
                 )
             } else {
                 timeColor.copy(
-                    isTimerBlackTextColor = isTextColorBlack
+                    isStopwatchBlackTextColor = isTextColorBlack
                 )
             }
         }
