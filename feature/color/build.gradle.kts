@@ -4,24 +4,18 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.feature.main"
+    namespace = "com.titi.feature.color"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
 }
 
 dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:util"))
-    implementation(project(":core:ui"))
 
     implementation(project(":domain:color"))
-    implementation(project(":domain:time"))
 
-    implementation(project(":feature:time"))
-    implementation(project(":feature:color"))
-
-    implementation(libs.androidx.splashscreen)
+    implementation(libs.color.picker)
 }

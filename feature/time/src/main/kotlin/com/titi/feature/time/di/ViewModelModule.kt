@@ -3,7 +3,6 @@ package com.titi.feature.time.di
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.MavericksViewModelComponent
 import com.airbnb.mvrx.hilt.ViewModelKey
-import com.titi.feature.time.ui.color.ColorViewModel
 import com.titi.feature.time.ui.measure.MeasuringViewModel
 import com.titi.feature.time.ui.stopwatch.StopWatchViewModel
 import com.titi.feature.time.ui.task.TaskViewModel
@@ -21,11 +20,6 @@ internal interface ViewModelModule {
     @IntoMap
     @ViewModelKey(TaskViewModel::class)
     fun taskViewModelFactory(factory: TaskViewModel.Factory): AssistedViewModelFactory<*, *>
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(ColorViewModel::class)
-    fun colorViewModelFactory(factory: ColorViewModel.Factory): AssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap

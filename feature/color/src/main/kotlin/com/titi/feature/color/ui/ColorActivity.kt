@@ -1,4 +1,4 @@
-package com.titi.feature.time.ui.color
+package com.titi.feature.color.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

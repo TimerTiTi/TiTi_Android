@@ -1,6 +1,5 @@
 package com.titi.feature.time.content
 
-import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -13,7 +12,6 @@ import androidx.compose.ui.unit.dp
 import com.titi.core.designsystem.component.TdsDialog
 import com.titi.core.designsystem.model.TdsDialogInfo
 import com.titi.designsystem.R
-import com.titi.feature.time.ui.color.ColorActivity
 
 @Composable
 fun TimeColorDialog(
@@ -41,14 +39,14 @@ fun TimeColorDialog(
             backgroundColor = backgroundColor,
             textColor = textColor,
             onClickBackgroundColor = {
-                context.startActivity(
-                    Intent(
-                        context,
-                        ColorActivity::class.java
-                    ).apply {
-                        putExtra(ColorActivity.RECORDING_MODE_KEY, recordingMode)
-                    }
-                )
+//                context.startActivity(
+//                    Intent(
+//                        context,
+//                        ColorActivity::class.java
+//                    ).apply {
+//                        putExtra(ColorActivity.RECORDING_MODE_KEY, recordingMode)
+//                    }
+//                )
             },
             onClickTextColor = onClickTextColor
         )
