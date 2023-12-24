@@ -17,7 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -48,7 +47,6 @@ fun TimerScreen(
     onNavigateToColor: () -> Unit,
     onNavigateToMeasure: (String) -> Unit,
 ) {
-    val context = LocalContext.current
     val viewModel: TimerViewModel = mavericksViewModel(
         argsFactory = {
             splashResultState.asMavericksArgs()
