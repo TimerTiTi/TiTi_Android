@@ -1,6 +1,5 @@
 package com.titi.feature.time.ui.timer
 
-import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,6 +26,7 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.core.designsystem.component.TdsTimer
 import com.titi.core.designsystem.theme.TdsColor
+import com.titi.core.util.toJson
 import com.titi.designsystem.R
 import com.titi.feature.time.SplashResultState
 import com.titi.feature.time.content.TimeButtonContent
@@ -36,7 +36,6 @@ import com.titi.feature.time.content.TimeDailyDialog
 import com.titi.feature.time.content.TimeHeaderContent
 import com.titi.feature.time.content.TimeTaskContent
 import com.titi.feature.time.content.TimeTimerDialog
-import com.titi.feature.time.ui.measure.MeasuringActivity
 import com.titi.feature.time.ui.task.TaskBottomSheet
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
@@ -46,7 +45,8 @@ fun TimerScreen(
     splashResultState: SplashResultState,
     widthDp: Dp,
     heightDp: Dp,
-    onNavigateToColor : () -> Unit,
+    onNavigateToColor: () -> Unit,
+    onNavigateToMeasure: (String) -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: TimerViewModel = mavericksViewModel(
@@ -172,21 +172,12 @@ fun TimerScreen(
 
                 viewModel.updateMeasuringState(updateRecordTimes)
 
-                context.startActivity(
-                    Intent(
-                        context,
-                        MeasuringActivity::class.java
-                    ).apply {
-                        putExtra(
-                            MeasuringActivity.RECORD_TIMES_KEY,
-                            updateRecordTimes
-                        )
-                        putExtra(
-                            MeasuringActivity.BACKGROUND_COLOR_KEY,
-                            uiState.timeColor
-                        )
-                    }
-                )
+                val splashResultState = SplashResultState(
+                    recordTimes = updateRecordTimes,
+                    timeColor = uiState.timeColor
+                ).toJson()
+
+                onNavigateToMeasure(splashResultState)
             } else {
                 showCheckTaskDailyDialog = true
             }

@@ -1,4 +1,4 @@
-package com.titi.feature.time.ui.measure
+package com.titi.feature.measure.ui
 
 import android.os.Build
 import android.os.Bundle

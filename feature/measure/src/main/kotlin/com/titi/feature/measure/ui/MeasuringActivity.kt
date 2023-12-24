@@ -1,8 +1,7 @@
-package com.titi.feature.time.ui.measure
+package com.titi.feature.measure.ui
 
 import android.app.Activity
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -36,10 +35,12 @@ import com.titi.core.designsystem.component.TdsTimer
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.core.ui.TiTiDeepLinkArgs.MEASURE_ARGS
 import com.titi.core.util.addTimeToNow
+import com.titi.core.util.fromJson
 import com.titi.designsystem.R
-import com.titi.domain.color.model.TimeColor
 import com.titi.domain.time.model.RecordTimes
+import com.titi.feature.measure.SplashResultState
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
@@ -48,42 +49,26 @@ class MeasuringActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val recordTimes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra(RECORD_TIMES_KEY, RecordTimes::class.java)
-        } else {
-            intent.getParcelableExtra(RECORD_TIMES_KEY) as? RecordTimes
-        }
-
-        val backgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra(BACKGROUND_COLOR_KEY, TimeColor::class.java)
-        } else {
-            intent.getParcelableExtra(BACKGROUND_COLOR_KEY) as? TimeColor
-        }
+        val splashResultState =
+            intent.data?.getQueryParameter(MEASURE_ARGS)?.fromJson<SplashResultState>()
 
         setContent {
             TiTiTheme {
-                if (recordTimes != null && backgroundColor != null) {
+                splashResultState?.let {
                     MeasuringScreen(
-                        recordTimes = recordTimes,
-                        themeColor = if (recordTimes.recordingMode == 1) {
-                            Color(backgroundColor.timerBackgroundColor)
+                        recordTimes = it.recordTimes,
+                        themeColor = if (it.recordTimes.recordingMode == 1) {
+                            Color(it.timeColor.timerBackgroundColor)
                         } else {
-                            Color(backgroundColor.stopwatchBackgroundColor)
+                            Color(it.timeColor.stopwatchBackgroundColor)
                         },
                         onFinishClick = {
                             finish()
                         }
                     )
-                } else {
-                    finish()
-                }
+                } ?: finish()
             }
         }
-    }
-
-    companion object {
-        const val RECORD_TIMES_KEY = "recordTimesKey"
-        const val BACKGROUND_COLOR_KEY = "backgroundColorKey"
     }
 
 }

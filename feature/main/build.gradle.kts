@@ -22,6 +22,7 @@ dependencies {
 
     implementation(project(":feature:time"))
     implementation(project(":feature:color"))
+    implementation(project(":feature:measure"))
 
     implementation(libs.androidx.splashscreen)
 }

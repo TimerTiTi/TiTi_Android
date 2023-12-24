@@ -27,6 +27,7 @@ import com.titi.core.designsystem.component.TdsNavigationBarItem
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.ui.TiTiBottomNavigationScreen
 import com.titi.core.ui.createColorUri
+import com.titi.core.ui.createMeasureUri
 import com.titi.feature.main.ui.splash.SplashResultState
 import com.titi.feature.main.ui.splash.toFeatureTimeModel
 import com.titi.feature.time.ui.stopwatch.StopWatchScreen
@@ -106,6 +107,14 @@ fun MainScreen(
                                 createColorUri(1)
                             )
                         )
+                    },
+                    onNavigateToMeasure = {
+                        context.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                createMeasureUri(it)
+                            )
+                        )
                     }
                 )
             }
@@ -119,6 +128,14 @@ fun MainScreen(
                             Intent(
                                 Intent.ACTION_VIEW,
                                 createColorUri(2)
+                            )
+                        )
+                    },
+                    onNavigateToMeasure = {
+                        context.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                createMeasureUri(it)
                             )
                         )
                     }
