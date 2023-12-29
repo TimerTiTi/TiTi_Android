@@ -1,6 +1,7 @@
 package com.titi.core.designsystem.component
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -57,11 +58,13 @@ fun TdsTimer(
 
         val outCircularAnimateProgress = animateFloatAsState(
             targetValue = outCircularProgress,
-            label = "outCircularAnimateProgress"
+            label = "outCircularAnimateProgress",
+            animationSpec = tween(1000)
         )
         val inCircularAnimateProgress = animateFloatAsState(
             targetValue = inCircularProgress,
-            label = "inCircularAnimateProgress"
+            label = "inCircularAnimateProgress",
+            animationSpec = tween(1000)
         )
 
         CircularProgressIndicator(

@@ -98,7 +98,7 @@ fun MeasuringScreen(
         viewModel.stopMeasuring(
             recordTimes = recordTimes,
             measureTime = uiState.measureTime,
-            endTime = ZonedDateTime.now(ZoneOffset.UTC),
+            endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
         )
         onFinish()
     }
@@ -127,7 +127,7 @@ fun MeasuringScreen(
             viewModel.stopMeasuring(
                 recordTimes = recordTimes,
                 measureTime = uiState.measureTime,
-                endTime = ZonedDateTime.now(ZoneOffset.UTC),
+                endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
             )
             onFinish()
         }

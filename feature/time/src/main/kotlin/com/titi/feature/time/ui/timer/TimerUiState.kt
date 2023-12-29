@@ -14,14 +14,15 @@ import com.titi.feature.time.SplashResultState
 
 data class TimerUiState(
     val todayDate: String = getTodayDate(),
-    val recordTimes: RecordTimes = RecordTimes(),
-    val timeColor: TimeColor = TimeColor(),
-    val daily: Daily? = null,
+    val recordTimes: RecordTimes,
+    val timeColor: TimeColor,
+    val daily: Daily?,
 ) : MavericksState {
 
     constructor(args: Bundle) : this(
         recordTimes = getSplashResultStateFromArgs(args).recordTimes,
-        timeColor = getSplashResultStateFromArgs(args).timeColor
+        timeColor = getSplashResultStateFromArgs(args).timeColor,
+        daily = getSplashResultStateFromArgs(args).daily
     )
 
     val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day?.toString())

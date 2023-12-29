@@ -1,15 +1,10 @@
 package com.titi.feature.measure.ui
 
-import android.os.Build
-import android.os.Bundle
 import android.util.Log
-import com.airbnb.mvrx.Mavericks
-import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
-import com.titi.core.util.getMeasureTime
 import com.titi.doamin.daily.usecase.AddMeasureTimeAtDailyUseCase
 import com.titi.domain.sleep.GetSleepModeFlowUseCase
 import com.titi.domain.sleep.SetSleepModeUseCase
@@ -25,25 +20,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
-
-data class MeasuringUiState(
-    val isSleepMode: Boolean = false,
-    val measureTime: Long = 0,
-) : MavericksState {
-
-    constructor(args: Bundle) : this(
-        measureTime = getMeasureTime(
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                args.getParcelable(
-                    Mavericks.KEY_ARG,
-                    RecordTimes::class.java
-                )
-            } else {
-                args.getParcelable(Mavericks.KEY_ARG) as? RecordTimes
-            }?.recordStartAt ?: ZonedDateTime.now(ZoneOffset.UTC).toString()
-        )
-    )
-}
 
 class MeasuringViewModel @AssistedInject constructor(
     @Assisted initialState: MeasuringUiState,
@@ -78,13 +54,14 @@ class MeasuringViewModel @AssistedInject constructor(
     fun stopMeasuring(
         recordTimes: RecordTimes,
         measureTime: Long,
-        endTime: ZonedDateTime
+        endTime: String
     ) {
         viewModelScope.launch {
             val taskName = recordTimes.currentTask?.taskName
-            val startTime =ZonedDateTime.parse(recordTimes.recordStartAt ?: ZonedDateTime.now().toString())
+            val startTime =
+                recordTimes.recordStartAt ?: ZonedDateTime.now(ZoneOffset.UTC).toString()
 
-            if (taskName != null && startTime != null) {
+            if (taskName != null) {
                 launch {
                     addMeasureTimeAtDailyUseCase(
                         taskName = taskName,

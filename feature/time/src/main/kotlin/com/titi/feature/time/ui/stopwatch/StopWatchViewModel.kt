@@ -6,7 +6,7 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.doamin.daily.usecase.AddDailyUseCase
-import com.titi.doamin.daily.usecase.GetCurrentDailyUseCase
+import com.titi.doamin.daily.usecase.GetCurrentDailyFlowUseCase
 import com.titi.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.domain.color.usecase.UpdateColorUseCase
 import com.titi.domain.time.model.RecordTimes
@@ -25,7 +25,7 @@ class StopWatchViewModel @AssistedInject constructor(
     @Assisted initialState: StopWatchUiState,
     getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
-    getCurrentDailyUseCase: GetCurrentDailyUseCase,
+    getCurrentDailyFlowUseCase: GetCurrentDailyFlowUseCase,
     private val updateRecordingModeUseCase: UpdateRecordingModeUseCase,
     private val updateColorUseCase: UpdateColorUseCase,
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
@@ -49,7 +49,7 @@ class StopWatchViewModel @AssistedInject constructor(
             copy(timeColor = it)
         }
 
-        getCurrentDailyUseCase().catch {
+        getCurrentDailyFlowUseCase().catch {
             Log.e("TimeViewModel", it.message.toString())
         }.setOnEach {
             copy(daily = it)

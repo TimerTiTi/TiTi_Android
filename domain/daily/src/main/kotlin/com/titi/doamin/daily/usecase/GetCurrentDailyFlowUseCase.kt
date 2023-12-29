@@ -2,13 +2,16 @@ package com.titi.doamin.daily.usecase
 
 import com.titi.data.daily.api.DailyRepository
 import com.titi.doamin.daily.mapper.toDomain
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetCurrentDailyUseCase @Inject constructor(
+class GetCurrentDailyFlowUseCase @Inject constructor(
     private val dailyRepository: DailyRepository
 ) {
 
-    suspend operator fun invoke() =
-        dailyRepository.getCurrentDaily()?.toDomain()
+    operator fun invoke() =
+        dailyRepository.getCurrentDailyFlow().map {
+            it?.toDomain()
+        }
 
 }

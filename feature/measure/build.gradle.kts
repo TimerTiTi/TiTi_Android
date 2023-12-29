@@ -1,6 +1,7 @@
 plugins {
     id("titi.android.feature")
     id("titi.android.library.compose")
+    id("kotlin-parcelize")
 }
 
 android {

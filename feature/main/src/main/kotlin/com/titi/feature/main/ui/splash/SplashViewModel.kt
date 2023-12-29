@@ -2,6 +2,7 @@ package com.titi.feature.main.ui.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.titi.doamin.daily.usecase.GetCurrentDailyUseCase
 import com.titi.domain.color.usecase.GetTimeColorUseCase
 import com.titi.domain.time.usecase.GetRecordTimesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val getRecordTimesUseCase: GetRecordTimesUseCase,
-    private val getTimeColorUseCase: GetTimeColorUseCase
+    private val getTimeColorUseCase: GetTimeColorUseCase,
+    private val getCurrentDailyUseCase : GetCurrentDailyUseCase,
 ) : ViewModel() {
 
     private val _splashResultState: MutableStateFlow<SplashResultState?> = MutableStateFlow(null)
@@ -30,9 +32,14 @@ class SplashViewModel @Inject constructor(
                 getTimeColorUseCase()
             }
 
+            val dailyResult = async {
+                getCurrentDailyUseCase()
+            }
+
             _splashResultState.value = SplashResultState(
                 recordTimes = recordTimesResult.await(),
-                timeColor = timeColorResult.await()
+                timeColor = timeColorResult.await(),
+                daily = dailyResult.await()
             )
         }
     }
