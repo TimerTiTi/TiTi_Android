@@ -53,7 +53,14 @@ data class StopWatchRecordTimes(
 
 private fun RecordTimes.toUiModel(daily: Daily?) = StopWatchRecordTimes(
     outCircularProgress = savedStopWatchTime / 3600f,
-    inCircularProgress = savedSumTime / setGoalTime.toFloat(),
+    inCircularProgress = currentTask?.let {
+        if (it.isTaskTargetTimeOn) {
+            val taskTime = daily?.tasks?.get(it.taskName) ?: 0
+            taskTime / it.taskTargetTime.toFloat()
+        } else {
+            savedSumTime / setGoalTime.toFloat()
+        }
+    } ?: (savedSumTime / setGoalTime.toFloat()),
     savedSumTime = savedSumTime,
     savedTime = savedStopWatchTime,
     savedGoalTime = currentTask?.let {

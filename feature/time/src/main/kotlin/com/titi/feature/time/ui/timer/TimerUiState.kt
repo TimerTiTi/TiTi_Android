@@ -27,10 +27,10 @@ data class TimerUiState(
 
     val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day?.toString())
     val isSetTask: Boolean = recordTimes.currentTask != null
-    val taskName : String = recordTimes.currentTask?.taskName ?: ""
+    val taskName: String = recordTimes.currentTask?.taskName ?: ""
     val timerColor = timeColor.toUiModel()
     val timerRecordTimes = recordTimes.toUiModel(daily)
-    val isEnableStartRecording : Boolean = isDailyAfter6AM && isSetTask
+    val isEnableStartRecording: Boolean = isDailyAfter6AM && isSetTask
 
 }
 
@@ -66,7 +66,14 @@ data class TimerRecordTimes(
 
 private fun RecordTimes.toUiModel(daily: Daily?) = TimerRecordTimes(
     outCircularProgress = (setTimerTime - savedTimerTime) / setTimerTime.toFloat(),
-    inCircularProgress = savedSumTime / setGoalTime.toFloat(),
+    inCircularProgress = currentTask?.let {
+        if (it.isTaskTargetTimeOn) {
+            val taskTime = daily?.tasks?.get(it.taskName) ?: 0
+            taskTime / it.taskTargetTime.toFloat()
+        } else {
+            savedSumTime / setGoalTime.toFloat()
+        }
+    } ?: (savedSumTime / setGoalTime.toFloat()),
     savedSumTime = savedSumTime,
     savedTime = savedTimerTime,
     savedGoalTime = currentTask?.let {
