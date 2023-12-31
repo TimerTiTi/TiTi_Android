@@ -2,8 +2,8 @@ package com.titi.core.ui
 
 import android.net.Uri
 import androidx.core.net.toUri
-import com.titi.core.ui.TiTiDeepLinkArgs.COLOR_ARGS
-import com.titi.core.ui.TiTiDeepLinkArgs.MEASURE_ARGS
+import com.titi.core.ui.TiTiDeepLinkArgs.COLOR_ARG
+import com.titi.core.ui.TiTiDeepLinkArgs.MEASURE_ARG
 import com.titi.core.ui.TiTiDeepLinkConfigs.HOST_COLOR
 import com.titi.core.ui.TiTiDeepLinkConfigs.HOST_MEASURE
 import com.titi.core.ui.TiTiDeepLinkConfigs.SCHEME
@@ -18,8 +18,8 @@ object TiTiDeepLinkConfigs {
 }
 
 object TiTiDeepLinkArgs {
-    const val COLOR_ARGS = "recordingMode"
-    const val MEASURE_ARGS = "splashResultState"
+    const val COLOR_ARG = "recordingMode"
+    const val MEASURE_ARG = "splashResultState"
 }
 
 enum class TiTiDeepLink(val uri: Uri) {
@@ -28,7 +28,7 @@ enum class TiTiDeepLink(val uri: Uri) {
 }
 
 fun createColorUri(recordingMode: Int) =
-    TiTiDeepLink.COLOR.uri.toString().plus("?$COLOR_ARGS=$recordingMode").toUri()
+    TiTiDeepLink.COLOR.uri.toString().plus("?$COLOR_ARG=$recordingMode").toUri()
 
 fun createMeasureUri(splashResultState: String) =
-    TiTiDeepLink.MEASURE.uri.toString().plus("?$MEASURE_ARGS=$splashResultState").toUri()
+    TiTiDeepLink.MEASURE.uri.toString().plus("?$MEASURE_ARG=$splashResultState").toUri()

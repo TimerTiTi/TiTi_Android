@@ -30,6 +30,7 @@ import com.titi.designsystem.R
 @Composable
 fun TdsTimer(
     modifier: Modifier = Modifier,
+    isFinish: Boolean = false,
     outCircularLineColor: Color,
     outCircularProgress: Float,
     inCircularLineTrackColor: TdsColor,
@@ -133,24 +134,33 @@ fun TdsTimer(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Row(
-                modifier = Modifier.width(contentSize * 0.9),
-            ) {
-                if (savedTime < 0) {
-                    TdsText(
-                        text = "+",
+            if (isFinish) {
+                TdsText(
+                    text = stringResource(id = R.string.finish_text),
+                    textStyle = TdsTextStyle.normalTextStyle,
+                    fontSize = mainTimerTextSize.sp,
+                    color = fontColor.getColor()
+                )
+            } else {
+                Row(
+                    modifier = Modifier.width(contentSize * 0.9),
+                ) {
+                    if (savedTime < 0) {
+                        TdsText(
+                            text = "+",
+                            textStyle = TdsTextStyle.normalTextStyle,
+                            fontSize = mainTimerTextSize.sp,
+                            color = themeColor ?: fontColor.getColor()
+                        )
+                    }
+
+                    TdsTimeCounter(
+                        tdsTime = savedTime.getTdsTime(),
+                        color = themeColor ?: fontColor.getColor(),
                         textStyle = TdsTextStyle.normalTextStyle,
-                        fontSize = mainTimerTextSize.sp,
-                        color = themeColor ?: fontColor.getColor()
+                        fontSize = mainTimerTextSize.sp
                     )
                 }
-
-                TdsTimeCounter(
-                    tdsTime = savedTime.getTdsTime(),
-                    color = themeColor ?: fontColor.getColor(),
-                    textStyle = TdsTextStyle.normalTextStyle,
-                    fontSize = mainTimerTextSize.sp
-                )
             }
 
             Spacer(modifier = Modifier.weight(2f))
@@ -208,6 +218,7 @@ private fun TdsTimerPreview() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
+            isFinish = true,
             outCircularLineColor = TdsColor.blueColor.getColor(),
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
@@ -231,6 +242,7 @@ private fun TdsTimerPreview1() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
+            isFinish = false,
             outCircularLineColor = TdsColor.blueColor.getColor(),
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
@@ -254,6 +266,7 @@ private fun TdsTimerPreview2() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
+            isFinish = false,
             outCircularLineColor = TdsColor.blueColor.getColor(),
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,
@@ -277,6 +290,7 @@ private fun TdsTimerPreview3() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
+            isFinish = false,
             outCircularLineColor = TdsColor.blueColor.getColor(),
             outCircularProgress = 0.3f,
             inCircularLineTrackColor = TdsColor.d3,

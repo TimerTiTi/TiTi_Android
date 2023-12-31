@@ -58,7 +58,7 @@ class StopWatchViewModel @AssistedInject constructor(
 
     fun updateRecordingMode() {
         viewModelScope.launch {
-            updateRecordingModeUseCase(1)
+            updateRecordingModeUseCase(2)
         }
     }
 

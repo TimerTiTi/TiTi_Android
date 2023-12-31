@@ -50,7 +50,7 @@ import com.titi.core.designsystem.model.TdsDialogInfo
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
-import com.titi.core.ui.TiTiDeepLinkArgs.COLOR_ARGS
+import com.titi.core.ui.TiTiDeepLinkArgs.COLOR_ARG
 import com.titi.designsystem.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -60,7 +60,7 @@ class ColorActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val recordingMode = intent.data?.getQueryParameter(COLOR_ARGS)?.toInt() ?: 1
+        val recordingMode = intent.data?.getQueryParameter(COLOR_ARG)?.toInt() ?: 1
 
         setContent {
             TiTiTheme {

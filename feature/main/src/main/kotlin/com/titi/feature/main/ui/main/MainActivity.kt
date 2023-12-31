@@ -13,19 +13,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.window.layout.WindowMetricsCalculator
 import com.titi.core.designsystem.theme.TiTiTheme
-import com.titi.core.ui.TiTiArgs.MAIN_ARGS
-import com.titi.core.ui.TiTiDeepLinkArgs.MEASURE_ARGS
+import com.titi.core.ui.TiTiArgs.MAIN_FINISH_ARG
+import com.titi.core.ui.TiTiArgs.MAIN_SPLASH_ARG
+import com.titi.core.ui.TiTiArgs.MAIN_START_ARG
 import com.titi.core.ui.TiTiDestinations.MAIN_ROUTE
 import com.titi.core.ui.TiTiDestinations.SPLASH_ROUTE
 import com.titi.core.ui.TiTiNavigationActions
+import com.titi.core.ui.createColorUri
 import com.titi.core.ui.createMeasureUri
 import com.titi.core.util.fromJson
 import com.titi.core.util.toJson
@@ -67,6 +72,7 @@ fun MainNavGraph(
     widthDp: Dp,
     heightDp: Dp
 ) {
+    val context = LocalContext.current
     val navController = rememberNavController()
     val titiNavigationActions = remember(navController) {
         TiTiNavigationActions(navController = navController)
@@ -75,10 +81,11 @@ fun MainNavGraph(
     val measureResult =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                result.data?.let { splashResultState ->
-                    splashResultState.getStringExtra(MEASURE_ARGS)?.let {
-                        titiNavigationActions.navigateToMain(it)
-                    }
+                result.data?.let { safeData ->
+                    titiNavigationActions.navigateToMain(
+                        startDestination = safeData.getIntExtra(MAIN_START_ARG, 1),
+                        isFinish = safeData.getBooleanExtra(MAIN_FINISH_ARG, false)
+                    )
                 }
             }
         }
@@ -93,6 +100,7 @@ fun MainNavGraph(
         ) {
 
             composable(route = SPLASH_ROUTE) {
+
                 SplashScreen(
                     onReady = { splashResultState ->
                         onReady()
@@ -105,7 +113,10 @@ fun MainNavGraph(
                                 )
                             )
                         } else {
-                            titiNavigationActions.navigateToMain(splashResultState.toJson())
+                            titiNavigationActions.navigateToMain(
+                                startDestination = splashResultState.recordTimes.recordingMode,
+                                splashScreenResult = splashResultState.toJson()
+                            )
                         }
                     }
                 )
@@ -113,17 +124,59 @@ fun MainNavGraph(
 
             composable(
                 route = MAIN_ROUTE,
+                arguments = listOf(
+                    navArgument(MAIN_START_ARG) {
+                        NavType.IntType
+                        defaultValue = 1
+                    },
+                    navArgument(MAIN_SPLASH_ARG) {
+                        NavType.StringType
+                        nullable = true
+                    },
+                    navArgument(MAIN_FINISH_ARG) {
+                        NavType.BoolType
+                        defaultValue = false
+                    }
+                )
             ) { backstackEntry ->
+                val startDestination = backstackEntry
+                    .arguments
+                    ?.getInt(MAIN_START_ARG)
+                    ?: 1
+
                 val splashResultState = backstackEntry
                     .arguments
-                    ?.getString(MAIN_ARGS)
+                    ?.getString(MAIN_SPLASH_ARG)
                     ?.fromJson<SplashResultState>()
                     ?: SplashResultState()
 
+                val isFinish = backstackEntry
+                    .arguments
+                    ?.getBoolean(MAIN_FINISH_ARG)
+                    ?: false
+
                 MainScreen(
+                    startDestination = startDestination,
                     splashResultState = splashResultState,
+                    isFinish = isFinish,
                     widthDp = widthDp,
-                    heightDp = heightDp
+                    heightDp = heightDp,
+                    onNavigateToColor = { recordingMode ->
+                        context.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                createColorUri(recordingMode)
+                            )
+                        )
+                    },
+                    onNavigateToMeasure = { splashResultStateString ->
+                        measureResult.launch(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                createMeasureUri(splashResultStateString)
+                            )
+                        )
+                    }
                 )
             }
         }

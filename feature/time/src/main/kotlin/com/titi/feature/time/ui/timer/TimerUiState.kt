@@ -25,7 +25,7 @@ data class TimerUiState(
         daily = getSplashResultStateFromArgs(args).daily
     )
 
-    val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day?.toString())
+    val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day)
     val isSetTask: Boolean = recordTimes.currentTask != null
     val taskName: String = recordTimes.currentTask?.taskName ?: ""
     val timerColor = timeColor.toUiModel()

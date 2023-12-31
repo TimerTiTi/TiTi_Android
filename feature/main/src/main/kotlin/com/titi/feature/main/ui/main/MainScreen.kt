@@ -1,6 +1,5 @@
 package com.titi.feature.main.ui.main
 
-import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -8,10 +7,10 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -26,8 +25,6 @@ import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.core.designsystem.component.TdsNavigationBarItem
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.ui.TiTiBottomNavigationScreen
-import com.titi.core.ui.createColorUri
-import com.titi.core.ui.createMeasureUri
 import com.titi.feature.main.ui.splash.SplashResultState
 import com.titi.feature.main.ui.splash.toFeatureTimeModel
 import com.titi.feature.time.ui.stopwatch.StopWatchScreen
@@ -36,12 +33,19 @@ import com.titi.feature.time.ui.timer.TimerScreen
 @Composable
 fun MainScreen(
     viewModel: MainViewModel = mavericksViewModel(),
+    startDestination: Int,
     splashResultState: SplashResultState,
+    isFinish: Boolean,
     widthDp: Dp,
-    heightDp: Dp
+    heightDp: Dp,
+    onNavigateToColor: (Int) -> Unit,
+    onNavigateToMeasure: (String) -> Unit,
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.updateBottomNavigationPosition(startDestination)
+    }
+
     val navController = rememberNavController()
-    val context = LocalContext.current
 
     val items = listOf(
         TiTiBottomNavigationScreen.Timer,
@@ -54,8 +58,8 @@ fun MainScreen(
         bottomBar = {
             NavigationBar(
                 containerColor = when (uiState.bottomNavigationPosition) {
-                    0 -> Color(uiState.timeColor.timerBackgroundColor)
-                    1 -> Color(uiState.timeColor.stopwatchBackgroundColor)
+                    1 -> Color(uiState.timeColor.timerBackgroundColor)
+                    2 -> Color(uiState.timeColor.stopwatchBackgroundColor)
                     else -> TdsColor.backgroundColor.getColor()
                 },
                 tonalElevation = 0.dp
@@ -68,7 +72,7 @@ fun MainScreen(
                         label = { Text(text = screen.route) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
-                            viewModel.updateBottomNavigationPosition(index)
+                            viewModel.updateBottomNavigationPosition(index + 1)
                             navController.navigate(screen.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
@@ -93,29 +97,20 @@ fun MainScreen(
                 .padding(innerPadding)
                 .background(TdsColor.backgroundColor.getColor()),
             navController = navController,
-            startDestination = TiTiBottomNavigationScreen.Timer.route,
+            startDestination = if (startDestination == 1) {
+                TiTiBottomNavigationScreen.Timer.route
+            } else {
+                TiTiBottomNavigationScreen.StopWatch.route
+            }
         ) {
             composable(TiTiBottomNavigationScreen.Timer.route) {
                 TimerScreen(
                     splashResultState = splashResultState.toFeatureTimeModel(),
+                    isFinish = isFinish,
                     widthDp = widthDp,
                     heightDp = heightDp,
-                    onNavigateToColor = {
-                        context.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                createColorUri(1)
-                            )
-                        )
-                    },
-                    onNavigateToMeasure = {
-                        context.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                createMeasureUri(it)
-                            )
-                        )
-                    }
+                    onNavigateToColor = { onNavigateToColor(1) },
+                    onNavigateToMeasure = onNavigateToMeasure
                 )
             }
             composable(TiTiBottomNavigationScreen.StopWatch.route) {
@@ -123,22 +118,8 @@ fun MainScreen(
                     splashResultState = splashResultState.toFeatureTimeModel(),
                     widthDp = widthDp,
                     heightDp = heightDp,
-                    onNavigateToColor = {
-                        context.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                createColorUri(2)
-                            )
-                        )
-                    },
-                    onNavigateToMeasure = {
-                        context.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                createMeasureUri(it)
-                            )
-                        )
-                    }
+                    onNavigateToColor = { onNavigateToColor(2) },
+                    onNavigateToMeasure = onNavigateToMeasure
                 )
             }
         }

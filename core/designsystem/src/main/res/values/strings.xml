@@ -27,4 +27,5 @@
     <string name="daily_task_check_title">Task와 Daily를 확인해주세요.</string>
     <string name="daily_check_title">Daily를 생성해주세요.</string>
     <string name="task_check_title">Task를 선택해주세요.</string>
+    <string name="finish_text">종료</string>
 </resources>

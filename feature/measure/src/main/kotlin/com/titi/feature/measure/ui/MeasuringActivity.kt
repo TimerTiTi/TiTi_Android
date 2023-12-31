@@ -37,9 +37,10 @@ import com.titi.core.designsystem.component.TdsTimer
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
-import com.titi.core.ui.TiTiDeepLinkArgs.MEASURE_ARGS
+import com.titi.core.ui.TiTiArgs.MAIN_FINISH_ARG
+import com.titi.core.ui.TiTiArgs.MAIN_START_ARG
+import com.titi.core.ui.TiTiDeepLinkArgs.MEASURE_ARG
 import com.titi.core.util.fromJson
-import com.titi.core.util.toJson
 import com.titi.designsystem.R
 import com.titi.feature.measure.SplashResultState
 import org.threeten.bp.ZoneOffset
@@ -51,7 +52,7 @@ class MeasuringActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val splashResultState =
-            intent.data?.getQueryParameter(MEASURE_ARGS)?.fromJson<SplashResultState>()
+            intent.data?.getQueryParameter(MEASURE_ARG)?.fromJson<SplashResultState>()
 
         val resultIntent = Intent()
 
@@ -60,8 +61,9 @@ class MeasuringActivity : ComponentActivity() {
                 splashResultState?.let {
                     MeasuringScreen(
                         splashResultState = it,
-                        onFinish = {
-                            resultIntent.putExtra(MEASURE_ARGS, it.toJson())
+                        onFinish = { isFinish ->
+                            resultIntent.putExtra(MAIN_FINISH_ARG, isFinish)
+                            resultIntent.putExtra(MAIN_START_ARG, it.recordTimes.recordingMode)
                             setResult(RESULT_OK, resultIntent)
                             finish()
                         }
@@ -76,7 +78,7 @@ class MeasuringActivity : ComponentActivity() {
 @Composable
 fun MeasuringScreen(
     splashResultState: SplashResultState,
-    onFinish: () -> Unit,
+    onFinish: (Boolean) -> Unit,
 ) {
     val viewModel: MeasuringViewModel = mavericksActivityViewModel(
         argsFactory = {
@@ -97,7 +99,7 @@ fun MeasuringScreen(
             measureTime = uiState.measureTime,
             endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
         )
-        onFinish()
+        onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
     }
 
     DisposableEffect(Unit) {
@@ -124,7 +126,7 @@ fun MeasuringScreen(
                 measureTime = uiState.measureTime,
                 endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
             )
-            onFinish()
+            onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
         }
     )
 }
