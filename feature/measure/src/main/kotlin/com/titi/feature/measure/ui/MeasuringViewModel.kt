@@ -26,22 +26,38 @@ class MeasuringViewModel @AssistedInject constructor(
     private val addMeasureTimeAtDailyUseCase: AddMeasureTimeAtDailyUseCase,
     private val addMeasureTimeAtRecordTimesUseCase: AddMeasureTimeAtRecordTimesUseCase,
     private val addMeasureTimeAtTaskUseCase: AddMeasureTimeAtTaskUseCase,
-    getSleepModeFlowUseCase: GetSleepModeFlowUseCase,
+    private val getSleepModeFlowUseCase: GetSleepModeFlowUseCase,
     private val setSleepModeUseCase: SetSleepModeUseCase
 ) : MavericksViewModel<MeasuringUiState>(initialState) {
 
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            while (true) {
-                delay(1000)
-                setState { copy(measureTime = measureTime + 1) }
-            }
-        }
-
+    fun start() {
         getSleepModeFlowUseCase().catch {
             Log.e("MeasuringViewModel", it.message.toString())
         }.setOnEach {
-            copy(isSleepMode = it)
+            copy(
+                measuringRecordTimes = recordTimes.toMeasuringRecordTimes(
+                    isSleepMode = it,
+                    measureTime = measureTime,
+                    daily = daily,
+                ),
+                isSleepMode = it
+            )
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            while (true) {
+                delay(1000)
+                setState {
+                    copy(
+                        measuringRecordTimes = recordTimes.toMeasuringRecordTimes(
+                            isSleepMode = isSleepMode,
+                            daily = daily,
+                            measureTime = measureTime + 1
+                        ),
+                        measureTime = measureTime + 1
+                    )
+                }
+            }
         }
     }
 

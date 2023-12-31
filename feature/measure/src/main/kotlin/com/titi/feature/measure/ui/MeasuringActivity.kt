@@ -38,11 +38,9 @@ import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.core.ui.TiTiDeepLinkArgs.MEASURE_ARGS
-import com.titi.core.util.addTimeToNow
 import com.titi.core.util.fromJson
 import com.titi.core.util.toJson
 import com.titi.designsystem.R
-import com.titi.domain.time.model.RecordTimes
 import com.titi.feature.measure.SplashResultState
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
@@ -61,12 +59,7 @@ class MeasuringActivity : ComponentActivity() {
             TiTiTheme {
                 splashResultState?.let {
                     MeasuringScreen(
-                        recordTimes = it.recordTimes,
-                        themeColor = if (it.recordTimes.recordingMode == 1) {
-                            Color(it.timeColor.timerBackgroundColor)
-                        } else {
-                            Color(it.timeColor.stopwatchBackgroundColor)
-                        },
+                        splashResultState = it,
                         onFinish = {
                             resultIntent.putExtra(MEASURE_ARGS, it.toJson())
                             setResult(RESULT_OK, resultIntent)
@@ -82,21 +75,25 @@ class MeasuringActivity : ComponentActivity() {
 
 @Composable
 fun MeasuringScreen(
-    recordTimes: RecordTimes,
-    themeColor: Color,
+    splashResultState: SplashResultState,
     onFinish: () -> Unit,
 ) {
     val viewModel: MeasuringViewModel = mavericksActivityViewModel(
         argsFactory = {
-            recordTimes.asMavericksArgs()
+            splashResultState.asMavericksArgs()
         }
     )
+
+    LaunchedEffect(Unit) {
+        viewModel.start()
+    }
+
     val uiState by viewModel.collectAsState()
     val context = LocalContext.current
 
     BackHandler {
         viewModel.stopMeasuring(
-            recordTimes = recordTimes,
+            recordTimes = uiState.recordTimes,
             measureTime = uiState.measureTime,
             endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
         )
@@ -118,14 +115,12 @@ fun MeasuringScreen(
 
     MeasuringScreen(
         uiState = uiState,
-        recordTimes = recordTimes,
-        themeColor = themeColor,
         onSleepClick = {
             viewModel.setSleepMode(!uiState.isSleepMode)
         },
         onFinishClick = {
             viewModel.stopMeasuring(
-                recordTimes = recordTimes,
+                recordTimes = uiState.recordTimes,
                 measureTime = uiState.measureTime,
                 endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
             )
@@ -137,8 +132,6 @@ fun MeasuringScreen(
 @Composable
 private fun MeasuringScreen(
     uiState: MeasuringUiState,
-    recordTimes: RecordTimes,
-    themeColor: Color,
     onSleepClick: () -> Unit,
     onFinishClick: () -> Unit,
 ) {
@@ -174,7 +167,7 @@ private fun MeasuringScreen(
 
         TdsText(
             modifier = Modifier.padding(vertical = 12.dp),
-            text = recordTimes.currentTask?.taskName,
+            text = uiState.recordTimes.currentTask?.taskName,
             textStyle = TdsTextStyle.normalTextStyle,
             fontSize = 18.sp,
             color = Color.White
@@ -182,63 +175,20 @@ private fun MeasuringScreen(
 
         Spacer(modifier = Modifier.height(50.dp))
 
-        with(recordTimes) {
+        with(uiState.measuringRecordTimes) {
             TdsTimer(
-                outCircularLineColor = themeColor,
-                outCircularProgress = if (recordingMode == 1) {
-                    if (uiState.isSleepMode) {
-                        ((setTimerTime - savedTimerTime + uiState.measureTime) - (setTimerTime - savedTimerTime + uiState.measureTime) % 60) / setTimerTime.toFloat()
-                    } else {
-                        (setTimerTime - savedTimerTime + uiState.measureTime) / setTimerTime.toFloat()
-                    }
-
-                } else {
-                    if (uiState.isSleepMode) {
-                        ((savedStopWatchTime + uiState.measureTime) - (savedStopWatchTime + uiState.measureTime) % 60) / 3600f
-                    } else {
-                        (savedStopWatchTime + uiState.measureTime) / 3600f
-                    }
-                },
+                outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
+                outCircularProgress = outCircularProgress,
                 inCircularLineTrackColor = TdsColor.whiteColor,
-                inCircularProgress = if (uiState.isSleepMode) {
-                    (savedSumTime + uiState.measureTime - (savedSumTime + uiState.measureTime) % 60) / setGoalTime.toFloat()
-                } else {
-                    (savedSumTime + uiState.measureTime) / setGoalTime.toFloat()
-                },
+                inCircularProgress = inCircularProgress,
                 fontColor = TdsColor.whiteColor,
-                themeColor = themeColor,
-                recordingMode = recordingMode,
-                savedSumTime = if (uiState.isSleepMode) {
-                    (savedSumTime + uiState.measureTime) - (savedSumTime + uiState.measureTime) % 60
-                } else {
-                    savedSumTime + uiState.measureTime
-                },
-                savedTime = if (recordingMode == 1) {
-                    if (uiState.isSleepMode) {
-                        val total = savedTimerTime - uiState.measureTime
-                        if (total % 60 == 0L) {
-                            total
-                        } else {
-                            total - total % 60 + 60
-                        }
-                    } else {
-                        savedTimerTime - uiState.measureTime
-                    }
-                } else {
-                    if (uiState.isSleepMode) {
-                        (savedStopWatchTime + uiState.measureTime) - (savedStopWatchTime + uiState.measureTime) % 60
-                    } else {
-                        savedStopWatchTime + uiState.measureTime
-                    }
-                },
-                savedGoalTime = if (uiState.isSleepMode) {
-                    val total = savedGoalTime - uiState.measureTime
-                    total - total % 60
-                } else {
-                    savedGoalTime - uiState.measureTime
-                },
-                finishGoalTime = addTimeToNow(savedGoalTime - uiState.measureTime),
-                isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false
+                themeColor = Color(uiState.measuringTimeColor.backgroundColor),
+                recordingMode = uiState.recordTimes.recordingMode,
+                savedSumTime = savedSumTime,
+                savedTime = savedTime,
+                savedGoalTime = savedGoalTime,
+                finishGoalTime = finishGoalTime,
+                isTaskTargetTimeOn = isTaskTargetTimeOn
             )
         }
 
