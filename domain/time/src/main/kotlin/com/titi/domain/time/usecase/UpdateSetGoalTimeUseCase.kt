@@ -13,19 +13,17 @@ class UpdateSetGoalTimeUseCase @Inject constructor(
         recordTimes: RecordTimes,
         setGoalTime: Long
     ) {
-        if (recordTimes.setGoalTime != setGoalTime) {
-            recordTimesRepository.setRecordTimes(
-                recordTimes
-                    .toRepositoryModel()
-                    .copy(
-                        setGoalTime = setGoalTime,
-                        savedSumTime = 0,
-                        savedTimerTime = recordTimes.setTimerTime,
-                        savedStopWatchTime = 0,
-                        savedGoalTime = setGoalTime
-                    )
-            )
-        }
+        recordTimesRepository.setRecordTimes(
+            recordTimes
+                .toRepositoryModel()
+                .copy(
+                    setGoalTime = setGoalTime,
+                    savedSumTime = 0,
+                    savedTimerTime = recordTimes.setTimerTime,
+                    savedStopWatchTime = 0,
+                    savedGoalTime = setGoalTime
+                )
+        )
     }
 
 }
