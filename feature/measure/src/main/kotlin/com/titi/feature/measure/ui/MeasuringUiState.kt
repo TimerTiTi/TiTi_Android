@@ -89,7 +89,7 @@ fun RecordTimes.toMeasuringRecordTimes(
     }
 
     val calculateTime = if (recordingMode == 1) {
-        setTimerTime - (savedTimerTime - measureTime)
+        savedTimerTime - measureTime
     } else {
         savedStopWatchTime + measureTime
     }
@@ -118,19 +118,24 @@ fun RecordTimes.toMeasuringRecordTimes(
 
     val finishGoalTime = addTimeToNow(calculateSavedGoalTime)
 
-    val maxOutCircular = if (recordingMode == 1) {
+    val outCircularDividend = if (recordingMode == 1) {
+        setTimerTime - calculateSavedTime
+    } else {
+        calculateSavedTime
+    }
+    val outCircularDivisor = if (recordingMode == 1) {
         setTimerTime.toFloat()
     } else {
         3600f
     }
-    val outCircularProgress = calculateSavedTime / maxOutCircular
+    val outCircularProgress = outCircularDividend / outCircularDivisor
 
-    val maxInCircular = if (currentTask?.isTaskTargetTimeOn == true) {
+    val inCircularDivisor = if (currentTask?.isTaskTargetTimeOn == true) {
         currentTask?.taskTargetTime?.toFloat() ?: 0f
     } else {
         setGoalTime.toFloat()
     }
-    val inCircularProgress = calculateSavedSumTime / maxInCircular
+    val inCircularProgress = calculateSavedSumTime / inCircularDivisor
 
     return MeasuringRecordTimes(
         outCircularProgress = outCircularProgress,
