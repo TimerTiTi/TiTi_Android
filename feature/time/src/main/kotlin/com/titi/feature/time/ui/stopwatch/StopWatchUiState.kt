@@ -51,33 +51,29 @@ data class StopWatchRecordTimes(
     val isTaskTargetTimeOn: Boolean,
 )
 
-private fun RecordTimes.toUiModel(daily: Daily?) = StopWatchRecordTimes(
-    outCircularProgress = savedStopWatchTime / 3600f,
-    inCircularProgress = currentTask?.let {
-        if (it.isTaskTargetTimeOn) {
-            val taskTime = daily?.tasks?.get(it.taskName) ?: 0
-            taskTime / it.taskTargetTime.toFloat()
-        } else {
-            savedSumTime / setGoalTime.toFloat()
-        }
-    } ?: (savedSumTime / setGoalTime.toFloat()),
-    savedSumTime = savedSumTime,
-    savedTime = savedStopWatchTime,
-    savedGoalTime = currentTask?.let {
+private fun RecordTimes.toUiModel(daily: Daily?): StopWatchRecordTimes {
+    val goalTime = currentTask?.let {
         if (it.isTaskTargetTimeOn) {
             it.taskTargetTime - (daily?.tasks?.get(it.taskName) ?: 0)
         } else {
             savedGoalTime
         }
-    } ?: savedGoalTime,
-    finishGoalTime = addTimeToNow(
-        currentTask?.let {
+    } ?: savedGoalTime
+
+    return StopWatchRecordTimes(
+        outCircularProgress = savedStopWatchTime / 3600f,
+        inCircularProgress = currentTask?.let {
             if (it.isTaskTargetTimeOn) {
-                it.taskTargetTime - (daily?.tasks?.get(it.taskName) ?: 0)
+                val taskTime = daily?.tasks?.get(it.taskName) ?: 0
+                taskTime / it.taskTargetTime.toFloat()
             } else {
-                savedGoalTime
+                savedSumTime / setGoalTime.toFloat()
             }
-        } ?: savedGoalTime
-    ),
-    isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false
-)
+        } ?: (savedSumTime / setGoalTime.toFloat()),
+        savedSumTime = savedSumTime,
+        savedTime = savedStopWatchTime,
+        savedGoalTime = goalTime,
+        finishGoalTime = addTimeToNow(goalTime),
+        isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false
+    )
+}
