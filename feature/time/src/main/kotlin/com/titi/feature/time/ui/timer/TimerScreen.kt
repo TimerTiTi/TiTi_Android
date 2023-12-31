@@ -45,6 +45,7 @@ fun TimerScreen(
     isFinish: Boolean,
     widthDp: Dp,
     heightDp: Dp,
+    onChangeFinishStateFalse : () -> Unit,
     onNavigateToColor: () -> Unit,
     onNavigateToMeasure: (String) -> Unit,
 ) {
@@ -60,7 +61,6 @@ fun TimerScreen(
 
     val uiState by viewModel.collectAsState()
 
-    var isFinishState by remember { mutableStateOf(isFinish) }
     var showTaskBottomSheet by remember { mutableStateOf(false) }
     var showSelectColorDialog by remember { mutableStateOf(false) }
     var showAddDailyDialog by remember { mutableStateOf(false) }
@@ -101,12 +101,12 @@ fun TimerScreen(
             todayDate = uiState.todayDate,
             onPositive = {
                 if (it > 0) {
-                    isFinishState = false
                     viewModel.updateSetGoalTime(
                         uiState.recordTimes,
                         it
                     )
                     viewModel.addDaily()
+                    onChangeFinishStateFalse()
                 }
             },
             onShowDialog = {
@@ -134,11 +134,11 @@ fun TimerScreen(
         TimeTimerDialog(
             onPositive = {
                 if (it > 0) {
-                    isFinishState = false
                     viewModel.updateSetTimerTime(
                         uiState.recordTimes,
                         it
                     )
+                    onChangeFinishStateFalse()
                 }
             },
             onShowDialog = {
@@ -149,7 +149,7 @@ fun TimerScreen(
 
     TimerScreen(
         uiState = uiState,
-        isFinish = isFinishState,
+        isFinish = isFinish,
         backgroundColor = Color(uiState.timerColor.backgroundColor),
         textColor = if (uiState.timerColor.isTextColorBlack) {
             TdsColor.blackColor

@@ -11,7 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
@@ -150,17 +153,24 @@ fun MainNavGraph(
                     ?.fromJson<SplashResultState>()
                     ?: SplashResultState()
 
-                val isFinish = backstackEntry
-                    .arguments
-                    ?.getBoolean(MAIN_FINISH_ARG)
-                    ?: false
+                var isFinishState by remember {
+                    mutableStateOf(
+                        backstackEntry
+                            .arguments
+                            ?.getBoolean(MAIN_FINISH_ARG)
+                            ?: false
+                    )
+                }
 
                 MainScreen(
                     startDestination = startDestination,
                     splashResultState = splashResultState,
-                    isFinish = isFinish,
+                    isFinish = isFinishState,
                     widthDp = widthDp,
                     heightDp = heightDp,
+                    onChangeFinishStateFalse = {
+                        isFinishState = false
+                    },
                     onNavigateToColor = { recordingMode ->
                         context.startActivity(
                             Intent(

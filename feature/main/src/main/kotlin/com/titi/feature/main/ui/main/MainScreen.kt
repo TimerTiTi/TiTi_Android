@@ -38,6 +38,7 @@ fun MainScreen(
     isFinish: Boolean,
     widthDp: Dp,
     heightDp: Dp,
+    onChangeFinishStateFalse : () -> Unit,
     onNavigateToColor: (Int) -> Unit,
     onNavigateToMeasure: (String) -> Unit,
 ) {
@@ -109,6 +110,7 @@ fun MainScreen(
                     isFinish = isFinish,
                     widthDp = widthDp,
                     heightDp = heightDp,
+                    onChangeFinishStateFalse = onChangeFinishStateFalse,
                     onNavigateToColor = { onNavigateToColor(1) },
                     onNavigateToMeasure = onNavigateToMeasure
                 )
