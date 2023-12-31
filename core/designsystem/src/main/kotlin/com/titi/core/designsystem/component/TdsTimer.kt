@@ -1,5 +1,6 @@
 package com.titi.core.designsystem.component
 
+import android.app.Activity
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -16,16 +17,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
+import androidx.window.layout.WindowMetricsCalculator
 import com.titi.core.designsystem.extension.getTdsTime
 import com.titi.core.designsystem.extension.times
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.designsystem.R
+import kotlin.math.min
 
 @Composable
 fun TdsTimer(
@@ -44,7 +49,14 @@ fun TdsTimer(
     finishGoalTime: String,
     isTaskTargetTimeOn: Boolean
 ) {
-    BoxWithConstraints(modifier = modifier) {
+    val activity = LocalContext.current as? Activity ?: return
+    val metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(activity)
+    val widthDp = metrics.bounds.width() / activity.resources.displayMetrics.density
+    val heightDp = metrics.bounds.height() / activity.resources.displayMetrics.density
+
+    BoxWithConstraints(
+        modifier = modifier.width(min(widthDp, heightDp).dp)
+    ) {
         val minSize = min(maxHeight, maxWidth)
         val outCircularSize = minSize * 0.85
         val outCircularTrackWidth = minSize * 0.05

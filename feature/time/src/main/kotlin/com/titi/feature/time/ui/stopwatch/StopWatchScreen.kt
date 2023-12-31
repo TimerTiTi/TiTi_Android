@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
@@ -41,8 +40,6 @@ import org.threeten.bp.ZonedDateTime
 @Composable
 fun StopWatchScreen(
     splashResultState: SplashResultState,
-    widthDp: Dp,
-    heightDp: Dp,
     onNavigateToColor: () -> Unit,
     onNavigateToMeasure : (String) -> Unit,
 ) {
@@ -65,7 +62,6 @@ fun StopWatchScreen(
 
     if (showTaskBottomSheet) {
         TaskBottomSheet(
-            modifier = Modifier.height(heightDp - 150.dp),
             themeColor = Color(uiState.stopWatchColor.backgroundColor),
             onCloseBottomSheet = { showTaskBottomSheet = false }
         )
@@ -152,12 +148,12 @@ fun StopWatchScreen(
 
                 viewModel.updateMeasuringState(updateRecordTimes)
 
-                val splashResultState = SplashResultState(
+                val splashResultStateString = SplashResultState(
                     recordTimes = updateRecordTimes,
                     timeColor = uiState.timeColor
                 ).toJson()
 
-                onNavigateToMeasure(splashResultState)
+                onNavigateToMeasure(splashResultStateString)
             } else {
                 showCheckTaskDailyDialog = true
             }

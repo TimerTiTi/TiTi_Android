@@ -17,15 +17,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.window.layout.WindowMetricsCalculator
 import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.core.ui.TiTiArgs.MAIN_FINISH_ARG
 import com.titi.core.ui.TiTiArgs.MAIN_SPLASH_ARG
@@ -46,13 +43,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val metrics = WindowMetricsCalculator.getOrCreate()
-            .computeCurrentWindowMetrics(this)
-        val widthDp = metrics.bounds.width()
-        resources.displayMetrics.density
-        val heightDp = metrics.bounds.height() /
-                resources.displayMetrics.density
-
         val splashScreen = installSplashScreen()
 
         setContent {
@@ -60,9 +50,7 @@ class MainActivity : ComponentActivity() {
                 MainNavGraph(
                     onReady = {
                         splashScreen.setKeepOnScreenCondition { false }
-                    },
-                    widthDp = widthDp.dp,
-                    heightDp = heightDp.dp,
+                    }
                 )
             }
         }
@@ -71,9 +59,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainNavGraph(
-    onReady: () -> Unit,
-    widthDp: Dp,
-    heightDp: Dp
+    onReady: () -> Unit
 ) {
     val context = LocalContext.current
     val navController = rememberNavController()
@@ -166,8 +152,6 @@ fun MainNavGraph(
                     startDestination = startDestination,
                     splashResultState = splashResultState,
                     isFinish = isFinishState,
-                    widthDp = widthDp,
-                    heightDp = heightDp,
                     onChangeFinishStateFalse = {
                         isFinishState = false
                     },

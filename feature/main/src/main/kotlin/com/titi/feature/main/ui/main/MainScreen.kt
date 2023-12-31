@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -36,9 +35,7 @@ fun MainScreen(
     startDestination: Int,
     splashResultState: SplashResultState,
     isFinish: Boolean,
-    widthDp: Dp,
-    heightDp: Dp,
-    onChangeFinishStateFalse : () -> Unit,
+    onChangeFinishStateFalse: () -> Unit,
     onNavigateToColor: (Int) -> Unit,
     onNavigateToMeasure: (String) -> Unit,
 ) {
@@ -68,7 +65,7 @@ fun MainScreen(
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
-                items.forEachIndexed() { index, screen ->
+                items.forEachIndexed { index, screen ->
                     TdsNavigationBarItem(
                         label = { Text(text = screen.route) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
@@ -108,8 +105,6 @@ fun MainScreen(
                 TimerScreen(
                     splashResultState = splashResultState.toFeatureTimeModel(),
                     isFinish = isFinish,
-                    widthDp = widthDp,
-                    heightDp = heightDp,
                     onChangeFinishStateFalse = onChangeFinishStateFalse,
                     onNavigateToColor = { onNavigateToColor(1) },
                     onNavigateToMeasure = onNavigateToMeasure
@@ -118,8 +113,6 @@ fun MainScreen(
             composable(TiTiBottomNavigationScreen.StopWatch.route) {
                 StopWatchScreen(
                     splashResultState = splashResultState.toFeatureTimeModel(),
-                    widthDp = widthDp,
-                    heightDp = heightDp,
                     onNavigateToColor = { onNavigateToColor(2) },
                     onNavigateToMeasure = onNavigateToMeasure
                 )
