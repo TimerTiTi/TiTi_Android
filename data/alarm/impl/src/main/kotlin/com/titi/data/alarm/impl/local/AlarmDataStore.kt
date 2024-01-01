@@ -22,6 +22,10 @@ internal class AlarmDataStore(context: Context) {
     suspend fun getAlarms(): AlarmsEntity? =
         dataStore.readValue(ALARM_KEY)?.fromJson()
 
+    suspend fun removeAlarms() {
+        dataStore.storeValue(ALARM_KEY, null)
+    }
+
     companion object {
 
         private const val ALARM_PREF_NAME = "alarmPrefName"
