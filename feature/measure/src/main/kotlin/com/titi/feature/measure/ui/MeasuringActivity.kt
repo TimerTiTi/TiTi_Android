@@ -1,10 +1,7 @@
 package com.titi.feature.measure.ui
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
@@ -40,6 +37,7 @@ import com.titi.core.designsystem.theme.TiTiTheme
 import com.titi.core.ui.TiTiArgs.MAIN_FINISH_ARG
 import com.titi.core.ui.TiTiArgs.MAIN_START_ARG
 import com.titi.core.ui.TiTiDeepLinkArgs.MEASURE_ARG
+import com.titi.core.ui.setBrightness
 import com.titi.core.util.fromJson
 import com.titi.designsystem.R
 import com.titi.feature.measure.SplashResultState
@@ -104,15 +102,12 @@ fun MeasuringScreen(
 
     DisposableEffect(Unit) {
         onDispose {
-            setBrightness(context, isSleepMode = false)
+            context.setBrightness(false)
         }
     }
 
     LaunchedEffect(uiState.isSleepMode) {
-        setBrightness(
-            context = context,
-            isSleepMode = uiState.isSleepMode
-        )
+        context.setBrightness(uiState.isSleepMode)
     }
 
     MeasuringScreen(
@@ -211,12 +206,4 @@ private fun MeasuringScreen(
 
         Spacer(modifier = Modifier.height(80.dp))
     }
-}
-
-fun setBrightness(context: Context, isSleepMode: Boolean) {
-    val activity = context as? Activity ?: return
-    val layoutParams: WindowManager.LayoutParams = activity.window.attributes
-    layoutParams.screenBrightness =
-        if (isSleepMode) 5f / 255 else WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
-    activity.window.attributes = layoutParams
 }
