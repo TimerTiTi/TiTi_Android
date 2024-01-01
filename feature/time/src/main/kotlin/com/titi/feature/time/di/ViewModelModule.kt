@@ -3,10 +3,9 @@ package com.titi.feature.time.di
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.MavericksViewModelComponent
 import com.airbnb.mvrx.hilt.ViewModelKey
-import com.titi.feature.time.ui.color.ColorViewModel
-import com.titi.feature.time.ui.measure.MeasuringViewModel
+import com.titi.feature.time.ui.stopwatch.StopWatchViewModel
 import com.titi.feature.time.ui.task.TaskViewModel
-import com.titi.feature.time.ui.time.TimeViewModel
+import com.titi.feature.time.ui.timer.TimerViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,22 +17,17 @@ internal interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(TimeViewModel::class)
-    fun timeViewModelFactory(factory: TimeViewModel.Factory): AssistedViewModelFactory<*, *>
-
-    @Binds
-    @IntoMap
     @ViewModelKey(TaskViewModel::class)
     fun taskViewModelFactory(factory: TaskViewModel.Factory): AssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap
-    @ViewModelKey(ColorViewModel::class)
-    fun colorViewModelFactory(factory: ColorViewModel.Factory): AssistedViewModelFactory<*, *>
+    @ViewModelKey(TimerViewModel::class)
+    fun timerViewModelFactory(factory: TimerViewModel.Factory): AssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap
-    @ViewModelKey(MeasuringViewModel::class)
-    fun measuringViewModelFactory(factory: MeasuringViewModel.Factory): AssistedViewModelFactory<*, *>
+    @ViewModelKey(StopWatchViewModel::class)
+    fun stopWatchViewModelFactory(factory: StopWatchViewModel.Factory): AssistedViewModelFactory<*, *>
 
 }

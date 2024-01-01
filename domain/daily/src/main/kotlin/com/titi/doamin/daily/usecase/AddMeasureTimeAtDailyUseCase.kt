@@ -15,8 +15,8 @@ class AddMeasureTimeAtDailyUseCase @Inject constructor(
 
     suspend operator fun invoke(
         taskName: String,
-        startTime: ZonedDateTime,
-        endTime: ZonedDateTime,
+        startTime: String,
+        endTime: String,
         measureTime: Long
     ) {
         val recentDaily = dailyRepository.getCurrentDaily()?.toDomain()
@@ -28,8 +28,8 @@ class AddMeasureTimeAtDailyUseCase @Inject constructor(
             )
 
             val updateTimeLine = addTimeLine(
-                startTime = startTime,
-                endTime = endTime,
+                startTime = ZonedDateTime.parse(startTime),
+                endTime = ZonedDateTime.parse(endTime),
                 timeLine = daily.timeLine
             )
 

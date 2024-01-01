@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -62,7 +63,6 @@ import kotlinx.coroutines.android.awaitFrame
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun TaskBottomSheet(
-    modifier: Modifier = Modifier,
     viewModel: TaskViewModel = mavericksViewModel(),
     themeColor: Color,
     onCloseBottomSheet: () -> Unit,
@@ -125,7 +125,10 @@ fun TaskBottomSheet(
 
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ModalBottomSheet(
-        modifier = modifier.navigationBarsPadding(),
+        modifier = Modifier
+            .fillMaxHeight(0.9f)
+            .fillMaxWidth()
+            .navigationBarsPadding(),
         onDismissRequest = onCloseBottomSheet,
         sheetState = bottomSheetState,
         shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
