@@ -22,6 +22,6 @@ dependencies {
     implementation(project(":domain:color"))
     implementation(project(":domain:daily"))
     implementation(project(":domain:sleep"))
-
+    implementation(project(":data:alarm:api"))
     implementation(libs.threetenabp)
 }

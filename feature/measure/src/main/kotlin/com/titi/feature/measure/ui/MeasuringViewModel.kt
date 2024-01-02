@@ -5,6 +5,9 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
+import com.titi.data.alarm.api.AlarmRepository
+import com.titi.data.alarm.api.model.AlarmRepositoryModel
+import com.titi.data.alarm.api.model.AlarmsRepositoryModel
 import com.titi.doamin.daily.usecase.AddMeasureTimeAtDailyUseCase
 import com.titi.domain.sleep.GetSleepModeFlowUseCase
 import com.titi.domain.sleep.SetSleepModeUseCase
@@ -27,9 +30,29 @@ class MeasuringViewModel @AssistedInject constructor(
     private val addMeasureTimeAtRecordTimesUseCase: AddMeasureTimeAtRecordTimesUseCase,
     private val addMeasureTimeAtTaskUseCase: AddMeasureTimeAtTaskUseCase,
     private val getSleepModeFlowUseCase: GetSleepModeFlowUseCase,
-    private val setSleepModeUseCase: SetSleepModeUseCase
+    private val setSleepModeUseCase: SetSleepModeUseCase,
+    private val alarmRepository: AlarmRepository
 ) : MavericksViewModel<MeasuringUiState>(initialState) {
+    init {
+        viewModelScope.launch {
+            if(alarmRepository.canScheduleExactAlarms()){
+                alarmRepository.setExactAlarms(
+                    AlarmsRepositoryModel(
+                        alarms = listOf(
+                            AlarmRepositoryModel(
+                                message = "안녕하세요1", delayMillis = 5000
+                            ),
+                            AlarmRepositoryModel(
+                                message = "안녕하세요2", delayMillis = 8000
+                            )
+                        )
+                    )
+                )
+            }
 
+        }
+
+    }
     fun start() {
         getSleepModeFlowUseCase().catch {
             Log.e("MeasuringViewModel", it.message.toString())

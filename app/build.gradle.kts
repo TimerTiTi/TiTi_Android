@@ -38,6 +38,7 @@ dependencies {
     implementation(project(":data:color:impl"))
     implementation(project(":data:daily:impl"))
     implementation(project(":data:sleep:impl"))
+    implementation(project(":data:alarm:impl"))
 
     implementation(libs.bundles.mavericks)
     implementation(libs.threetenabp)
