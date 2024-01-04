@@ -1,4 +1,4 @@
-package com.titi.domain.alarm
+package com.titi.domain.alarm.usecase
 
 import com.titi.data.alarm.api.AlarmRepository
 import com.titi.domain.alarm.mapper.toRepositoryModel
