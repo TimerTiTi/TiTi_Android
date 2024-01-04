@@ -44,6 +44,8 @@ internal class AlarmRepositoryImpl(
                 pendingIntent
             )
         }
+
+        alarmDataStore.setAlarms(alarms.toLocalModel())
     }
 
     override suspend fun addExactAlarms(alarms: AlarmsRepositoryModel) {

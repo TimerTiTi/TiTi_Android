@@ -15,4 +15,5 @@ dependencies {
     implementation(project(":data:alarm:api"))
 
     implementation(libs.javax)
+    implementation(libs.threetenabp)
 }
