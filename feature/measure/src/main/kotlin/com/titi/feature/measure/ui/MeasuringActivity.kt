@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.mvrx.asMavericksArgs
@@ -84,8 +85,32 @@ fun MeasuringScreen(
         }
     )
 
+    val (alarmTitle, alarmFinishMessage, alarmFiveMinutesBeforeFinish) = if (splashResultState.recordTimes.recordingMode == 1) {
+        Triple(
+            stringResource(id = R.string.timer),
+            stringResource(id = R.string.timer_finish_alarm_message),
+            stringResource(id = R.string.timer_five_minutes_before_finish_alarm_message)
+        )
+    } else {
+        Triple(
+            stringResource(id = R.string.stopwatch),
+            stringResource(id = R.string.stopwatch_alarm_message),
+            null
+        )
+    }
     LaunchedEffect(Unit) {
         viewModel.start()
+
+        viewModel.setAlarm(
+            title = alarmTitle,
+            finishMessage = alarmFinishMessage,
+            fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
+            measureTime = if (splashResultState.recordTimes.recordingMode == 1) {
+                splashResultState.recordTimes.savedTimerTime
+            } else {
+                splashResultState.recordTimes.savedStopWatchTime
+            }
+        )
     }
 
     val uiState by viewModel.collectAsState()

@@ -28,4 +28,7 @@
     <string name="daily_check_title">Daily를 생성해주세요.</string>
     <string name="task_check_title">Task를 선택해주세요.</string>
     <string name="finish_text">종료</string>
+    <string name="timer_finish_alarm_message">타이머가 종료되었습니다!</string>
+    <string name="timer_five_minutes_before_finish_alarm_message">5분 남았습니다.</string>
+    <string name="stopwatch_alarm_message">시간 경과되었습니다.</string>
 </resources>
