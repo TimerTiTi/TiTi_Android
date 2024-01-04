@@ -11,6 +11,7 @@ import com.titi.data.alarm.impl.AlarmReceiver
 import com.titi.data.alarm.impl.local.AlarmDataStore
 import com.titi.data.alarm.impl.mapper.toLocalModel
 import com.titi.data.alarm.impl.mapper.toRepositoryModel
+import org.threeten.bp.ZonedDateTime
 
 internal class AlarmRepositoryImpl(
     private val context: Context,
@@ -33,13 +34,14 @@ internal class AlarmRepositoryImpl(
         runCatching {
             alarms.alarms.forEachIndexed { index, alarm ->
                 val pendingIntent = Intent(context, AlarmReceiver::class.java).run {
+                    putExtra("ALARM_TITLE", alarm.title)
                     putExtra("ALARM_MESSAGE", alarm.message)
                     PendingIntent.getBroadcast(context, index, this, PendingIntent.FLAG_IMMUTABLE)
                 }
 
                 alarmManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
-                    System.currentTimeMillis() + alarm.delayMillis,
+                    ZonedDateTime.parse(alarm.finishTime).toInstant().toEpochMilli(),
                     pendingIntent
                 )
             }
@@ -53,7 +55,12 @@ internal class AlarmRepositoryImpl(
             alarmDataStore.getAlarms()?.let {
                 it.alarms.forEachIndexed { index, _ ->
                     val pendingIntent = Intent(context, AlarmReceiver::class.java).run {
-                        PendingIntent.getBroadcast(context, index, this, PendingIntent.FLAG_IMMUTABLE)
+                        PendingIntent.getBroadcast(
+                            context,
+                            index,
+                            this,
+                            PendingIntent.FLAG_IMMUTABLE
+                        )
                     }
 
                     alarmManager.cancel(pendingIntent)

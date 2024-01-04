@@ -10,6 +10,7 @@ internal fun AlarmsRepositoryModel.toLocalModel() = AlarmsEntity(
 )
 
 internal fun AlarmRepositoryModel.toLocalModel() = AlarmEntity(
+    title = title,
     message = message,
-    delayMillis = delayMillis
+    finishTime = finishTime
 )

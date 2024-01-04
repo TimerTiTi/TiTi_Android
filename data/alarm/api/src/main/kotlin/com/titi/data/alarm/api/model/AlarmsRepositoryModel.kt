@@ -5,6 +5,7 @@ data class AlarmsRepositoryModel(
 )
 
 data class AlarmRepositoryModel(
+    val title : String,
     val message: String,
-    val delayMillis: Long,
+    val finishTime: String,
 )

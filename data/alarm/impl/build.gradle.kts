@@ -18,4 +18,5 @@ dependencies {
 
     implementation(libs.bundles.moshi)
     implementation(libs.bundles.datastore)
+    implementation(libs.threetenabp)
 }

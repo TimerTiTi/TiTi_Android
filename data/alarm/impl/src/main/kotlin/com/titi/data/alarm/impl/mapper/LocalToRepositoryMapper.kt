@@ -10,6 +10,7 @@ internal fun AlarmsEntity.toRepositoryModel() = AlarmsRepositoryModel(
 )
 
 internal fun AlarmEntity.toRepositoryModel() = AlarmRepositoryModel(
+    title = title,
     message = message,
-    delayMillis = delayMillis
+    finishTime = finishTime
 )
