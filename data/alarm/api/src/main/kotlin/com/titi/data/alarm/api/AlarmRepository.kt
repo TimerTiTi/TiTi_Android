@@ -10,6 +10,8 @@ interface AlarmRepository {
 
     suspend fun setExactAlarms(alarms: AlarmsRepositoryModel)
 
+    suspend fun addExactAlarms(alarms: AlarmsRepositoryModel)
+
     suspend fun cancelAlarms()
 
 }

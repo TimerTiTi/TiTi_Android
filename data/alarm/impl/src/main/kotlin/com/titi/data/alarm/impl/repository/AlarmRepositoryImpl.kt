@@ -31,23 +31,23 @@ internal class AlarmRepositoryImpl(
         }
 
     override suspend fun setExactAlarms(alarms: AlarmsRepositoryModel) {
-        runCatching {
-            alarms.alarms.forEachIndexed { index, alarm ->
-                val pendingIntent = Intent(context, AlarmReceiver::class.java).run {
-                    putExtra("ALARM_TITLE", alarm.title)
-                    putExtra("ALARM_MESSAGE", alarm.message)
-                    PendingIntent.getBroadcast(context, index, this, PendingIntent.FLAG_IMMUTABLE)
-                }
-
-                alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    ZonedDateTime.parse(alarm.finishTime).toInstant().toEpochMilli(),
-                    pendingIntent
-                )
+        alarms.alarms.forEachIndexed { index, alarm ->
+            val pendingIntent = Intent(context, AlarmReceiver::class.java).run {
+                putExtra("ALARM_TITLE", alarm.title)
+                putExtra("ALARM_MESSAGE", alarm.message)
+                PendingIntent.getBroadcast(context, index, this, PendingIntent.FLAG_IMMUTABLE)
             }
-        }.onSuccess {
-            alarmDataStore.setAlarms(alarms.toLocalModel())
+
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                ZonedDateTime.parse(alarm.finishTime).toInstant().toEpochMilli(),
+                pendingIntent
+            )
         }
+    }
+
+    override suspend fun addExactAlarms(alarms: AlarmsRepositoryModel) {
+        alarmDataStore.setAlarms(alarms.toLocalModel())
     }
 
     override suspend fun cancelAlarms() {

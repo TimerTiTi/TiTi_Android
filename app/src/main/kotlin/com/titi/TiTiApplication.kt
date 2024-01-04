@@ -24,7 +24,7 @@ class TiTiApplication : Application() {
     private fun createNotificationChannel() {
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
             val channelId = "titiChannelId"
-            val channelName = "titiChannelName"
+            val channelName = "TiTi Notifications"
             val channelImportance = NotificationManager.IMPORTANCE_DEFAULT
 
             val channel = NotificationChannel(channelId, channelName, channelImportance)
