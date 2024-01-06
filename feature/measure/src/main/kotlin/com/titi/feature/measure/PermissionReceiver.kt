@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.titi.core.util.goAsync
 import com.titi.domain.alarm.usecase.CanSetAlarmUseCase
 import com.titi.domain.alarm.usecase.GetAlarmsUseCase
 import com.titi.domain.alarm.usecase.SetAlarmsUseCase
@@ -11,12 +12,9 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class PermissionReceiver : BroadcastReceiver() {
 
@@ -53,18 +51,6 @@ class PermissionReceiver : BroadcastReceiver() {
                     }
                 }
             }
-        }
-    }
-
-    private fun BroadcastReceiver.goAsync(
-        coroutineScope: CoroutineScope,
-        dispatcher: CoroutineDispatcher,
-        block: suspend () -> Unit
-    ) {
-        val pendingResult = goAsync()
-        coroutineScope.launch(dispatcher) {
-            block()
-            pendingResult.finish()
         }
     }
 
