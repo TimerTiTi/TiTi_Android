@@ -7,6 +7,7 @@ import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.doamin.daily.usecase.AddMeasureTimeAtDailyUseCase
 import com.titi.domain.alarm.usecase.CanSetAlarmUseCase
+import com.titi.domain.alarm.usecase.CancelAlarmsUseCase
 import com.titi.domain.alarm.usecase.SetStopWatchAlarmUseCase
 import com.titi.domain.alarm.usecase.SetTimerAlarmUseCase
 import com.titi.domain.sleep.GetSleepModeFlowUseCase
@@ -33,7 +34,8 @@ class MeasuringViewModel @AssistedInject constructor(
     private val setSleepModeUseCase: SetSleepModeUseCase,
     private val canSetAlarmUseCase: CanSetAlarmUseCase,
     private val setTimerAlarmUseCase: SetTimerAlarmUseCase,
-    private val setStopWatchAlarmUseCase: SetStopWatchAlarmUseCase
+    private val setStopWatchAlarmUseCase: SetStopWatchAlarmUseCase,
+    private val cancelAlarmsUseCase: CancelAlarmsUseCase
 ) : MavericksViewModel<MeasuringUiState>(initialState) {
 
     fun canSetAlarm() = canSetAlarmUseCase()
@@ -133,6 +135,8 @@ class MeasuringViewModel @AssistedInject constructor(
                     )
                 }
             }
+
+            cancelAlarmsUseCase()
         }
     }
 
