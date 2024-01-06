@@ -193,7 +193,8 @@ fun MeasuringScreen(
                     }
                 }
             ),
-            onShowDialog = { showSetExactAlarmPermissionDialog = it }
+            onShowDialog = { showSetExactAlarmPermissionDialog = it },
+            bodyContent = {}
         )
     }
 
