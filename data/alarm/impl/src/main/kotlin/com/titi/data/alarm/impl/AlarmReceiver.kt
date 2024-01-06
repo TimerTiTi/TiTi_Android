@@ -11,9 +11,9 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 
 internal class AlarmReceiver : BroadcastReceiver() {
 
@@ -45,7 +45,7 @@ internal class AlarmReceiver : BroadcastReceiver() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
         notificationManager.notify(0, builder.build())
 
-        goAsync(GlobalScope, Dispatchers.IO) {
+        goAsync(CoroutineScope(Dispatchers.IO)) {
             alarmDataStore.removeAlarms()
         }
     }
