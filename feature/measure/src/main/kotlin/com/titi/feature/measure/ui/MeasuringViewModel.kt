@@ -7,6 +7,7 @@ import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.doamin.daily.usecase.AddMeasureTimeAtDailyUseCase
 import com.titi.domain.alarm.usecase.CanSetAlarmUseCase
+import com.titi.domain.alarm.usecase.SetStopWatchAlarmUseCase
 import com.titi.domain.alarm.usecase.SetTimerAlarmUseCase
 import com.titi.domain.sleep.GetSleepModeFlowUseCase
 import com.titi.domain.sleep.SetSleepModeUseCase
@@ -32,6 +33,7 @@ class MeasuringViewModel @AssistedInject constructor(
     private val setSleepModeUseCase: SetSleepModeUseCase,
     private val canSetAlarmUseCase: CanSetAlarmUseCase,
     private val setTimerAlarmUseCase: SetTimerAlarmUseCase,
+    private val setStopWatchAlarmUseCase: SetStopWatchAlarmUseCase
 ) : MavericksViewModel<MeasuringUiState>(initialState) {
 
     fun canSetAlarm() = canSetAlarmUseCase()
@@ -68,21 +70,25 @@ class MeasuringViewModel @AssistedInject constructor(
     }
 
     fun setAlarm(
-        title : String,
-        finishMessage : String,
-        fiveMinutesBeforeFinish : String?,
-        measureTime : Long
-    ){
+        title: String,
+        finishMessage: String,
+        fiveMinutesBeforeFinish: String?,
+        measureTime: Long
+    ) {
         viewModelScope.launch {
-            if(fiveMinutesBeforeFinish != null){
+            if (fiveMinutesBeforeFinish != null) {
                 setTimerAlarmUseCase(
                     title = title,
                     finishMessage = finishMessage,
                     fiveMinutesBeforeFinish = fiveMinutesBeforeFinish,
                     measureTime = measureTime
                 )
-            }else{
-
+            } else {
+                setStopWatchAlarmUseCase(
+                    title = title,
+                    finishMessage = finishMessage,
+                    measureTime = measureTime
+                )
             }
         }
     }
