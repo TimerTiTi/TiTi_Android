@@ -16,11 +16,11 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 
-class PermissionReceiver : BroadcastReceiver() {
+internal class PermissionReceiver : BroadcastReceiver() {
 
     @EntryPoint
     @InstallIn(SingletonComponent::class)
-    interface PermissionReceiverEntryPoint {
+    internal interface PermissionReceiverEntryPoint {
         fun getCanSetAlarmUseCase(): CanSetAlarmUseCase
         fun getGetAlarmsUseCase(): GetAlarmsUseCase
         fun getSetAlarmsUseCase(): SetAlarmsUseCase
