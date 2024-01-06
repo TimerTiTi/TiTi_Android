@@ -39,7 +39,6 @@ class SetStopWatchAlarmUseCase @Inject constructor(
     companion object {
         private const val ONE_HOUR_SECONDS = 3600
         private const val TWENTY_FOUR_HOURS = 24
-        private const val TWENTY_FOUR_HOUR_SECONDS = 86400
     }
 
 }
