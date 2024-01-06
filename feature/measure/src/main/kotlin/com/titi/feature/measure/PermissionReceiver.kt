@@ -13,7 +13,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 
 internal class PermissionReceiver : BroadcastReceiver() {
@@ -30,7 +29,6 @@ internal class PermissionReceiver : BroadcastReceiver() {
     lateinit var getAlarmsUseCase: GetAlarmsUseCase
     lateinit var setAlarmsUseCase: SetAlarmsUseCase
 
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onReceive(context: Context, intent: Intent) {
         val entryPoint = EntryPointAccessors.fromApplication(
             context,

@@ -12,7 +12,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 
 internal class AlarmReceiver : BroadcastReceiver() {
@@ -23,9 +22,8 @@ internal class AlarmReceiver : BroadcastReceiver() {
         fun getAlarmDataStore(): AlarmDataStore
     }
 
-    lateinit var alarmDataStore: AlarmDataStore
+    private lateinit var alarmDataStore: AlarmDataStore
 
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onReceive(context: Context, intent: Intent) {
         val title = intent.getStringExtra("ALARM_TITLE") ?: return
         val message = intent.getStringExtra("ALARM_MESSAGE")
