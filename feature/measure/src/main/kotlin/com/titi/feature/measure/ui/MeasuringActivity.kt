@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,6 +50,7 @@ import com.titi.core.ui.TiTiDeepLinkArgs.MEASURE_ARG
 import com.titi.core.ui.setBrightness
 import com.titi.core.util.fromJson
 import com.titi.designsystem.R
+import com.titi.domain.time.model.RecordTimes
 import com.titi.feature.measure.SplashResultState
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
@@ -61,16 +63,31 @@ class MeasuringActivity : ComponentActivity() {
         val splashResultState =
             intent.data?.getQueryParameter(MEASURE_ARG)?.fromJson<SplashResultState>()
 
-        val resultIntent = Intent()
-
         setContent {
             TiTiTheme {
-                splashResultState?.let {
+                splashResultState?.let { safeSplashResultState ->
+                    val viewModel: MeasuringViewModel = mavericksActivityViewModel(
+                        argsFactory = {
+                            safeSplashResultState.asMavericksArgs()
+                        }
+                    )
+
                     MeasuringScreen(
-                        splashResultState = it,
-                        onFinish = { isFinish ->
+                        viewModel = viewModel,
+                        splashResultState = safeSplashResultState,
+                        onFinish = { recordTimes: RecordTimes, measureTime: Long, isFinish: Boolean ->
+                            viewModel.stopMeasuring(
+                                recordTimes = recordTimes,
+                                measureTime = measureTime,
+                                endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                            )
+
+                            val resultIntent = Intent()
                             resultIntent.putExtra(MAIN_FINISH_ARG, isFinish)
-                            resultIntent.putExtra(MAIN_START_ARG, it.recordTimes.recordingMode)
+                            resultIntent.putExtra(
+                                MAIN_START_ARG,
+                                safeSplashResultState.recordTimes.recordingMode
+                            )
                             setResult(RESULT_OK, resultIntent)
                             finish()
                         }
@@ -84,15 +101,10 @@ class MeasuringActivity : ComponentActivity() {
 
 @Composable
 fun MeasuringScreen(
+    viewModel: MeasuringViewModel,
     splashResultState: SplashResultState,
-    onFinish: (Boolean) -> Unit,
+    onFinish: (recordTimes: RecordTimes, measureTime: Long, isFinish: Boolean) -> Unit,
 ) {
-    val viewModel: MeasuringViewModel = mavericksActivityViewModel(
-        argsFactory = {
-            splashResultState.asMavericksArgs()
-        }
-    )
-
     val uiState by viewModel.collectAsState()
     val context = LocalContext.current
     var showSetExactAlarmPermissionDialog by remember { mutableStateOf(false) }
@@ -109,6 +121,12 @@ fun MeasuringScreen(
             stringResource(id = R.string.stopwatch_alarm_message),
             null
         )
+    }
+
+    val isFinishState by remember {
+        derivedStateOf {
+            uiState.measuringRecordTimes.savedTime < 0
+        }
     }
 
     LaunchedEffect(Unit) {
@@ -129,12 +147,11 @@ fun MeasuringScreen(
     }
 
     BackHandler {
-        viewModel.stopMeasuring(
-            recordTimes = uiState.recordTimes,
-            measureTime = uiState.measureTime,
-            endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+        onFinish(
+            uiState.recordTimes,
+            uiState.measureTime,
+            uiState.measuringRecordTimes.savedTime <= 0L
         )
-        onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
     }
 
     DisposableEffect(Unit) {
@@ -145,6 +162,16 @@ fun MeasuringScreen(
 
     LaunchedEffect(uiState.isSleepMode) {
         context.setBrightness(uiState.isSleepMode)
+    }
+
+    LaunchedEffect(isFinishState) {
+        if (isFinishState) {
+            onFinish(
+                uiState.recordTimes,
+                uiState.measureTime,
+                true
+            )
+        }
     }
 
     if (showSetExactAlarmPermissionDialog) {
@@ -176,12 +203,11 @@ fun MeasuringScreen(
             viewModel.setSleepMode(!uiState.isSleepMode)
         },
         onFinishClick = {
-            viewModel.stopMeasuring(
-                recordTimes = uiState.recordTimes,
-                measureTime = uiState.measureTime,
-                endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+            onFinish(
+                uiState.recordTimes,
+                uiState.measureTime,
+                uiState.measuringRecordTimes.savedTime <= 0L
             )
-            onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
         }
     )
 }
