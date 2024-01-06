@@ -103,7 +103,7 @@ fun ColorScreen(
                 },
                 negativeText = stringResource(id = R.string.Cancel),
             ),
-            onShowDialog = { showDialog = false }
+            onShowDialog = { showDialog = it }
         ) {
             Box(
                 modifier = Modifier

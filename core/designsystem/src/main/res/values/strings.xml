@@ -31,4 +31,6 @@
     <string name="timer_finish_alarm_message">타이머가 종료되었습니다!</string>
     <string name="timer_five_minutes_before_finish_alarm_message">5분 남았습니다.</string>
     <string name="stopwatch_alarm_message">시간 경과되었습니다.</string>
+    <string name="alarm_permission_title">알람을 설정하기 위해 권한이 필요로 합니다.</string>
+    <string name="alarm_permission_message">설정하러 가시겠습니까?</string>
 </resources>

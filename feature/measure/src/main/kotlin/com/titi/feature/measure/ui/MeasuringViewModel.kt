@@ -30,10 +30,11 @@ class MeasuringViewModel @AssistedInject constructor(
     private val addMeasureTimeAtTaskUseCase: AddMeasureTimeAtTaskUseCase,
     private val getSleepModeFlowUseCase: GetSleepModeFlowUseCase,
     private val setSleepModeUseCase: SetSleepModeUseCase,
-    val canSetAlarmUseCase: CanSetAlarmUseCase,
+    private val canSetAlarmUseCase: CanSetAlarmUseCase,
     private val setTimerAlarmUseCase: SetTimerAlarmUseCase,
 ) : MavericksViewModel<MeasuringUiState>(initialState) {
 
+    fun canSetAlarm() = canSetAlarmUseCase()
 
     fun start() {
         getSleepModeFlowUseCase().catch {

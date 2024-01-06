@@ -1,7 +1,10 @@
 package com.titi.feature.measure.ui
 
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
@@ -18,6 +21,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,9 +35,11 @@ import androidx.compose.ui.unit.sp
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksActivityViewModel
+import com.titi.core.designsystem.component.TdsDialog
 import com.titi.core.designsystem.component.TdsIconButton
 import com.titi.core.designsystem.component.TdsText
 import com.titi.core.designsystem.component.TdsTimer
+import com.titi.core.designsystem.model.TdsDialogInfo
 import com.titi.core.designsystem.theme.TdsColor
 import com.titi.core.designsystem.theme.TdsTextStyle
 import com.titi.core.designsystem.theme.TiTiTheme
@@ -85,6 +93,10 @@ fun MeasuringScreen(
         }
     )
 
+    val uiState by viewModel.collectAsState()
+    val context = LocalContext.current
+    var showSetExactAlarmPermissionDialog by remember { mutableStateOf(false) }
+
     val (alarmTitle, alarmFinishMessage, alarmFiveMinutesBeforeFinish) = if (splashResultState.recordTimes.recordingMode == 1) {
         Triple(
             stringResource(id = R.string.timer),
@@ -98,6 +110,7 @@ fun MeasuringScreen(
             null
         )
     }
+
     LaunchedEffect(Unit) {
         viewModel.start()
 
@@ -111,10 +124,9 @@ fun MeasuringScreen(
                 splashResultState.recordTimes.savedStopWatchTime
             }
         )
-    }
 
-    val uiState by viewModel.collectAsState()
-    val context = LocalContext.current
+        showSetExactAlarmPermissionDialog = !viewModel.canSetAlarm()
+    }
 
     BackHandler {
         viewModel.stopMeasuring(
@@ -133,6 +145,29 @@ fun MeasuringScreen(
 
     LaunchedEffect(uiState.isSleepMode) {
         context.setBrightness(uiState.isSleepMode)
+    }
+
+    if (showSetExactAlarmPermissionDialog) {
+        TdsDialog(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
+                title = stringResource(id = R.string.alarm_permission_title),
+                message = stringResource(id = R.string.alarm_permission_message),
+                positiveText = stringResource(id = R.string.Ok),
+                negativeText = stringResource(id = R.string.Cancel),
+                onPositive = {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        val intent = Intent(
+                            ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
+                            Uri.parse("package:" + context.packageName)
+                        )
+                        intent.addCategory(Intent.CATEGORY_DEFAULT)
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        context.startActivity(intent)
+                    }
+                }
+            ),
+            onShowDialog = { showSetExactAlarmPermissionDialog = it }
+        )
     }
 
     MeasuringScreen(
