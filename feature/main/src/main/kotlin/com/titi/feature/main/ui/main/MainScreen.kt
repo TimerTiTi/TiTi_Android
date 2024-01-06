@@ -65,12 +65,21 @@ fun MainScreen(
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
+                LaunchedEffect(currentDestination) {
+                    currentDestination?.let { safeCurrentDestination ->
+                        if (safeCurrentDestination.route == TiTiBottomNavigationScreen.Timer.route) {
+                            viewModel.updateBottomNavigationPosition(1)
+                        } else {
+                            viewModel.updateBottomNavigationPosition(2)
+                        }
+                    }
+                }
+
                 items.forEachIndexed { index, screen ->
                     TdsNavigationBarItem(
                         label = { Text(text = screen.route) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
-                            viewModel.updateBottomNavigationPosition(index + 1)
                             navController.navigate(screen.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
