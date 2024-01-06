@@ -61,7 +61,7 @@ fun TdsDialog(
                 )
 
                 tdsDialogInfo.message?.let { message ->
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     TdsText(
                         text = message,
@@ -72,11 +72,11 @@ fun TdsDialog(
                 }
 
                 if (bodyContent != null) {
-                    Spacer(modifier = Modifier.height(15.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
                     bodyContent()
 
-                    Spacer(modifier = Modifier.height(15.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
 
 

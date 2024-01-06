@@ -6,6 +6,10 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.doamin.daily.usecase.AddMeasureTimeAtDailyUseCase
+import com.titi.domain.alarm.usecase.CanSetAlarmUseCase
+import com.titi.domain.alarm.usecase.CancelAlarmsUseCase
+import com.titi.domain.alarm.usecase.SetStopWatchAlarmUseCase
+import com.titi.domain.alarm.usecase.SetTimerAlarmUseCase
 import com.titi.domain.sleep.GetSleepModeFlowUseCase
 import com.titi.domain.sleep.SetSleepModeUseCase
 import com.titi.domain.task.usecase.AddMeasureTimeAtTaskUseCase
@@ -27,8 +31,14 @@ class MeasuringViewModel @AssistedInject constructor(
     private val addMeasureTimeAtRecordTimesUseCase: AddMeasureTimeAtRecordTimesUseCase,
     private val addMeasureTimeAtTaskUseCase: AddMeasureTimeAtTaskUseCase,
     private val getSleepModeFlowUseCase: GetSleepModeFlowUseCase,
-    private val setSleepModeUseCase: SetSleepModeUseCase
+    private val setSleepModeUseCase: SetSleepModeUseCase,
+    private val canSetAlarmUseCase: CanSetAlarmUseCase,
+    private val setTimerAlarmUseCase: SetTimerAlarmUseCase,
+    private val setStopWatchAlarmUseCase: SetStopWatchAlarmUseCase,
+    private val cancelAlarmsUseCase: CancelAlarmsUseCase
 ) : MavericksViewModel<MeasuringUiState>(initialState) {
+
+    fun canSetAlarm() = canSetAlarmUseCase()
 
     fun start() {
         getSleepModeFlowUseCase().catch {
@@ -57,6 +67,30 @@ class MeasuringViewModel @AssistedInject constructor(
                         measureTime = measureTime + 1
                     )
                 }
+            }
+        }
+    }
+
+    fun setAlarm(
+        title: String,
+        finishMessage: String,
+        fiveMinutesBeforeFinish: String?,
+        measureTime: Long
+    ) {
+        viewModelScope.launch {
+            if (fiveMinutesBeforeFinish != null) {
+                setTimerAlarmUseCase(
+                    title = title,
+                    finishMessage = finishMessage,
+                    fiveMinutesBeforeFinish = fiveMinutesBeforeFinish,
+                    measureTime = measureTime
+                )
+            } else {
+                setStopWatchAlarmUseCase(
+                    title = title,
+                    finishMessage = finishMessage,
+                    measureTime = measureTime
+                )
             }
         }
     }
@@ -101,6 +135,8 @@ class MeasuringViewModel @AssistedInject constructor(
                     )
                 }
             }
+
+            cancelAlarmsUseCase()
         }
     }
 
