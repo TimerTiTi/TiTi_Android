@@ -125,7 +125,7 @@ fun MeasuringScreen(
 
     val isFinishState by remember {
         derivedStateOf {
-            uiState.measuringRecordTimes.savedTime < 0
+            uiState.measuringRecordTimes.savedTime <= 0
         }
     }
 

@@ -164,10 +164,20 @@ fun TimerScreen(
         },
         onClickStartRecord = {
             if (uiState.isEnableStartRecording) {
-                val updateRecordTimes = uiState.recordTimes.copy(
-                    recording = true,
-                    recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString()
-                )
+                val updateRecordTimes = with(uiState.recordTimes) {
+                    if (savedTimerTime <= 0) {
+                        copy(
+                            recording = true,
+                            recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                            savedTimerTime = setTimerTime
+                        )
+                    } else {
+                        copy(
+                            recording = true,
+                            recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString()
+                        )
+                    }
+                }
 
                 viewModel.updateMeasuringState(updateRecordTimes)
 
