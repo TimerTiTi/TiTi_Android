@@ -1,4 +1,4 @@
-package com.titi
+package com.titi.common
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension

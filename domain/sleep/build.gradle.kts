@@ -1,18 +1,11 @@
 plugins {
-    id("titi.android.library")
+    id("titi.android.library-no-hilt")
 }
 
 android {
     namespace = "com.titi.domain.sleep"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
 }
 
 dependencies {
     implementation(project(":data:sleep:api"))
-
-    implementation(libs.javax)
 }

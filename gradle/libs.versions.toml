@@ -122,12 +122,6 @@ compose-ui = [
     "androidx-compose-material3"
 ]
 
-moshi = [
-    "moshi",
-    "moshi-codegen",
-    "moshi-kotlin"
-]
-
 datastore = [
     "androidx-datastore",
     "androidx-datastore-preference",

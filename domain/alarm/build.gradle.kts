@@ -1,19 +1,13 @@
 plugins {
-    id("titi.android.library")
+    id("titi.android.library-no-hilt")
 }
 
 android {
     namespace = "com.titi.domain.alarm"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
 }
 
 dependencies {
     implementation(project(":data:alarm:api"))
 
-    implementation(libs.javax)
     implementation(libs.threetenabp)
 }

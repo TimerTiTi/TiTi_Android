@@ -1,18 +1,16 @@
 plugins {
-   id("titi.android.library")
+    id("titi.android.library")
+    id("com.google.devtools.ksp")
 }
 
 android {
     namespace = "com.titi.core.util"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
 }
 
 dependencies {
-    implementation(libs.bundles.moshi)
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
+    ksp(libs.moshi.codegen)
 
     implementation(libs.bundles.datastore)
 

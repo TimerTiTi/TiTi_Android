@@ -1,7 +1,5 @@
 plugins {
-    id("titi.android.application.compose")
-    id("titi.android.hilt")
-    id("kotlin-parcelize")
+    id("titi.android.application")
 }
 
 android {
@@ -9,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId = "com.titi"
-         versionCode = 1
+        versionCode = 1
         versionName = "1.0"
     }
 

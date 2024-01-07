@@ -1,12 +1,7 @@
 plugins {
-   id("titi.android.library")
+   id("titi.android.library-no-hilt")
 }
 
 android {
     namespace = "com.titi.data.time.api"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
 }

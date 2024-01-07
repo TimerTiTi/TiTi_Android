@@ -1,13 +1,12 @@
-package com.titi
+package com.titi.common
 
-import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
-internal fun Project.configureAndroidCompose(
-    commonExtension: CommonExtension<*, *, *, *, *>,
-) {
-    commonExtension.apply {
+internal fun Project.configureComposeAndroid() {
+    val libs = extensions.libs
+
+    androidExtension.apply {
         buildFeatures {
             compose = true
         }
@@ -35,6 +34,5 @@ internal fun Project.configureAndroidCompose(
             add("debugImplementation", libs.findLibrary("androidx.ui.test.manifest").get())
         }
     }
-
 
 }
