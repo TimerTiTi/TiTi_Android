@@ -1,4 +1,4 @@
-package com.titi.core.util
+package com.titi.app.core.util
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

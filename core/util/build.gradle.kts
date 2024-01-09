@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.core.util"
+    namespace = "com.titi.app.core.util"
 }
 
 dependencies {

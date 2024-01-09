@@ -1,6 +1,6 @@
 package com.titi.doamin.daily.usecase
 
-import com.titi.core.util.addTimeLine
+import com.titi.app.core.util.addTimeLine
 import com.titi.data.daily.api.DailyRepository
 import com.titi.doamin.daily.mapper.toDomain
 import com.titi.doamin.daily.mapper.toRepositoryModel

@@ -1,4 +1,4 @@
-package com.titi.core.util
+package com.titi.app.core.util
 
 import org.threeten.bp.Duration
 import org.threeten.bp.ZoneOffset

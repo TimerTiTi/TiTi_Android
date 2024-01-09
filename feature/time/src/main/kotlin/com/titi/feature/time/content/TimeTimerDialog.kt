@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsInputTimeTextField
 import com.titi.app.core.designsystem.model.TdsDialogInfo
-import com.titi.core.util.addTimeToNow
-import com.titi.core.util.getTimeToLong
+import com.titi.app.core.util.addTimeToNow
+import com.titi.app.core.util.getTimeToLong
 import com.titi.app.core.designsystem.R
 
 @Composable

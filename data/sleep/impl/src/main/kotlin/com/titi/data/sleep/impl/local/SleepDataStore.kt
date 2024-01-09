@@ -5,8 +5,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.titi.core.util.readFlowValue
-import com.titi.core.util.storeValue
+import com.titi.app.core.util.readFlowValue
+import com.titi.app.core.util.storeValue
 
 internal class SleepDataStore(context: Context) {
 

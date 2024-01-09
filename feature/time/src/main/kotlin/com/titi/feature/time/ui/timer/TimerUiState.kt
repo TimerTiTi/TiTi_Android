@@ -4,9 +4,9 @@ import android.os.Build
 import android.os.Bundle
 import com.airbnb.mvrx.Mavericks
 import com.airbnb.mvrx.MavericksState
-import com.titi.core.util.addTimeToNow
-import com.titi.core.util.getTodayDate
-import com.titi.core.util.isAfterSixAM
+import com.titi.app.core.util.addTimeToNow
+import com.titi.app.core.util.getTodayDate
+import com.titi.app.core.util.isAfterSixAM
 import com.titi.doamin.daily.model.Daily
 import com.titi.domain.color.model.TimeColor
 import com.titi.domain.time.model.RecordTimes

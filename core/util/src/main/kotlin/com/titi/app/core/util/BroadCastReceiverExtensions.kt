@@ -1,4 +1,4 @@
-package com.titi.core.util
+package com.titi.app.core.util
 
 import android.content.BroadcastReceiver
 import kotlinx.coroutines.CoroutineScope

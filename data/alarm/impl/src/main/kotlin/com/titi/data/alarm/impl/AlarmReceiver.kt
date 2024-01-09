@@ -5,7 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import com.titi.core.util.goAsync
+import com.titi.app.core.util.goAsync
 import com.titi.data.alarm.impl.local.AlarmDataStore
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn

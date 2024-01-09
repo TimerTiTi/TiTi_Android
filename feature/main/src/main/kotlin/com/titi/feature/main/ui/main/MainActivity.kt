@@ -38,8 +38,8 @@ import com.titi.app.core.ui.TiTiDestinations.SPLASH_ROUTE
 import com.titi.app.core.ui.TiTiNavigationActions
 import com.titi.app.core.ui.createColorUri
 import com.titi.app.core.ui.createMeasureUri
-import com.titi.core.util.fromJson
-import com.titi.core.util.toJson
+import com.titi.app.core.util.fromJson
+import com.titi.app.core.util.toJson
 import com.titi.feature.main.ui.splash.SplashResultState
 import com.titi.feature.main.ui.splash.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint

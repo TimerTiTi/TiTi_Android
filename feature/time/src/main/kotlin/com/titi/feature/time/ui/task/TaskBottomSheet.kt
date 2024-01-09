@@ -55,7 +55,7 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.core.designsystem.util.DraggableItem
 import com.titi.app.core.designsystem.util.dragContainer
 import com.titi.app.core.designsystem.util.rememberDragDropState
-import com.titi.core.util.getTimeToLong
+import com.titi.app.core.util.getTimeToLong
 import com.titi.app.core.designsystem.R
 import com.titi.domain.task.model.Task
 import kotlinx.coroutines.android.awaitFrame

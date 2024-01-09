@@ -1,4 +1,4 @@
-package com.titi.core.util
+package com.titi.app.core.util
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

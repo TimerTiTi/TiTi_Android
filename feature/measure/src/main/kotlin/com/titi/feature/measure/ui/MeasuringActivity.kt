@@ -48,7 +48,7 @@ import com.titi.app.core.ui.TiTiArgs.MAIN_FINISH_ARG
 import com.titi.app.core.ui.TiTiArgs.MAIN_START_ARG
 import com.titi.app.core.ui.TiTiDeepLinkArgs.MEASURE_ARG
 import com.titi.app.core.ui.setBrightness
-import com.titi.core.util.fromJson
+import com.titi.app.core.util.fromJson
 import com.titi.app.core.designsystem.R
 import com.titi.domain.time.model.RecordTimes
 import com.titi.feature.measure.SplashResultState
