@@ -1,8 +1,8 @@
-package com.titi.doamin.daily.usecase
+package com.titi.app.doamin.daily.usecase
 
 import com.titi.app.data.daily.api.DailyRepository
-import com.titi.doamin.daily.mapper.toRepositoryModel
-import com.titi.doamin.daily.model.Daily
+import com.titi.app.doamin.daily.mapper.toRepositoryModel
+import com.titi.app.doamin.daily.model.Daily
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 import javax.inject.Inject

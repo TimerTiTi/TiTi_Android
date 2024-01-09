@@ -5,8 +5,8 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
-import com.titi.doamin.daily.usecase.AddDailyUseCase
-import com.titi.doamin.daily.usecase.GetCurrentDailyFlowUseCase
+import com.titi.app.doamin.daily.usecase.AddDailyUseCase
+import com.titi.app.doamin.daily.usecase.GetCurrentDailyFlowUseCase
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.domain.color.usecase.UpdateColorUseCase
 import com.titi.domain.time.model.RecordTimes

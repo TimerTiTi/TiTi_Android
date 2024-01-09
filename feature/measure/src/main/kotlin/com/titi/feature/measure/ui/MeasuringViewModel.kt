@@ -5,7 +5,7 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
-import com.titi.doamin.daily.usecase.AddMeasureTimeAtDailyUseCase
+import com.titi.app.doamin.daily.usecase.AddMeasureTimeAtDailyUseCase
 import com.titi.app.domain.alarm.usecase.CanSetAlarmUseCase
 import com.titi.app.domain.alarm.usecase.CancelAlarmsUseCase
 import com.titi.app.domain.alarm.usecase.SetStopWatchAlarmUseCase

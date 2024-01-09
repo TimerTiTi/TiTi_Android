@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.doamin.daily"
+    namespace = "com.titi.app.doamin.daily"
 }
 
 dependencies {

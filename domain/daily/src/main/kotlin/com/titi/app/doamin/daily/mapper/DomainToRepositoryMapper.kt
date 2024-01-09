@@ -1,9 +1,9 @@
-package com.titi.doamin.daily.mapper
+package com.titi.app.doamin.daily.mapper
 
 import com.titi.app.data.daily.api.model.DailyRepositoryModel
 import com.titi.app.data.daily.api.model.TaskHistoryRepositoryModel
-import com.titi.doamin.daily.model.Daily
-import com.titi.doamin.daily.model.TaskHistory
+import com.titi.app.doamin.daily.model.Daily
+import com.titi.app.doamin.daily.model.TaskHistory
 
 internal fun Daily.toRepositoryModel() = DailyRepositoryModel(
     id = id,

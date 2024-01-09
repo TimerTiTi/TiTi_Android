@@ -1,6 +1,6 @@
 package com.titi.feature.main.ui.splash
 
-import com.titi.doamin.daily.model.Daily
+import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.domain.time.model.RecordTimes
 

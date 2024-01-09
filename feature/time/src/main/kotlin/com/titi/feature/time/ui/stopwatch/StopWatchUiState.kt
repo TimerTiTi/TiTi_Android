@@ -5,7 +5,7 @@ import com.airbnb.mvrx.MavericksState
 import com.titi.app.core.util.addTimeToNow
 import com.titi.app.core.util.getTodayDate
 import com.titi.app.core.util.isAfterSixAM
-import com.titi.doamin.daily.model.Daily
+import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.domain.time.model.RecordTimes
 import com.titi.feature.time.ui.timer.getSplashResultStateFromArgs

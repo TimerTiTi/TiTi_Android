@@ -2,7 +2,7 @@ package com.titi.feature.main.ui.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.titi.doamin.daily.usecase.GetCurrentDailyUseCase
+import com.titi.app.doamin.daily.usecase.GetCurrentDailyUseCase
 import com.titi.app.domain.color.usecase.GetTimeColorUseCase
 import com.titi.domain.time.usecase.GetRecordTimesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

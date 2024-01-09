@@ -1,7 +1,7 @@
 package com.titi.feature.time
 
 import android.os.Parcelable
-import com.titi.doamin.daily.model.Daily
+import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.domain.time.model.RecordTimes
 import kotlinx.parcelize.Parcelize

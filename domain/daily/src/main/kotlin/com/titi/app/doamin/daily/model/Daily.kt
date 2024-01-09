@@ -1,4 +1,4 @@
-package com.titi.doamin.daily.model
+package com.titi.app.doamin.daily.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

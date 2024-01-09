@@ -1,10 +1,10 @@
-package com.titi.doamin.daily.usecase
+package com.titi.app.doamin.daily.usecase
 
 import com.titi.app.core.util.addTimeLine
 import com.titi.app.data.daily.api.DailyRepository
-import com.titi.doamin.daily.mapper.toDomain
-import com.titi.doamin.daily.mapper.toRepositoryModel
-import com.titi.doamin.daily.model.TaskHistory
+import com.titi.app.doamin.daily.mapper.toDomain
+import com.titi.app.doamin.daily.mapper.toRepositoryModel
+import com.titi.app.doamin.daily.model.TaskHistory
 import org.threeten.bp.ZonedDateTime
 import javax.inject.Inject
 import kotlin.math.max
