@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi"
+    namespace = "com.titi.app"
 
     defaultConfig {
         applicationId = "com.titi"

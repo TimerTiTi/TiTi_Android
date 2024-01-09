@@ -1,4 +1,4 @@
-package com.titi
+package com.titi.app
 
 import android.app.Application
 import android.app.NotificationChannel
