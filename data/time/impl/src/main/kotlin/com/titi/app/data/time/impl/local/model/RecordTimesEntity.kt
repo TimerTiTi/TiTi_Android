@@ -1,4 +1,4 @@
-package com.titi.data.time.impl.local.model
+package com.titi.app.data.time.impl.local.model
 
 import com.squareup.moshi.JsonClass
 

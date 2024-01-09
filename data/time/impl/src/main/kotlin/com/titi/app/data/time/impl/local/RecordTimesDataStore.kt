@@ -1,4 +1,4 @@
-package com.titi.data.time.impl.local
+package com.titi.app.data.time.impl.local
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -10,7 +10,7 @@ import com.titi.app.core.util.readFlowValue
 import com.titi.app.core.util.readValue
 import com.titi.app.core.util.storeValue
 import com.titi.app.core.util.toJson
-import com.titi.data.time.impl.local.model.RecordTimesEntity
+import com.titi.app.data.time.impl.local.model.RecordTimesEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
