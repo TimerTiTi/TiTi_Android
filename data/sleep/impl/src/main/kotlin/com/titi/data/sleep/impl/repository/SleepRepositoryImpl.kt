@@ -1,6 +1,6 @@
 package com.titi.data.sleep.impl.repository
 
-import com.titi.data.sleep.api.SleepRepository
+import com.titi.app.data.sleep.api.SleepRepository
 import com.titi.data.sleep.impl.local.SleepDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

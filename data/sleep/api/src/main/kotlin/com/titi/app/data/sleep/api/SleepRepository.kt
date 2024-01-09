@@ -1,4 +1,4 @@
-package com.titi.data.sleep.api
+package com.titi.app.data.sleep.api
 
 import kotlinx.coroutines.flow.Flow
 

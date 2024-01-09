@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.data.sleep.api"
+    namespace = "com.titi.app.data.sleep.api"
 }

@@ -1,6 +1,6 @@
 package com.titi.domain.sleep
 
-import com.titi.data.sleep.api.SleepRepository
+import com.titi.app.data.sleep.api.SleepRepository
 import javax.inject.Inject
 
 class SetSleepModeUseCase @Inject constructor(
