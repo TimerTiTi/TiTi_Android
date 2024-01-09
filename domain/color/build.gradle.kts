@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.domain.color"
+    namespace = "com.titi.app.domain.color"
 }
 
 dependencies {

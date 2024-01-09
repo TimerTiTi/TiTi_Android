@@ -1,4 +1,4 @@
-package com.titi.domain.color.model
+package com.titi.app.domain.color.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

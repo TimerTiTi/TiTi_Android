@@ -7,7 +7,7 @@ import com.airbnb.mvrx.MavericksState
 import com.titi.app.core.util.addTimeToNow
 import com.titi.app.core.util.getMeasureTime
 import com.titi.doamin.daily.model.Daily
-import com.titi.domain.color.model.TimeColor
+import com.titi.app.domain.color.model.TimeColor
 import com.titi.domain.time.model.RecordTimes
 import com.titi.feature.measure.SplashResultState
 import org.threeten.bp.ZoneOffset

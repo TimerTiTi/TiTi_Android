@@ -1,7 +1,7 @@
 package com.titi.feature.main.ui.splash
 
 import com.titi.doamin.daily.model.Daily
-import com.titi.domain.color.model.TimeColor
+import com.titi.app.domain.color.model.TimeColor
 import com.titi.domain.time.model.RecordTimes
 
 data class SplashResultState(

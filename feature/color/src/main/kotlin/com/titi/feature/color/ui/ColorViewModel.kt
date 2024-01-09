@@ -5,9 +5,9 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
-import com.titi.domain.color.usecase.AddBackgroundColorsUseCase
-import com.titi.domain.color.usecase.GetBackgroundColorsUseCase
-import com.titi.domain.color.usecase.UpdateColorUseCase
+import com.titi.app.domain.color.usecase.AddBackgroundColorsUseCase
+import com.titi.app.domain.color.usecase.GetBackgroundColorsUseCase
+import com.titi.app.domain.color.usecase.UpdateColorUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

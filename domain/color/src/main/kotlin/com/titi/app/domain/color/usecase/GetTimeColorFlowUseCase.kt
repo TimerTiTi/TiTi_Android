@@ -1,8 +1,8 @@
-package com.titi.domain.color.usecase
+package com.titi.app.domain.color.usecase
 
 import com.titi.app.data.color.api.ColorRepository
-import com.titi.domain.color.mapper.toDomain
-import com.titi.domain.color.model.TimeColor
+import com.titi.app.domain.color.mapper.toDomain
+import com.titi.app.domain.color.model.TimeColor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
