@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.domain.alarm"
+    namespace = "com.titi.app.domain.alarm"
 }
 
 dependencies {

@@ -1,4 +1,4 @@
-package com.titi.domain.alarm.model
+package com.titi.app.domain.alarm.model
 
 data class Alarms(
     val alarms: List<Alarm>

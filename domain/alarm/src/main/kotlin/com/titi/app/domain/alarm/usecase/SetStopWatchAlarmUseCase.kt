@@ -1,9 +1,9 @@
-package com.titi.domain.alarm.usecase
+package com.titi.app.domain.alarm.usecase
 
 import com.titi.app.data.alarm.api.AlarmRepository
-import com.titi.domain.alarm.mapper.toRepositoryModel
-import com.titi.domain.alarm.model.Alarm
-import com.titi.domain.alarm.model.Alarms
+import com.titi.app.domain.alarm.mapper.toRepositoryModel
+import com.titi.app.domain.alarm.model.Alarm
+import com.titi.app.domain.alarm.model.Alarms
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 import javax.inject.Inject

@@ -1,7 +1,7 @@
-package com.titi.domain.alarm.usecase
+package com.titi.app.domain.alarm.usecase
 
 import com.titi.app.data.alarm.api.AlarmRepository
-import com.titi.domain.alarm.mapper.toDomainModel
+import com.titi.app.domain.alarm.mapper.toDomainModel
 import javax.inject.Inject
 
 class GetAlarmsUseCase @Inject constructor(

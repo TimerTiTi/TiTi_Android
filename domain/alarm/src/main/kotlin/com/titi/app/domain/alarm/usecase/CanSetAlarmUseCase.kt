@@ -1,4 +1,4 @@
-package com.titi.domain.alarm.usecase
+package com.titi.app.domain.alarm.usecase
 
 import com.titi.app.data.alarm.api.AlarmRepository
 import javax.inject.Inject

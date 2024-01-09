@@ -5,9 +5,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.titi.app.core.util.goAsync
-import com.titi.domain.alarm.usecase.CanSetAlarmUseCase
-import com.titi.domain.alarm.usecase.GetAlarmsUseCase
-import com.titi.domain.alarm.usecase.SetAlarmsUseCase
+import com.titi.app.domain.alarm.usecase.CanSetAlarmUseCase
+import com.titi.app.domain.alarm.usecase.GetAlarmsUseCase
+import com.titi.app.domain.alarm.usecase.SetAlarmsUseCase
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
