@@ -1,6 +1,6 @@
 package com.titi.domain.task.usecase
 
-import com.titi.data.task.api.TaskRepository
+import com.titi.app.data.task.api.TaskRepository
 import com.titi.domain.task.mapper.toDomainModel
 import com.titi.domain.task.model.Task
 import kotlinx.coroutines.flow.Flow

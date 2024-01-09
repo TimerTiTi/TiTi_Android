@@ -1,8 +1,8 @@
 package com.titi.data.task.impl.repository
 
 import androidx.room.withTransaction
-import com.titi.data.task.api.TaskRepository
-import com.titi.data.task.api.model.TaskRepositoryModel
+import com.titi.app.data.task.api.TaskRepository
+import com.titi.app.data.task.api.model.TaskRepositoryModel
 import com.titi.data.task.impl.local.TaskDataBase
 import com.titi.data.task.impl.local.dao.TaskDao
 import com.titi.data.task.impl.mapper.toLocalModel

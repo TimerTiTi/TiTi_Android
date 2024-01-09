@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.data.task.api"
+    namespace = "com.titi.app.data.task.api"
 }

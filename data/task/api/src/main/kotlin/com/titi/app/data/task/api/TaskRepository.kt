@@ -1,6 +1,6 @@
-package com.titi.data.task.api
+package com.titi.app.data.task.api
 
-import com.titi.data.task.api.model.TaskRepositoryModel
+import com.titi.app.data.task.api.model.TaskRepositoryModel
 import kotlinx.coroutines.flow.Flow
 
 interface TaskRepository {

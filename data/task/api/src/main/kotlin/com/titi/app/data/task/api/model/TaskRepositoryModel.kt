@@ -1,4 +1,4 @@
-package com.titi.data.task.api.model
+package com.titi.app.data.task.api.model
 
 data class TaskRepositoryModel(
     val id : Long,

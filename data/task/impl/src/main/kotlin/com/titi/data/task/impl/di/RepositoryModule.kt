@@ -1,6 +1,6 @@
 package com.titi.data.task.impl.di
 
-import com.titi.data.task.api.TaskRepository
+import com.titi.app.data.task.api.TaskRepository
 import com.titi.data.task.impl.repository.TaskRepositoryImpl
 import dagger.Binds
 import dagger.Module
