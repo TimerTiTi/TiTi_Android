@@ -1,4 +1,4 @@
-package com.titi.feature.measure
+package com.titi.app.feature.measure
 
 import android.os.Parcelable
 import com.titi.app.doamin.daily.model.Daily

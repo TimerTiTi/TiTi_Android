@@ -1,4 +1,4 @@
-package com.titi.feature.measure.ui
+package com.titi.app.feature.measure.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -51,7 +51,7 @@ import com.titi.app.core.ui.setBrightness
 import com.titi.app.core.util.fromJson
 import com.titi.app.core.designsystem.R
 import com.titi.app.domain.time.model.RecordTimes
-import com.titi.feature.measure.SplashResultState
+import com.titi.app.feature.measure.SplashResultState
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 

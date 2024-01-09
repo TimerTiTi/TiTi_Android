@@ -1,4 +1,4 @@
-package com.titi.feature.measure.ui
+package com.titi.app.feature.measure.ui
 
 import android.util.Log
 import com.airbnb.mvrx.MavericksViewModel

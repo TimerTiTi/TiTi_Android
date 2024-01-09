@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.feature.measure"
+    namespace = "com.titi.app.feature.measure"
 }
 
 dependencies {

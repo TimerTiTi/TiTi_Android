@@ -1,9 +1,9 @@
-package com.titi.feature.measure.di
+package com.titi.app.feature.measure.di
 
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.MavericksViewModelComponent
 import com.airbnb.mvrx.hilt.ViewModelKey
-import com.titi.feature.measure.ui.MeasuringViewModel
+import com.titi.app.feature.measure.ui.MeasuringViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

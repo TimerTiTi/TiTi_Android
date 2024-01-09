@@ -1,4 +1,4 @@
-package com.titi.feature.measure.ui
+package com.titi.app.feature.measure.ui
 
 import android.os.Build
 import android.os.Bundle
@@ -9,7 +9,7 @@ import com.titi.app.core.util.getMeasureTime
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.app.domain.time.model.RecordTimes
-import com.titi.feature.measure.SplashResultState
+import com.titi.app.feature.measure.SplashResultState
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 

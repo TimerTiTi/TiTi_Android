@@ -4,7 +4,7 @@
     <application>
 
         <activity
-            android:name="com.titi.feature.measure.ui.MeasuringActivity"
+            android:name=".ui.MeasuringActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
