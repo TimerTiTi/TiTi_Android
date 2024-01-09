@@ -1,7 +1,7 @@
-package com.titi.data.color.impl.di
+package com.titi.app.data.color.impl.di
 
 import android.content.Context
-import com.titi.data.color.impl.local.ColorDataStore
+import com.titi.app.data.color.impl.local.ColorDataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

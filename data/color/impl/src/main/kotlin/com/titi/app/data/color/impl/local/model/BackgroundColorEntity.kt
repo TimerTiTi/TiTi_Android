@@ -1,4 +1,4 @@
-package com.titi.data.color.impl.local.model
+package com.titi.app.data.color.impl.local.model
 
 import com.squareup.moshi.JsonClass
 

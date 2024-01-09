@@ -1,4 +1,4 @@
-package com.titi.data.color.impl.local
+package com.titi.app.data.color.impl.local
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -10,8 +10,8 @@ import com.titi.app.core.util.readFlowValue
 import com.titi.app.core.util.readValue
 import com.titi.app.core.util.storeValue
 import com.titi.app.core.util.toJson
-import com.titi.data.color.impl.local.model.BackgroundColorEntity
-import com.titi.data.color.impl.local.model.ColorEntity
+import com.titi.app.data.color.impl.local.model.BackgroundColorEntity
+import com.titi.app.data.color.impl.local.model.ColorEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

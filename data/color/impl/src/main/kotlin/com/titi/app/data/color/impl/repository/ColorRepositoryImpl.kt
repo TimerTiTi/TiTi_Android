@@ -1,11 +1,11 @@
-package com.titi.data.color.impl.repository
+package com.titi.app.data.color.impl.repository
 
 import com.titi.app.data.color.api.ColorRepository
 import com.titi.app.data.color.api.model.BackgroundColorRepositoryModel
 import com.titi.app.data.color.api.model.ColorRepositoryModel
-import com.titi.data.color.impl.local.ColorDataStore
-import com.titi.data.color.impl.mapper.toLocal
-import com.titi.data.color.impl.mapper.toRepositoryModel
+import com.titi.app.data.color.impl.local.ColorDataStore
+import com.titi.app.data.color.impl.mapper.toLocal
+import com.titi.app.data.color.impl.mapper.toRepositoryModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

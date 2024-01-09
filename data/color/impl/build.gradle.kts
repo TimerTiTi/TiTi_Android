@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.data.color.impl"
+    namespace = "com.titi.app.data.color.impl"
 }
 
 dependencies {
