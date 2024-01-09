@@ -1,12 +1,12 @@
-package com.titi.data.task.impl.repository
+package com.titi.app.data.task.impl.repository
 
 import androidx.room.withTransaction
 import com.titi.app.data.task.api.TaskRepository
 import com.titi.app.data.task.api.model.TaskRepositoryModel
-import com.titi.data.task.impl.local.TaskDataBase
-import com.titi.data.task.impl.local.dao.TaskDao
-import com.titi.data.task.impl.mapper.toLocalModel
-import com.titi.data.task.impl.mapper.toRepositoryModel
+import com.titi.app.data.task.impl.local.TaskDataBase
+import com.titi.app.data.task.impl.local.dao.TaskDao
+import com.titi.app.data.task.impl.mapper.toLocalModel
+import com.titi.app.data.task.impl.mapper.toRepositoryModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

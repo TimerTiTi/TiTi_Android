@@ -1,4 +1,4 @@
-package com.titi.data.task.impl.local.model
+package com.titi.app.data.task.impl.local.model
 
 import androidx.room.Entity
 import androidx.room.Index

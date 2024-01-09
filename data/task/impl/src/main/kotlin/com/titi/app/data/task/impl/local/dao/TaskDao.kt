@@ -1,9 +1,9 @@
-package com.titi.data.task.impl.local.dao
+package com.titi.app.data.task.impl.local.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.titi.data.task.impl.local.model.TaskEntity
+import com.titi.app.data.task.impl.local.model.TaskEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

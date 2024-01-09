@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.data.task.impl"
+    namespace = "com.titi.app.data.task.impl"
 }
 
 dependencies {

@@ -1,9 +1,9 @@
-package com.titi.data.task.impl.local
+package com.titi.app.data.task.impl.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.titi.data.task.impl.local.dao.TaskDao
-import com.titi.data.task.impl.local.model.TaskEntity
+import com.titi.app.data.task.impl.local.dao.TaskDao
+import com.titi.app.data.task.impl.local.model.TaskEntity
 
 @Database(
     entities = [TaskEntity::class],

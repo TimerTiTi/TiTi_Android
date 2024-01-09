@@ -1,7 +1,7 @@
-package com.titi.data.task.impl.mapper
+package com.titi.app.data.task.impl.mapper
 
 import com.titi.app.data.task.api.model.TaskRepositoryModel
-import com.titi.data.task.impl.local.model.TaskEntity
+import com.titi.app.data.task.impl.local.model.TaskEntity
 
 internal fun TaskRepositoryModel.toLocalModel() = TaskEntity(
     id = id,

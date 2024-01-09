@@ -1,9 +1,9 @@
-package com.titi.data.task.impl.di
+package com.titi.app.data.task.impl.di
 
 import android.content.Context
 import androidx.room.Room.databaseBuilder
-import com.titi.data.task.impl.local.TaskDataBase
-import com.titi.data.task.impl.local.dao.TaskDao
+import com.titi.app.data.task.impl.local.TaskDataBase
+import com.titi.app.data.task.impl.local.dao.TaskDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
