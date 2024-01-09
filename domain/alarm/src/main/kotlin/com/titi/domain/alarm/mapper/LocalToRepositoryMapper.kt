@@ -1,7 +1,7 @@
 package com.titi.domain.alarm.mapper
 
-import com.titi.data.alarm.api.model.AlarmRepositoryModel
-import com.titi.data.alarm.api.model.AlarmsRepositoryModel
+import com.titi.app.data.alarm.api.model.AlarmRepositoryModel
+import com.titi.app.data.alarm.api.model.AlarmsRepositoryModel
 import com.titi.domain.alarm.model.Alarm
 import com.titi.domain.alarm.model.Alarms
 

@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.data.alarm.api"
+    namespace = "com.titi.app.data.alarm.api"
 }

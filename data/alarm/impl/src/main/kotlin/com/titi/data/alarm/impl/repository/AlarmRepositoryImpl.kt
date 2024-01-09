@@ -5,8 +5,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.titi.data.alarm.api.AlarmRepository
-import com.titi.data.alarm.api.model.AlarmsRepositoryModel
+import com.titi.app.data.alarm.api.AlarmRepository
+import com.titi.app.data.alarm.api.model.AlarmsRepositoryModel
 import com.titi.data.alarm.impl.AlarmReceiver
 import com.titi.data.alarm.impl.local.AlarmDataStore
 import com.titi.data.alarm.impl.mapper.toLocalModel

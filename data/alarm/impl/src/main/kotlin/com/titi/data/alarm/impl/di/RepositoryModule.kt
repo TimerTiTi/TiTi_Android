@@ -1,7 +1,7 @@
 package com.titi.data.alarm.impl.di
 
 import android.content.Context
-import com.titi.data.alarm.api.AlarmRepository
+import com.titi.app.data.alarm.api.AlarmRepository
 import com.titi.data.alarm.impl.local.AlarmDataStore
 import com.titi.data.alarm.impl.repository.AlarmRepositoryImpl
 import dagger.Module

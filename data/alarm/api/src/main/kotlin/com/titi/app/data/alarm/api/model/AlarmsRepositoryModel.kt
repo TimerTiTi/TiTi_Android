@@ -1,4 +1,4 @@
-package com.titi.data.alarm.api.model
+package com.titi.app.data.alarm.api.model
 
 data class AlarmsRepositoryModel(
     val alarms: List<AlarmRepositoryModel>

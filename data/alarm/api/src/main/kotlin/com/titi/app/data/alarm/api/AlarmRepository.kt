@@ -1,6 +1,6 @@
-package com.titi.data.alarm.api
+package com.titi.app.data.alarm.api
 
-import com.titi.data.alarm.api.model.AlarmsRepositoryModel
+import com.titi.app.data.alarm.api.model.AlarmsRepositoryModel
 
 interface AlarmRepository {
 
