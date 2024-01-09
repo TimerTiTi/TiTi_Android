@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.titi.core.designsystem.component.TdsIconButton
-import com.titi.core.designsystem.theme.TdsColor
-import com.titi.designsystem.R
+import com.titi.app.core.designsystem.component.TdsIconButton
+import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.core.designsystem.R
 
 @Composable
 fun TimeButtonContent(

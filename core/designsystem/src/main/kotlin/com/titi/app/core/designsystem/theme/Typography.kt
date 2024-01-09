@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.titi.designsystem.R
+import com.titi.app.core.designsystem.R
 
 val hgggothicssiProFontFamily = FontFamily(
     Font(R.font.hgggothicssi_pro_00g, FontWeight.Thin),

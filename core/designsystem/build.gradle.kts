@@ -4,5 +4,5 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.designsystem.app"
+    namespace = "com.titi.app.core.designsystem"
 }

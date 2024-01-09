@@ -29,7 +29,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.core.ui.TiTiArgs.MAIN_FINISH_ARG
 import com.titi.core.ui.TiTiArgs.MAIN_SPLASH_ARG
 import com.titi.core.ui.TiTiArgs.MAIN_START_ARG

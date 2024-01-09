@@ -24,12 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import androidx.window.layout.WindowMetricsCalculator
-import com.titi.core.designsystem.extension.getTdsTime
-import com.titi.core.designsystem.extension.times
-import com.titi.core.designsystem.theme.TdsColor
-import com.titi.core.designsystem.theme.TdsTextStyle
-import com.titi.core.designsystem.theme.TiTiTheme
-import com.titi.designsystem.R
+import com.titi.app.core.designsystem.extension.getTdsTime
+import com.titi.app.core.designsystem.extension.times
+import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.core.designsystem.theme.TdsTextStyle
+import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.designsystem.R
 import kotlin.math.min
 
 @Composable

@@ -9,11 +9,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.titi.core.designsystem.component.TdsDialog
-import com.titi.core.designsystem.component.TdsInputTimeTextField
-import com.titi.core.designsystem.model.TdsDialogInfo
+import com.titi.app.core.designsystem.component.TdsDialog
+import com.titi.app.core.designsystem.component.TdsInputTimeTextField
+import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.core.util.getTimeToLong
-import com.titi.designsystem.R
+import com.titi.app.core.designsystem.R
 
 @Composable
 fun TimeDailyDialog(

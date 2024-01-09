@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.titi.core.designsystem.theme.TdsColor
+import com.titi.app.core.designsystem.theme.TdsColor
 
 @Composable
 fun RowScope.TdsDivider(

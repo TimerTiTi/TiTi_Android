@@ -1,6 +1,6 @@
 package com.titi.app.core.designsystem.extension
 
-import com.titi.core.designsystem.model.TdsTime
+import com.titi.app.core.designsystem.model.TdsTime
 
 fun Long.getTdsTime(): TdsTime {
     val time = if (this < 0) {

@@ -18,10 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.titi.core.designsystem.model.TdsDialogInfo
-import com.titi.core.designsystem.theme.TdsColor
-import com.titi.core.designsystem.theme.TdsTextStyle
-import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.designsystem.model.TdsDialogInfo
+import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.core.designsystem.theme.TdsTextStyle
+import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable
 fun TdsDialog(

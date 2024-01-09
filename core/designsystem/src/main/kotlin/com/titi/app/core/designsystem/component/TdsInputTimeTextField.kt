@@ -23,9 +23,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
-import com.titi.core.designsystem.theme.TdsColor
-import com.titi.core.designsystem.theme.TdsTextStyle
-import com.titi.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.core.designsystem.theme.TdsTextStyle
+import com.titi.app.core.designsystem.theme.TiTiTheme
 import kotlinx.coroutines.android.awaitFrame
 
 @OptIn(ExperimentalComposeUiApi::class)

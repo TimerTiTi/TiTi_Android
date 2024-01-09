@@ -4,12 +4,12 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.navigation.NavController
 import androidx.navigation.NavOptionsBuilder
+import com.titi.app.core.designsystem.R
 import com.titi.core.ui.TiTiArgs.MAIN_FINISH_ARG
 import com.titi.core.ui.TiTiArgs.MAIN_SPLASH_ARG
 import com.titi.core.ui.TiTiArgs.MAIN_START_ARG
 import com.titi.core.ui.TiTiScreens.MAIN_SCREEN
 import com.titi.core.ui.TiTiScreens.SPLASH_SCREEN
-import com.titi.designsystem.R
 
 object TiTiScreens {
     const val SPLASH_SCREEN = "splash"

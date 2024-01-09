@@ -11,11 +11,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.titi.core.designsystem.component.TdsIconButton
-import com.titi.core.designsystem.component.TdsText
-import com.titi.core.designsystem.theme.TdsColor
-import com.titi.core.designsystem.theme.TdsTextStyle
-import com.titi.designsystem.R
+import com.titi.app.core.designsystem.component.TdsIconButton
+import com.titi.app.core.designsystem.component.TdsText
+import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.core.designsystem.theme.TdsTextStyle
+import com.titi.app.core.designsystem.R
 
 @Composable
 fun TimeHeaderContent(

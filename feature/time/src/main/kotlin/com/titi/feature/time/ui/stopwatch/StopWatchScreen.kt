@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.dp
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
-import com.titi.core.designsystem.component.TdsTimer
-import com.titi.core.designsystem.theme.TdsColor
+import com.titi.app.core.designsystem.component.TdsTimer
+import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.core.util.toJson
-import com.titi.designsystem.R
+import com.titi.app.core.designsystem.R
 import com.titi.feature.time.SplashResultState
 import com.titi.feature.time.content.TimeButtonContent
 import com.titi.feature.time.content.TimeCheckDailyDialog
