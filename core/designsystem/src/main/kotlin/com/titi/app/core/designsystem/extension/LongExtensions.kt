@@ -1,4 +1,4 @@
-package com.titi.core.designsystem.extension
+package com.titi.app.core.designsystem.extension
 
 import com.titi.core.designsystem.model.TdsTime
 

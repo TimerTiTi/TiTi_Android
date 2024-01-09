@@ -1,4 +1,4 @@
-package com.titi.core.designsystem.component
+package com.titi.app.core.designsystem.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

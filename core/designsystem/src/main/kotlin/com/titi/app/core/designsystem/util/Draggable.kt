@@ -1,4 +1,4 @@
-package com.titi.core.designsystem.util
+package com.titi.app.core.designsystem.util
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring

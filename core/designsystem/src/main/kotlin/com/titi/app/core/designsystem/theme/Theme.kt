@@ -1,4 +1,4 @@
-package com.titi.core.designsystem.theme
+package com.titi.app.core.designsystem.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable

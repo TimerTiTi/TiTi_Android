@@ -1,4 +1,4 @@
-package com.titi.core.designsystem.extension
+package com.titi.app.core.designsystem.extension
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp

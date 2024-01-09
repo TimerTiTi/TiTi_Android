@@ -1,4 +1,4 @@
-package com.titi.core.designsystem.component
+package com.titi.app.core.designsystem.component
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
