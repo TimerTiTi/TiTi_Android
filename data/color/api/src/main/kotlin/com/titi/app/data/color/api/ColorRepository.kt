@@ -1,7 +1,7 @@
-package com.titi.data.color.api
+package com.titi.app.data.color.api
 
-import com.titi.data.color.api.model.BackgroundColorRepositoryModel
-import com.titi.data.color.api.model.ColorRepositoryModel
+import com.titi.app.data.color.api.model.BackgroundColorRepositoryModel
+import com.titi.app.data.color.api.model.ColorRepositoryModel
 import kotlinx.coroutines.flow.Flow
 
 interface ColorRepository {

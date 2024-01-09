@@ -1,6 +1,6 @@
 package com.titi.data.color.impl.di
 
-import com.titi.data.color.api.ColorRepository
+import com.titi.app.data.color.api.ColorRepository
 import com.titi.data.color.impl.repository.ColorRepositoryImpl
 import dagger.Binds
 import dagger.Module

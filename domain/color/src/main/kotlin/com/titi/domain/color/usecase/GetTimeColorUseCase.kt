@@ -1,6 +1,6 @@
 package com.titi.domain.color.usecase
 
-import com.titi.data.color.api.ColorRepository
+import com.titi.app.data.color.api.ColorRepository
 import com.titi.domain.color.mapper.toDomain
 import com.titi.domain.color.model.TimeColor
 import javax.inject.Inject

@@ -1,8 +1,8 @@
 package com.titi.data.color.impl.repository
 
-import com.titi.data.color.api.ColorRepository
-import com.titi.data.color.api.model.BackgroundColorRepositoryModel
-import com.titi.data.color.api.model.ColorRepositoryModel
+import com.titi.app.data.color.api.ColorRepository
+import com.titi.app.data.color.api.model.BackgroundColorRepositoryModel
+import com.titi.app.data.color.api.model.ColorRepositoryModel
 import com.titi.data.color.impl.local.ColorDataStore
 import com.titi.data.color.impl.mapper.toLocal
 import com.titi.data.color.impl.mapper.toRepositoryModel

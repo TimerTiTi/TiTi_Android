@@ -1,4 +1,4 @@
-package com.titi.data.color.api.model
+package com.titi.app.data.color.api.model
 
 data class ColorRepositoryModel(
     val timerBackgroundColor: Long,
