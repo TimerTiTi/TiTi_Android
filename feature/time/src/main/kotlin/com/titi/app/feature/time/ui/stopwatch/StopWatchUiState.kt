@@ -1,4 +1,4 @@
-package com.titi.feature.time.ui.stopwatch
+package com.titi.app.feature.time.ui.stopwatch
 
 import android.os.Bundle
 import com.airbnb.mvrx.MavericksState
@@ -8,7 +8,7 @@ import com.titi.app.core.util.isAfterSixAM
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.app.domain.time.model.RecordTimes
-import com.titi.feature.time.ui.timer.getSplashResultStateFromArgs
+import com.titi.app.feature.time.ui.timer.getSplashResultStateFromArgs
 
 data class StopWatchUiState(
     val todayDate: String = getTodayDate(),

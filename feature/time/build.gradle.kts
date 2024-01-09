@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.feature.time"
+    namespace = "com.titi.app.feature.time"
 }
 
 dependencies {

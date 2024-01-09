@@ -1,4 +1,4 @@
-package com.titi.feature.time.ui.stopwatch
+package com.titi.app.feature.time.ui.timer
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -26,24 +26,27 @@ import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.util.toJson
 import com.titi.app.core.designsystem.R
-import com.titi.feature.time.SplashResultState
-import com.titi.feature.time.content.TimeButtonContent
-import com.titi.feature.time.content.TimeCheckDailyDialog
-import com.titi.feature.time.content.TimeColorDialog
-import com.titi.feature.time.content.TimeDailyDialog
-import com.titi.feature.time.content.TimeHeaderContent
-import com.titi.feature.time.content.TimeTaskContent
-import com.titi.feature.time.ui.task.TaskBottomSheet
+import com.titi.app.feature.time.SplashResultState
+import com.titi.app.feature.time.content.TimeButtonContent
+import com.titi.app.feature.time.content.TimeCheckDailyDialog
+import com.titi.app.feature.time.content.TimeColorDialog
+import com.titi.app.feature.time.content.TimeDailyDialog
+import com.titi.app.feature.time.content.TimeHeaderContent
+import com.titi.app.feature.time.content.TimeTaskContent
+import com.titi.app.feature.time.content.TimeTimerDialog
+import com.titi.app.feature.time.ui.task.TaskBottomSheet
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
 @Composable
-fun StopWatchScreen(
+fun TimerScreen(
     splashResultState: SplashResultState,
+    isFinish: Boolean,
+    onChangeFinishStateFalse: () -> Unit,
     onNavigateToColor: () -> Unit,
-    onNavigateToMeasure : (String) -> Unit,
+    onNavigateToMeasure: (String) -> Unit,
 ) {
-    val viewModel: StopWatchViewModel = mavericksViewModel(
+    val viewModel: TimerViewModel = mavericksViewModel(
         argsFactory = {
             splashResultState.asMavericksArgs()
         }
@@ -59,18 +62,19 @@ fun StopWatchScreen(
     var showSelectColorDialog by remember { mutableStateOf(false) }
     var showAddDailyDialog by remember { mutableStateOf(false) }
     var showCheckTaskDailyDialog by remember { mutableStateOf(false) }
+    var showUpdateTimerDialog by remember { mutableStateOf(false) }
 
     if (showTaskBottomSheet) {
         TaskBottomSheet(
-            themeColor = Color(uiState.stopWatchColor.backgroundColor),
+            themeColor = Color(uiState.timerColor.backgroundColor),
             onCloseBottomSheet = { showTaskBottomSheet = false }
         )
     }
 
     if (showSelectColorDialog) {
         TimeColorDialog(
-            backgroundColor = Color(uiState.stopWatchColor.backgroundColor),
-            textColor = if (uiState.stopWatchColor.isTextColorBlack) {
+            backgroundColor = Color(uiState.timerColor.backgroundColor),
+            textColor = if (uiState.timerColor.isTextColorBlack) {
                 Color.Black
             } else {
                 Color.White
@@ -98,6 +102,7 @@ fun StopWatchScreen(
                         it
                     )
                     viewModel.addDaily()
+                    onChangeFinishStateFalse()
                 }
             },
             onShowDialog = {
@@ -121,16 +126,34 @@ fun StopWatchScreen(
         )
     }
 
-    StopWatchScreen(
+    if (showUpdateTimerDialog) {
+        TimeTimerDialog(
+            onPositive = {
+                if (it > 0) {
+                    viewModel.updateSetTimerTime(
+                        uiState.recordTimes,
+                        it
+                    )
+                    onChangeFinishStateFalse()
+                }
+            },
+            onShowDialog = {
+                showUpdateTimerDialog = it
+            }
+        )
+    }
+
+    TimerScreen(
         uiState = uiState,
-        backgroundColor = Color(uiState.stopWatchColor.backgroundColor),
-        textColor = if (uiState.stopWatchColor.isTextColorBlack) {
+        isFinish = isFinish,
+        backgroundColor = Color(uiState.timerColor.backgroundColor),
+        textColor = if (uiState.timerColor.isTextColorBlack) {
             TdsColor.blackColor
         } else {
             TdsColor.whiteColor
         },
         onClickColor = {
-            viewModel.savePrevTimerColor(uiState.stopWatchColor)
+            viewModel.savePrevTimerColor(uiState.timerColor)
             showSelectColorDialog = true
         },
         onClickTask = {
@@ -141,10 +164,20 @@ fun StopWatchScreen(
         },
         onClickStartRecord = {
             if (uiState.isEnableStartRecording) {
-                val updateRecordTimes = uiState.recordTimes.copy(
-                    recording = true,
-                    recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString()
-                )
+                val updateRecordTimes = with(uiState.recordTimes) {
+                    if (savedTimerTime <= 0) {
+                        copy(
+                            recording = true,
+                            recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                            savedTimerTime = setTimerTime
+                        )
+                    } else {
+                        copy(
+                            recording = true,
+                            recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString()
+                        )
+                    }
+                }
 
                 viewModel.updateMeasuringState(updateRecordTimes)
 
@@ -158,23 +191,23 @@ fun StopWatchScreen(
                 showCheckTaskDailyDialog = true
             }
         },
-        onClickResetStopWatch = {
-            viewModel.updateSavedStopWatchTime(uiState.recordTimes)
+        onClickSettingTimer = {
+            showUpdateTimerDialog = true
         }
     )
-
 }
 
 @Composable
-private fun StopWatchScreen(
-    uiState: StopWatchUiState,
+private fun TimerScreen(
+    uiState: TimerUiState,
+    isFinish: Boolean,
     backgroundColor: Color,
     textColor: TdsColor,
     onClickColor: () -> Unit,
     onClickTask: () -> Unit,
     onClickAddDaily: () -> Unit,
     onClickStartRecord: () -> Unit,
-    onClickResetStopWatch: () -> Unit,
+    onClickSettingTimer: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -204,8 +237,9 @@ private fun StopWatchScreen(
 
         Spacer(modifier = Modifier.height(50.dp))
 
-        with(uiState.stopWatchRecordTimes) {
+        with(uiState.timerRecordTimes) {
             TdsTimer(
+                isFinish = isFinish,
                 outCircularLineColor = textColor.getColor(),
                 outCircularProgress = outCircularProgress,
                 inCircularLineTrackColor = if (textColor == TdsColor.whiteColor) {
@@ -215,7 +249,7 @@ private fun StopWatchScreen(
                 },
                 inCircularProgress = inCircularProgress,
                 fontColor = textColor,
-                recordingMode = 2,
+                recordingMode = 1,
                 savedSumTime = savedSumTime,
                 savedTime = savedTime,
                 savedGoalTime = savedGoalTime,
@@ -227,11 +261,11 @@ private fun StopWatchScreen(
         Spacer(modifier = Modifier.height(50.dp))
 
         TimeButtonContent(
-            recordingMode = 2,
+            recordingMode = 1,
             isDailyAfter6AM = uiState.isDailyAfter6AM,
             onClickAddDaily = onClickAddDaily,
             onClickStartRecord = onClickStartRecord,
-            onClickResetStopwatch = onClickResetStopWatch
+            onClickSettingTimer = onClickSettingTimer
         )
 
         Spacer(modifier = Modifier.weight(1f))

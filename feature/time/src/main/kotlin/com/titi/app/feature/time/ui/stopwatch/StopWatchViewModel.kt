@@ -1,4 +1,4 @@
-package com.titi.feature.time.ui.stopwatch
+package com.titi.app.feature.time.ui.stopwatch
 
 import android.util.Log
 import com.airbnb.mvrx.MavericksViewModel

@@ -1,4 +1,4 @@
-package com.titi.feature.time
+package com.titi.app.feature.time
 
 import android.os.Parcelable
 import com.titi.app.doamin.daily.model.Daily

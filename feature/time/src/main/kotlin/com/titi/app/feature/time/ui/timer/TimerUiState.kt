@@ -1,4 +1,4 @@
-package com.titi.feature.time.ui.timer
+package com.titi.app.feature.time.ui.timer
 
 import android.os.Build
 import android.os.Bundle
@@ -10,7 +10,7 @@ import com.titi.app.core.util.isAfterSixAM
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.app.domain.time.model.RecordTimes
-import com.titi.feature.time.SplashResultState
+import com.titi.app.feature.time.SplashResultState
 
 data class TimerUiState(
     val todayDate: String = getTodayDate(),

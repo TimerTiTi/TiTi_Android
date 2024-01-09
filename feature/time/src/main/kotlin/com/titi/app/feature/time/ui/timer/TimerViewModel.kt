@@ -1,4 +1,4 @@
-package com.titi.feature.time.ui.timer
+package com.titi.app.feature.time.ui.timer
 
 import android.util.Log
 import com.airbnb.mvrx.MavericksViewModel

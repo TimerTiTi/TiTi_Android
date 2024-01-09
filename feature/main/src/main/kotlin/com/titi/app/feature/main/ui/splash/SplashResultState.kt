@@ -10,7 +10,7 @@ data class SplashResultState(
     val daily: Daily? = null
 )
 
-fun SplashResultState.toFeatureTimeModel() = com.titi.feature.time.SplashResultState(
+fun SplashResultState.toFeatureTimeModel() = com.titi.app.feature.time.SplashResultState(
     recordTimes = recordTimes,
     timeColor = timeColor,
     daily = daily

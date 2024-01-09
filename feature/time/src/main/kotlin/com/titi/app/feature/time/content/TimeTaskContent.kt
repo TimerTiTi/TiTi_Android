@@ -1,4 +1,4 @@
-package com.titi.feature.time.content
+package com.titi.app.feature.time.content
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues

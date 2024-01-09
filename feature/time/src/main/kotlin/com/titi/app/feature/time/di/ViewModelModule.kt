@@ -1,11 +1,11 @@
-package com.titi.feature.time.di
+package com.titi.app.feature.time.di
 
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.MavericksViewModelComponent
 import com.airbnb.mvrx.hilt.ViewModelKey
-import com.titi.feature.time.ui.stopwatch.StopWatchViewModel
-import com.titi.feature.time.ui.task.TaskViewModel
-import com.titi.feature.time.ui.timer.TimerViewModel
+import com.titi.app.feature.time.ui.stopwatch.StopWatchViewModel
+import com.titi.app.feature.time.ui.task.TaskViewModel
+import com.titi.app.feature.time.ui.timer.TimerViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
