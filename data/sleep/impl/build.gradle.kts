@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.data.sleep.impl"
+    namespace = "com.titi.app.data.sleep.impl"
 }
 
 dependencies {

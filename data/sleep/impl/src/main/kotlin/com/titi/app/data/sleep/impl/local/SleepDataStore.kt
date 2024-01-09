@@ -1,4 +1,4 @@
-package com.titi.data.sleep.impl.local
+package com.titi.app.data.sleep.impl.local
 
 import android.content.Context
 import androidx.datastore.core.DataStore

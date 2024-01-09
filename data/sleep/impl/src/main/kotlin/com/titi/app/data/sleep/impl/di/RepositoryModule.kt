@@ -1,7 +1,7 @@
-package com.titi.data.sleep.impl.di
+package com.titi.app.data.sleep.impl.di
 
 import com.titi.app.data.sleep.api.SleepRepository
-import com.titi.data.sleep.impl.repository.SleepRepositoryImpl
+import com.titi.app.data.sleep.impl.repository.SleepRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,7 +1,7 @@
-package com.titi.data.sleep.impl.di
+package com.titi.app.data.sleep.impl.di
 
 import android.content.Context
-import com.titi.data.sleep.impl.local.SleepDataStore
+import com.titi.app.data.sleep.impl.local.SleepDataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
