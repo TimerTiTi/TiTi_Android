@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.data.daily.api"
+    namespace = "com.titi.app.data.daily.api"
 }

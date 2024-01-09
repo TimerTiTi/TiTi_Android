@@ -1,6 +1,6 @@
 package com.titi.doamin.daily.usecase
 
-import com.titi.data.daily.api.DailyRepository
+import com.titi.app.data.daily.api.DailyRepository
 import com.titi.doamin.daily.mapper.toDomain
 import javax.inject.Inject
 

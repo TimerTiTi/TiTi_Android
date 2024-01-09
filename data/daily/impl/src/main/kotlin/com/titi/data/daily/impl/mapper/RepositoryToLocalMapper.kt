@@ -1,7 +1,7 @@
 package com.titi.data.daily.impl.mapper
 
-import com.titi.data.daily.api.model.DailyRepositoryModel
-import com.titi.data.daily.api.model.TaskHistoryRepositoryModel
+import com.titi.app.data.daily.api.model.DailyRepositoryModel
+import com.titi.app.data.daily.api.model.TaskHistoryRepositoryModel
 import com.titi.data.daily.impl.local.model.DailyEntity
 import com.titi.data.daily.impl.local.model.TaskHistoryEntity
 

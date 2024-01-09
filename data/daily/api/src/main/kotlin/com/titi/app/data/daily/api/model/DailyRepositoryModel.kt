@@ -1,4 +1,4 @@
-package com.titi.data.daily.api.model
+package com.titi.app.data.daily.api.model
 
 data class DailyRepositoryModel(
     val id: Long,
