@@ -8,7 +8,7 @@ import com.titi.app.doamin.daily.model.TaskHistory
 internal fun Daily.toRepositoryModel() = DailyRepositoryModel(
     id = id,
     status = status,
-    day = day.toString(),
+    day = day,
     timeline = timeLine,
     maxTime = maxTime,
     tasks = tasks,
@@ -16,6 +16,6 @@ internal fun Daily.toRepositoryModel() = DailyRepositoryModel(
 )
 
 internal fun TaskHistory.toRepositoryModel() = TaskHistoryRepositoryModel(
-    startDate = startDate.toString(),
-    endDate = endDate.toString()
+    startDate = startDate,
+    endDate = endDate
 )
