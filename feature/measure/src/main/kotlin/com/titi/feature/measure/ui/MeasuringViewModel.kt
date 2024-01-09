@@ -13,8 +13,8 @@ import com.titi.app.domain.alarm.usecase.SetTimerAlarmUseCase
 import com.titi.domain.sleep.GetSleepModeFlowUseCase
 import com.titi.domain.sleep.SetSleepModeUseCase
 import com.titi.app.domain.task.usecase.AddMeasureTimeAtTaskUseCase
-import com.titi.domain.time.model.RecordTimes
-import com.titi.domain.time.usecase.AddMeasureTimeAtRecordTimesUseCase
+import com.titi.app.domain.time.model.RecordTimes
+import com.titi.app.domain.time.usecase.AddMeasureTimeAtRecordTimesUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

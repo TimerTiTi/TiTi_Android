@@ -9,7 +9,7 @@ import com.titi.app.core.util.getTodayDate
 import com.titi.app.core.util.isAfterSixAM
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.TimeColor
-import com.titi.domain.time.model.RecordTimes
+import com.titi.app.domain.time.model.RecordTimes
 import com.titi.feature.time.SplashResultState
 
 data class TimerUiState(

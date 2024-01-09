@@ -8,7 +8,7 @@ import com.titi.app.core.util.addTimeToNow
 import com.titi.app.core.util.getMeasureTime
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.TimeColor
-import com.titi.domain.time.model.RecordTimes
+import com.titi.app.domain.time.model.RecordTimes
 import com.titi.feature.measure.SplashResultState
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime

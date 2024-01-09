@@ -1,9 +1,9 @@
-package com.titi.domain.time.mapper
+package com.titi.app.domain.time.mapper
 
 import com.titi.app.data.time.api.model.CurrentTaskRepositoryModel
 import com.titi.app.data.time.api.model.RecordTimesRepositoryModel
-import com.titi.domain.time.model.CurrentTask
-import com.titi.domain.time.model.RecordTimes
+import com.titi.app.domain.time.model.CurrentTask
+import com.titi.app.domain.time.model.RecordTimes
 
 internal fun RecordTimes.toRepositoryModel() = RecordTimesRepositoryModel(
     recordingMode = recordingMode,

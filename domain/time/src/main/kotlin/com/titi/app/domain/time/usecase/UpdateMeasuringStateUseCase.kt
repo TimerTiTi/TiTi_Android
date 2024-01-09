@@ -1,8 +1,8 @@
-package com.titi.domain.time.usecase
+package com.titi.app.domain.time.usecase
 
 import com.titi.app.data.time.api.RecordTimesRepository
-import com.titi.domain.time.mapper.toRepositoryModel
-import com.titi.domain.time.model.RecordTimes
+import com.titi.app.domain.time.mapper.toRepositoryModel
+import com.titi.app.domain.time.model.RecordTimes
 import javax.inject.Inject
 
 class UpdateMeasuringStateUseCase @Inject constructor(

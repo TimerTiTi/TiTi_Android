@@ -1,4 +1,4 @@
-package com.titi.domain.time.model
+package com.titi.app.domain.time.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

@@ -12,8 +12,8 @@ import com.titi.app.domain.task.usecase.GetTasksUseCase
 import com.titi.app.domain.task.usecase.UpdateTaskNameUseCase
 import com.titi.app.domain.task.usecase.UpdateTaskUseCase
 import com.titi.app.domain.task.usecase.UpdateTasksPositionUseCase
-import com.titi.domain.time.model.CurrentTask
-import com.titi.domain.time.usecase.UpdateCurrentTaskUseCase
+import com.titi.app.domain.time.model.CurrentTask
+import com.titi.app.domain.time.usecase.UpdateCurrentTaskUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

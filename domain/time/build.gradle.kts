@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.domain.time"
+    namespace = "com.titi.app.domain.time"
 }
 
 dependencies {
