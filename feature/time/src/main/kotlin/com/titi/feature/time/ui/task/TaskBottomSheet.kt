@@ -57,7 +57,7 @@ import com.titi.app.core.designsystem.util.dragContainer
 import com.titi.app.core.designsystem.util.rememberDragDropState
 import com.titi.app.core.util.getTimeToLong
 import com.titi.app.core.designsystem.R
-import com.titi.domain.task.model.Task
+import com.titi.app.domain.task.model.Task
 import kotlinx.coroutines.android.awaitFrame
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)

@@ -1,7 +1,7 @@
-package com.titi.domain.task.mapper
+package com.titi.app.domain.task.mapper
 
 import com.titi.app.data.task.api.model.TaskRepositoryModel
-import com.titi.domain.task.model.Task
+import com.titi.app.domain.task.model.Task
 
 internal fun TaskRepositoryModel.toDomainModel() = Task(
     id = id,

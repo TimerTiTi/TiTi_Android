@@ -1,4 +1,4 @@
-package com.titi.domain.task.model
+package com.titi.app.domain.task.model
 
 data class Task(
     val id : Long,

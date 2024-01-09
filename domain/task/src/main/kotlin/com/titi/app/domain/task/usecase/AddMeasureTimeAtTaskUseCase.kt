@@ -1,4 +1,4 @@
-package com.titi.domain.task.usecase
+package com.titi.app.domain.task.usecase
 
 import com.titi.app.data.task.api.TaskRepository
 import javax.inject.Inject

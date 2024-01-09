@@ -12,7 +12,7 @@ import com.titi.app.domain.alarm.usecase.SetStopWatchAlarmUseCase
 import com.titi.app.domain.alarm.usecase.SetTimerAlarmUseCase
 import com.titi.domain.sleep.GetSleepModeFlowUseCase
 import com.titi.domain.sleep.SetSleepModeUseCase
-import com.titi.domain.task.usecase.AddMeasureTimeAtTaskUseCase
+import com.titi.app.domain.task.usecase.AddMeasureTimeAtTaskUseCase
 import com.titi.domain.time.model.RecordTimes
 import com.titi.domain.time.usecase.AddMeasureTimeAtRecordTimesUseCase
 import dagger.assisted.Assisted
