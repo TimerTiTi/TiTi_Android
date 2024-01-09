@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.data.daily.impl"
+    namespace = "com.titi.app.data.daily.impl"
 }
 
 dependencies {

@@ -1,4 +1,4 @@
-package com.titi.data.daily.impl.local.converter
+package com.titi.app.data.daily.impl.local.converter
 
 import androidx.room.TypeConverter
 import com.squareup.moshi.Moshi

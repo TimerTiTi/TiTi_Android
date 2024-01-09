@@ -1,9 +1,9 @@
-package com.titi.data.daily.impl.local.dao
+package com.titi.app.data.daily.impl.local.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.titi.data.daily.impl.local.model.DailyEntity
+import com.titi.app.data.daily.impl.local.model.DailyEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

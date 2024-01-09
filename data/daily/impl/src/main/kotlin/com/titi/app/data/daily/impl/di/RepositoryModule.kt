@@ -1,7 +1,7 @@
-package com.titi.data.daily.impl.di
+package com.titi.app.data.daily.impl.di
 
 import com.titi.app.data.daily.api.DailyRepository
-import com.titi.data.daily.impl.repository.DailyRepositoryImpl
+import com.titi.app.data.daily.impl.repository.DailyRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

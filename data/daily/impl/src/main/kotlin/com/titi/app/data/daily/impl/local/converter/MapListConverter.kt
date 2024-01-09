@@ -1,10 +1,10 @@
-package com.titi.data.daily.impl.local.converter
+package com.titi.app.data.daily.impl.local.converter
 
 import androidx.room.TypeConverter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.titi.data.daily.impl.local.model.TaskHistoryEntity
+import com.titi.app.data.daily.impl.local.model.TaskHistoryEntity
 
 internal class MapListConverter {
 

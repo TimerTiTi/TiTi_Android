@@ -1,9 +1,9 @@
-package com.titi.data.daily.impl.di
+package com.titi.app.data.daily.impl.di
 
 import android.content.Context
 import androidx.room.Room.databaseBuilder
-import com.titi.data.daily.impl.local.DailyDataBase
-import com.titi.data.daily.impl.local.dao.DailyDao
+import com.titi.app.data.daily.impl.local.DailyDataBase
+import com.titi.app.data.daily.impl.local.dao.DailyDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

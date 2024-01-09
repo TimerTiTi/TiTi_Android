@@ -1,4 +1,4 @@
-package com.titi.data.daily.impl.local.model
+package com.titi.app.data.daily.impl.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,13 +1,13 @@
-package com.titi.data.daily.impl.local
+package com.titi.app.data.daily.impl.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.titi.data.daily.impl.local.converter.ListConverter
-import com.titi.data.daily.impl.local.converter.MapConverter
-import com.titi.data.daily.impl.local.converter.MapListConverter
-import com.titi.data.daily.impl.local.dao.DailyDao
-import com.titi.data.daily.impl.local.model.DailyEntity
+import com.titi.app.data.daily.impl.local.converter.ListConverter
+import com.titi.app.data.daily.impl.local.converter.MapConverter
+import com.titi.app.data.daily.impl.local.converter.MapListConverter
+import com.titi.app.data.daily.impl.local.dao.DailyDao
+import com.titi.app.data.daily.impl.local.model.DailyEntity
 
 @Database(
     entities = [DailyEntity::class],
