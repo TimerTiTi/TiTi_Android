@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.feature.main"
+    namespace = "com.titi.app.feature.main"
 }
 
 dependencies {

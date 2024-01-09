@@ -1,4 +1,4 @@
-package com.titi.feature.main.ui.main
+package com.titi.app.feature.main.ui.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
@@ -24,8 +24,8 @@ import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.component.TdsNavigationBarItem
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.ui.TiTiBottomNavigationScreen
-import com.titi.feature.main.ui.splash.SplashResultState
-import com.titi.feature.main.ui.splash.toFeatureTimeModel
+import com.titi.app.feature.main.ui.splash.SplashResultState
+import com.titi.app.feature.main.ui.splash.toFeatureTimeModel
 import com.titi.feature.time.ui.stopwatch.StopWatchScreen
 import com.titi.feature.time.ui.timer.TimerScreen
 

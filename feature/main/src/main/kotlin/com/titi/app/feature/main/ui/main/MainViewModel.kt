@@ -1,4 +1,4 @@
-package com.titi.feature.main.ui.main
+package com.titi.app.feature.main.ui.main
 
 import android.util.Log
 import com.airbnb.mvrx.MavericksViewModel

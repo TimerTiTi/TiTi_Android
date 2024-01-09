@@ -1,4 +1,4 @@
-package com.titi.feature.main.ui.splash
+package com.titi.app.feature.main.ui.splash
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

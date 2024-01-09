@@ -1,4 +1,4 @@
-package com.titi.feature.main.ui.main
+package com.titi.app.feature.main.ui.main
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
@@ -40,8 +40,8 @@ import com.titi.app.core.ui.createColorUri
 import com.titi.app.core.ui.createMeasureUri
 import com.titi.app.core.util.fromJson
 import com.titi.app.core.util.toJson
-import com.titi.feature.main.ui.splash.SplashResultState
-import com.titi.feature.main.ui.splash.SplashScreen
+import com.titi.app.feature.main.ui.splash.SplashResultState
+import com.titi.app.feature.main.ui.splash.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
