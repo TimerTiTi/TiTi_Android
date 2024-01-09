@@ -1,6 +1,6 @@
 package com.titi.data.time.impl.di
 
-import com.titi.data.time.api.RecordTimesRepository
+import com.titi.app.data.time.api.RecordTimesRepository
 import com.titi.data.time.impl.repository.RecordTimesRepositoryImpl
 import dagger.Binds
 import dagger.Module

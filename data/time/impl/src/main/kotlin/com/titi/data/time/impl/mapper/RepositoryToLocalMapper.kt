@@ -1,7 +1,7 @@
 package com.titi.data.time.impl.mapper
 
-import com.titi.data.time.api.model.CurrentTaskRepositoryModel
-import com.titi.data.time.api.model.RecordTimesRepositoryModel
+import com.titi.app.data.time.api.model.CurrentTaskRepositoryModel
+import com.titi.app.data.time.api.model.RecordTimesRepositoryModel
 import com.titi.data.time.impl.local.model.CurrentTaskEntity
 import com.titi.data.time.impl.local.model.RecordTimesEntity
 

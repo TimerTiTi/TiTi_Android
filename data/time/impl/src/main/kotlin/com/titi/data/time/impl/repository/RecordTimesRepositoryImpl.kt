@@ -1,7 +1,7 @@
 package com.titi.data.time.impl.repository
 
-import com.titi.data.time.api.RecordTimesRepository
-import com.titi.data.time.api.model.RecordTimesRepositoryModel
+import com.titi.app.data.time.api.RecordTimesRepository
+import com.titi.app.data.time.api.model.RecordTimesRepositoryModel
 import com.titi.data.time.impl.local.RecordTimesDataStore
 import com.titi.data.time.impl.mapper.toLocalModel
 import com.titi.data.time.impl.mapper.toRepositoryModel

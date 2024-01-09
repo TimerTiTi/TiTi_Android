@@ -1,6 +1,6 @@
-package com.titi.data.time.api
+package com.titi.app.data.time.api
 
-import com.titi.data.time.api.model.RecordTimesRepositoryModel
+import com.titi.app.data.time.api.model.RecordTimesRepositoryModel
 import kotlinx.coroutines.flow.Flow
 
 interface RecordTimesRepository {

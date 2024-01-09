@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.data.time.api"
+    namespace = "com.titi.app.data.time.api"
 }

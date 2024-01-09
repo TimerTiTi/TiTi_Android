@@ -1,4 +1,4 @@
-package com.titi.data.time.api.model
+package com.titi.app.data.time.api.model
 
 data class CurrentTaskRepositoryModel(
     val taskName: String,

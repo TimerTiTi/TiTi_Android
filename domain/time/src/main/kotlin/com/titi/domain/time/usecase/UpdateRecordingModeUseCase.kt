@@ -1,6 +1,6 @@
 package com.titi.domain.time.usecase
 
-import com.titi.data.time.api.RecordTimesRepository
+import com.titi.app.data.time.api.RecordTimesRepository
 import com.titi.domain.time.mapper.toDomainModel
 import com.titi.domain.time.mapper.toRepositoryModel
 import com.titi.domain.time.model.RecordTimes
