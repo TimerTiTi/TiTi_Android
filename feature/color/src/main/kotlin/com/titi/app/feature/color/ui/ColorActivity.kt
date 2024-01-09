@@ -1,4 +1,4 @@
-package com.titi.feature.color.ui
+package com.titi.app.feature.color.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -42,6 +42,7 @@ import com.github.skydoves.colorpicker.compose.AlphaTile
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
+import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.extension.complementary
@@ -51,7 +52,6 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.core.ui.TiTiDeepLinkArgs.COLOR_ARG
-import com.titi.app.core.designsystem.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

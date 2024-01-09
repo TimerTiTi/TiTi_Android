@@ -1,4 +1,4 @@
-package com.titi.feature.color.ui
+package com.titi.app.feature.color.ui
 
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel

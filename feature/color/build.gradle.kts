@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.feature.color"
+    namespace = "com.titi.app.feature.color"
 }
 
 dependencies {
