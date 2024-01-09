@@ -1,4 +1,4 @@
-package com.titi.data.alarm.impl.repository
+package com.titi.app.data.alarm.impl.repository
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -7,10 +7,10 @@ import android.content.Intent
 import android.os.Build
 import com.titi.app.data.alarm.api.AlarmRepository
 import com.titi.app.data.alarm.api.model.AlarmsRepositoryModel
-import com.titi.data.alarm.impl.AlarmReceiver
-import com.titi.data.alarm.impl.local.AlarmDataStore
-import com.titi.data.alarm.impl.mapper.toLocalModel
-import com.titi.data.alarm.impl.mapper.toRepositoryModel
+import com.titi.app.data.alarm.impl.AlarmReceiver
+import com.titi.app.data.alarm.impl.local.AlarmDataStore
+import com.titi.app.data.alarm.impl.mapper.toLocalModel
+import com.titi.app.data.alarm.impl.mapper.toRepositoryModel
 import org.threeten.bp.ZonedDateTime
 
 internal class AlarmRepositoryImpl(

@@ -5,7 +5,7 @@
 
     <application>
 
-        <receiver android:name=".AlarmReceiver" />
+        <receiver android:name="com.titi.app.data.alarm.impl.AlarmReceiver" />
 
     </application>
 

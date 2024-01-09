@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.data.alarm.impl"
+    namespace = "com.titi.app.data.alarm.impl"
 }
 
 dependencies {

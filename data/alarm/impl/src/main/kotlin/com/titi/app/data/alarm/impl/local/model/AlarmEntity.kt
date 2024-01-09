@@ -1,4 +1,4 @@
-package com.titi.data.alarm.impl.local.model
+package com.titi.app.data.alarm.impl.local.model
 
 import com.squareup.moshi.JsonClass
 

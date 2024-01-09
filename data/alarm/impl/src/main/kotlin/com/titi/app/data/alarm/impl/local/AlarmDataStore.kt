@@ -1,4 +1,4 @@
-package com.titi.data.alarm.impl.local
+package com.titi.app.data.alarm.impl.local
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -9,7 +9,7 @@ import com.titi.app.core.util.fromJson
 import com.titi.app.core.util.readValue
 import com.titi.app.core.util.storeValue
 import com.titi.app.core.util.toJson
-import com.titi.data.alarm.impl.local.model.AlarmsEntity
+import com.titi.app.data.alarm.impl.local.model.AlarmsEntity
 
 internal class AlarmDataStore(context: Context) {
 
