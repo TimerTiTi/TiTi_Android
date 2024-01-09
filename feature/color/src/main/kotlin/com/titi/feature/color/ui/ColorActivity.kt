@@ -50,7 +50,7 @@ import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
-import com.titi.core.ui.TiTiDeepLinkArgs.COLOR_ARG
+import com.titi.app.core.ui.TiTiDeepLinkArgs.COLOR_ARG
 import com.titi.app.core.designsystem.R
 import dagger.hilt.android.AndroidEntryPoint
 

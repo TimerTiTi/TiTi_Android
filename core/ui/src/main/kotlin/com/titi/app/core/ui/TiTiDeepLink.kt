@@ -1,12 +1,12 @@
-package com.titi.core.ui
+package com.titi.app.core.ui
 
 import android.net.Uri
 import androidx.core.net.toUri
-import com.titi.core.ui.TiTiDeepLinkArgs.COLOR_ARG
-import com.titi.core.ui.TiTiDeepLinkArgs.MEASURE_ARG
-import com.titi.core.ui.TiTiDeepLinkConfigs.HOST_COLOR
-import com.titi.core.ui.TiTiDeepLinkConfigs.HOST_MEASURE
-import com.titi.core.ui.TiTiDeepLinkConfigs.SCHEME
+import com.titi.app.core.ui.TiTiDeepLinkArgs.COLOR_ARG
+import com.titi.app.core.ui.TiTiDeepLinkArgs.MEASURE_ARG
+import com.titi.app.core.ui.TiTiDeepLinkConfigs.HOST_COLOR
+import com.titi.app.core.ui.TiTiDeepLinkConfigs.HOST_MEASURE
+import com.titi.app.core.ui.TiTiDeepLinkConfigs.SCHEME
 
 object TiTiDeepLinkConfigs {
 

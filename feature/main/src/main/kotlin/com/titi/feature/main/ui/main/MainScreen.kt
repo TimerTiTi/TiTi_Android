@@ -23,7 +23,7 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.component.TdsNavigationBarItem
 import com.titi.app.core.designsystem.theme.TdsColor
-import com.titi.core.ui.TiTiBottomNavigationScreen
+import com.titi.app.core.ui.TiTiBottomNavigationScreen
 import com.titi.feature.main.ui.splash.SplashResultState
 import com.titi.feature.main.ui.splash.toFeatureTimeModel
 import com.titi.feature.time.ui.stopwatch.StopWatchScreen

@@ -1,4 +1,4 @@
-package com.titi.core.ui
+package com.titi.app.core.ui
 
 import android.app.Activity
 import android.content.Context

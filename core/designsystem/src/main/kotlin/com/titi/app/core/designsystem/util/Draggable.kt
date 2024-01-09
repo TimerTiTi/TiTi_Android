@@ -1,5 +1,6 @@
 package com.titi.app.core.designsystem.util
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -156,6 +157,7 @@ class DragDropState internal constructor(
         get() = this.offset + this.size
 }
 
+@SuppressLint("ModifierFactoryUnreferencedReceiver")
 fun Modifier.dragContainer(dragDropState: DragDropState): Modifier {
     return pointerInput(dragDropState) {
         detectDragGesturesAfterLongPress(
