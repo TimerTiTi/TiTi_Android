@@ -29,10 +29,16 @@ const val TIMER_SCREEN = "timer"
 const val TIMER_ROUTE = "$TIME_GRAPH_SCREEN/$TIMER_SCREEN"
 const val STOPWATCH_SCREEN = "stopWatch"
 const val STOPWATCH_ROUTE = "$TIME_GRAPH_SCREEN/$STOPWATCH_SCREEN"
+
 fun NavController.navigateToTimeGraph(
     route: String,
     navOptions: NavOptions
 ) = navigate(route, navOptions)
+
+fun NavController.navigateToTimer(navOptions: NavOptions) = navigate(TIMER_ROUTE, navOptions)
+
+fun NavController.navigateToStopWatch(navOptions: NavOptions) =
+    navigate(STOPWATCH_ROUTE, navOptions)
 
 fun makeTimeRoute(
     startDestination: String,
