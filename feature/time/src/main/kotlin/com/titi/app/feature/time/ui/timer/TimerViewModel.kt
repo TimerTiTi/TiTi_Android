@@ -34,8 +34,6 @@ class TimerViewModel @AssistedInject constructor(
     private val updateSetTimerTimeUseCase: UpdateSetTimerTimeUseCase,
 ) : MavericksViewModel<TimerUiState>(initialState) {
 
-    private lateinit var prevTimerColor: TimerColor
-
     init {
         getRecordTimesFlowUseCase().catch {
             Log.e("TimeViewModel", it.message.toString())
@@ -55,6 +53,8 @@ class TimerViewModel @AssistedInject constructor(
             copy(daily = it)
         }
     }
+
+    private lateinit var prevTimerColor: TimerColor
 
     fun updateRecordingMode() {
         viewModelScope.launch {

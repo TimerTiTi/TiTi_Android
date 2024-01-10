@@ -3,22 +3,6 @@
 
     <application>
 
-        <activity
-            android:name=".ui.MeasuringActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="measure"
-                    android:scheme="titi" />
-
-            </intent-filter>
-        </activity>
-
         <receiver
             android:name=".PermissionReceiver"
             android:exported="false">

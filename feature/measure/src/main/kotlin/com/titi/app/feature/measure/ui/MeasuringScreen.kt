@@ -3,11 +3,8 @@ package com.titi.app.feature.measure.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.os.Bundle
-import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
-import androidx.activity.ComponentActivity
+import android.provider.Settings
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,7 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
-import com.airbnb.mvrx.compose.mavericksActivityViewModel
+import com.airbnb.mvrx.compose.mavericksViewModel
+import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsText
@@ -43,68 +41,22 @@ import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
-import com.titi.app.core.designsystem.theme.TiTiTheme
-import com.titi.app.core.ui.TiTiArgs.MAIN_FINISH_ARG
-import com.titi.app.core.ui.TiTiArgs.MAIN_START_ARG
-import com.titi.app.core.ui.TiTiDeepLinkArgs.MEASURE_ARG
 import com.titi.app.core.ui.setBrightness
-import com.titi.app.core.util.fromJson
-import com.titi.app.core.designsystem.R
-import com.titi.app.domain.time.model.RecordTimes
 import com.titi.app.feature.measure.SplashResultState
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
-class MeasuringActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val splashResultState =
-            intent.data?.getQueryParameter(MEASURE_ARG)?.fromJson<SplashResultState>()
-
-        setContent {
-            TiTiTheme {
-                splashResultState?.let { safeSplashResultState ->
-                    val viewModel: MeasuringViewModel = mavericksActivityViewModel(
-                        argsFactory = {
-                            safeSplashResultState.asMavericksArgs()
-                        }
-                    )
-
-                    MeasuringScreen(
-                        viewModel = viewModel,
-                        splashResultState = safeSplashResultState,
-                        onFinish = { recordTimes: RecordTimes, measureTime: Long, isFinish: Boolean ->
-                            viewModel.stopMeasuring(
-                                recordTimes = recordTimes,
-                                measureTime = measureTime,
-                                endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
-                            )
-
-                            val resultIntent = Intent()
-                            resultIntent.putExtra(MAIN_FINISH_ARG, isFinish)
-                            resultIntent.putExtra(
-                                MAIN_START_ARG,
-                                safeSplashResultState.recordTimes.recordingMode
-                            )
-                            setResult(RESULT_OK, resultIntent)
-                            finish()
-                        }
-                    )
-                } ?: finish()
-            }
-        }
-    }
-
-}
-
 @Composable
 fun MeasuringScreen(
-    viewModel: MeasuringViewModel,
     splashResultState: SplashResultState,
-    onFinish: (recordTimes: RecordTimes, measureTime: Long, isFinish: Boolean) -> Unit,
+    onFinish: (isFinish: Boolean) -> Unit,
 ) {
+    val viewModel: MeasuringViewModel = mavericksViewModel(
+        argsFactory = {
+            splashResultState.asMavericksArgs()
+        }
+    )
+
     val uiState by viewModel.collectAsState()
     val context = LocalContext.current
     var showSetExactAlarmPermissionDialog by remember { mutableStateOf(false) }
@@ -129,6 +81,14 @@ fun MeasuringScreen(
         }
     }
 
+    val stopMeasuring = {
+        viewModel.stopMeasuring(
+            recordTimes = uiState.recordTimes,
+            measureTime = uiState.measureTime,
+            endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+        )
+    }
+
     LaunchedEffect(Unit) {
         viewModel.start()
 
@@ -147,11 +107,8 @@ fun MeasuringScreen(
     }
 
     BackHandler {
-        onFinish(
-            uiState.recordTimes,
-            uiState.measureTime,
-            uiState.measuringRecordTimes.savedTime <= 0L
-        )
+        stopMeasuring()
+        onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
     }
 
     DisposableEffect(Unit) {
@@ -166,11 +123,8 @@ fun MeasuringScreen(
 
     LaunchedEffect(isFinishState) {
         if (isFinishState) {
-            onFinish(
-                uiState.recordTimes,
-                uiState.measureTime,
-                true
-            )
+            stopMeasuring()
+            onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
         }
     }
 
@@ -184,7 +138,7 @@ fun MeasuringScreen(
                 onPositive = {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         val intent = Intent(
-                            ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
+                            Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
                             Uri.parse("package:" + context.packageName)
                         )
                         intent.addCategory(Intent.CATEGORY_DEFAULT)
@@ -204,11 +158,8 @@ fun MeasuringScreen(
             viewModel.setSleepMode(!uiState.isSleepMode)
         },
         onFinishClick = {
-            onFinish(
-                uiState.recordTimes,
-                uiState.measureTime,
-                uiState.measuringRecordTimes.savedTime <= 0L
-            )
+            stopMeasuring()
+            onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
         }
     )
 }
