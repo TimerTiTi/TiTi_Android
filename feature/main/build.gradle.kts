@@ -16,4 +16,5 @@ dependencies {
     implementation(project(":feature:measure"))
 
     implementation(libs.androidx.splashscreen)
+    implementation(libs.androidx.material3.window.size)
 }
