@@ -1,9 +1,7 @@
 package com.titi.app.feature.measure.navigation
 
-import androidx.compose.runtime.remember
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -28,10 +26,7 @@ fun NavController.navigateToMeasuringGraph(splashResultState: String) {
 private fun makeRoute(splashResultState: String) =
     "$MEASURING_GRAPH_SCREEN?$MEASURING_GRAPH_SPLASH_ARG=$splashResultState"
 
-fun NavGraphBuilder.measuringGraph(
-    navController: NavHostController,
-    onFinish: (Boolean) -> Unit,
-) {
+fun NavGraphBuilder.measuringGraph(onFinish: (Boolean) -> Unit) {
     navigation(
         route = MEASURING_GRAPH_ROUTE,
         startDestination = MEASURING_ROUTE,
@@ -42,11 +37,7 @@ fun NavGraphBuilder.measuringGraph(
         )
     ) {
         composable(route = MEASURING_ROUTE) { backstackEntry ->
-            val parentBackStackEntry = remember(backstackEntry) {
-                navController.getBackStackEntry(MEASURING_GRAPH_ROUTE)
-            }
-
-            val splashResultStateFromBackStackEntry = parentBackStackEntry
+            val splashResultStateFromBackStackEntry = backstackEntry
                 .arguments
                 ?.getString(MEASURING_GRAPH_SPLASH_ARG)
                 ?.fromJson<SplashResultState>()

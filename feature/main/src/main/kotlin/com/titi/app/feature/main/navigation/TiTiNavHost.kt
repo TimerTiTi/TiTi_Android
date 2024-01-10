@@ -50,7 +50,6 @@ fun TiTiNavHost(
             onNavigateToMeasure = navController::navigateToMeasuringGraph,
             nestedGraphs = {
                 measuringGraph(
-                    navController = navController,
                     onFinish = {
                         navController
                             .previousBackStackEntry
