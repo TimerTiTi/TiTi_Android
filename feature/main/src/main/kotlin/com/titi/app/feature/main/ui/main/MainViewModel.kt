@@ -23,7 +23,7 @@ class MainViewModel @Inject constructor(
     private val _splashResultState: MutableStateFlow<SplashResultState?> = MutableStateFlow(null)
     val splashResultState = _splashResultState.asStateFlow()
 
-    fun getSplashResultState() {
+    init {
         viewModelScope.launch {
             val recordTimesResult = async {
                 getRecordTimesUseCase()

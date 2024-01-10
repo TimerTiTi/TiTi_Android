@@ -27,13 +27,11 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var getTimeColorFlowUseCase: GetTimeColorFlowUseCase
 
-    val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel.getSplashResultState()
 
         var splashResultState: SplashResultState? by mutableStateOf(null)
 
