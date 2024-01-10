@@ -8,9 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.model.TdsDialogInfo
-import com.titi.app.core.designsystem.R
 
 @Composable
 fun TimeColorDialog(
@@ -35,7 +35,10 @@ fun TimeColorDialog(
         ColorSelectContent(
             backgroundColor = backgroundColor,
             textColor = textColor,
-            onClickBackgroundColor = onClickBackgroundColor,
+            onClickBackgroundColor = {
+                onShowDialog(false)
+                onClickBackgroundColor()
+            },
             onClickTextColor = onClickTextColor
         )
         Spacer(Modifier.height(16.dp))
