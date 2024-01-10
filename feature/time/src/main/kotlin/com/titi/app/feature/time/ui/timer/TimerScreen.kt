@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.dp
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
+import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.util.toJson
-import com.titi.app.core.designsystem.R
 import com.titi.app.feature.time.SplashResultState
 import com.titi.app.feature.time.content.TimeButtonContent
 import com.titi.app.feature.time.content.TimeCheckDailyDialog
@@ -183,7 +183,8 @@ fun TimerScreen(
 
                 val splashResultStateString = SplashResultState(
                     recordTimes = updateRecordTimes,
-                    timeColor = uiState.timeColor
+                    timeColor = uiState.timeColor,
+                    daily = uiState.daily
                 ).toJson()
 
                 onNavigateToMeasure(splashResultStateString)
