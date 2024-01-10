@@ -1,12 +1,11 @@
 package com.titi.app.feature.main.navigation
 
-import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
-import com.titi.app.core.ui.createColorUri
 import com.titi.app.core.util.toJson
+import com.titi.app.feature.color.navigation.colorGraph
+import com.titi.app.feature.color.navigation.navigateToColorGraph
 import com.titi.app.feature.main.ui.SplashResultState
 import com.titi.app.feature.main.ui.TiTiAppState
 import com.titi.app.feature.main.ui.toFeatureTimeModel
@@ -25,7 +24,6 @@ fun TiTiNavHost(
     modifier: Modifier = Modifier,
 ) {
     val navController = appState.navController
-    val context = LocalContext.current
 
     NavHost(
         modifier = modifier,
@@ -39,14 +37,7 @@ fun TiTiNavHost(
                 STOPWATCH_SCREEN
             },
             splashResultState = splashResultState.toFeatureTimeModel(),
-            onNavigateToColor = { recordingMode ->
-                context.startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        createColorUri(recordingMode)
-                    )
-                )
-            },
+            onNavigateToColor = navController::navigateToColorGraph,
             onNavigateToMeasure = navController::navigateToMeasuringGraph,
             nestedGraphs = {
                 measuringGraph(
@@ -57,6 +48,10 @@ fun TiTiNavHost(
                             ?.set(TIMER_FINISH_KEY, it)
                         navController.popBackStack()
                     }
+                )
+
+                colorGraph(
+                    onFinish = { navController.popBackStack() }
                 )
             }
         )

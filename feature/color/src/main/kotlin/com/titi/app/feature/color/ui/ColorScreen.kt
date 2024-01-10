@@ -1,8 +1,5 @@
 package com.titi.app.feature.color.ui
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -51,36 +48,12 @@ import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
-import com.titi.app.core.ui.TiTiDeepLinkArgs.COLOR_ARG
-import dagger.hilt.android.AndroidEntryPoint
-
-@AndroidEntryPoint
-class ColorActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val recordingMode = intent.data?.getQueryParameter(COLOR_ARG)?.toInt() ?: 1
-
-        setContent {
-            TiTiTheme {
-                ColorScreen(
-                    recordingMode = recordingMode,
-                    onClickCancel = { finish() },
-                    onClickConfirm = { finish() },
-                )
-            }
-        }
-    }
-
-}
 
 @Composable
 fun ColorScreen(
     viewModel: ColorViewModel = mavericksViewModel(),
     recordingMode: Int,
-    onClickCancel: () -> Unit,
-    onClickConfirm: () -> Unit,
+    onFinish: () -> Unit,
 ) {
     val controller = rememberColorPickerController()
 
@@ -99,7 +72,7 @@ fun ColorScreen(
                         recordingMode = recordingMode,
                         color = selectedColor
                     )
-                    onClickConfirm()
+                    onFinish()
                 },
                 negativeText = stringResource(id = R.string.Cancel),
             ),
@@ -205,7 +178,7 @@ fun ColorScreen(
                     bottom = 24.dp
                 ),
             color = controller.selectedColor.value,
-            onClickCancel = onClickCancel,
+            onClickCancel = onFinish,
             onClickConfirm = {
                 viewModel.addBackgroundColor(
                     colors = uiState.colors,
@@ -215,7 +188,7 @@ fun ColorScreen(
                     recordingMode = recordingMode,
                     color = controller.selectedColor.value.toArgb().toLong()
                 )
-                onClickConfirm()
+                onFinish()
             },
         )
 
@@ -307,8 +280,7 @@ private fun ColorScreenPreview() {
     TiTiTheme {
         ColorScreen(
             recordingMode = 1,
-            onClickCancel = {},
-            onClickConfirm = {},
+            onFinish = {}
         )
     }
 }
