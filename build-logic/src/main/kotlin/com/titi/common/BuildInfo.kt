@@ -1,5 +1,14 @@
 package com.titi.common
 
-enum class BuildTypes {
-    DEV, PROD
+object BuildType {
+    const val RELEASE = "release"
+    const val DEBUG = "debug"
+    const val DEV = "dev"
+}
+
+object AppConfig {
+    const val APP_ID = "com.titi.app"
+    const val APP_VERSION_NAME = "0.0.1"
+    const val APP_VERSION_CODE = 1
+    const val APP_NAME = "TiTi"
 }

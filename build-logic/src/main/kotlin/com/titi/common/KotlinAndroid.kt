@@ -31,10 +31,10 @@ internal fun Project.configureKotlinAndroid() {
         }
 
         buildTypes {
-            create(BuildTypes.DEV.name.lowercase())
-
-            create(BuildTypes.PROD.name.lowercase()){
-                initWith(getByName("release"))
+            getByName(BuildType.DEBUG)
+            getByName(BuildType.RELEASE)
+            create(BuildType.DEV) {
+                initWith(getByName("debug"))
             }
         }
 
