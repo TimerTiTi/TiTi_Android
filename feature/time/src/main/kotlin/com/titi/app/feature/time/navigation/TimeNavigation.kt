@@ -1,5 +1,6 @@
 package com.titi.app.feature.time.navigation
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,7 +36,8 @@ fun NavController.navigateToTimeGraph(
     navOptions: NavOptions
 ) = navigate(route, navOptions)
 
-fun NavController.navigateToTimer(navOptions: NavOptions) = navigate(TIMER_ROUTE, navOptions)
+fun NavController.navigateToTimer(navOptions: NavOptions) =
+    navigate(TIMER_ROUTE, navOptions)
 
 fun NavController.navigateToStopWatch(navOptions: NavOptions) =
     navigate(STOPWATCH_ROUTE, navOptions)
@@ -49,13 +51,15 @@ fun makeTimeRoute(
 
 fun NavGraphBuilder.timeGraph(
     navController: NavHostController,
+    startDestination: String,
+    splashResultState: SplashResultState,
     //  nestedGraphs: NavGraphBuilder.() -> Unit,
     onNavigateToColor: (Int) -> Unit,
     onNavigateToMeasure: (String) -> Unit,
 ) {
     navigation(
         route = TIME_GRAPH_ROUTE,
-        startDestination = "$TIME_GRAPH_ROUTE/{$TIME_GRAPH_START_ARG}",
+        startDestination = "$TIME_GRAPH_SCREEN/$startDestination",
         arguments = listOf(
             navArgument(TIME_GRAPH_SPLASH_ARG) {
                 NavType.StringType
@@ -72,11 +76,11 @@ fun NavGraphBuilder.timeGraph(
                 navController.getBackStackEntry(TIME_GRAPH_ROUTE)
             }
 
-            val splashResultState = parentBackStackEntry
+            val splashResultStateFromBackStackEntry = parentBackStackEntry
                 .arguments
                 ?.getString(TIME_GRAPH_SPLASH_ARG)
                 ?.fromJson<SplashResultState>()
-                ?: SplashResultState()
+                ?: splashResultState
 
             var isFinishState by remember {
                 mutableStateOf(
@@ -87,8 +91,10 @@ fun NavGraphBuilder.timeGraph(
                 )
             }
 
+            Log.e("ABC", splashResultStateFromBackStackEntry.toString())
+
             TimerScreen(
-                splashResultState = splashResultState,
+                splashResultState = splashResultStateFromBackStackEntry,
                 isFinish = isFinishState,
                 onChangeFinishStateFalse = { isFinishState = false },
                 onNavigateToColor = { onNavigateToColor(1) },
@@ -101,14 +107,14 @@ fun NavGraphBuilder.timeGraph(
                 navController.getBackStackEntry(TIME_GRAPH_ROUTE)
             }
 
-            val splashResultState = parentBackStackEntry
+            val splashResultStateFromBackStackEntry = parentBackStackEntry
                 .arguments
                 ?.getString(TIME_GRAPH_SPLASH_ARG)
                 ?.fromJson<SplashResultState>()
-                ?: SplashResultState()
-
+                ?: splashResultState
+            Log.e("ABCD", splashResultStateFromBackStackEntry.toString())
             StopWatchScreen(
-                splashResultState = splashResultState,
+                splashResultState = splashResultStateFromBackStackEntry,
                 onNavigateToColor = { onNavigateToColor(2) },
                 onNavigateToMeasure = onNavigateToMeasure
             )

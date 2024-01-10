@@ -1,4 +1,4 @@
-package com.titi.app.feature.main.ui.splash
+package com.titi.app.feature.main.ui
 
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.TimeColor

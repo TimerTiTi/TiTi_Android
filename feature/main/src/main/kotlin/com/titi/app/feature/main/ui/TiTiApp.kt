@@ -30,13 +30,13 @@ import com.titi.app.feature.main.navigation.TopLevelDestination
 
 @Composable
 fun TiTiApp(
+    splashResultState : SplashResultState,
     windowSizeClass: WindowSizeClass,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
     appState: TiTiAppState = rememberNiaAppState(
         windowSizeClass = windowSizeClass,
         getTimeColorFlowUseCase = getTimeColorFlowUseCase
-    ),
-    onReady: () -> Unit,
+    )
 ) {
     val requestPermissionLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -72,7 +72,7 @@ fun TiTiApp(
                 .fillMaxSize()
                 .padding(it),
             appState = appState,
-            onReady = onReady
+            splashResultState = splashResultState
         )
     }
 }

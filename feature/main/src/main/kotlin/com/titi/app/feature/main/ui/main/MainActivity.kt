@@ -3,13 +3,22 @@ package com.titi.app.feature.main.ui.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
+import com.titi.app.feature.main.ui.SplashResultState
 import com.titi.app.feature.main.ui.TiTiApp
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -18,21 +27,40 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var getTimeColorFlowUseCase: GetTimeColorFlowUseCase
 
+    val viewModel: MainViewModel by viewModels()
+
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        viewModel.getSplashResultState()
+
+        var splashResultState: SplashResultState? by mutableStateOf(null)
+
         val splashScreen = installSplashScreen()
+
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.splashResultState
+                    .collect {
+                        splashResultState = it
+                    }
+            }
+        }
+
+        splashScreen.setKeepOnScreenCondition {
+            splashResultState == null
+        }
 
         setContent {
             TiTiTheme {
-                TiTiApp(
-                    windowSizeClass = calculateWindowSizeClass(this),
-                    getTimeColorFlowUseCase = getTimeColorFlowUseCase,
-                    onReady = {
-                        splashScreen.setKeepOnScreenCondition { false }
-                    }
-                )
+                splashResultState?.let {
+                    TiTiApp(
+                        splashResultState = it,
+                        windowSizeClass = calculateWindowSizeClass(this),
+                        getTimeColorFlowUseCase = getTimeColorFlowUseCase,
+                    )
+                }
             }
         }
     }

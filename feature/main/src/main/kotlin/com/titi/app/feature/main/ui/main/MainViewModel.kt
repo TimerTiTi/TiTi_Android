@@ -1,10 +1,11 @@
-package com.titi.app.feature.main.ui.splash
+package com.titi.app.feature.main.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.titi.app.doamin.daily.usecase.GetCurrentDailyUseCase
 import com.titi.app.domain.color.usecase.GetTimeColorUseCase
 import com.titi.app.domain.time.usecase.GetRecordTimesUseCase
+import com.titi.app.feature.main.ui.SplashResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val getRecordTimesUseCase: GetRecordTimesUseCase,
     private val getTimeColorUseCase: GetTimeColorUseCase,
     private val getCurrentDailyUseCase : GetCurrentDailyUseCase,
