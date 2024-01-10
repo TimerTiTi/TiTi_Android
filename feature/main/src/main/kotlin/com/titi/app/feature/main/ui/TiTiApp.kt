@@ -1,6 +1,7 @@
 package com.titi.app.feature.main.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.os.Build
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -28,9 +29,10 @@ import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.feature.main.navigation.TiTiNavHost
 import com.titi.app.feature.main.navigation.TopLevelDestination
 
+@SuppressLint("UnusedContentLambdaTargetStateParameter")
 @Composable
 fun TiTiApp(
-    splashResultState : SplashResultState,
+    splashResultState: SplashResultState,
     windowSizeClass: WindowSizeClass,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
     appState: TiTiAppState = rememberNiaAppState(
@@ -56,6 +58,7 @@ fun TiTiApp(
     val bottomNavigationColor by appState.bottomNavigationColor.collectAsStateWithLifecycle()
 
     Scaffold(
+        containerColor = Color(bottomNavigationColor),
         bottomBar = {
             if (appState.shouldShowBottomBar) {
                 TiTiBottomBar(

@@ -1,6 +1,7 @@
 package com.titi.app.feature.main.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.titi.app.core.util.toJson
@@ -25,10 +26,18 @@ fun TiTiNavHost(
 ) {
     val navController = appState.navController
 
+    LaunchedEffect(Unit) {
+        if (splashResultState.recordTimes.recording) {
+            navController.navigateToMeasuringGraph(splashResultState.toJson())
+        }
+    }
+
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = TIME_GRAPH_ROUTE,
+        enterTransition = appState.enterTransition,
+        exitTransition = appState.exitTransition,
     ) {
         timeGraph(
             startDestination = if (splashResultState.recordTimes.recordingMode == 1) {
@@ -55,9 +64,5 @@ fun TiTiNavHost(
                 )
             }
         )
-    }
-
-    if (splashResultState.recordTimes.recording) {
-        navController.navigateToMeasuringGraph(splashResultState.toJson())
     }
 }
