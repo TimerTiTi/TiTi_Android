@@ -12,6 +12,9 @@ android {
 
     defaultConfig {
         applicationId = AppConfig.APP_ID
+
+        targetSdk = libs.versions.targetSdk.get().toInt()
+
         versionCode = AppConfig.APP_VERSION_CODE
         versionName = AppConfig.APP_VERSION_NAME
     }
