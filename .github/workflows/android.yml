@@ -1,0 +1,47 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Ktlint
+        run:  ./gradlew ktlintCheck
+
+      - name: Create google-services
+        run: |
+          echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > ./app/google-services.json
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Build Debug APK
+        id: buildDebug
+        run: ./gradlew assembleDev
+
+      - name: upload artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.FIREBASE_APP_ID_DEV}}
+          token: ${{secrets.FIREBASE_TOKEN}}
+          groups: develop
+          file: app/build/outputs/apk/dev/app-dev.apk
+      
