@@ -6,7 +6,7 @@ import com.titi.app.domain.color.model.TimeColor
 import javax.inject.Inject
 
 class GetTimeColorUseCase @Inject constructor(
-    private val colorRepository: ColorRepository
+    private val colorRepository: ColorRepository,
 ) {
     suspend operator fun invoke() = colorRepository.getColor()?.toDomain() ?: TimeColor()
 }

@@ -19,7 +19,7 @@ internal object DataBaseModule {
     fun provideDailyDataBase(@ApplicationContext context: Context): DailyDataBase = databaseBuilder(
         context,
         DailyDataBase::class.java,
-        DailyDataBase.DAILY_DATABASE_NAME
+        DailyDataBase.DAILY_DATABASE_NAME,
     ).build()
 
     @Singleton

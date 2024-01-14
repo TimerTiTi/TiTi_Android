@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 data class TaskUiState(
-    val tasks: List<Task> = emptyList()
+    val tasks: List<Task> = emptyList(),
 ) : MavericksState
 
 class TaskViewModel
@@ -33,7 +33,7 @@ constructor(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val updateCurrentTaskUseCase: UpdateCurrentTaskUseCase,
     private val updateTaskNameUseCase: UpdateTaskNameUseCase,
-    private val updateTasksPositionUseCase: UpdateTasksPositionUseCase
+    private val updateTasksPositionUseCase: UpdateTasksPositionUseCase,
 ) : MavericksViewModel<TaskUiState>(initialState) {
     init {
         getTasksUseCase()
@@ -62,8 +62,8 @@ constructor(
                 CurrentTask(
                     taskName = task.taskName,
                     isTaskTargetTimeOn = task.isTaskTargetTimeOn,
-                    taskTargetTime = task.taskTargetTime
-                )
+                    taskTargetTime = task.taskTargetTime,
+                ),
             )
         }
     }
@@ -78,7 +78,7 @@ constructor(
         viewModelScope.launch {
             updateTasksPositionUseCase(
                 fromTask = fromTask,
-                toTask = toTask
+                toTask = toTask,
             )
         }
     }

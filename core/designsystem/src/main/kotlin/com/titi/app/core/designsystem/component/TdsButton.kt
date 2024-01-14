@@ -37,7 +37,7 @@ fun TdsTextButton(
     textColor: TdsColor,
     fontSize: TextUnit,
     onClick: () -> Unit,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
     Button(
         modifier =
@@ -50,15 +50,15 @@ fun TdsTextButton(
         colors =
         ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
-            disabledContainerColor = Color.Transparent
+            disabledContainerColor = Color.Transparent,
         ),
-        contentPadding = PaddingValues(12.dp, 8.dp)
+        contentPadding = PaddingValues(12.dp, 8.dp),
     ) {
         TdsText(
             text = text,
             textStyle = textStyle,
             color = textColor,
-            fontSize = fontSize
+            fontSize = fontSize,
         )
     }
 }
@@ -71,7 +71,7 @@ fun TdsTextButton(
     textColor: Color,
     fontSize: TextUnit,
     onClick: () -> Unit,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
     Button(
         modifier =
@@ -84,15 +84,15 @@ fun TdsTextButton(
         colors =
         ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
-            disabledContainerColor = Color.Transparent
+            disabledContainerColor = Color.Transparent,
         ),
-        contentPadding = PaddingValues(12.dp, 8.dp)
+        contentPadding = PaddingValues(12.dp, 8.dp),
     ) {
         TdsText(
             text = text,
             textStyle = textStyle,
             color = textColor,
-            fontSize = fontSize
+            fontSize = fontSize,
         )
     }
 }
@@ -104,7 +104,7 @@ fun TdsIconButton(
     size: Dp = 32.dp,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Box(
         modifier =
@@ -119,10 +119,10 @@ fun TdsIconButton(
                 indication =
                 rememberRipple(
                     bounded = false,
-                    radius = size / 2
-                )
+                    radius = size / 2,
+                ),
             ),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         content()
     }
@@ -137,7 +137,7 @@ private fun TdsButtonPreview() {
                 text = "ABC",
                 fontSize = 16.sp,
                 onClick = { },
-                textColor = TdsColor.TEXT
+                textColor = TdsColor.TEXT,
             )
         }
     }

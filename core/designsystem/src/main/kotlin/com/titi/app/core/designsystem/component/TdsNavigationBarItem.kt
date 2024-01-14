@@ -48,7 +48,7 @@ fun RowScope.TdsNavigationBarItem(
     label: @Composable (() -> Unit)? = null,
     alwaysShowLabel: Boolean = true,
     colors: NavigationBarItemColors = NavigationBarItemDefaults.colors(),
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val styledIcon = @Composable {
         val iconColor by colors.iconColor(selected = selected, enabled = enabled)
@@ -79,24 +79,24 @@ fun RowScope.TdsNavigationBarItem(
                 enabled = enabled,
                 role = Role.Tab,
                 interactionSource = interactionSource,
-                indication = null
+                indication = null,
             )
             .weight(1f)
             .onSizeChanged {
                 itemWidth = it.width
             },
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         val animationProgress: Float by animateFloatAsState(
             targetValue = if (selected) 1f else 0f,
-            animationSpec = tween(ITEM_ANIMTATION_DURATION_MILLIS)
+            animationSpec = tween(ITEM_ANIMTATION_DURATION_MILLIS),
         )
 
         NavigationBarItemBaselineLayout(
             icon = styledIcon,
             label = styledLabel,
             alwaysShowLabel = alwaysShowLabel,
-            animationProgress = animationProgress
+            animationProgress = animationProgress,
         )
     }
 }
@@ -107,14 +107,14 @@ object NavigationBarItemDefaults {
         selectedIconColor: Color = TdsColor.TEXT.getColor(),
         selectedTextColor: Color = TdsColor.TEXT.getColor(),
         unselectedIconColor: Color = TdsColor.LIGHT_GRAY.getColor(),
-        unselectedTextColor: Color = TdsColor.LIGHT_GRAY.getColor()
+        unselectedTextColor: Color = TdsColor.LIGHT_GRAY.getColor(),
     ): NavigationBarItemColors = NavigationBarItemColors(
         selectedIconColor = selectedIconColor,
         selectedTextColor = selectedTextColor,
         unselectedIconColor = unselectedIconColor,
         unselectedTextColor = unselectedTextColor,
         disabledIconColor = unselectedIconColor,
-        disabledTextColor = unselectedTextColor
+        disabledTextColor = unselectedTextColor,
     )
 }
 
@@ -125,7 +125,7 @@ class NavigationBarItemColors internal constructor(
     private val unselectedIconColor: Color,
     private val unselectedTextColor: Color,
     private val disabledIconColor: Color,
-    private val disabledTextColor: Color
+    private val disabledTextColor: Color,
 ) {
     @Composable
     internal fun iconColor(selected: Boolean, enabled: Boolean): State<Color> {
@@ -137,7 +137,7 @@ class NavigationBarItemColors internal constructor(
             }
         return animateColorAsState(
             targetValue = targetValue,
-            animationSpec = tween(ITEM_ANIMTATION_DURATION_MILLIS)
+            animationSpec = tween(ITEM_ANIMTATION_DURATION_MILLIS),
         )
     }
 
@@ -151,7 +151,7 @@ class NavigationBarItemColors internal constructor(
             }
         return animateColorAsState(
             targetValue = targetValue,
-            animationSpec = tween(ITEM_ANIMTATION_DURATION_MILLIS)
+            animationSpec = tween(ITEM_ANIMTATION_DURATION_MILLIS),
         )
     }
 
@@ -186,7 +186,7 @@ private fun NavigationBarItemBaselineLayout(
     icon: @Composable () -> Unit,
     label: @Composable (() -> Unit)?,
     alwaysShowLabel: Boolean,
-    animationProgress: Float
+    animationProgress: Float,
 ) {
     Layout(
         {
@@ -197,10 +197,10 @@ private fun NavigationBarItemBaselineLayout(
                     Modifier
                         .layoutId(LABEL_LAYOUT_ID_TAG)
                         .alpha(if (alwaysShowLabel) 1f else animationProgress)
-                        .padding(horizontal = NAVIGATION_BAR_ITEM_HORIZONTAL_PADDING / 2)
+                        .padding(horizontal = NAVIGATION_BAR_ITEM_HORIZONTAL_PADDING / 2),
                 ) { label() }
             }
-        }
+        },
     ) { measurables, constraints ->
         val iconPlaceable =
             measurables.first { it.layoutId == ICON_LAYOUT_ID_TAG }.measure(constraints)
@@ -210,14 +210,14 @@ private fun NavigationBarItemBaselineLayout(
                 measurables
                     .first { it.layoutId == LABEL_LAYOUT_ID_TAG }
                     .measure(
-                        constraints.copy(minHeight = 0)
+                        constraints.copy(minHeight = 0),
                     )
             }
 
         if (label == null) {
             placeIcon(
                 iconPlaceable,
-                constraints
+                constraints,
             )
         } else {
             placeLabelAndIcon(
@@ -225,7 +225,7 @@ private fun NavigationBarItemBaselineLayout(
                 iconPlaceable,
                 constraints,
                 alwaysShowLabel,
-                animationProgress
+                animationProgress,
             )
         }
     }
@@ -233,7 +233,7 @@ private fun NavigationBarItemBaselineLayout(
 
 private fun MeasureScope.placeIcon(
     iconPlaceable: Placeable,
-    constraints: Constraints
+    constraints: Constraints,
 ): MeasureResult {
     val width = constraints.maxWidth
     val height = constraints.maxHeight
@@ -251,7 +251,7 @@ private fun MeasureScope.placeLabelAndIcon(
     iconPlaceable: Placeable,
     constraints: Constraints,
     alwaysShowLabel: Boolean,
-    animationProgress: Float
+    animationProgress: Float,
 ): MeasureResult {
     val height = constraints.maxHeight
 

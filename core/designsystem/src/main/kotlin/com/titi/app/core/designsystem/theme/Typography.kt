@@ -17,7 +17,7 @@ val hgggothicssiProFontFamily =
         Font(R.font.hgggothicssi_pro_40g, FontWeight.Normal),
         Font(R.font.hgggothicssi_pro_60g, FontWeight.SemiBold),
         Font(R.font.hgggothicssi_pro_80g, FontWeight.ExtraBold),
-        Font(R.font.hgggothicssi_pro_99g, FontWeight.Black)
+        Font(R.font.hgggothicssi_pro_99g, FontWeight.Black),
     )
 
 @Immutable
@@ -26,38 +26,38 @@ data class TdsTypography(
         TextStyle(
             fontFamily = hgggothicssiProFontFamily,
             fontWeight = FontWeight.Thin,
-            fontSize = 1.sp
+            fontSize = 1.sp,
         ),
     val extraLightTextStyle: TextStyle =
         TextStyle(
             fontFamily = hgggothicssiProFontFamily,
             fontWeight = FontWeight.ExtraLight,
-            fontSize = 1.sp
+            fontSize = 1.sp,
         ),
     val normalTextStyle: TextStyle =
         TextStyle(
             fontFamily = hgggothicssiProFontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 1.sp
+            fontSize = 1.sp,
         ),
     val semiBoldTextStyle: TextStyle =
         TextStyle(
             fontFamily = hgggothicssiProFontFamily,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 1.sp
+            fontSize = 1.sp,
         ),
     val extraBoldTextStyle: TextStyle =
         TextStyle(
             fontFamily = hgggothicssiProFontFamily,
             fontWeight = FontWeight.ExtraBold,
-            fontSize = 1.sp
+            fontSize = 1.sp,
         ),
     val blackTextStyle: TextStyle =
         TextStyle(
             fontFamily = hgggothicssiProFontFamily,
             fontWeight = FontWeight.Black,
-            fontSize = 1.sp
-        )
+            fontSize = 1.sp,
+        ),
 )
 
 enum class TdsTextStyle {
@@ -66,20 +66,22 @@ enum class TdsTextStyle {
     NORMAL_TEXT_STYLE,
     SEMI_BOLD_TEXT_STYLE,
     EXTRA_BOLD_TEXT_STYLE,
-    BLACK_TEXT_STYLE
+    BLACK_TEXT_STYLE,
     ;
 
     @Composable
     fun getTextStyle(fontSize: TextUnit) = when (this) {
         THIN_TEXT_STYLE -> TiTiTheme.textStyle.thinTextStyle.copy(fontSize = fontSize)
-        EXTRA_LIGHT_TEXT_STYLE -> TiTiTheme.textStyle.extraLightTextStyle.copy(
-            fontSize = fontSize
-        )
+        EXTRA_LIGHT_TEXT_STYLE ->
+            TiTiTheme.textStyle.extraLightTextStyle.copy(
+                fontSize = fontSize,
+            )
         NORMAL_TEXT_STYLE -> TiTiTheme.textStyle.normalTextStyle.copy(fontSize = fontSize)
         SEMI_BOLD_TEXT_STYLE -> TiTiTheme.textStyle.semiBoldTextStyle.copy(fontSize = fontSize)
-        EXTRA_BOLD_TEXT_STYLE -> TiTiTheme.textStyle.extraBoldTextStyle.copy(
-            fontSize = fontSize
-        )
+        EXTRA_BOLD_TEXT_STYLE ->
+            TiTiTheme.textStyle.extraBoldTextStyle.copy(
+                fontSize = fontSize,
+            )
         BLACK_TEXT_STYLE -> TiTiTheme.textStyle.blackTextStyle.copy(fontSize = fontSize)
     }
 }

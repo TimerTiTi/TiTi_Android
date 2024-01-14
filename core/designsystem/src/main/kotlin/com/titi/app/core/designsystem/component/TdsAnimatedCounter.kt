@@ -27,7 +27,7 @@ internal fun TdsAnimatedCounter(
     count: Int,
     color: Color,
     textStyle: TdsTextStyle,
-    fontSize: TextUnit
+    fontSize: TextUnit,
 ) {
     var oldCount by remember {
         mutableIntStateOf(count)
@@ -56,14 +56,14 @@ internal fun TdsAnimatedCounter(
                 transitionSpec = {
                     slideInVertically { it } togetherWith slideOutVertically { -it }
                 },
-                label = ""
+                label = "",
             ) { character ->
                 TdsText(
                     text = character.toString(),
                     textStyle = textStyle,
                     textAlign = TextAlign.Center,
                     fontSize = fontSize,
-                    color = color
+                    color = color,
                 )
             }
         }
@@ -78,7 +78,7 @@ private fun TdsAnimatedCounterPreview() {
             count = 13,
             color = TdsColor.TEXT.getColor(),
             textStyle = TdsTextStyle.BLACK_TEXT_STYLE,
-            fontSize = 40.sp
+            fontSize = 40.sp,
         )
     }
 }

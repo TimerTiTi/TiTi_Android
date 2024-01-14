@@ -36,7 +36,7 @@ fun ColorSelectContent(
     backgroundColor: Color,
     textColor: Color,
     onClickBackgroundColor: () -> Unit,
-    onClickTextColor: (Boolean) -> Unit
+    onClickTextColor: (Boolean) -> Unit,
 ) {
     val builder =
         rememberBalloonBuilder {
@@ -58,7 +58,7 @@ fun ColorSelectContent(
                 text = stringResource(R.string.background),
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = 14.sp,
-                color = TdsColor.TEXT
+                color = TdsColor.TEXT,
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -69,7 +69,7 @@ fun ColorSelectContent(
                     .size(32.dp)
                     .clip(RoundedCornerShape(4.dp))
                     .background(color = backgroundColor)
-                    .clickable { onClickBackgroundColor() }
+                    .clickable { onClickBackgroundColor() },
             )
         }
 
@@ -87,7 +87,7 @@ fun ColorSelectContent(
                             .background(color = Color.Black)
                             .clickable {
                                 onClickTextColor(true)
-                            }
+                            },
                     )
 
                     Spacer(modifier = Modifier.width(16.dp))
@@ -100,17 +100,17 @@ fun ColorSelectContent(
                             .background(color = Color.White)
                             .clickable {
                                 onClickTextColor(false)
-                            }
+                            },
                     )
                 }
-            }
+            },
         ) { balloonWindow ->
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 TdsText(
                     text = stringResource(R.string.text),
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 14.sp,
-                    color = TdsColor.TEXT
+                    color = TdsColor.TEXT,
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -121,7 +121,7 @@ fun ColorSelectContent(
                         .size(32.dp)
                         .clip(RoundedCornerShape(4.dp))
                         .background(color = textColor)
-                        .clickable { balloonWindow.showAlignBottom() }
+                        .clickable { balloonWindow.showAlignBottom() },
                 )
             }
         }
@@ -136,7 +136,7 @@ private fun ColorSelectContentPreview() {
             backgroundColor = Color.Blue,
             textColor = Color.Black,
             onClickBackgroundColor = {},
-            onClickTextColor = {}
+            onClickTextColor = {},
         )
     }
 }

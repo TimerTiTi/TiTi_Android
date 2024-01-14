@@ -18,20 +18,20 @@ fun TimeTaskContent(
     isSetTask: Boolean,
     textColor: TdsColor,
     taskName: String,
-    onClickTask: () -> Unit
+    onClickTask: () -> Unit,
 ) {
     if (!isSetTask) {
         OutlinedButton(
             onClick = onClickTask,
             shape = RoundedCornerShape(12.dp),
             border = BorderStroke(2.dp, TdsColor.RED.getColor()),
-            contentPadding = PaddingValues(horizontal = 25.dp, vertical = 10.dp)
+            contentPadding = PaddingValues(horizontal = 25.dp, vertical = 10.dp),
         ) {
             TdsText(
                 text = stringResource(R.string.create_task_text),
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = 18.sp,
-                color = TdsColor.RED
+                color = TdsColor.RED,
             )
         }
     } else {
@@ -39,13 +39,13 @@ fun TimeTaskContent(
             onClick = onClickTask,
             shape = RoundedCornerShape(12.dp),
             border = BorderStroke(2.dp, textColor.getColor()),
-            contentPadding = PaddingValues(horizontal = 25.dp, vertical = 10.dp)
+            contentPadding = PaddingValues(horizontal = 25.dp, vertical = 10.dp),
         ) {
             TdsText(
                 text = taskName,
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = 18.sp,
-                color = textColor
+                color = textColor,
             )
         }
     }

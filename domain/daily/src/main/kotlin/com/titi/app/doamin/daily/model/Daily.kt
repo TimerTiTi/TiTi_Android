@@ -13,11 +13,11 @@ data class Daily(
     val timeLine: List<Long> = LongArray(24) { 0 }.toList(),
     val maxTime: Long = 0,
     val tasks: Map<String, Long>? = null,
-    val taskHistories: Map<String, List<TaskHistory>>? = null
+    val taskHistories: Map<String, List<TaskHistory>>? = null,
 ) : Parcelable
 
 @Parcelize
 data class TaskHistory(
     val startDate: String,
-    val endDate: String
+    val endDate: String,
 ) : Parcelable

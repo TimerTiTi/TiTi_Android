@@ -26,7 +26,7 @@ android {
             manifestPlaceholders["appName"] = AppConfig.APP_NAME
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
         getByName(BuildType.DEV) {

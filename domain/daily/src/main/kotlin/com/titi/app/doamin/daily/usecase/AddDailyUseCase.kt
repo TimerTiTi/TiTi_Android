@@ -8,7 +8,7 @@ import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
 class AddDailyUseCase @Inject constructor(
-    private val dailyRepository: DailyRepository
+    private val dailyRepository: DailyRepository,
 ) {
     suspend operator fun invoke() {
         val recentDaily = dailyRepository.getCurrentDaily()
@@ -21,8 +21,8 @@ class AddDailyUseCase @Inject constructor(
                     timeline = LongArray(24) { 0 }.toList(),
                     maxTime = 0,
                     tasks = null,
-                    taskHistories = null
-                )
+                    taskHistories = null,
+                ),
             )
         } else {
             dailyRepository.upsert(Daily().toRepositoryModel())

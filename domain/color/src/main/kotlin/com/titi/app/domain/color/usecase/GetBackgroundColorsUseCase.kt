@@ -5,7 +5,7 @@ import com.titi.app.domain.color.mapper.toDomain
 import javax.inject.Inject
 
 class GetBackgroundColorsUseCase @Inject constructor(
-    private val colorRepository: ColorRepository
+    private val colorRepository: ColorRepository,
 ) {
     suspend operator fun invoke() = colorRepository.getBackgroundColors()?.toDomain()
 }

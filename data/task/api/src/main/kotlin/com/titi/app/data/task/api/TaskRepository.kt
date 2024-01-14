@@ -4,7 +4,6 @@ import com.titi.app.data.task.api.model.TaskRepositoryModel
 import kotlinx.coroutines.flow.Flow
 
 interface TaskRepository {
-
     suspend fun upsertTask(taskRepositoryModel: TaskRepositoryModel)
 
     suspend fun getMaxPosition(): Int

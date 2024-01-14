@@ -10,5 +10,5 @@ internal fun TaskRepositoryModel.toLocalModel() = TaskEntity(
     taskTargetTime = taskTargetTime,
     isTaskTargetTimeOn = isTaskTargetTimeOn,
     savedSumTime = savedSumTime,
-    isDelete = isDelete
+    isDelete = isDelete,
 )

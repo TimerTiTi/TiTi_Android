@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class CurrentTask(
     val taskName: String,
     val taskTargetTime: Long = 3600,
-    val isTaskTargetTimeOn: Boolean = false
+    val isTaskTargetTimeOn: Boolean = false,
 ) : Parcelable

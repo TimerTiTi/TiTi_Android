@@ -9,9 +9,9 @@ internal fun TimeColor.toRepository() = ColorRepositoryModel(
     timerBackgroundColor = timerBackgroundColor,
     isTimerBlackTextColor = isTimerBlackTextColor,
     stopwatchBackgroundColor = stopwatchBackgroundColor,
-    isStopwatchBlackTextColor = isStopwatchBlackTextColor
+    isStopwatchBlackTextColor = isStopwatchBlackTextColor,
 )
 
 internal fun BackgroundColors.toRepository() = BackgroundColorRepositoryModel(
-    backgroundColors = colors
+    backgroundColors = colors,
 )

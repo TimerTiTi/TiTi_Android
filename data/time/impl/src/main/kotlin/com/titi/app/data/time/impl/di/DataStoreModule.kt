@@ -12,7 +12,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DataStoreModule {
-
     @Singleton
     @Provides
     fun provideRecordTimesDataStore(@ApplicationContext context: Context) =

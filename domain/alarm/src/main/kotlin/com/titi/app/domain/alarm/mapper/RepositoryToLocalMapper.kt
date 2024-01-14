@@ -6,11 +6,11 @@ import com.titi.app.domain.alarm.model.Alarm
 import com.titi.app.domain.alarm.model.Alarms
 
 internal fun AlarmsRepositoryModel.toDomainModel() = Alarms(
-    alarms = alarms.map { it.toDomainModel() }
+    alarms = alarms.map { it.toDomainModel() },
 )
 
 internal fun AlarmRepositoryModel.toDomainModel() = Alarm(
     title = title,
     message = message,
-    finishTime = finishTime
+    finishTime = finishTime,
 )

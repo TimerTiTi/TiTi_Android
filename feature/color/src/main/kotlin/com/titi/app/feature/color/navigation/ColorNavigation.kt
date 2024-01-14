@@ -30,13 +30,13 @@ fun NavGraphBuilder.colorGraph(onFinish: () -> Unit) {
         listOf(
             navArgument(COLOR_GRAPH_MODE_ARG) {
                 NavType.IntType
-            }
-        )
+            },
+        ),
     ) {
         composable(route = COLOR_ROUTE) {
             ColorScreen(
                 recordingMode = 1,
-                onFinish = onFinish
+                onFinish = onFinish,
             )
         }
     }

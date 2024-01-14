@@ -6,10 +6,8 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-internal class SleepRepositoryImpl
-@Inject
-constructor(
-    private val sleepDataStore: SleepDataStore
+internal class SleepRepositoryImpl @Inject constructor(
+    private val sleepDataStore: SleepDataStore,
 ) : SleepRepository {
     override suspend fun setSleep(isSleep: Boolean) {
         sleepDataStore.setSleep(isSleep)

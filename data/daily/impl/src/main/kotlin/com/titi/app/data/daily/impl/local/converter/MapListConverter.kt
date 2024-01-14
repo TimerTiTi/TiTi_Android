@@ -15,8 +15,8 @@ internal class MapListConverter {
                 String::class.java,
                 Types.newParameterizedType(
                     List::class.java,
-                    TaskHistoryEntity::class.java
-                )
+                    TaskHistoryEntity::class.java,
+                ),
             )
 
     @TypeConverter

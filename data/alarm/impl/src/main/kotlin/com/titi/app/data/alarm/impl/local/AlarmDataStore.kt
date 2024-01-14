@@ -29,7 +29,7 @@ internal class AlarmDataStore(context: Context) {
         private val ALARM_KEY = stringPreferencesKey("alarmKey")
 
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-            ALARM_PREF_NAME
+            ALARM_PREF_NAME,
         )
     }
 }

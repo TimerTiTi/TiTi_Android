@@ -18,9 +18,9 @@ internal object RepositoryModule {
     @Provides
     fun provideAlarmRepository(
         @ApplicationContext context: Context,
-        alarmDataStore: AlarmDataStore
+        alarmDataStore: AlarmDataStore,
     ): AlarmRepository = AlarmRepositoryImpl(
         context,
-        alarmDataStore
+        alarmDataStore,
     )
 }

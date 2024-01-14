@@ -28,6 +28,6 @@ internal interface ViewModelModule {
     @IntoMap
     @ViewModelKey(StopWatchViewModel::class)
     fun stopWatchViewModelFactory(
-        factory: StopWatchViewModel.Factory
+        factory: StopWatchViewModel.Factory,
     ): AssistedViewModelFactory<*, *>
 }

@@ -37,7 +37,7 @@ constructor(
     private val canSetAlarmUseCase: CanSetAlarmUseCase,
     private val setTimerAlarmUseCase: SetTimerAlarmUseCase,
     private val setStopWatchAlarmUseCase: SetStopWatchAlarmUseCase,
-    private val cancelAlarmsUseCase: CancelAlarmsUseCase
+    private val cancelAlarmsUseCase: CancelAlarmsUseCase,
 ) : MavericksViewModel<MeasuringUiState>(initialState) {
     fun canSetAlarm() = canSetAlarmUseCase()
 
@@ -50,9 +50,9 @@ constructor(
                 recordTimes.toMeasuringRecordTimes(
                     isSleepMode = it,
                     measureTime = measureTime,
-                    daily = daily
+                    daily = daily,
                 ),
-                isSleepMode = it
+                isSleepMode = it,
             )
         }
 
@@ -65,9 +65,9 @@ constructor(
                         recordTimes.toMeasuringRecordTimes(
                             isSleepMode = isSleepMode,
                             daily = daily,
-                            measureTime = measureTime + 1
+                            measureTime = measureTime + 1,
                         ),
-                        measureTime = measureTime + 1
+                        measureTime = measureTime + 1,
                     )
                 }
             }
@@ -78,7 +78,7 @@ constructor(
         title: String,
         finishMessage: String,
         fiveMinutesBeforeFinish: String?,
-        measureTime: Long
+        measureTime: Long,
     ) {
         viewModelScope.launch {
             if (fiveMinutesBeforeFinish != null) {
@@ -86,13 +86,13 @@ constructor(
                     title = title,
                     finishMessage = finishMessage,
                     fiveMinutesBeforeFinish = fiveMinutesBeforeFinish,
-                    measureTime = measureTime
+                    measureTime = measureTime,
                 )
             } else {
                 setStopWatchAlarmUseCase(
                     title = title,
                     finishMessage = finishMessage,
-                    measureTime = measureTime
+                    measureTime = measureTime,
                 )
             }
         }
@@ -116,21 +116,21 @@ constructor(
                         taskName = taskName,
                         startTime = startTime,
                         endTime = endTime,
-                        measureTime = measureTime
+                        measureTime = measureTime,
                     )
                 }
 
                 launch {
                     addMeasureTimeAtRecordTimesUseCase(
                         recordTimes = recordTimes,
-                        measureTime = measureTime
+                        measureTime = measureTime,
                     )
                 }
 
                 launch {
                     addMeasureTimeAtTaskUseCase(
                         taskName = taskName,
-                        measureTime = measureTime
+                        measureTime = measureTime,
                     )
                 }
             }

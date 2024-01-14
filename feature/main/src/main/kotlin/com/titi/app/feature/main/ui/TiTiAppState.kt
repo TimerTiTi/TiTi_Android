@@ -38,17 +38,17 @@ fun rememberNiaAppState(
     navController: NavHostController = rememberNavController(),
     windowSizeClass: WindowSizeClass,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
-    getTimeColorFlowUseCase: GetTimeColorFlowUseCase
+    getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
 ): TiTiAppState {
     return remember(
         navController,
-        windowSizeClass
+        windowSizeClass,
     ) {
         TiTiAppState(
             navController,
             windowSizeClass,
             coroutineScope,
-            getTimeColorFlowUseCase
+            getTimeColorFlowUseCase,
         )
     }
 }
@@ -58,7 +58,7 @@ class TiTiAppState(
     val navController: NavHostController,
     val windowSizeClass: WindowSizeClass,
     coroutineScope: CoroutineScope,
-    getTimeColorFlowUseCase: GetTimeColorFlowUseCase
+    getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
 ) {
     val currentDestination: NavDestination?
         @Composable get() =
@@ -97,7 +97,7 @@ class TiTiAppState(
             .stateIn(
                 scope = coroutineScope,
                 SharingStarted.WhileSubscribed(),
-                initialValue = 0xFFFFFFFF
+                initialValue = 0xFFFFFFFF,
             )
 
     val enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition)
@@ -110,7 +110,7 @@ class TiTiAppState(
                 {
                     slideIntoContainer(
                         AnimatedContentTransitionScope.SlideDirection.Left,
-                        animationSpec = tween(200)
+                        animationSpec = tween(200),
                     )
                 }
             }
@@ -125,7 +125,7 @@ class TiTiAppState(
                 {
                     slideOutOfContainer(
                         AnimatedContentTransitionScope.SlideDirection.Right,
-                        animationSpec = tween(200, delayMillis = 200)
+                        animationSpec = tween(200, delayMillis = 200),
                     )
                 }
             }

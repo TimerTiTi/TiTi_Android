@@ -13,7 +13,7 @@ import okio.IOException
 
 suspend inline fun <T : Any> DataStore<Preferences>.readValue(
     key: Preferences.Key<T>,
-    defaultValue: T
+    defaultValue: T,
 ): T {
     return data.catch { recoverOrThrow(it) }.map { it[key] }.firstOrNull() ?: defaultValue
 }
@@ -26,7 +26,10 @@ fun <T : Any> DataStore<Preferences>.readFlowValue(key: Preferences.Key<T>): Flo
     return data.catch { recoverOrThrow(it) }.map { it[key] }
 }
 
-suspend inline fun <T : Any> DataStore<Preferences>.storeValue(key: Preferences.Key<T>, value: T?) {
+suspend inline fun <T : Any> DataStore<Preferences>.storeValue(
+    key: Preferences.Key<T>,
+    value: T?,
+) {
     edit { preferences ->
         if (value == null) {
             preferences.remove(key)

@@ -49,7 +49,7 @@ fun getMeasureTime(dateTime: String): Long {
 fun addTimeLine(
     startTime: ZonedDateTime,
     endTime: ZonedDateTime,
-    timeLine: List<Long>
+    timeLine: List<Long>,
 ): List<Long> {
     var current = startTime
     val updateTimeLine = timeLine.toMutableList()

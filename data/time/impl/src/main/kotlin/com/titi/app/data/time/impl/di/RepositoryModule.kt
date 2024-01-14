@@ -11,10 +11,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal interface RepositoryModule {
-
     @Binds
     @Singleton
     fun provideRecordTimesRepository(
-        recordTimesRepositoryImpl: RecordTimesRepositoryImpl
+        recordTimesRepositoryImpl: RecordTimesRepositoryImpl,
     ): RecordTimesRepository
 }

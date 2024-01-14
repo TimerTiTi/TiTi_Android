@@ -9,13 +9,13 @@ import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
 class SetTimerAlarmUseCase @Inject constructor(
-    private val alarmRepository: AlarmRepository
+    private val alarmRepository: AlarmRepository,
 ) {
     suspend operator fun invoke(
         title: String,
         finishMessage: String,
         fiveMinutesBeforeFinish: String,
-        measureTime: Long
+        measureTime: Long,
     ) {
         val now = ZonedDateTime.now(ZoneOffset.UTC)
         val finishTime = now.plusSeconds(measureTime).toString()
@@ -28,14 +28,13 @@ class SetTimerAlarmUseCase @Inject constructor(
 
         val alarms =
             Alarms(
-                alarms =
-                mutableListOf<Alarm>().apply {
+                alarms = mutableListOf<Alarm>().apply {
                     add(
                         Alarm(
                             title = title,
                             message = finishMessage,
-                            finishTime = finishTime
-                        )
+                            finishTime = finishTime,
+                        ),
                     )
 
                     if (fiveMinutesBeforeFinishTime != null) {
@@ -43,11 +42,11 @@ class SetTimerAlarmUseCase @Inject constructor(
                             Alarm(
                                 title = title,
                                 message = fiveMinutesBeforeFinish,
-                                finishTime = fiveMinutesBeforeFinishTime
-                            )
+                                finishTime = fiveMinutesBeforeFinishTime,
+                            ),
                         )
                     }
-                }.toList()
+                }.toList(),
             )
 
         if (alarmRepository.canScheduleExactAlarms()) {

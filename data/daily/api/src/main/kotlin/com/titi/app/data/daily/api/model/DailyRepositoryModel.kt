@@ -7,10 +7,10 @@ data class DailyRepositoryModel(
     val timeline: List<Long>,
     val maxTime: Long,
     val tasks: Map<String, Long>?,
-    val taskHistories: Map<String, List<TaskHistoryRepositoryModel>>?
+    val taskHistories: Map<String, List<TaskHistoryRepositoryModel>>?,
 )
 
 data class TaskHistoryRepositoryModel(
     val startDate: String,
-    val endDate: String
+    val endDate: String,
 )

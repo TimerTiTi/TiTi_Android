@@ -19,7 +19,7 @@ fun TimeColorDialog(
     onNegative: () -> Unit,
     onShowDialog: (Boolean) -> Unit,
     onClickBackgroundColor: () -> Unit,
-    onClickTextColor: (Boolean) -> Unit
+    onClickTextColor: (Boolean) -> Unit,
 ) {
     TdsDialog(
         modifier = Modifier.background(color = Color(0xCCFFFFFF)),
@@ -29,9 +29,9 @@ fun TimeColorDialog(
             positiveText = stringResource(id = R.string.Ok),
             negativeText = stringResource(id = R.string.Cancel),
             onPositive = {},
-            onNegative = onNegative
+            onNegative = onNegative,
         ),
-        onShowDialog = onShowDialog
+        onShowDialog = onShowDialog,
     ) {
         ColorSelectContent(
             backgroundColor = backgroundColor,
@@ -40,7 +40,7 @@ fun TimeColorDialog(
                 onShowDialog(false)
                 onClickBackgroundColor()
             },
-            onClickTextColor = onClickTextColor
+            onClickTextColor = onClickTextColor,
         )
         Spacer(Modifier.height(16.dp))
     }

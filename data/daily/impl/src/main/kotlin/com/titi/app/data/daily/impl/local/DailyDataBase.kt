@@ -12,12 +12,12 @@ import com.titi.app.data.daily.impl.local.model.DailyEntity
 @Database(
     entities = [DailyEntity::class],
     version = 1,
-    exportSchema = false
+    exportSchema = false,
 )
 @TypeConverters(
     ListConverter::class,
     MapConverter::class,
-    MapListConverter::class
+    MapListConverter::class,
 )
 internal abstract class DailyDataBase : RoomDatabase() {
     abstract fun getDailyDao(): DailyDao

@@ -22,7 +22,7 @@ import com.titi.app.feature.time.navigation.timeGraph
 fun TiTiNavHost(
     splashResultState: SplashResultState,
     appState: TiTiAppState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val navController = appState.navController
 
@@ -37,7 +37,7 @@ fun TiTiNavHost(
         navController = navController,
         startDestination = TIME_GRAPH_ROUTE,
         enterTransition = appState.enterTransition,
-        exitTransition = appState.exitTransition
+        exitTransition = appState.exitTransition,
     ) {
         timeGraph(
             startDestination =
@@ -57,13 +57,13 @@ fun TiTiNavHost(
                             ?.savedStateHandle
                             ?.set(TIMER_FINISH_KEY, it)
                         navController.popBackStack()
-                    }
+                    },
                 )
 
                 colorGraph(
-                    onFinish = { navController.popBackStack() }
+                    onFinish = { navController.popBackStack() },
                 )
-            }
+            },
         )
     }
 }

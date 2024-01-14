@@ -30,7 +30,7 @@ internal class AlarmReceiver : BroadcastReceiver() {
         val entryPoint =
             EntryPointAccessors.fromApplication(
                 context,
-                AlarmReceiverEntryPoint::class.java
+                AlarmReceiverEntryPoint::class.java,
             )
         alarmDataStore = entryPoint.getAlarmDataStore()
 

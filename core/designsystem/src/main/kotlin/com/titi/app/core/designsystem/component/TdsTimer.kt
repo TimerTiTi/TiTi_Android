@@ -47,7 +47,7 @@ fun TdsTimer(
     savedTime: Long,
     savedGoalTime: Long,
     finishGoalTime: String,
-    isTaskTargetTimeOn: Boolean
+    isTaskTargetTimeOn: Boolean,
 ) {
     val activity = LocalContext.current as? Activity ?: return
     val metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(activity)
@@ -55,7 +55,7 @@ fun TdsTimer(
     val heightDp = metrics.bounds.height() / activity.resources.displayMetrics.density
 
     BoxWithConstraints(
-        modifier = modifier.width(min(widthDp, heightDp).dp)
+        modifier = modifier.width(min(widthDp, heightDp).dp),
     ) {
         val minSize = min(maxHeight, maxWidth)
         val outCircularSize = minSize * 0.85
@@ -73,13 +73,13 @@ fun TdsTimer(
             animateFloatAsState(
                 targetValue = outCircularProgress,
                 label = "outCircularAnimateProgress",
-                animationSpec = tween(1000)
+                animationSpec = tween(1000),
             )
         val inCircularAnimateProgress =
             animateFloatAsState(
                 targetValue = inCircularProgress,
                 label = "inCircularAnimateProgress",
-                animationSpec = tween(1000)
+                animationSpec = tween(1000),
             )
 
         CircularProgressIndicator(
@@ -96,7 +96,7 @@ fun TdsTimer(
             },
             trackColor = TdsColor.LIGHT_GRAY.getColor(),
             strokeWidth = outCircularTrackWidth,
-            strokeCap = StrokeCap.Round
+            strokeCap = StrokeCap.Round,
         )
 
         CircularProgressIndicator(
@@ -108,7 +108,7 @@ fun TdsTimer(
             color = inCircularLineTrackColor.getColor(),
             trackColor = Color.Transparent,
             strokeWidth = inCircularTrackWidth,
-            strokeCap = StrokeCap.Round
+            strokeCap = StrokeCap.Round,
         )
 
         Column(
@@ -116,7 +116,7 @@ fun TdsTimer(
             Modifier
                 .size(contentSize)
                 .align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.weight(2f))
 
@@ -124,7 +124,7 @@ fun TdsTimer(
                 text = stringResource(R.string.sum_time),
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = subTextSize.sp,
-                color = fontColor
+                color = fontColor,
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -134,7 +134,7 @@ fun TdsTimer(
                 tdsTime = savedSumTime.getTdsTime(),
                 color = fontColor.getColor(),
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
-                fontSize = subTimerTextSize.sp
+                fontSize = subTimerTextSize.sp,
             )
 
             Spacer(modifier = Modifier.weight(2f))
@@ -148,7 +148,7 @@ fun TdsTimer(
                 },
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = mainTextSize.sp,
-                color = fontColor
+                color = fontColor,
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -158,18 +158,18 @@ fun TdsTimer(
                     text = stringResource(id = R.string.finish_text),
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = mainTimerTextSize.sp,
-                    color = fontColor.getColor()
+                    color = fontColor.getColor(),
                 )
             } else {
                 Row(
-                    modifier = Modifier.width(contentSize * 0.9)
+                    modifier = Modifier.width(contentSize * 0.9),
                 ) {
                     if (savedTime < 0) {
                         TdsText(
                             text = "+",
                             textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                             fontSize = mainTimerTextSize.sp,
-                            color = themeColor ?: fontColor.getColor()
+                            color = themeColor ?: fontColor.getColor(),
                         )
                     }
 
@@ -177,7 +177,7 @@ fun TdsTimer(
                         tdsTime = savedTime.getTdsTime(),
                         color = themeColor ?: fontColor.getColor(),
                         textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
-                        fontSize = mainTimerTextSize.sp
+                        fontSize = mainTimerTextSize.sp,
                     )
                 }
             }
@@ -193,7 +193,7 @@ fun TdsTimer(
                 },
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = subTextSize.sp,
-                color = fontColor
+                color = fontColor,
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -204,14 +204,14 @@ fun TdsTimer(
                         text = "+",
                         textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                         fontSize = subTimerTextSize.sp,
-                        color = fontColor.getColor()
+                        color = fontColor.getColor(),
                     )
                 }
                 TdsTimeCounter(
                     tdsTime = savedGoalTime.getTdsTime(),
                     color = fontColor.getColor(),
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
-                    fontSize = subTimerTextSize.sp
+                    fontSize = subTimerTextSize.sp,
                 )
             }
 
@@ -221,7 +221,7 @@ fun TdsTimer(
                 text = "To $finishGoalTime",
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = subTextSize.sp,
-                color = fontColor
+                color = fontColor,
             )
 
             Spacer(modifier = Modifier.weight(2f))
@@ -249,7 +249,7 @@ private fun TdsTimerPreview() {
             savedTime = -50,
             savedGoalTime = -1000,
             finishGoalTime = "11:57",
-            isTaskTargetTimeOn = false
+            isTaskTargetTimeOn = false,
         )
     }
 }
@@ -274,7 +274,7 @@ private fun TdsTimerPreview1() {
             savedTime = 590,
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
-            isTaskTargetTimeOn = false
+            isTaskTargetTimeOn = false,
         )
     }
 }
@@ -299,7 +299,7 @@ private fun TdsTimerPreview2() {
             savedTime = 590,
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
-            isTaskTargetTimeOn = false
+            isTaskTargetTimeOn = false,
         )
     }
 }
@@ -324,7 +324,7 @@ private fun TdsTimerPreview3() {
             savedTime = 690,
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
-            isTaskTargetTimeOn = false
+            isTaskTargetTimeOn = false,
         )
     }
 }

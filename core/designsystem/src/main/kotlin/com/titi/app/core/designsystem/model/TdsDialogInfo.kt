@@ -14,7 +14,7 @@ sealed interface TdsDialogInfo {
         val positiveText: String,
         val onPositive: () -> Unit,
         val negativeText: String,
-        val onNegative: (() -> Unit)? = null
+        val onNegative: (() -> Unit)? = null,
     ) : TdsDialogInfo
 
     data class Alert(
@@ -23,6 +23,6 @@ sealed interface TdsDialogInfo {
         override val cancelable: Boolean = false,
         override val onDismiss: (() -> Unit)? = null,
         val confirmText: String,
-        val onConfirm: (() -> Unit)? = null
+        val onConfirm: (() -> Unit)? = null,
     ) : TdsDialogInfo
 }

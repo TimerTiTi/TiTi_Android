@@ -7,5 +7,5 @@ data class TaskRepositoryModel(
     val taskTargetTime: Long,
     val isTaskTargetTimeOn: Boolean,
     val savedSumTime: Long,
-    val isDelete: Boolean
+    val isDelete: Boolean,
 )

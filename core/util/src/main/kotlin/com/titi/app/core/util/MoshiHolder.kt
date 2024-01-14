@@ -4,7 +4,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 enum class MoshiHolder constructor(val moshi: Moshi) {
-    MOSHI(Moshi.Builder().add(KotlinJsonAdapterFactory()).build())
+    MOSHI(Moshi.Builder().add(KotlinJsonAdapterFactory()).build()),
     ;
 
     fun <T> fromJson(json: String, classOfT: Class<T>): T? = moshi.adapter(classOfT).fromJson(json)
@@ -13,9 +13,9 @@ enum class MoshiHolder constructor(val moshi: Moshi) {
 }
 
 inline fun <reified T : Any> T.toJson(): String = MoshiHolder.MOSHI.moshi.adapter(
-    T::class.java
+    T::class.java,
 ).toJson(this)
 
 inline fun <reified T : Any> String.fromJson(): T? = MoshiHolder.MOSHI.moshi.adapter(
-    T::class.java
+    T::class.java,
 ).fromJson(this)

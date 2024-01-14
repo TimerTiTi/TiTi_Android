@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class GetTimeColorFlowUseCase @Inject constructor(
-    private val colorRepository: ColorRepository
+    private val colorRepository: ColorRepository,
 ) {
     operator fun invoke(): Flow<TimeColor> = colorRepository.getColorFlow()
         .map { it?.toDomain() ?: TimeColor() }

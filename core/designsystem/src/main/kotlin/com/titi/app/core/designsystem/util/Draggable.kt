@@ -31,14 +31,17 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 
 @Composable
-fun rememberDragDropState(lazyListState: LazyListState, onMove: (Int, Int) -> Unit): DragDropState {
+fun rememberDragDropState(
+    lazyListState: LazyListState,
+    onMove: (Int, Int) -> Unit,
+): DragDropState {
     val scope = rememberCoroutineScope()
     val state =
         remember(lazyListState) {
             DragDropState(
                 state = lazyListState,
                 onMove = onMove,
-                scope = scope
+                scope = scope,
             )
         }
     LaunchedEffect(state) {
@@ -53,7 +56,7 @@ fun rememberDragDropState(lazyListState: LazyListState, onMove: (Int, Int) -> Un
 class DragDropState internal constructor(
     private val state: LazyListState,
     private val scope: CoroutineScope,
-    private val onMove: (Int, Int) -> Unit
+    private val onMove: (Int, Int) -> Unit,
 ) {
     var draggingItemIndex by mutableStateOf<Int?>(null)
         private set
@@ -98,8 +101,8 @@ class DragDropState internal constructor(
                     0f,
                     spring(
                         stiffness = Spring.StiffnessMediumLow,
-                        visibilityThreshold = 1f
-                    )
+                        visibilityThreshold = 1f,
+                    ),
                 )
                 previousIndexOfDraggedItem = null
             }
@@ -170,7 +173,7 @@ fun Modifier.dragContainer(dragDropState: DragDropState): Modifier {
             },
             onDragStart = { offset -> dragDropState.onDragStart(offset) },
             onDragEnd = { dragDropState.onDragInterrupted() },
-            onDragCancel = { dragDropState.onDragInterrupted() }
+            onDragCancel = { dragDropState.onDragInterrupted() },
         )
     }
 }
@@ -181,7 +184,7 @@ fun LazyItemScope.DraggableItem(
     dragDropState: DragDropState,
     index: Int,
     modifier: Modifier = Modifier,
-    content: @Composable ColumnScope.(isDragging: Boolean) -> Unit
+    content: @Composable ColumnScope.(isDragging: Boolean) -> Unit,
 ) {
     val dragging = index == dragDropState.draggingItemIndex
     val draggingModifier =

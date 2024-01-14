@@ -10,5 +10,5 @@ import kotlinx.parcelize.Parcelize
 data class SplashResultState(
     val recordTimes: RecordTimes = RecordTimes(),
     val timeColor: TimeColor = TimeColor(),
-    val daily: Daily? = null
+    val daily: Daily? = null,
 ) : Parcelable

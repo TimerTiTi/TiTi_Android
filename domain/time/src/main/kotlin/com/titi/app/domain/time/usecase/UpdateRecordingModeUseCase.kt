@@ -7,7 +7,7 @@ import com.titi.app.domain.time.model.RecordTimes
 import javax.inject.Inject
 
 class UpdateRecordingModeUseCase @Inject constructor(
-    private val recordTimesRepository: RecordTimesRepository
+    private val recordTimesRepository: RecordTimesRepository,
 ) {
     suspend operator fun invoke(recordingMode: Int) {
         val recordTimes = recordTimesRepository.getRecordTimes()?.toDomainModel() ?: RecordTimes()
@@ -15,7 +15,7 @@ class UpdateRecordingModeUseCase @Inject constructor(
             recordTimesRepository.setRecordTimes(
                 recordTimes
                     .toRepositoryModel()
-                    .copy(recordingMode = recordingMode)
+                    .copy(recordingMode = recordingMode),
             )
         }
     }

@@ -34,7 +34,7 @@ internal class PermissionReceiver : BroadcastReceiver() {
         val entryPoint =
             EntryPointAccessors.fromApplication(
                 context,
-                ReceiverEntryPoint::class.java
+                ReceiverEntryPoint::class.java,
             )
         canSetAlarmUseCase = entryPoint.getCanSetAlarmUseCase()
         getAlarmsUseCase = entryPoint.getGetAlarmsUseCase()

@@ -16,6 +16,6 @@ internal interface ViewModelModule {
     @IntoMap
     @ViewModelKey(MeasuringViewModel::class)
     fun measuringViewModelFactory(
-        factory: MeasuringViewModel.Factory
+        factory: MeasuringViewModel.Factory,
     ): AssistedViewModelFactory<*, *>
 }

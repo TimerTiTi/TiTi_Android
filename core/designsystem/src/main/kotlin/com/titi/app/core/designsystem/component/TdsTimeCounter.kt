@@ -19,44 +19,44 @@ fun TdsTimeCounter(
     tdsTime: TdsTime,
     color: Color,
     textStyle: TdsTextStyle,
-    fontSize: TextUnit
+    fontSize: TextUnit,
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         TdsAnimatedCounter(
             modifier = Modifier.weight(1f),
             count = tdsTime.hour,
             color = color,
             textStyle = textStyle,
-            fontSize = fontSize
+            fontSize = fontSize,
         )
         TdsText(
             text = ":",
             color = color,
             textStyle = textStyle,
-            fontSize = fontSize
+            fontSize = fontSize,
         )
         TdsAnimatedCounter(
             modifier = Modifier.weight(1f),
             count = tdsTime.minutes,
             color = color,
             textStyle = textStyle,
-            fontSize = fontSize
+            fontSize = fontSize,
         )
         TdsText(
             text = ":",
             color = color,
             textStyle = textStyle,
-            fontSize = fontSize
+            fontSize = fontSize,
         )
         TdsAnimatedCounter(
             modifier = Modifier.weight(1f),
             count = tdsTime.seconds,
             color = color,
             textStyle = textStyle,
-            fontSize = fontSize
+            fontSize = fontSize,
         )
     }
 }
@@ -70,11 +70,11 @@ private fun TdsTimeCounterPreview() {
             TdsTime(
                 hour = 20,
                 minutes = 20,
-                seconds = 20
+                seconds = 20,
             ),
             color = TdsColor.TEXT.getColor(),
             textStyle = TdsTextStyle.BLACK_TEXT_STYLE,
-            fontSize = 40.sp
+            fontSize = 40.sp,
         )
     }
 }

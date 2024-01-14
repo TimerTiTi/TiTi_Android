@@ -31,7 +31,7 @@ object TiTiTheme {
 fun TiTiTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     tdsTypography: TdsTypography = TiTiTheme.textStyle,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val tdsColorsPalette =
         if (darkTheme) {
@@ -43,7 +43,7 @@ fun TiTiTheme(
     CompositionLocalProvider(
         LocalTiTiColors provides tdsColorsPalette,
         LocalDensity provides Density(LocalDensity.current.density, 1f),
-        LocalTiTiTypography provides tdsTypography
+        LocalTiTiTypography provides tdsTypography,
     ) {
         content()
     }

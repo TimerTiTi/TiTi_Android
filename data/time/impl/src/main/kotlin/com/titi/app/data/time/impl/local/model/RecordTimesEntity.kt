@@ -13,5 +13,5 @@ internal data class RecordTimesEntity(
     val savedTimerTime: Long,
     val savedStopWatchTime: Long,
     val savedGoalTime: Long,
-    val currentTaskEntity: CurrentTaskEntity?
+    val currentTaskEntity: CurrentTaskEntity?,
 )

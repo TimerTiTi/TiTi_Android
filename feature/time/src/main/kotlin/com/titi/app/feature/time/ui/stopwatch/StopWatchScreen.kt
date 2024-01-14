@@ -41,13 +41,13 @@ import org.threeten.bp.ZonedDateTime
 fun StopWatchScreen(
     splashResultState: SplashResultState,
     onNavigateToColor: () -> Unit,
-    onNavigateToMeasure: (String) -> Unit
+    onNavigateToMeasure: (String) -> Unit,
 ) {
     val viewModel: StopWatchViewModel =
         mavericksViewModel(
             argsFactory = {
                 splashResultState.asMavericksArgs()
-            }
+            },
         )
 
     LaunchedEffect(Unit) {
@@ -64,7 +64,7 @@ fun StopWatchScreen(
     if (showTaskBottomSheet) {
         TaskBottomSheet(
             themeColor = Color(uiState.stopWatchColor.backgroundColor),
-            onCloseBottomSheet = { showTaskBottomSheet = false }
+            onCloseBottomSheet = { showTaskBottomSheet = false },
         )
     }
 
@@ -86,7 +86,7 @@ fun StopWatchScreen(
             onClickBackgroundColor = onNavigateToColor,
             onClickTextColor = {
                 viewModel.updateColor(it)
-            }
+            },
         )
     }
 
@@ -97,14 +97,14 @@ fun StopWatchScreen(
                 if (it > 0) {
                     viewModel.updateSetGoalTime(
                         uiState.recordTimes,
-                        it
+                        it,
                     )
                     viewModel.addDaily()
                 }
             },
             onShowDialog = {
                 showAddDailyDialog = it
-            }
+            },
         )
     }
 
@@ -120,7 +120,7 @@ fun StopWatchScreen(
             },
             onShowDialog = {
                 showCheckTaskDailyDialog = it
-            }
+            },
         )
     }
 
@@ -148,7 +148,7 @@ fun StopWatchScreen(
                 val updateRecordTimes =
                     uiState.recordTimes.copy(
                         recording = true,
-                        recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString()
+                        recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
                     )
 
                 viewModel.updateMeasuringState(updateRecordTimes)
@@ -157,7 +157,7 @@ fun StopWatchScreen(
                     SplashResultState(
                         recordTimes = updateRecordTimes,
                         timeColor = uiState.timeColor,
-                        daily = uiState.daily
+                        daily = uiState.daily,
                     ).toJson()
 
                 onNavigateToMeasure(splashResultStateString)
@@ -167,7 +167,7 @@ fun StopWatchScreen(
         },
         onClickResetStopWatch = {
             viewModel.updateSavedStopWatchTime(uiState.recordTimes)
-        }
+        },
     )
 }
 
@@ -180,7 +180,7 @@ private fun StopWatchScreen(
     onClickTask: () -> Unit,
     onClickAddDaily: () -> Unit,
     onClickStartRecord: () -> Unit,
-    onClickResetStopWatch: () -> Unit
+    onClickResetStopWatch: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -191,13 +191,13 @@ private fun StopWatchScreen(
             .background(backgroundColor)
             .padding(top = 16.dp)
             .verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TimeHeaderContent(
             todayDate = uiState.todayDate,
             isDailyAfter6AM = uiState.isDailyAfter6AM,
             textColor = textColor,
-            onClickColor = onClickColor
+            onClickColor = onClickColor,
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -206,7 +206,7 @@ private fun StopWatchScreen(
             isSetTask = uiState.isSetTask,
             textColor = textColor,
             taskName = uiState.taskName,
-            onClickTask = onClickTask
+            onClickTask = onClickTask,
         )
 
         Spacer(modifier = Modifier.height(50.dp))
@@ -228,7 +228,7 @@ private fun StopWatchScreen(
                 savedTime = savedTime,
                 savedGoalTime = savedGoalTime,
                 finishGoalTime = finishGoalTime,
-                isTaskTargetTimeOn = isTaskTargetTimeOn
+                isTaskTargetTimeOn = isTaskTargetTimeOn,
             )
         }
 
@@ -239,7 +239,7 @@ private fun StopWatchScreen(
             isDailyAfter6AM = uiState.isDailyAfter6AM,
             onClickAddDaily = onClickAddDaily,
             onClickStartRecord = onClickStartRecord,
-            onClickResetStopwatch = onClickResetStopWatch
+            onClickResetStopwatch = onClickResetStopWatch,
         )
 
         Spacer(modifier = Modifier.weight(1f))

@@ -6,7 +6,7 @@ import com.titi.app.domain.color.model.BackgroundColors
 import javax.inject.Inject
 
 class AddBackgroundColorsUseCase @Inject constructor(
-    private val colorRepository: ColorRepository
+    private val colorRepository: ColorRepository,
 ) {
     suspend operator fun invoke(colors: List<Long>, color: Long) {
         val newColors =

@@ -6,11 +6,11 @@ import com.titi.app.data.alarm.impl.local.model.AlarmEntity
 import com.titi.app.data.alarm.impl.local.model.AlarmsEntity
 
 internal fun AlarmsEntity.toRepositoryModel() = AlarmsRepositoryModel(
-    alarms = alarms.map { it.toRepositoryModel() }
+    alarms = alarms.map { it.toRepositoryModel() },
 )
 
 internal fun AlarmEntity.toRepositoryModel() = AlarmRepositoryModel(
     title = title,
     message = message,
-    finishTime = finishTime
+    finishTime = finishTime,
 )

@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
                     TiTiApp(
                         splashResultState = it,
                         windowSizeClass = calculateWindowSizeClass(this),
-                        getTimeColorFlowUseCase = getTimeColorFlowUseCase
+                        getTimeColorFlowUseCase = getTimeColorFlowUseCase,
                     )
                 }
             }

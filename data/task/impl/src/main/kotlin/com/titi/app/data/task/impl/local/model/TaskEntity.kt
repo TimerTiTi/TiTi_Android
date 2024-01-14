@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "tasks",
-    indices = [Index(value = ["taskName"], unique = true)]
+    indices = [Index(value = ["taskName"], unique = true)],
 )
 internal data class TaskEntity(
     @PrimaryKey(autoGenerate = true)
@@ -16,5 +16,5 @@ internal data class TaskEntity(
     val taskTargetTime: Long,
     val isTaskTargetTimeOn: Boolean,
     val savedSumTime: Long,
-    val isDelete: Boolean
+    val isDelete: Boolean,
 )

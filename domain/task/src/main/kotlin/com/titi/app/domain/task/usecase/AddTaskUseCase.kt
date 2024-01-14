@@ -6,7 +6,7 @@ import com.titi.app.domain.task.model.Task
 import javax.inject.Inject
 
 class AddTaskUseCase @Inject constructor(
-    private val taskRepository: TaskRepository
+    private val taskRepository: TaskRepository,
 ) {
     suspend operator fun invoke(taskName: String) {
         val task = taskRepository.getTaskByTaskName(taskName)
@@ -16,15 +16,15 @@ class AddTaskUseCase @Inject constructor(
                 Task(
                     id = 0,
                     position = maxPosition + 1,
-                    taskName = taskName
-                ).toRepositoryModel()
+                    taskName = taskName,
+                ).toRepositoryModel(),
             )
         } else {
             taskRepository.upsertTask(
                 task.copy(
                     isDelete = false,
-                    position = maxPosition + 1
-                )
+                    position = maxPosition + 1,
+                ),
             )
         }
     }

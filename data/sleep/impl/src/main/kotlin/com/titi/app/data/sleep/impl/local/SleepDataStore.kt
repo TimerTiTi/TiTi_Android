@@ -22,7 +22,7 @@ internal class SleepDataStore(context: Context) {
         private val SLEEP_KEY = booleanPreferencesKey("sleepKey")
 
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-            name = SLEEP_PREF_NAME
+            name = SLEEP_PREF_NAME,
         )
     }
 }

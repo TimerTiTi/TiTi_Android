@@ -6,7 +6,7 @@ import com.titi.app.domain.time.model.RecordTimes
 import javax.inject.Inject
 
 class AddMeasureTimeAtRecordTimesUseCase @Inject constructor(
-    private val recordTimesRepository: RecordTimesRepository
+    private val recordTimesRepository: RecordTimesRepository,
 ) {
     suspend operator fun invoke(recordTimes: RecordTimes, measureTime: Long) {
         val updateRecordTimes =
@@ -15,14 +15,14 @@ class AddMeasureTimeAtRecordTimesUseCase @Inject constructor(
                     recording = false,
                     savedSumTime = recordTimes.savedSumTime + measureTime,
                     savedTimerTime = recordTimes.savedTimerTime - measureTime,
-                    savedGoalTime = recordTimes.savedGoalTime - measureTime
+                    savedGoalTime = recordTimes.savedGoalTime - measureTime,
                 )
             } else {
                 recordTimes.copy(
                     recording = false,
                     savedSumTime = recordTimes.savedSumTime + measureTime,
                     savedStopWatchTime = recordTimes.savedStopWatchTime + measureTime,
-                    savedGoalTime = recordTimes.savedGoalTime - measureTime
+                    savedGoalTime = recordTimes.savedGoalTime - measureTime,
                 )
             }
 

@@ -27,7 +27,7 @@ fun TdsText(
     overflow: TextOverflow = TextOverflow.Clip,
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
-    onTextLayout: (TextLayoutResult) -> Unit = {}
+    onTextLayout: (TextLayoutResult) -> Unit = {},
 ) {
     Text(
         text = text ?: "",
@@ -39,7 +39,7 @@ fun TdsText(
         minLines = minLines,
         onTextLayout = onTextLayout,
         style = textStyle.getTextStyle(fontSize),
-        textDecoration = textDecoration
+        textDecoration = textDecoration,
     )
 }
 
@@ -55,7 +55,7 @@ fun TdsText(
     overflow: TextOverflow = TextOverflow.Clip,
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
-    onTextLayout: (TextLayoutResult) -> Unit = {}
+    onTextLayout: (TextLayoutResult) -> Unit = {},
 ) {
     Text(
         text = text ?: "",
@@ -67,7 +67,7 @@ fun TdsText(
         minLines = minLines,
         onTextLayout = onTextLayout,
         style = textStyle.getTextStyle(fontSize),
-        textDecoration = textDecoration
+        textDecoration = textDecoration,
     )
 }
 
@@ -79,7 +79,7 @@ private fun TdsTextPreview() {
             text = "ABC",
             color = TdsColor.TEXT,
             textStyle = TdsTextStyle.BLACK_TEXT_STYLE,
-            fontSize = 40.sp
+            fontSize = 40.sp,
         )
     }
 }

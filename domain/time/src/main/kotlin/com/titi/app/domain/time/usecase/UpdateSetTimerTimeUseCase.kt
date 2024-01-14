@@ -6,7 +6,7 @@ import com.titi.app.domain.time.model.RecordTimes
 import javax.inject.Inject
 
 class UpdateSetTimerTimeUseCase @Inject constructor(
-    private val recordTimesRepository: RecordTimesRepository
+    private val recordTimesRepository: RecordTimesRepository,
 ) {
     suspend operator fun invoke(recordTimes: RecordTimes, timerTime: Long) {
         if (recordTimes.savedTimerTime != timerTime) {
@@ -14,8 +14,8 @@ class UpdateSetTimerTimeUseCase @Inject constructor(
                 recordTimes.toRepositoryModel()
                     .copy(
                         setTimerTime = timerTime,
-                        savedTimerTime = timerTime
-                    )
+                        savedTimerTime = timerTime,
+                    ),
             )
         }
     }

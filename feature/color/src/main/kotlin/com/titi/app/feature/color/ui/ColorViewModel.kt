@@ -14,7 +14,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
 data class ColorUiState(
-    val colors: List<Long> = emptyList()
+    val colors: List<Long> = emptyList(),
 ) : MavericksState
 
 class ColorViewModel
@@ -23,7 +23,7 @@ constructor(
     @Assisted initialState: ColorUiState,
     getBackgroundColorsUseCase: GetBackgroundColorsUseCase,
     private val addBackgroundColorsUseCase: AddBackgroundColorsUseCase,
-    private val updateColorUseCase: UpdateColorUseCase
+    private val updateColorUseCase: UpdateColorUseCase,
 ) : MavericksViewModel<ColorUiState>(initialState) {
     init {
         suspend {
@@ -43,7 +43,7 @@ constructor(
         viewModelScope.launch {
             updateColorUseCase(
                 recordingMode = recordingMode,
-                backgroundColor = color
+                backgroundColor = color,
             )
         }
     }

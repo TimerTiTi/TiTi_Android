@@ -10,5 +10,5 @@ internal fun TaskRepositoryModel.toDomainModel() = Task(
     taskTargetTime = taskTargetTime,
     isTaskTargetTimeOn = isTaskTargetTimeOn,
     savedSumTime = savedSumTime,
-    isDelete = isDelete
+    isDelete = isDelete,
 )

@@ -7,12 +7,12 @@ import com.titi.app.domain.color.model.TimeColor
 import javax.inject.Inject
 
 class UpdateColorUseCase @Inject constructor(
-    private val colorRepository: ColorRepository
+    private val colorRepository: ColorRepository,
 ) {
     suspend operator fun invoke(
         recordingMode: Int,
         backgroundColor: Long? = null,
-        isTextColorBlack: Boolean = false
+        isTextColorBlack: Boolean = false,
     ) {
         val timeColor = colorRepository.getColor()?.toDomain() ?: TimeColor()
         val updateTimeColor =
@@ -20,22 +20,22 @@ class UpdateColorUseCase @Inject constructor(
                 if (backgroundColor != null) {
                     timeColor.copy(
                         timerBackgroundColor = backgroundColor,
-                        isTimerBlackTextColor = isTextColorBlack
+                        isTimerBlackTextColor = isTextColorBlack,
                     )
                 } else {
                     timeColor.copy(
-                        isTimerBlackTextColor = isTextColorBlack
+                        isTimerBlackTextColor = isTextColorBlack,
                     )
                 }
             } else {
                 if (backgroundColor != null) {
                     timeColor.copy(
                         stopwatchBackgroundColor = backgroundColor,
-                        isStopwatchBlackTextColor = isTextColorBlack
+                        isStopwatchBlackTextColor = isTextColorBlack,
                     )
                 } else {
                     timeColor.copy(
-                        isStopwatchBlackTextColor = isTextColorBlack
+                        isStopwatchBlackTextColor = isTextColorBlack,
                     )
                 }
             }

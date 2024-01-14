@@ -15,11 +15,11 @@ internal fun RecordTimesEntity.toRepositoryModel() = RecordTimesRepositoryModel(
     savedTimerTime = savedTimerTime,
     savedStopWatchTime = savedStopWatchTime,
     savedGoalTime = savedGoalTime,
-    currentTaskRepositoryModel = currentTaskEntity?.toRepositoryModel()
+    currentTaskRepositoryModel = currentTaskEntity?.toRepositoryModel(),
 )
 
 internal fun CurrentTaskEntity.toRepositoryModel() = CurrentTaskRepositoryModel(
     taskName = taskName,
     taskTargetTime = taskTargetTime,
-    isTaskTargetTimeOn = isTaskTargetTimeOn
+    isTaskTargetTimeOn = isTaskTargetTimeOn,
 )

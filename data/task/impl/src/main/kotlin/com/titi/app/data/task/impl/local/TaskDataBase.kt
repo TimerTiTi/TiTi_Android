@@ -8,10 +8,9 @@ import com.titi.app.data.task.impl.local.model.TaskEntity
 @Database(
     entities = [TaskEntity::class],
     version = 1,
-    exportSchema = false
+    exportSchema = false,
 )
 internal abstract class TaskDataBase : RoomDatabase() {
-
     abstract fun getTaskDao(): TaskDao
 
     companion object {

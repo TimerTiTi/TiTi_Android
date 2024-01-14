@@ -29,11 +29,11 @@ internal class ColorDataStore(context: Context) {
     suspend fun getColor(): ColorEntity? = dataStore.readValue(COLOR_KEY)?.fromJson()
 
     suspend fun getBackgroundColors(): BackgroundColorEntity? = dataStore.readValue(
-        BACKGROUND_COLORS_KEY
+        BACKGROUND_COLORS_KEY,
     )?.fromJson()
 
     fun getColorFlow(): Flow<ColorEntity?> = dataStore.readFlowValue(
-        COLOR_KEY
+        COLOR_KEY,
     ).map { it?.fromJson() }
 
     companion object {
@@ -42,7 +42,7 @@ internal class ColorDataStore(context: Context) {
         private val BACKGROUND_COLORS_KEY = stringPreferencesKey("backgroundColorsKey")
 
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-            name = COLOR_PREF_NAME
+            name = COLOR_PREF_NAME,
         )
     }
 }

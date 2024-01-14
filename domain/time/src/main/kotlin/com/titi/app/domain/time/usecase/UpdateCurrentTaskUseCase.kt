@@ -8,13 +8,13 @@ import com.titi.app.domain.time.model.RecordTimes
 import javax.inject.Inject
 
 class UpdateCurrentTaskUseCase @Inject constructor(
-    private val recordTimesRepository: RecordTimesRepository
+    private val recordTimesRepository: RecordTimesRepository,
 ) {
     suspend operator fun invoke(currentTask: CurrentTask) {
         val recordTimes = recordTimesRepository.getRecordTimes()?.toDomainModel() ?: RecordTimes()
 
         recordTimesRepository.setRecordTimes(
-            recordTimes.copy(currentTask = currentTask).toRepositoryModel()
+            recordTimes.copy(currentTask = currentTask).toRepositoryModel(),
         )
     }
 }

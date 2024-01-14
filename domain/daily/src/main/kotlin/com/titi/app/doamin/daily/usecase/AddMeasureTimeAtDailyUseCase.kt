@@ -10,13 +10,13 @@ import kotlin.math.max
 import org.threeten.bp.ZonedDateTime
 
 class AddMeasureTimeAtDailyUseCase @Inject constructor(
-    private val dailyRepository: DailyRepository
+    private val dailyRepository: DailyRepository,
 ) {
     suspend operator fun invoke(
         taskName: String,
         startTime: String,
         endTime: String,
-        measureTime: Long
+        measureTime: Long,
     ) {
         val recentDaily = dailyRepository.getCurrentDaily()?.toDomain()
 
@@ -24,14 +24,14 @@ class AddMeasureTimeAtDailyUseCase @Inject constructor(
             val taskHistory =
                 TaskHistory(
                     startDate = startTime,
-                    endDate = endTime
+                    endDate = endTime,
                 )
 
             val updateTimeLine =
                 addTimeLine(
                     startTime = ZonedDateTime.parse(startTime),
                     endTime = ZonedDateTime.parse(endTime),
-                    timeLine = daily.timeLine
+                    timeLine = daily.timeLine,
                 )
 
             val updateMaxTime = max(daily.maxTime, measureTime)
@@ -45,7 +45,7 @@ class AddMeasureTimeAtDailyUseCase @Inject constructor(
                 daily.taskHistories?.toMutableMap()?.apply {
                     this[taskName] =
                         this[taskName]?.toMutableList()?.apply { add(taskHistory) } ?: listOf(
-                            taskHistory
+                            taskHistory,
                         )
                 }?.toMap() ?: mapOf(taskName to listOf(taskHistory))
 
@@ -54,8 +54,8 @@ class AddMeasureTimeAtDailyUseCase @Inject constructor(
                     timeLine = updateTimeLine,
                     maxTime = updateMaxTime,
                     tasks = updateTasks,
-                    taskHistories = updateTaskHistories
-                ).toRepositoryModel()
+                    taskHistories = updateTaskHistories,
+                ).toRepositoryModel(),
             )
         }
     }

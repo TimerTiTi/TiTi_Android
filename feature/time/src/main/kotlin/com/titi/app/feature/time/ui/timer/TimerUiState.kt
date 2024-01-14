@@ -16,12 +16,12 @@ data class TimerUiState(
     val todayDate: String = getTodayDate(),
     val recordTimes: RecordTimes,
     val timeColor: TimeColor,
-    val daily: Daily?
+    val daily: Daily?,
 ) : MavericksState {
     constructor(args: Bundle) : this(
         recordTimes = getSplashResultStateFromArgs(args).recordTimes,
         timeColor = getSplashResultStateFromArgs(args).timeColor,
-        daily = getSplashResultStateFromArgs(args).daily
+        daily = getSplashResultStateFromArgs(args).daily,
     )
 
     val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day)
@@ -36,7 +36,7 @@ fun getSplashResultStateFromArgs(args: Bundle): SplashResultState =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         args.getParcelable(
             Mavericks.KEY_ARG,
-            SplashResultState::class.java
+            SplashResultState::class.java,
         )
     } else {
         args.getParcelable(Mavericks.KEY_ARG)
@@ -44,12 +44,12 @@ fun getSplashResultStateFromArgs(args: Bundle): SplashResultState =
 
 data class TimerColor(
     val backgroundColor: Long,
-    val isTextColorBlack: Boolean
+    val isTextColorBlack: Boolean,
 )
 
 private fun TimeColor.toUiModel() = TimerColor(
     backgroundColor = timerBackgroundColor,
-    isTextColorBlack = isTimerBlackTextColor
+    isTextColorBlack = isTimerBlackTextColor,
 )
 
 data class TimerRecordTimes(
@@ -59,7 +59,7 @@ data class TimerRecordTimes(
     val savedTime: Long,
     val savedGoalTime: Long,
     val finishGoalTime: String,
-    val isTaskTargetTimeOn: Boolean
+    val isTaskTargetTimeOn: Boolean,
 )
 
 private fun RecordTimes.toUiModel(daily: Daily?): TimerRecordTimes {
@@ -87,6 +87,6 @@ private fun RecordTimes.toUiModel(daily: Daily?): TimerRecordTimes {
         savedTime = savedTimerTime,
         savedGoalTime = goalTime,
         finishGoalTime = addTimeToNow(goalTime),
-        isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false
+        isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false,
     )
 }

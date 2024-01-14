@@ -13,9 +13,8 @@ import kotlinx.coroutines.flow.map
 
 internal class TaskRepositoryImpl @Inject constructor(
     private val taskDao: TaskDao,
-    private val taskDataBase: TaskDataBase
+    private val taskDataBase: TaskDataBase,
 ) : TaskRepository {
-
     override suspend fun upsertTask(taskRepositoryModel: TaskRepositoryModel) {
         taskDao.upsertTask(taskRepositoryModel.toLocalModel())
     }
@@ -33,11 +32,13 @@ internal class TaskRepositoryImpl @Inject constructor(
         }
 
     override suspend fun isExistTaskByTaskName(taskName: String): Boolean =
-        taskDao.isExistTaskByTaskName(taskName)
+        taskDao.isExistTaskByTaskName(
+            taskName,
+        )
 
     override suspend fun updateTasksPosition(
         fromTask: TaskRepositoryModel,
-        toTask: TaskRepositoryModel
+        toTask: TaskRepositoryModel,
     ) {
         taskDataBase.withTransaction {
             taskDao.upsertTask(fromTask.toLocalModel())

@@ -38,12 +38,12 @@ fun TiTiApp(
     appState: TiTiAppState =
         rememberNiaAppState(
             windowSizeClass = windowSizeClass,
-            getTimeColorFlowUseCase = getTimeColorFlowUseCase
-        )
+            getTimeColorFlowUseCase = getTimeColorFlowUseCase,
+        ),
 ) {
     val requestPermissionLauncher =
         rememberLauncherForActivityResult(
-            ActivityResultContracts.RequestPermission()
+            ActivityResultContracts.RequestPermission(),
         ) { isGranted: Boolean ->
             Log.e("MainActivity", isGranted.toString())
         }
@@ -68,10 +68,10 @@ fun TiTiApp(
                     bottomNavigationColor = bottomNavigationColor,
                     destinations = appState.topLevelDestinations,
                     onNavigateToDestination = appState::navigateToTopLevelDestination,
-                    currentDestination = appState.currentDestination
+                    currentDestination = appState.currentDestination,
                 )
             }
-        }
+        },
     ) {
         TiTiNavHost(
             modifier =
@@ -79,7 +79,7 @@ fun TiTiApp(
                 .fillMaxSize()
                 .padding(it),
             appState = appState,
-            splashResultState = splashResultState
+            splashResultState = splashResultState,
         )
     }
 }
@@ -89,11 +89,11 @@ private fun TiTiBottomBar(
     bottomNavigationColor: Long,
     destinations: List<TopLevelDestination>,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
-    currentDestination: NavDestination?
+    currentDestination: NavDestination?,
 ) {
     NavigationBar(
         containerColor = Color(bottomNavigationColor),
-        tonalElevation = 0.dp
+        tonalElevation = 0.dp,
     ) {
         destinations.forEach { destination ->
             val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
@@ -103,10 +103,10 @@ private fun TiTiBottomBar(
                 icon = {
                     Icon(
                         painter = painterResource(id = destination.iconResourceId),
-                        contentDescription = stringResource(id = destination.titleTextId)
+                        contentDescription = stringResource(id = destination.titleTextId),
                     )
                 },
-                label = { Text(stringResource(destination.titleTextId)) }
+                label = { Text(stringResource(destination.titleTextId)) },
             )
         }
     }

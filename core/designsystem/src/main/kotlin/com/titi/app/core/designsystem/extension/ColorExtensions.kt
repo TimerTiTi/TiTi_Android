@@ -6,7 +6,7 @@ import java.util.Locale
 fun Color.complementary() = Color(
     red = 1F - red,
     green = 1F - green,
-    blue = 1F - blue
+    blue = 1F - blue,
 )
 
 val Color.hexCode: String

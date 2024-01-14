@@ -37,7 +37,7 @@ fun TdsInputTimeTextField(
     minutes: String,
     onMinutesChange: (String) -> Unit,
     seconds: String,
-    onSecondsChange: (String) -> Unit
+    onSecondsChange: (String) -> Unit,
 ) {
     val (hourFocus, minutesFocus, secondsFocus) = FocusRequester.createRefs()
     val focusManger = LocalFocusManager.current
@@ -51,7 +51,7 @@ fun TdsInputTimeTextField(
 
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         TdsOutlinedInputTextField(
             modifier =
@@ -76,22 +76,22 @@ fun TdsInputTimeTextField(
             keyboardOptions =
             KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Done,
             ),
             keyboardActions =
             KeyboardActions(
                 onDone = {
                     focusManger.moveFocus(FocusDirection.Next)
-                }
+                },
             ),
             placeHolder = {
                 TdsText(
                     text = "H",
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 22.sp,
-                    color = TdsColor.DIVIDER
+                    color = TdsColor.DIVIDER,
                 )
-            }
+            },
         )
 
         TdsText(
@@ -99,7 +99,7 @@ fun TdsInputTimeTextField(
             text = ":",
             color = TdsColor.TEXT,
             textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
-            fontSize = 22.sp
+            fontSize = 22.sp,
         )
 
         TdsOutlinedInputTextField(
@@ -128,22 +128,22 @@ fun TdsInputTimeTextField(
             keyboardOptions =
             KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Done,
             ),
             keyboardActions =
             KeyboardActions(
                 onDone = {
                     focusManger.moveFocus(FocusDirection.Next)
-                }
+                },
             ),
             placeHolder = {
                 TdsText(
                     text = "M",
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 22.sp,
-                    color = TdsColor.DIVIDER
+                    color = TdsColor.DIVIDER,
                 )
-            }
+            },
         )
 
         TdsText(
@@ -151,7 +151,7 @@ fun TdsInputTimeTextField(
             text = ":",
             color = TdsColor.TEXT,
             textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
-            fontSize = 22.sp
+            fontSize = 22.sp,
         )
 
         TdsOutlinedInputTextField(
@@ -177,22 +177,22 @@ fun TdsInputTimeTextField(
             keyboardOptions =
             KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Done,
             ),
             keyboardActions =
             KeyboardActions(
                 onDone = {
                     focusManger.clearFocus()
-                }
+                },
             ),
             placeHolder = {
                 TdsText(
                     text = "S",
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 22.sp,
-                    color = TdsColor.DIVIDER
+                    color = TdsColor.DIVIDER,
                 )
-            }
+            },
         )
     }
 }
@@ -208,7 +208,7 @@ private fun TdsInputTimeTextFieldPreview() {
             minutes = "55",
             onMinutesChange = {},
             seconds = "33",
-            onSecondsChange = {}
+            onSecondsChange = {},
         )
     }
 }

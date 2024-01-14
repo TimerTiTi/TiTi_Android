@@ -33,7 +33,7 @@ constructor(
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
     private val addDailyUseCase: AddDailyUseCase,
     private val updateMeasuringStateUseCase: UpdateMeasuringStateUseCase,
-    private val updateSavedStopWatchTimeUseCase: UpdateSavedStopWatchTimeUseCase
+    private val updateSavedStopWatchTimeUseCase: UpdateSavedStopWatchTimeUseCase,
 ) : MavericksViewModel<StopWatchUiState>(initialState) {
     private lateinit var prevStopWatchColor: StopWatchColor
 
@@ -67,7 +67,7 @@ constructor(
         viewModelScope.launch {
             updateColorUseCase(
                 recordingMode = 1,
-                isTextColorBlack = isTextBlackColor
+                isTextColorBlack = isTextBlackColor,
             )
         }
     }
@@ -78,7 +78,7 @@ constructor(
                 updateColorUseCase(
                     recordingMode = 1,
                     backgroundColor = prevStopWatchColor.backgroundColor,
-                    isTextColorBlack = prevStopWatchColor.isTextColorBlack
+                    isTextColorBlack = prevStopWatchColor.isTextColorBlack,
                 )
             }
         }
@@ -92,7 +92,7 @@ constructor(
         viewModelScope.launch {
             updateSetGoalTimeUseCase(
                 recordTimes,
-                setGoalTime
+                setGoalTime,
             )
         }
     }

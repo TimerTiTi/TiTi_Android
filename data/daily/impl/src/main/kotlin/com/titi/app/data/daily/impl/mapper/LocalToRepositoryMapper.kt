@@ -17,10 +17,10 @@ internal fun DailyEntity.toRepository() = DailyRepositoryModel(
         taskHistoryMap.value.map { taskHistory ->
             taskHistory.toRepository()
         }
-    }
+    },
 )
 
 internal fun TaskHistoryEntity.toRepository() = TaskHistoryRepositoryModel(
     startDate = startDate,
-    endDate = endDate
+    endDate = endDate,
 )

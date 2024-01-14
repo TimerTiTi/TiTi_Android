@@ -6,7 +6,7 @@ import com.titi.app.domain.time.model.RecordTimes
 import javax.inject.Inject
 
 class GetRecordTimesUseCase @Inject constructor(
-    private val recordTimesRepository: RecordTimesRepository
+    private val recordTimesRepository: RecordTimesRepository,
 ) {
     suspend operator fun invoke() =
         recordTimesRepository.getRecordTimes()?.toDomainModel() ?: RecordTimes()

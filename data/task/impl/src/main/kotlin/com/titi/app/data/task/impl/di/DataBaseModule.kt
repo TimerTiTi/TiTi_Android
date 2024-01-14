@@ -14,13 +14,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DataBaseModule {
-
     @Singleton
     @Provides
     fun provideTaskDataBase(@ApplicationContext context: Context): TaskDataBase = databaseBuilder(
         context,
         TaskDataBase::class.java,
-        TaskDataBase.TASK_DATABASE_NAME
+        TaskDataBase.TASK_DATABASE_NAME,
     ).build()
 
     @Singleton

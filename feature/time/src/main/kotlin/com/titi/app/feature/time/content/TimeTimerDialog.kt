@@ -31,15 +31,15 @@ fun TimeTimerDialog(onPositive: (Long) -> Unit, onShowDialog: (Boolean) -> Unit)
             message =
             stringResource(
                 R.string.set_timer_time_message,
-                addTimeToNow(setTimerTime)
+                addTimeToNow(setTimerTime),
             ),
             positiveText = stringResource(id = R.string.Ok),
             negativeText = stringResource(id = R.string.Cancel),
             onPositive = {
                 onPositive(setTimerTime)
-            }
+            },
         ),
-        onShowDialog = onShowDialog
+        onShowDialog = onShowDialog,
     ) {
         TdsInputTimeTextField(
             modifier = Modifier.padding(horizontal = 15.dp),
@@ -57,7 +57,7 @@ fun TimeTimerDialog(onPositive: (Long) -> Unit, onShowDialog: (Boolean) -> Unit)
             onSecondsChange = {
                 seconds = it
                 setTimerTime = getTimeToLong(hour, minutes, seconds)
-            }
+            },
         )
     }
 }

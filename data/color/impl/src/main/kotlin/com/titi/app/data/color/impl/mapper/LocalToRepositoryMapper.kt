@@ -9,9 +9,9 @@ internal fun ColorEntity.toRepositoryModel() = ColorRepositoryModel(
     timerBackgroundColor = timerBackgroundColor,
     isTimerBlackTextColor = isTimerBlackTextColor,
     stopwatchBackgroundColor = stopwatchBackgroundColor,
-    isStopwatchBlackTextColor = isStopwatchBlackTextColor
+    isStopwatchBlackTextColor = isStopwatchBlackTextColor,
 )
 
 internal fun BackgroundColorEntity.toRepositoryModel() = BackgroundColorRepositoryModel(
-    backgroundColors = backgroundColors
+    backgroundColors = backgroundColors,
 )

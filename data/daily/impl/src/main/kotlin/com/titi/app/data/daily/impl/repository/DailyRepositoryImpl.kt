@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 internal class DailyRepositoryImpl @Inject constructor(
-    private val dailyDao: DailyDao
+    private val dailyDao: DailyDao,
 ) : DailyRepository {
     override suspend fun getCurrentDaily(): DailyRepositoryModel? {
         return dailyDao.getCurrentDaily()?.toRepository()

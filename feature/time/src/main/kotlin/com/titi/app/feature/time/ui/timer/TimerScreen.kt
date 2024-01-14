@@ -44,13 +44,13 @@ fun TimerScreen(
     isFinish: Boolean,
     onChangeFinishStateFalse: () -> Unit,
     onNavigateToColor: () -> Unit,
-    onNavigateToMeasure: (String) -> Unit
+    onNavigateToMeasure: (String) -> Unit,
 ) {
     val viewModel: TimerViewModel =
         mavericksViewModel(
             argsFactory = {
                 splashResultState.asMavericksArgs()
-            }
+            },
         )
 
     LaunchedEffect(Unit) {
@@ -68,7 +68,7 @@ fun TimerScreen(
     if (showTaskBottomSheet) {
         TaskBottomSheet(
             themeColor = Color(uiState.timerColor.backgroundColor),
-            onCloseBottomSheet = { showTaskBottomSheet = false }
+            onCloseBottomSheet = { showTaskBottomSheet = false },
         )
     }
 
@@ -90,7 +90,7 @@ fun TimerScreen(
             onClickBackgroundColor = onNavigateToColor,
             onClickTextColor = {
                 viewModel.updateColor(it)
-            }
+            },
         )
     }
 
@@ -101,7 +101,7 @@ fun TimerScreen(
                 if (it > 0) {
                     viewModel.updateSetGoalTime(
                         uiState.recordTimes,
-                        it
+                        it,
                     )
                     viewModel.addDaily()
                     onChangeFinishStateFalse()
@@ -109,7 +109,7 @@ fun TimerScreen(
             },
             onShowDialog = {
                 showAddDailyDialog = it
-            }
+            },
         )
     }
 
@@ -125,7 +125,7 @@ fun TimerScreen(
             },
             onShowDialog = {
                 showCheckTaskDailyDialog = it
-            }
+            },
         )
     }
 
@@ -135,14 +135,14 @@ fun TimerScreen(
                 if (it > 0) {
                     viewModel.updateSetTimerTime(
                         uiState.recordTimes,
-                        it
+                        it,
                     )
                     onChangeFinishStateFalse()
                 }
             },
             onShowDialog = {
                 showUpdateTimerDialog = it
-            }
+            },
         )
     }
 
@@ -174,12 +174,12 @@ fun TimerScreen(
                             copy(
                                 recording = true,
                                 recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
-                                savedTimerTime = setTimerTime
+                                savedTimerTime = setTimerTime,
                             )
                         } else {
                             copy(
                                 recording = true,
-                                recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString()
+                                recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
                             )
                         }
                     }
@@ -190,7 +190,7 @@ fun TimerScreen(
                     SplashResultState(
                         recordTimes = updateRecordTimes,
                         timeColor = uiState.timeColor,
-                        daily = uiState.daily
+                        daily = uiState.daily,
                     ).toJson()
 
                 onNavigateToMeasure(splashResultStateString)
@@ -200,7 +200,7 @@ fun TimerScreen(
         },
         onClickSettingTimer = {
             showUpdateTimerDialog = true
-        }
+        },
     )
 }
 
@@ -214,7 +214,7 @@ private fun TimerScreen(
     onClickTask: () -> Unit,
     onClickAddDaily: () -> Unit,
     onClickStartRecord: () -> Unit,
-    onClickSettingTimer: () -> Unit
+    onClickSettingTimer: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -225,13 +225,13 @@ private fun TimerScreen(
             .background(backgroundColor)
             .padding(top = 16.dp)
             .verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TimeHeaderContent(
             todayDate = uiState.todayDate,
             isDailyAfter6AM = uiState.isDailyAfter6AM,
             textColor = textColor,
-            onClickColor = onClickColor
+            onClickColor = onClickColor,
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -240,7 +240,7 @@ private fun TimerScreen(
             isSetTask = uiState.isSetTask,
             textColor = textColor,
             taskName = uiState.taskName,
-            onClickTask = onClickTask
+            onClickTask = onClickTask,
         )
 
         Spacer(modifier = Modifier.height(50.dp))
@@ -263,7 +263,7 @@ private fun TimerScreen(
                 savedTime = savedTime,
                 savedGoalTime = savedGoalTime,
                 finishGoalTime = finishGoalTime,
-                isTaskTargetTimeOn = isTaskTargetTimeOn
+                isTaskTargetTimeOn = isTaskTargetTimeOn,
             )
         }
 
@@ -274,7 +274,7 @@ private fun TimerScreen(
             isDailyAfter6AM = uiState.isDailyAfter6AM,
             onClickAddDaily = onClickAddDaily,
             onClickStartRecord = onClickStartRecord,
-            onClickSettingTimer = onClickSettingTimer
+            onClickSettingTimer = onClickSettingTimer,
         )
 
         Spacer(modifier = Modifier.weight(1f))

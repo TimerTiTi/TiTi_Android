@@ -34,8 +34,8 @@ fun NavGraphBuilder.measuringGraph(onFinish: (Boolean) -> Unit) {
         listOf(
             navArgument(MEASURING_GRAPH_SPLASH_ARG) {
                 NavType.StringType
-            }
-        )
+            },
+        ),
     ) {
         composable(route = MEASURING_ROUTE) { backstackEntry ->
             val splashResultStateFromBackStackEntry =
@@ -47,7 +47,7 @@ fun NavGraphBuilder.measuringGraph(onFinish: (Boolean) -> Unit) {
 
             MeasuringScreen(
                 splashResultState = splashResultStateFromBackStackEntry,
-                onFinish = onFinish
+                onFinish = onFinish,
             )
         }
     }

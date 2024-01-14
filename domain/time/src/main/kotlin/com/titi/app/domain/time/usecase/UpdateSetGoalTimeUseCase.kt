@@ -6,7 +6,7 @@ import com.titi.app.domain.time.model.RecordTimes
 import javax.inject.Inject
 
 class UpdateSetGoalTimeUseCase @Inject constructor(
-    private val recordTimesRepository: RecordTimesRepository
+    private val recordTimesRepository: RecordTimesRepository,
 ) {
     suspend operator fun invoke(recordTimes: RecordTimes, setGoalTime: Long) {
         recordTimesRepository.setRecordTimes(
@@ -17,8 +17,8 @@ class UpdateSetGoalTimeUseCase @Inject constructor(
                     savedSumTime = 0,
                     savedTimerTime = recordTimes.setTimerTime,
                     savedStopWatchTime = 0,
-                    savedGoalTime = setGoalTime
-                )
+                    savedGoalTime = setGoalTime,
+                ),
         )
     }
 }

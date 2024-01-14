@@ -28,7 +28,7 @@ fun TdsDialog(
     modifier: Modifier = Modifier.background(color = TdsColor.BACKGROUND.getColor()),
     tdsDialogInfo: TdsDialogInfo,
     onShowDialog: (Boolean) -> Unit,
-    bodyContent: (@Composable () -> Unit)? = null
+    bodyContent: (@Composable () -> Unit)? = null,
 ) {
     Dialog(
         onDismissRequest = {
@@ -38,8 +38,8 @@ fun TdsDialog(
         properties =
         DialogProperties(
             dismissOnBackPress = tdsDialogInfo.cancelable,
-            dismissOnClickOutside = tdsDialogInfo.cancelable
-        )
+            dismissOnClickOutside = tdsDialogInfo.cancelable,
+        ),
     ) {
         Surface(
             modifier =
@@ -47,11 +47,11 @@ fun TdsDialog(
                 .fillMaxWidth()
                 .wrapContentHeight(),
             shape = RoundedCornerShape(14.dp),
-            color = Color.Transparent
+            color = Color.Transparent,
         ) {
             Column(
                 modifier = modifier,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -59,7 +59,7 @@ fun TdsDialog(
                     text = tdsDialogInfo.title,
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 17.sp,
-                    color = TdsColor.TEXT
+                    color = TdsColor.TEXT,
                 )
 
                 tdsDialogInfo.message?.let { message ->
@@ -69,7 +69,7 @@ fun TdsDialog(
                         text = message,
                         textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                         fontSize = 13.sp,
-                        color = TdsColor.TEXT
+                        color = TdsColor.TEXT,
                     )
                 }
 
@@ -87,14 +87,14 @@ fun TdsDialog(
                     is TdsDialogInfo.Confirm -> {
                         TdsConfirmDialogButtons(
                             tdsDialogInfo = tdsDialogInfo,
-                            onShowDialog = onShowDialog
+                            onShowDialog = onShowDialog,
                         )
                     }
 
                     is TdsDialogInfo.Alert -> {
                         TdsAlertDialogButton(
                             tdsDialogInfo = tdsDialogInfo,
-                            onShowDialog = onShowDialog
+                            onShowDialog = onShowDialog,
                         )
                     }
                 }
@@ -106,13 +106,13 @@ fun TdsDialog(
 @Composable
 private fun TdsConfirmDialogButtons(
     tdsDialogInfo: TdsDialogInfo.Confirm,
-    onShowDialog: (Boolean) -> Unit
+    onShowDialog: (Boolean) -> Unit,
 ) {
     Row(
         modifier =
         Modifier
             .fillMaxWidth()
-            .height(44.dp)
+            .height(44.dp),
     ) {
         TdsTextButton(
             modifier = Modifier.weight(1f),
@@ -123,7 +123,7 @@ private fun TdsConfirmDialogButtons(
             text = tdsDialogInfo.negativeText,
             textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
             fontSize = 17.sp,
-            textColor = TdsColor.RED
+            textColor = TdsColor.RED,
         )
 
         TdsDivider()
@@ -137,7 +137,7 @@ private fun TdsConfirmDialogButtons(
             text = tdsDialogInfo.positiveText,
             textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
             fontSize = 16.sp,
-            textColor = TdsColor.BLUE
+            textColor = TdsColor.BLUE,
         )
     }
 }
@@ -145,7 +145,7 @@ private fun TdsConfirmDialogButtons(
 @Composable
 private fun TdsAlertDialogButton(
     tdsDialogInfo: TdsDialogInfo.Alert,
-    onShowDialog: (Boolean) -> Unit
+    onShowDialog: (Boolean) -> Unit,
 ) {
     TdsTextButton(
         modifier =
@@ -159,7 +159,7 @@ private fun TdsAlertDialogButton(
         text = tdsDialogInfo.confirmText,
         textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
         fontSize = 17.sp,
-        textColor = TdsColor.BLUE
+        textColor = TdsColor.BLUE,
     )
 }
 
@@ -177,7 +177,7 @@ private fun TdsConfirmDialogPreview() {
                 positiveText = "OK",
                 onPositive = {},
                 negativeText = "Cancel",
-                onNegative = {}
+                onNegative = {},
             ),
             onShowDialog = {},
             bodyContent = {
@@ -185,9 +185,9 @@ private fun TdsConfirmDialogPreview() {
                     text = "tdsDialogInfo.message",
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 12.sp,
-                    color = TdsColor.TEXT
+                    color = TdsColor.TEXT,
                 )
-            }
+            },
         )
     }
 }
@@ -204,7 +204,7 @@ private fun TdsAlertDialogPreview() {
                 cancelable = false,
                 onDismiss = {},
                 confirmText = "Confirm",
-                onConfirm = {}
+                onConfirm = {},
             ),
             onShowDialog = {},
             bodyContent = {
@@ -212,9 +212,9 @@ private fun TdsAlertDialogPreview() {
                     text = "hihi",
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 12.sp,
-                    color = TdsColor.TEXT
+                    color = TdsColor.TEXT,
                 )
-            }
+            },
         )
     }
 }

@@ -25,7 +25,7 @@ data class TdsColorsPalette(
     val dividerColor: Color = Color.Unspecified,
     val lightGrayColor: Color = Color.Unspecified,
     val whiteColor: Color = Color.Unspecified,
-    val blackColor: Color = Color.Unspecified
+    val blackColor: Color = Color.Unspecified,
 )
 
 val TdsLightColorsPalette =
@@ -49,7 +49,7 @@ val TdsLightColorsPalette =
         dividerColor = Color(0x4D000000),
         lightGrayColor = Color(0xFF555555),
         whiteColor = Color(0xFFFFFFFF),
-        blackColor = Color(0xFF000000)
+        blackColor = Color(0xFF000000),
     )
 
 val TdsDarkColorsPalette =
@@ -73,7 +73,7 @@ val TdsDarkColorsPalette =
         dividerColor = Color(0x99000000),
         lightGrayColor = Color(0xFF555555),
         whiteColor = Color(0xFFFFFFFF),
-        blackColor = Color(0xFF000000)
+        blackColor = Color(0xFF000000),
     )
 
 enum class TdsColor {
@@ -98,7 +98,7 @@ enum class TdsColor {
 
     LIGHT_GRAY,
     WHITE,
-    BLACK
+    BLACK,
     ;
 
     @Composable

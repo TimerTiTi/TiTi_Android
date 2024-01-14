@@ -12,7 +12,7 @@ fun Long.getTdsTime(): TdsTime {
     return TdsTime(
         hour = (time / 3600).toInt(),
         minutes = (time % 3600 / 60).toInt(),
-        seconds = (time % 60).toInt()
+        seconds = (time % 60).toInt(),
     )
 }
 

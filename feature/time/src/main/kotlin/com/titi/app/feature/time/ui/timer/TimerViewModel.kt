@@ -33,7 +33,7 @@ constructor(
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
     private val addDailyUseCase: AddDailyUseCase,
     private val updateMeasuringStateUseCase: UpdateMeasuringStateUseCase,
-    private val updateSetTimerTimeUseCase: UpdateSetTimerTimeUseCase
+    private val updateSetTimerTimeUseCase: UpdateSetTimerTimeUseCase,
 ) : MavericksViewModel<TimerUiState>(initialState) {
     init {
         getRecordTimesFlowUseCase().catch {
@@ -67,7 +67,7 @@ constructor(
         viewModelScope.launch {
             updateColorUseCase(
                 recordingMode = 1,
-                isTextColorBlack = isTextBlackColor
+                isTextColorBlack = isTextBlackColor,
             )
         }
     }
@@ -78,7 +78,7 @@ constructor(
                 updateColorUseCase(
                     recordingMode = 1,
                     backgroundColor = prevTimerColor.backgroundColor,
-                    isTextColorBlack = prevTimerColor.isTextColorBlack
+                    isTextColorBlack = prevTimerColor.isTextColorBlack,
                 )
             }
         }
@@ -92,7 +92,7 @@ constructor(
         viewModelScope.launch {
             updateSetGoalTimeUseCase(
                 recordTimes,
-                setGoalTime
+                setGoalTime,
             )
         }
     }
@@ -113,7 +113,7 @@ constructor(
         viewModelScope.launch {
             updateSetTimerTimeUseCase(
                 recordTimes,
-                timerTime
+                timerTime,
             )
         }
     }

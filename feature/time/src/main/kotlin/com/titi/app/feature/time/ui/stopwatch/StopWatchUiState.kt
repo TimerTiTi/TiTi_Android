@@ -14,12 +14,12 @@ data class StopWatchUiState(
     val todayDate: String = getTodayDate(),
     val recordTimes: RecordTimes,
     val timeColor: TimeColor,
-    val daily: Daily?
+    val daily: Daily?,
 ) : MavericksState {
     constructor(args: Bundle) : this(
         recordTimes = getSplashResultStateFromArgs(args).recordTimes,
         timeColor = getSplashResultStateFromArgs(args).timeColor,
-        daily = getSplashResultStateFromArgs(args).daily
+        daily = getSplashResultStateFromArgs(args).daily,
     )
 
     val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day)
@@ -32,12 +32,12 @@ data class StopWatchUiState(
 
 data class StopWatchColor(
     val backgroundColor: Long,
-    val isTextColorBlack: Boolean
+    val isTextColorBlack: Boolean,
 )
 
 private fun TimeColor.toUiModel() = StopWatchColor(
     backgroundColor = stopwatchBackgroundColor,
-    isTextColorBlack = isStopwatchBlackTextColor
+    isTextColorBlack = isStopwatchBlackTextColor,
 )
 
 data class StopWatchRecordTimes(
@@ -47,7 +47,7 @@ data class StopWatchRecordTimes(
     val savedTime: Long,
     val savedGoalTime: Long,
     val finishGoalTime: String,
-    val isTaskTargetTimeOn: Boolean
+    val isTaskTargetTimeOn: Boolean,
 )
 
 private fun RecordTimes.toUiModel(daily: Daily?): StopWatchRecordTimes {
@@ -75,6 +75,6 @@ private fun RecordTimes.toUiModel(daily: Daily?): StopWatchRecordTimes {
         savedTime = savedStopWatchTime,
         savedGoalTime = goalTime,
         finishGoalTime = addTimeToNow(goalTime),
-        isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false
+        isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false,
     )
 }

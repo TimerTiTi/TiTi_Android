@@ -23,16 +23,16 @@ fun TimeButtonContent(
     onClickAddDaily: () -> Unit,
     onClickStartRecord: () -> Unit,
     onClickSettingTimer: (() -> Unit)? = null,
-    onClickResetStopwatch: (() -> Unit)? = null
+    onClickResetStopwatch: (() -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         TdsIconButton(
             onClick = onClickAddDaily,
-            size = 50.dp
+            size = 50.dp,
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.add_record_icon),
@@ -42,7 +42,7 @@ fun TimeButtonContent(
                     Color.Unspecified
                 } else {
                     TdsColor.RED.getColor()
-                }
+                },
             )
         }
 
@@ -50,12 +50,12 @@ fun TimeButtonContent(
 
         TdsIconButton(
             onClick = onClickStartRecord,
-            size = 70.dp
+            size = 70.dp,
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.start_record_icon),
                 contentDescription = "startRecord",
-                tint = Color.Unspecified
+                tint = Color.Unspecified,
             )
         }
 
@@ -64,29 +64,29 @@ fun TimeButtonContent(
         if (recordingMode == 1) {
             TdsIconButton(
                 onClick = { onClickSettingTimer?.invoke() },
-                size = 50.dp
+                size = 50.dp,
             ) {
                 Icon(
                     painter =
                     painterResource(
-                        R.drawable.setting_timer_time_icon
+                        R.drawable.setting_timer_time_icon,
                     ),
                     contentDescription = "",
-                    tint = Color.Unspecified
+                    tint = Color.Unspecified,
                 )
             }
         } else {
             TdsIconButton(
                 onClick = { onClickResetStopwatch?.invoke() },
-                size = 50.dp
+                size = 50.dp,
             ) {
                 Icon(
                     painter =
                     painterResource(
-                        R.drawable.setting_stopwatch_time_icon
+                        R.drawable.setting_stopwatch_time_icon,
                     ),
                     contentDescription = "",
-                    tint = Color.Unspecified
+                    tint = Color.Unspecified,
                 )
             }
         }

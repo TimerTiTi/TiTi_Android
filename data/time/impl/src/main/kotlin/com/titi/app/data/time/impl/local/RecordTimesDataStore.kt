@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 internal class RecordTimesDataStore(context: Context) {
-
     private val dataStore: DataStore<Preferences> = context.dataStore
 
     suspend fun setRecordTimes(recordTimesEntity: RecordTimesEntity) {
@@ -31,12 +30,11 @@ internal class RecordTimesDataStore(context: Context) {
     }
 
     companion object {
-
         private const val RECORD_TIMES_PREF_NAME = "recordTimesPrefName"
         private val RECORD_TIMES_KEY = stringPreferencesKey("recordTimesKey")
 
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-            name = RECORD_TIMES_PREF_NAME
+            name = RECORD_TIMES_PREF_NAME,
         )
     }
 }

@@ -19,7 +19,7 @@ import com.titi.app.core.util.getTimeToLong
 fun TimeDailyDialog(
     todayDate: String,
     onPositive: (Long) -> Unit,
-    onShowDialog: (Boolean) -> Unit
+    onShowDialog: (Boolean) -> Unit,
 ) {
     var hour by remember { mutableStateOf("") }
     var minutes by remember { mutableStateOf("") }
@@ -34,9 +34,9 @@ fun TimeDailyDialog(
             negativeText = stringResource(id = R.string.Cancel),
             onPositive = {
                 onPositive(getTimeToLong(hour, minutes, seconds))
-            }
+            },
         ),
-        onShowDialog = onShowDialog
+        onShowDialog = onShowDialog,
     ) {
         TdsInputTimeTextField(
             modifier = Modifier.padding(horizontal = 15.dp),
@@ -45,7 +45,7 @@ fun TimeDailyDialog(
             minutes = minutes,
             onMinutesChange = { minutes = it },
             seconds = seconds,
-            onSecondsChange = { seconds = it }
+            onSecondsChange = { seconds = it },
         )
     }
 }

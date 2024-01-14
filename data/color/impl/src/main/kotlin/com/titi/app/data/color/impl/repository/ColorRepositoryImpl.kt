@@ -11,14 +11,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 internal class ColorRepositoryImpl @Inject constructor(
-    private val colorDataStore: ColorDataStore
+    private val colorDataStore: ColorDataStore,
 ) : ColorRepository {
     override suspend fun setColor(colorRepositoryModel: ColorRepositoryModel) {
         colorDataStore.setColor(colorRepositoryModel.toLocal())
     }
 
     override suspend fun setBackgroundColors(
-        backgroundColorRepositoryModel: BackgroundColorRepositoryModel
+        backgroundColorRepositoryModel: BackgroundColorRepositoryModel,
     ) {
         colorDataStore.setBackgroundColors(backgroundColorRepositoryModel.toLocal())
     }

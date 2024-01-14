@@ -6,10 +6,11 @@ import com.squareup.moshi.Types
 
 internal class ListConverter {
     private val moshi = Moshi.Builder().build()
-    private val intListType = Types.newParameterizedType(
-        List::class.java,
-        Long::class.javaObjectType
-    )
+    private val intListType =
+        Types.newParameterizedType(
+            List::class.java,
+            Long::class.javaObjectType,
+        )
 
     @TypeConverter
     fun fromJsonString(value: String): List<Long>? {

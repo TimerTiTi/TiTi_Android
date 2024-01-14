@@ -20,7 +20,7 @@ class BootReceiver : BroadcastReceiver() {
         val entryPoint =
             EntryPointAccessors.fromApplication(
                 context,
-                PermissionReceiver.ReceiverEntryPoint::class.java
+                PermissionReceiver.ReceiverEntryPoint::class.java,
             )
         canSetAlarmUseCase = entryPoint.getCanSetAlarmUseCase()
         getAlarmsUseCase = entryPoint.getGetAlarmsUseCase()

@@ -30,7 +30,7 @@ fun TdsOutlinedInputTextField(
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    placeHolder: (@Composable () -> Unit)? = null
+    placeHolder: (@Composable () -> Unit)? = null,
 ) {
     BasicTextField(
         modifier = modifier,
@@ -40,7 +40,7 @@ fun TdsOutlinedInputTextField(
         TdsTextStyle.NORMAL_TEXT_STYLE.getTextStyle(fontSize = fontSize)
             .copy(textAlign = TextAlign.Center),
         keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions
+        keyboardActions = keyboardActions,
     ) { innerTextField ->
         Box(
             modifier =
@@ -48,10 +48,10 @@ fun TdsOutlinedInputTextField(
                 .border(
                     width = 1.dp,
                     color = TdsColor.DIVIDER.getColor(),
-                    shape = RoundedCornerShape(4.dp)
+                    shape = RoundedCornerShape(4.dp),
                 )
                 .background(TdsColor.BACKGROUND.getColor()),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             innerTextField()
             if (text.isBlank()) {
@@ -69,7 +69,7 @@ fun TdsOutlinedInputTextField(
     onValueChange: (TextFieldValue) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    placeHolder: (@Composable () -> Unit)? = null
+    placeHolder: (@Composable () -> Unit)? = null,
 ) {
     BasicTextField(
         modifier = modifier,
@@ -79,7 +79,7 @@ fun TdsOutlinedInputTextField(
         TdsTextStyle.NORMAL_TEXT_STYLE.getTextStyle(fontSize = fontSize)
             .copy(textAlign = TextAlign.Center),
         keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions
+        keyboardActions = keyboardActions,
     ) { innerTextField ->
         Box(
             modifier =
@@ -87,10 +87,10 @@ fun TdsOutlinedInputTextField(
                 .border(
                     width = 1.dp,
                     color = TdsColor.DIVIDER.getColor(),
-                    shape = RoundedCornerShape(4.dp)
+                    shape = RoundedCornerShape(4.dp),
                 )
                 .background(TdsColor.BACKGROUND.getColor()),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             innerTextField()
             if (text.text.isBlank()) {
@@ -111,7 +111,7 @@ private fun TdsInputTextFieldPreview() {
                 .height(40.dp),
             text = "ABC",
             onValueChange = {},
-            fontSize = 22.sp
+            fontSize = 22.sp,
         )
     }
 }

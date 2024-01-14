@@ -7,7 +7,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.map
 
 class GetRecordTimesFlowUseCase @Inject constructor(
-    private val recordTimesRepository: RecordTimesRepository
+    private val recordTimesRepository: RecordTimesRepository,
 ) {
     operator fun invoke() = recordTimesRepository
         .getRecordTimesFlow()

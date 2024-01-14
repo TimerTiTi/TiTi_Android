@@ -9,23 +9,22 @@ import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
 class SetStopWatchAlarmUseCase @Inject constructor(
-    private val alarmRepository: AlarmRepository
+    private val alarmRepository: AlarmRepository,
 ) {
     suspend operator fun invoke(title: String, finishMessage: String, measureTime: Long) {
         val now = ZonedDateTime.now(ZoneOffset.UTC)
         val finishTimeRange = (measureTime / ONE_HOUR_SECONDS) + 1..TWENTY_FOUR_HOURS
         val alarms =
             Alarms(
-                alarms =
-                finishTimeRange.map {
+                alarms = finishTimeRange.map {
                     Alarm(
                         title = title,
                         message = "$it$finishMessage",
                         finishTime = now.plusSeconds(
-                            it * ONE_HOUR_SECONDS - measureTime
-                        ).toString()
+                            it * ONE_HOUR_SECONDS - measureTime,
+                        ).toString(),
                     )
-                }
+                },
             )
 
         if (alarmRepository.canScheduleExactAlarms()) {

@@ -17,7 +17,7 @@ data class MeasuringUiState(
     val measuringRecordTimes: MeasuringRecordTimes,
     val splashResultState: SplashResultState,
     val measureTime: Long,
-    val isSleepMode: Boolean = false
+    val isSleepMode: Boolean = false,
 ) : MavericksState {
     constructor(args: Bundle) : this(
         measuringRecordTimes =
@@ -26,24 +26,24 @@ data class MeasuringUiState(
                 isSleepMode = false,
                 measureTime =
                 getMeasureTime(
-                    recordTimes.recordStartAt ?: ZonedDateTime.now(ZoneOffset.UTC).toString()
+                    recordTimes.recordStartAt ?: ZonedDateTime.now(ZoneOffset.UTC).toString(),
                 ),
-                daily = daily
+                daily = daily,
             )
         },
         splashResultState = getSplashResultStateFromArgs(args),
         measureTime =
         getMeasureTime(
             getSplashResultStateFromArgs(args).recordTimes.recordStartAt
-                ?: ZonedDateTime.now(ZoneOffset.UTC).toString()
-        )
+                ?: ZonedDateTime.now(ZoneOffset.UTC).toString(),
+        ),
     )
 
     val recordTimes: RecordTimes get() = splashResultState.recordTimes
     val measuringTimeColor: MeasuringTimeColor
         get() =
             splashResultState.timeColor.toMeasuringTimeColor(
-                recordTimes.recordingMode
+                recordTimes.recordingMode,
             )
     val daily: Daily? get() = splashResultState.daily
 }
@@ -52,7 +52,7 @@ fun getSplashResultStateFromArgs(args: Bundle): SplashResultState =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         args.getParcelable(
             Mavericks.KEY_ARG,
-            SplashResultState::class.java
+            SplashResultState::class.java,
         )
     } else {
         args.getParcelable(Mavericks.KEY_ARG)
@@ -60,7 +60,7 @@ fun getSplashResultStateFromArgs(args: Bundle): SplashResultState =
 
 data class MeasuringTimeColor(
     val backgroundColor: Long,
-    val isTextBlackColor: Boolean
+    val isTextBlackColor: Boolean,
 )
 
 data class MeasuringRecordTimes(
@@ -70,18 +70,18 @@ data class MeasuringRecordTimes(
     val savedTime: Long,
     val savedGoalTime: Long,
     val finishGoalTime: String,
-    val isTaskTargetTimeOn: Boolean
+    val isTaskTargetTimeOn: Boolean,
 )
 
 fun TimeColor.toMeasuringTimeColor(recordingMode: Int) = MeasuringTimeColor(
     backgroundColor = if (recordingMode == 1) timerBackgroundColor else stopwatchBackgroundColor,
-    isTextBlackColor = if (recordingMode == 1) isTimerBlackTextColor else isStopwatchBlackTextColor
+    isTextBlackColor = if (recordingMode == 1) isTimerBlackTextColor else isStopwatchBlackTextColor,
 )
 
 fun RecordTimes.toMeasuringRecordTimes(
     isSleepMode: Boolean,
     measureTime: Long,
-    daily: Daily?
+    daily: Daily?,
 ): MeasuringRecordTimes {
     val calculateSumTime = savedSumTime + measureTime
     val calculateSavedSumTime =
@@ -154,6 +154,6 @@ fun RecordTimes.toMeasuringRecordTimes(
         savedTime = calculateSavedTime,
         savedGoalTime = calculateSavedGoalTime,
         finishGoalTime = finishGoalTime,
-        isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false
+        isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false,
     )
 }

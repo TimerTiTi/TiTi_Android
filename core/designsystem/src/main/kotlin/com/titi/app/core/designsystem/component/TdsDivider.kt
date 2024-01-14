@@ -21,7 +21,7 @@ fun RowScope.TdsDivider(thickness: Dp = 1.dp, color: TdsColor = TdsColor.DIVIDER
             .width(thickness)
             .fillMaxHeight(),
         thickness = thickness,
-        color = color.getColor()
+        color = color.getColor(),
     )
 }
 
@@ -33,6 +33,6 @@ fun ColumnScope.TdsDivider(thickness: Dp = 1.dp, color: TdsColor = TdsColor.DIVI
             .fillMaxWidth()
             .height(thickness),
         thickness = thickness,
-        color = color.getColor()
+        color = color.getColor(),
     )
 }

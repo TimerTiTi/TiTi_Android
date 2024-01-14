@@ -15,7 +15,7 @@ import org.threeten.bp.ZonedDateTime
 
 internal class AlarmRepositoryImpl(
     private val context: Context,
-    private val alarmDataStore: AlarmDataStore
+    private val alarmDataStore: AlarmDataStore,
 ) : AlarmRepository {
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -41,7 +41,7 @@ internal class AlarmRepositoryImpl(
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 ZonedDateTime.parse(alarm.finishTime).toInstant().toEpochMilli(),
-                pendingIntent
+                pendingIntent,
             )
         }
 
@@ -62,7 +62,7 @@ internal class AlarmRepositoryImpl(
                                 context,
                                 index,
                                 this,
-                                PendingIntent.FLAG_IMMUTABLE
+                                PendingIntent.FLAG_IMMUTABLE,
                             )
                         }
 

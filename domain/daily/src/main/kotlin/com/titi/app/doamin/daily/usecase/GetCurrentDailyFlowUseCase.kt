@@ -6,7 +6,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.map
 
 class GetCurrentDailyFlowUseCase @Inject constructor(
-    private val dailyRepository: DailyRepository
+    private val dailyRepository: DailyRepository,
 ) {
     operator fun invoke() = dailyRepository.getCurrentDailyFlow().map {
         it?.toDomain()

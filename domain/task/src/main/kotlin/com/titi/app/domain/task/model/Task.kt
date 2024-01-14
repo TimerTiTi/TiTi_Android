@@ -7,5 +7,5 @@ data class Task(
     val taskTargetTime: Long = 3600,
     val isTaskTargetTimeOn: Boolean = false,
     val savedSumTime: Long = 0,
-    val isDelete: Boolean = false
+    val isDelete: Boolean = false,
 )

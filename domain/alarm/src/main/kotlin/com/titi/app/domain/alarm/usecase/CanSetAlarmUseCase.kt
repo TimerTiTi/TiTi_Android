@@ -4,7 +4,7 @@ import com.titi.app.data.alarm.api.AlarmRepository
 import javax.inject.Inject
 
 class CanSetAlarmUseCase @Inject constructor(
-    private val alarmRepository: AlarmRepository
+    private val alarmRepository: AlarmRepository,
 ) {
     operator fun invoke() = alarmRepository.canScheduleExactAlarms()
 }

@@ -65,7 +65,7 @@ import kotlinx.coroutines.android.awaitFrame
 fun TaskBottomSheet(
     viewModel: TaskViewModel = mavericksViewModel(),
     themeColor: Color,
-    onCloseBottomSheet: () -> Unit
+    onCloseBottomSheet: () -> Unit,
 ) {
     val uiState by viewModel.collectAsState()
 
@@ -86,9 +86,9 @@ fun TaskBottomSheet(
                 onPositive = {
                     viewModel.addTask(taskName)
                 },
-                negativeText = stringResource(id = R.string.Cancel)
+                negativeText = stringResource(id = R.string.Cancel),
             ),
-            onShowDialog = { showAddTaskDialog = it }
+            onShowDialog = { showAddTaskDialog = it },
         ) {
             val addTaskFocusRequester = remember { FocusRequester() }
             val keyboard = LocalSoftwareKeyboardController.current
@@ -113,14 +113,14 @@ fun TaskBottomSheet(
                         text = stringResource(id = R.string.add_task_title),
                         textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                         fontSize = 17.sp,
-                        color = TdsColor.DIVIDER
+                        color = TdsColor.DIVIDER,
                     )
                 },
                 onValueChange = {
                     if (it.length <= 12) {
                         taskName = it
                     }
-                }
+                },
             )
         }
     }
@@ -138,7 +138,7 @@ fun TaskBottomSheet(
         tonalElevation = 0.dp,
         containerColor = TdsColor.BACKGROUND.getColor(),
         contentColor = TdsColor.BACKGROUND.getColor(),
-        dragHandle = null
+        dragHandle = null,
     ) {
         TaskBottomSheet(
             uiState = uiState,
@@ -169,9 +169,9 @@ fun TaskBottomSheet(
             onTaskMove = {
                 viewModel.moveTask(
                     uiState.tasks[it.first],
-                    uiState.tasks[it.second]
+                    uiState.tasks[it.second],
                 )
-            }
+            },
         )
     }
 }
@@ -189,7 +189,7 @@ fun TaskBottomSheet(
     onClickTargetTimeSwitch: (Task) -> Unit,
     onModifyTaskName: (Pair<Task, String>) -> Unit,
     onDeleteTask: (Task) -> Unit,
-    onTaskMove: (Pair<Int, Int>) -> Unit
+    onTaskMove: (Pair<Int, Int>) -> Unit,
 ) {
     var hour by remember { mutableStateOf("") }
     var minutes by remember { mutableStateOf("") }
@@ -204,8 +204,8 @@ fun TaskBottomSheet(
             Task(
                 id = 0,
                 position = 0,
-                taskName = ""
-            )
+                taskName = "",
+            ),
         )
     }
 
@@ -229,11 +229,11 @@ fun TaskBottomSheet(
                         onClickTargetTimeEditButton(editTask.copy(taskTargetTime = targetTime))
                     }
                 },
-                negativeText = stringResource(id = R.string.Cancel)
+                negativeText = stringResource(id = R.string.Cancel),
             ),
             onShowDialog = {
                 showTaskTargetTimeDialog = it
-            }
+            },
         ) {
             TdsInputTimeTextField(
                 modifier = Modifier.padding(horizontal = 15.dp),
@@ -242,7 +242,7 @@ fun TaskBottomSheet(
                 minutes = minutes,
                 onMinutesChange = { minutes = it },
                 seconds = seconds,
-                onSecondsChange = { seconds = it }
+                onSecondsChange = { seconds = it },
             )
         }
     }
@@ -264,14 +264,14 @@ fun TaskBottomSheet(
                         onModifyTaskName(Pair(editTask, editTaskName.text))
                     }
                 },
-                negativeText = stringResource(id = R.string.Cancel)
+                negativeText = stringResource(id = R.string.Cancel),
             )
 
         TdsDialog(
             tdsDialogInfo = confirm,
             onShowDialog = {
                 showTaskNameModifyDialog = it
-            }
+            },
         ) {
             TdsOutlinedInputTextField(
                 modifier =
@@ -284,7 +284,7 @@ fun TaskBottomSheet(
                 text = editTaskName,
                 onValueChange = {
                     editTaskName = it
-                }
+                },
             )
         }
     }
@@ -294,7 +294,7 @@ fun TaskBottomSheet(
             modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp)
+                .padding(horizontal = 12.dp),
         ) {
             TdsTextButton(
                 modifier = Modifier.align(Alignment.CenterStart),
@@ -306,7 +306,7 @@ fun TaskBottomSheet(
                 },
                 textColor = themeColor,
                 fontSize = 18.sp,
-                onClick = onClickEditButton
+                onClick = onClickEditButton,
             )
 
             TdsText(
@@ -314,17 +314,17 @@ fun TaskBottomSheet(
                 text = stringResource(id = R.string.tasks),
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = 20.sp,
-                color = TdsColor.TEXT
+                color = TdsColor.TEXT,
             )
 
             TdsIconButton(
                 modifier = Modifier.align(Alignment.CenterEnd),
-                onClick = onClickAddButton
+                onClick = onClickAddButton,
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.add_icon),
                     contentDescription = "add",
-                    tint = themeColor
+                    tint = themeColor,
                 )
             }
         }
@@ -348,7 +348,7 @@ fun TaskBottomSheet(
 
         LazyColumn(
             modifier = modifier,
-            state = listState
+            state = listState,
         ) {
             itemsIndexed(uiState.tasks) { index, task ->
                 DraggableItem(dragDropState = dragDropState, index = index) { isDragging ->
@@ -362,13 +362,13 @@ fun TaskBottomSheet(
                                     TdsColor.DIVIDER.getColor()
                                 } else {
                                     TdsColor.BACKGROUND.getColor()
-                                }
+                                },
                             ),
                         tdsTask =
                         TdsTask(
                             taskTargetTime = task.taskTargetTime,
                             isTaskTargetTimeOn = task.isTaskTargetTimeOn,
-                            taskName = task.taskName
+                            taskName = task.taskName,
                         ),
                         editMode = editMode,
                         themeColor = themeColor,
@@ -382,7 +382,7 @@ fun TaskBottomSheet(
                             editTaskName =
                                 editTaskName.copy(
                                     text = task.taskName,
-                                    selection = TextRange(task.taskName.length)
+                                    selection = TextRange(task.taskName.length),
                                 )
                             showTaskNameModifyDialog = true
                         },
@@ -393,17 +393,17 @@ fun TaskBottomSheet(
                         onTargetTimeOn = {
                             onClickTargetTimeSwitch(
                                 task.copy(
-                                    isTaskTargetTimeOn = it
-                                )
+                                    isTaskTargetTimeOn = it,
+                                ),
                             )
                         },
                         onDelete = {
                             onDeleteTask(
                                 task.copy(
-                                    isDelete = true
-                                )
+                                    isDelete = true,
+                                ),
                             )
-                        }
+                        },
                     )
                 }
             }
@@ -427,7 +427,7 @@ private fun TaskBottomSheetPreview() {
                         taskTargetTime = 3600,
                         isTaskTargetTimeOn = false,
                         savedSumTime = 0,
-                        isDelete = false
+                        isDelete = false,
                     ),
                     Task(
                         id = 1,
@@ -436,7 +436,7 @@ private fun TaskBottomSheetPreview() {
                         taskTargetTime = 3600,
                         isTaskTargetTimeOn = false,
                         savedSumTime = 0,
-                        isDelete = false
+                        isDelete = false,
                     ),
                     Task(
                         id = 2,
@@ -445,9 +445,9 @@ private fun TaskBottomSheetPreview() {
                         taskTargetTime = 3600,
                         isTaskTargetTimeOn = false,
                         savedSumTime = 0,
-                        isDelete = false
-                    )
-                )
+                        isDelete = false,
+                    ),
+                ),
             ),
             themeColor = TdsColor.BLUE.getColor(),
             editMode = true,
@@ -458,7 +458,7 @@ private fun TaskBottomSheetPreview() {
             onClickTargetTimeSwitch = {},
             onModifyTaskName = {},
             onDeleteTask = {},
-            onTaskMove = {}
+            onTaskMove = {},
         )
     }
 }

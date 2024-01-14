@@ -9,9 +9,9 @@ internal fun ColorRepositoryModel.toDomain() = TimeColor(
     timerBackgroundColor = timerBackgroundColor,
     isTimerBlackTextColor = isTimerBlackTextColor,
     stopwatchBackgroundColor = stopwatchBackgroundColor,
-    isStopwatchBlackTextColor = isStopwatchBlackTextColor
+    isStopwatchBlackTextColor = isStopwatchBlackTextColor,
 )
 
 internal fun BackgroundColorRepositoryModel.toDomain() = BackgroundColors(
-    colors = backgroundColors
+    colors = backgroundColors,
 )

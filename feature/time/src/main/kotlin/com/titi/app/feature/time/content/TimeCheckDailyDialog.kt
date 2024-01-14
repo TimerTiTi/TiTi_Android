@@ -16,9 +16,9 @@ fun TimeCheckDailyDialog(title: String, onShowDialog: (Boolean) -> Unit) {
         tdsDialogInfo =
         TdsDialogInfo.Alert(
             title = title,
-            confirmText = stringResource(id = R.string.Ok)
+            confirmText = stringResource(id = R.string.Ok),
         ),
-        onShowDialog = onShowDialog
+        onShowDialog = onShowDialog,
     ) {
         Spacer(modifier = Modifier.height(5.dp))
     }

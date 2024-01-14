@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal interface TaskDao {
-
     @Upsert
     suspend fun upsertTask(taskEntity: TaskEntity)
 

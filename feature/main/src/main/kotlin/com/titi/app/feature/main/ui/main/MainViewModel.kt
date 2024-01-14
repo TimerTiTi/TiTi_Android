@@ -19,7 +19,7 @@ class MainViewModel
 constructor(
     private val getRecordTimesUseCase: GetRecordTimesUseCase,
     private val getTimeColorUseCase: GetTimeColorUseCase,
-    private val getCurrentDailyUseCase: GetCurrentDailyUseCase
+    private val getCurrentDailyUseCase: GetCurrentDailyUseCase,
 ) : ViewModel() {
     private val _splashResultState: MutableStateFlow<SplashResultState?> =
         MutableStateFlow(null)
@@ -46,7 +46,7 @@ constructor(
                 SplashResultState(
                     recordTimes = recordTimesResult.await(),
                     timeColor = timeColorResult.await(),
-                    daily = dailyResult.await()
+                    daily = dailyResult.await(),
                 )
         }
     }

@@ -22,31 +22,31 @@ fun TimeHeaderContent(
     todayDate: String,
     isDailyAfter6AM: Boolean,
     textColor: TdsColor,
-    onClickColor: () -> Unit
+    onClickColor: () -> Unit,
 ) {
     Box(
         modifier =
         Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
     ) {
         TdsText(
             modifier = Modifier.align(Alignment.Center),
             text = todayDate,
             textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
             fontSize = 16.sp,
-            color = if (isDailyAfter6AM) textColor else TdsColor.RED
+            color = if (isDailyAfter6AM) textColor else TdsColor.RED,
         )
 
         TdsIconButton(
             modifier = Modifier.align(Alignment.CenterEnd),
             onClick = onClickColor,
-            size = 32.dp
+            size = 32.dp,
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.color_selector_icon),
                 contentDescription = "setColorIcon",
-                tint = Color.Unspecified
+                tint = Color.Unspecified,
             )
         }
     }

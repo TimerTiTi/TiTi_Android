@@ -12,10 +12,10 @@ internal fun Daily.toRepositoryModel() = DailyRepositoryModel(
     timeline = timeLine,
     maxTime = maxTime,
     tasks = tasks,
-    taskHistories = taskHistories?.mapValues { it.value.map { it.toRepositoryModel() } }
+    taskHistories = taskHistories?.mapValues { it.value.map { it.toRepositoryModel() } },
 )
 
 internal fun TaskHistory.toRepositoryModel() = TaskHistoryRepositoryModel(
     startDate = startDate,
-    endDate = endDate
+    endDate = endDate,
 )

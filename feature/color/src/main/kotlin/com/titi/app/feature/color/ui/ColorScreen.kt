@@ -53,7 +53,7 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 fun ColorScreen(
     viewModel: ColorViewModel = mavericksViewModel(),
     recordingMode: Int,
-    onFinish: () -> Unit
+    onFinish: () -> Unit,
 ) {
     val controller = rememberColorPickerController()
 
@@ -71,13 +71,13 @@ fun ColorScreen(
                 onPositive = {
                     viewModel.updateColor(
                         recordingMode = recordingMode,
-                        color = selectedColor
+                        color = selectedColor,
                     )
                     onFinish()
                 },
-                negativeText = stringResource(id = R.string.Cancel)
+                negativeText = stringResource(id = R.string.Cancel),
             ),
-            onShowDialog = { showDialog = it }
+            onShowDialog = { showDialog = it },
         ) {
             Box(
                 modifier =
@@ -85,7 +85,7 @@ fun ColorScreen(
                     .size(40.dp)
                     .clip(RoundedCornerShape(6.dp))
                     .background(Color(selectedColor))
-                    .border(2.dp, Color.LightGray)
+                    .border(2.dp, Color.LightGray),
             )
         }
     }
@@ -94,7 +94,7 @@ fun ColorScreen(
         modifier =
         Modifier
             .fillMaxSize()
-            .background(Color.Black)
+            .background(Color.Black),
     ) {
         HsvColorPicker(
             modifier =
@@ -102,9 +102,9 @@ fun ColorScreen(
                 .size(450.dp)
                 .padding(
                     vertical = 10.dp,
-                    horizontal = 24.dp
+                    horizontal = 24.dp,
                 ),
-            controller = controller
+            controller = controller,
         )
 
         TdsText(
@@ -116,7 +116,7 @@ fun ColorScreen(
             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             fontSize = 18.sp,
             color = TdsColor.WHITE,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -127,10 +127,10 @@ fun ColorScreen(
                 .fillMaxWidth()
                 .padding(
                     vertical = 10.dp,
-                    horizontal = 24.dp
+                    horizontal = 24.dp,
                 )
                 .height(35.dp),
-            controller = controller
+            controller = controller,
         )
 
         BrightnessSlider(
@@ -139,10 +139,10 @@ fun ColorScreen(
                 .fillMaxWidth()
                 .padding(
                     vertical = 10.dp,
-                    horizontal = 24.dp
+                    horizontal = 24.dp,
                 )
                 .height(35.dp),
-            controller = controller
+            controller = controller,
         )
 
         Row(
@@ -151,8 +151,8 @@ fun ColorScreen(
                 .padding(
                     top = 10.dp,
                     start = 24.dp,
-                    end = 24.dp
-                )
+                    end = 24.dp,
+                ),
         ) {
             AlphaTile(
                 modifier =
@@ -160,7 +160,7 @@ fun ColorScreen(
                     .size(80.dp)
                     .clip(RoundedCornerShape(6.dp))
                     .border(2.dp, Color.LightGray),
-                controller = controller
+                controller = controller,
             )
 
             Spacer(modifier = Modifier.width(10.dp))
@@ -171,7 +171,7 @@ fun ColorScreen(
                 onShowDialog = {
                     selectedColor = it
                     showDialog = true
-                }
+                },
             )
         }
 
@@ -185,21 +185,21 @@ fun ColorScreen(
                     top = 10.dp,
                     start = 24.dp,
                     end = 24.dp,
-                    bottom = 24.dp
+                    bottom = 24.dp,
                 ),
             color = controller.selectedColor.value,
             onClickCancel = onFinish,
             onClickConfirm = {
                 viewModel.addBackgroundColor(
                     colors = uiState.colors,
-                    color = controller.selectedColor.value.toArgb().toLong()
+                    color = controller.selectedColor.value.toArgb().toLong(),
                 )
                 viewModel.updateColor(
                     recordingMode = recordingMode,
-                    color = controller.selectedColor.value.toArgb().toLong()
+                    color = controller.selectedColor.value.toArgb().toLong(),
                 )
                 onFinish()
-            }
+            },
         )
     }
 }
@@ -208,7 +208,7 @@ fun ColorScreen(
 private fun ColorPresetContent(
     modifier: Modifier = Modifier,
     colors: List<Long>,
-    onShowDialog: (Long) -> Unit
+    onShowDialog: (Long) -> Unit,
 ) {
     Column(modifier = modifier) {
         repeat(2) { columnIndex ->
@@ -217,7 +217,7 @@ private fun ColorPresetContent(
                 Modifier
                     .fillMaxWidth()
                     .padding(bottom = 10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 repeat(6) { rowIndex ->
                     val index = columnIndex * 6 + rowIndex
@@ -227,7 +227,7 @@ private fun ColorPresetContent(
                             .size(35.dp)
                             .clip(RoundedCornerShape(6.dp))
                             .border(2.dp, Color.LightGray)
-                            .background(Color.White)
+                            .background(Color.White),
                     ) {
                         colors.getOrNull(index)?.let {
                             Box(
@@ -235,7 +235,7 @@ private fun ColorPresetContent(
                                 Modifier
                                     .fillMaxSize()
                                     .background(Color(it))
-                                    .clickable { onShowDialog(it) }
+                                    .clickable { onShowDialog(it) },
                             )
                         }
                     }
@@ -250,20 +250,20 @@ private fun ColorButtons(
     modifier: Modifier = Modifier,
     color: Color,
     onClickCancel: () -> Unit,
-    onClickConfirm: () -> Unit
+    onClickConfirm: () -> Unit,
 ) {
     Row(modifier = modifier) {
         OutlinedButton(
             modifier = Modifier.weight(1f),
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
             shape = RoundedCornerShape(6.dp),
-            onClick = { onClickCancel() }
+            onClick = { onClickCancel() },
         ) {
             TdsText(
                 text = stringResource(id = R.string.Cancel),
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = 16.sp,
-                color = TdsColor.RED
+                color = TdsColor.RED,
             )
         }
 
@@ -273,13 +273,13 @@ private fun ColorButtons(
             modifier = Modifier.weight(1f),
             colors = ButtonDefaults.buttonColors(containerColor = color),
             shape = RoundedCornerShape(6.dp),
-            onClick = { onClickConfirm() }
+            onClick = { onClickConfirm() },
         ) {
             TdsText(
                 text = stringResource(id = R.string.Ok),
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = 16.sp,
-                color = color.complementary()
+                color = color.complementary(),
             )
         }
     }
@@ -291,7 +291,7 @@ private fun ColorScreenPreview() {
     TiTiTheme {
         ColorScreen(
             recordingMode = 1,
-            onFinish = {}
+            onFinish = {},
         )
     }
 }
