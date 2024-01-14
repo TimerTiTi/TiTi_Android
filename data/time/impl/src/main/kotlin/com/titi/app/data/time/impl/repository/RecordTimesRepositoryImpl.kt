@@ -5,9 +5,9 @@ import com.titi.app.data.time.api.model.RecordTimesRepositoryModel
 import com.titi.app.data.time.impl.local.RecordTimesDataStore
 import com.titi.app.data.time.impl.mapper.toLocalModel
 import com.titi.app.data.time.impl.mapper.toRepositoryModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 internal class RecordTimesRepositoryImpl @Inject constructor(
     private val recordTimesDataStore: RecordTimesDataStore,
