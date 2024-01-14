@@ -37,7 +37,7 @@ fun isAfterSixAM(dateTime: String?): Boolean {
         if (inputDateTime.dayOfMonth == currentDateTime.dayOfMonth) {
             true
         } else {
-            currentDateTime.hour <= 6
+            currentDateTime.hour <= 6 && inputDateTime.plusDays(1).dayOfMonth == currentDateTime.dayOfMonth
         }
     }
 }
