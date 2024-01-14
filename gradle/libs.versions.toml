@@ -42,6 +42,8 @@ espresso-core = "3.5.1"
 junitKtx = "1.1.5"
 material3WindowSize = "1.1.2"
 
+firebaseServices = "4.4.0"
+
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -113,6 +115,7 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+firbaseServices = { id = "com.google.gms.google-services", version.ref = "firebaseServices" }
 
 [bundles]
 
