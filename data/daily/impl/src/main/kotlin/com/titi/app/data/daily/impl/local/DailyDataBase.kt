@@ -20,11 +20,9 @@ import com.titi.app.data.daily.impl.local.model.DailyEntity
     MapListConverter::class
 )
 internal abstract class DailyDataBase : RoomDatabase() {
+    abstract fun getDailyDao(): DailyDao
 
-    abstract fun getDailyDao() : DailyDao
-
-    companion object{
+    companion object {
         const val DAILY_DATABASE_NAME = "titiDailyDataBaseName"
     }
-
 }

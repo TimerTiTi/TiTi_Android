@@ -37,7 +37,7 @@ fun TdsInputTimeTextField(
     minutes: String,
     onMinutesChange: (String) -> Unit,
     seconds: String,
-    onSecondsChange: (String) -> Unit,
+    onSecondsChange: (String) -> Unit
 ) {
     val (hourFocus, minutesFocus, secondsFocus) = FocusRequester.createRefs()
     val focusManger = LocalFocusManager.current
@@ -54,7 +54,8 @@ fun TdsInputTimeTextField(
         verticalAlignment = Alignment.CenterVertically
     ) {
         TdsOutlinedInputTextField(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .height(40.dp)
                 .weight(1f)
                 .focusRequester(hourFocus)
@@ -72,11 +73,13 @@ fun TdsInputTimeTextField(
                 }
             },
             fontSize = 22.sp,
-            keyboardOptions = KeyboardOptions(
+            keyboardOptions =
+            KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = ImeAction.Done
             ),
-            keyboardActions = KeyboardActions(
+            keyboardActions =
+            KeyboardActions(
                 onDone = {
                     focusManger.moveFocus(FocusDirection.Next)
                 }
@@ -84,9 +87,9 @@ fun TdsInputTimeTextField(
             placeHolder = {
                 TdsText(
                     text = "H",
-                    textStyle = TdsTextStyle.normalTextStyle,
+                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 22.sp,
-                    color = TdsColor.dividerColor
+                    color = TdsColor.DIVIDER
                 )
             }
         )
@@ -94,13 +97,14 @@ fun TdsInputTimeTextField(
         TdsText(
             modifier = Modifier.padding(horizontal = 3.dp),
             text = ":",
-            color = TdsColor.textColor,
-            textStyle = TdsTextStyle.normalTextStyle,
+            color = TdsColor.TEXT,
+            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
             fontSize = 22.sp
         )
 
         TdsOutlinedInputTextField(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .height(40.dp)
                 .weight(1f)
                 .focusRequester(minutesFocus)
@@ -121,11 +125,13 @@ fun TdsInputTimeTextField(
                 }
             },
             fontSize = 22.sp,
-            keyboardOptions = KeyboardOptions(
+            keyboardOptions =
+            KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = ImeAction.Done
             ),
-            keyboardActions = KeyboardActions(
+            keyboardActions =
+            KeyboardActions(
                 onDone = {
                     focusManger.moveFocus(FocusDirection.Next)
                 }
@@ -133,9 +139,9 @@ fun TdsInputTimeTextField(
             placeHolder = {
                 TdsText(
                     text = "M",
-                    textStyle = TdsTextStyle.normalTextStyle,
+                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 22.sp,
-                    color = TdsColor.dividerColor
+                    color = TdsColor.DIVIDER
                 )
             }
         )
@@ -143,13 +149,14 @@ fun TdsInputTimeTextField(
         TdsText(
             modifier = Modifier.padding(horizontal = 3.dp),
             text = ":",
-            color = TdsColor.textColor,
-            textStyle = TdsTextStyle.normalTextStyle,
+            color = TdsColor.TEXT,
+            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
             fontSize = 22.sp
         )
 
         TdsOutlinedInputTextField(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .height(40.dp)
                 .weight(1f)
                 .focusRequester(secondsFocus)
@@ -167,11 +174,13 @@ fun TdsInputTimeTextField(
                 }
             },
             fontSize = 22.sp,
-            keyboardOptions = KeyboardOptions(
+            keyboardOptions =
+            KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = ImeAction.Done
             ),
-            keyboardActions = KeyboardActions(
+            keyboardActions =
+            KeyboardActions(
                 onDone = {
                     focusManger.clearFocus()
                 }
@@ -179,15 +188,14 @@ fun TdsInputTimeTextField(
             placeHolder = {
                 TdsText(
                     text = "S",
-                    textStyle = TdsTextStyle.normalTextStyle,
+                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 22.sp,
-                    color = TdsColor.dividerColor
+                    color = TdsColor.DIVIDER
                 )
             }
         )
     }
 }
-
 
 @Preview
 @Composable
@@ -200,7 +208,7 @@ private fun TdsInputTimeTextFieldPreview() {
             minutes = "55",
             onMinutesChange = {},
             seconds = "33",
-            onSecondsChange = {},
+            onSecondsChange = {}
         )
     }
 }

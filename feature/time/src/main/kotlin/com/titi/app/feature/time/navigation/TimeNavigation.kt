@@ -34,11 +34,11 @@ fun NavGraphBuilder.timeGraph(
     splashResultState: SplashResultState,
     nestedGraphs: NavGraphBuilder.() -> Unit,
     onNavigateToColor: (Int) -> Unit,
-    onNavigateToMeasure: (String) -> Unit,
+    onNavigateToMeasure: (String) -> Unit
 ) {
     navigation(
         route = TIME_GRAPH_ROUTE,
-        startDestination = "$TIME_GRAPH_SCREEN/$startDestination",
+        startDestination = "$TIME_GRAPH_SCREEN/$startDestination"
     ) {
         composable(route = TIMER_ROUTE) { backStackEntry ->
             val isFinish by backStackEntry

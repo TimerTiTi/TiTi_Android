@@ -14,5 +14,5 @@ data class RecordTimes(
     val savedTimerTime: Long = 3600,
     val savedStopWatchTime: Long = 0,
     val savedGoalTime: Long = 7200,
-    val currentTask: CurrentTask? = null,
+    val currentTask: CurrentTask? = null
 ) : Parcelable

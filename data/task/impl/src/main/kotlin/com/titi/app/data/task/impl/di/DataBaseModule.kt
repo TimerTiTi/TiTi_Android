@@ -25,7 +25,5 @@ internal object DataBaseModule {
 
     @Singleton
     @Provides
-    fun provideTaskDao(taskDataBase: TaskDataBase): TaskDao =
-        taskDataBase.getTaskDao()
-
+    fun provideTaskDao(taskDataBase: TaskDataBase): TaskDao = taskDataBase.getTaskDao()
 }

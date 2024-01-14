@@ -8,11 +8,7 @@ import javax.inject.Inject
 class UpdateSetTimerTimeUseCase @Inject constructor(
     private val recordTimesRepository: RecordTimesRepository
 ) {
-
-    suspend operator fun invoke(
-        recordTimes: RecordTimes,
-        timerTime: Long,
-    ) {
+    suspend operator fun invoke(recordTimes: RecordTimes, timerTime: Long) {
         if (recordTimes.savedTimerTime != timerTime) {
             recordTimesRepository.setRecordTimes(
                 recordTimes.toRepositoryModel()
@@ -23,5 +19,4 @@ class UpdateSetTimerTimeUseCase @Inject constructor(
             )
         }
     }
-
 }

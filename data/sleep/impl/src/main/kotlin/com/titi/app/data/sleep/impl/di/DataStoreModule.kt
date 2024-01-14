@@ -12,11 +12,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DataStoreModule {
-
     @Provides
     @Singleton
-    fun provideSleepDataStore(
-        @ApplicationContext context: Context
-    ) = SleepDataStore(context)
-
+    fun provideSleepDataStore(@ApplicationContext context: Context) = SleepDataStore(context)
 }

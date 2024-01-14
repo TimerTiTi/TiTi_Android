@@ -12,10 +12,8 @@ import dagger.multibindings.IntoMap
 @Module
 @InstallIn(MavericksViewModelComponent::class)
 internal interface ViewModelModule {
-
     @Binds
     @IntoMap
     @ViewModelKey(ColorViewModel::class)
     fun colorViewModelFactory(factory: ColorViewModel.Factory): AssistedViewModelFactory<*, *>
-
 }

@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.theme.TdsColor
-import com.titi.app.core.designsystem.R
 
 @Composable
 fun TimeButtonContent(
@@ -23,7 +23,7 @@ fun TimeButtonContent(
     onClickAddDaily: () -> Unit,
     onClickStartRecord: () -> Unit,
     onClickSettingTimer: (() -> Unit)? = null,
-    onClickResetStopwatch: (() -> Unit)? = null,
+    onClickResetStopwatch: (() -> Unit)? = null
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -37,10 +37,11 @@ fun TimeButtonContent(
             Icon(
                 painter = painterResource(id = R.drawable.add_record_icon),
                 contentDescription = "addRecord",
-                tint = if (isDailyAfter6AM) {
+                tint =
+                if (isDailyAfter6AM) {
                     Color.Unspecified
                 } else {
-                    TdsColor.redColor.getColor()
+                    TdsColor.RED.getColor()
                 }
             )
         }
@@ -66,7 +67,8 @@ fun TimeButtonContent(
                 size = 50.dp
             ) {
                 Icon(
-                    painter = painterResource(
+                    painter =
+                    painterResource(
                         R.drawable.setting_timer_time_icon
                     ),
                     contentDescription = "",
@@ -79,7 +81,8 @@ fun TimeButtonContent(
                 size = 50.dp
             ) {
                 Icon(
-                    painter = painterResource(
+                    painter =
+                    painterResource(
                         R.drawable.setting_stopwatch_time_icon
                     ),
                     contentDescription = "",

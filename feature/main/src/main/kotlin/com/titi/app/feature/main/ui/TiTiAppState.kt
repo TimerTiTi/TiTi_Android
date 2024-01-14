@@ -38,11 +38,11 @@ fun rememberNiaAppState(
     navController: NavHostController = rememberNavController(),
     windowSizeClass: WindowSizeClass,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
-    getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
+    getTimeColorFlowUseCase: GetTimeColorFlowUseCase
 ): TiTiAppState {
     return remember(
         navController,
-        windowSizeClass,
+        windowSizeClass
     ) {
         TiTiAppState(
             navController,
@@ -61,18 +61,20 @@ class TiTiAppState(
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase
 ) {
     val currentDestination: NavDestination?
-        @Composable get() = navController
-            .currentBackStackEntryAsState().value?.destination
+        @Composable get() =
+            navController
+                .currentBackStackEntryAsState().value?.destination
 
     private val currentDestinationRouteFlow =
         navController.currentBackStackEntryFlow.map { it.destination.route }
 
     private val currentTopLevelDestination: TopLevelDestination?
-        @Composable get() = when (currentDestination?.route) {
-            TIMER_ROUTE -> TopLevelDestination.TIMER
-            STOPWATCH_ROUTE -> TopLevelDestination.STOPWATCH
-            else -> null
-        }
+        @Composable get() =
+            when (currentDestination?.route) {
+                TIMER_ROUTE -> TopLevelDestination.TIMER
+                STOPWATCH_ROUTE -> TopLevelDestination.STOPWATCH
+                else -> null
+            }
 
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
 
@@ -80,7 +82,8 @@ class TiTiAppState(
         @Composable get() = currentTopLevelDestination != null
 
     val shouldShowBottomBar: Boolean
-        @Composable get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact && isTopLevelDestination
+        @Composable get() =
+            windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact && isTopLevelDestination
 
     val bottomNavigationColor: StateFlow<Long> =
         getTimeColorFlowUseCase()
@@ -94,51 +97,53 @@ class TiTiAppState(
             .stateIn(
                 scope = coroutineScope,
                 SharingStarted.WhileSubscribed(),
-                initialValue = 0xFFFFFFFF,
+                initialValue = 0xFFFFFFFF
             )
 
     val enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition)
-        @Composable get() = if (isTopLevelDestination) {
-            {
-                fadeIn(tween(0))
+        @Composable get() =
+            if (isTopLevelDestination) {
+                {
+                    fadeIn(tween(0))
+                }
+            } else {
+                {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(200)
+                    )
+                }
             }
-        } else {
-            {
-                slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(200)
-                )
-            }
-        }
 
     val exitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition)
-        @Composable get() = if (isTopLevelDestination) {
-            {
-                fadeOut(tween(0))
+        @Composable get() =
+            if (isTopLevelDestination) {
+                {
+                    fadeOut(tween(0))
+                }
+            } else {
+                {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Right,
+                        animationSpec = tween(200, delayMillis = 200)
+                    )
+                }
             }
-        } else {
-            {
-                slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right,
-                    animationSpec = tween(200, delayMillis = 200)
-                )
-            }
-        }
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
-        val topLevelNavOptions = navOptions {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-            }
+        val topLevelNavOptions =
+            navOptions {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
 
-            launchSingleTop = true
-            restoreState = true
-        }
+                launchSingleTop = true
+                restoreState = true
+            }
 
         when (topLevelDestination) {
             TopLevelDestination.TIMER -> navController.navigateToTimer(topLevelNavOptions)
             TopLevelDestination.STOPWATCH -> navController.navigateToStopWatch(topLevelNavOptions)
         }
     }
-
 }

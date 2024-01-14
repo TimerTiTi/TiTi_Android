@@ -14,16 +14,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object RepositoryModule {
-
     @Singleton
     @Provides
     fun provideAlarmRepository(
         @ApplicationContext context: Context,
         alarmDataStore: AlarmDataStore
-    ): AlarmRepository =
-        AlarmRepositoryImpl(
-            context,
-            alarmDataStore
-        )
-
+    ): AlarmRepository = AlarmRepositoryImpl(
+        context,
+        alarmDataStore
+    )
 }

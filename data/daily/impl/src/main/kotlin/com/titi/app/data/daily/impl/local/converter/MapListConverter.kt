@@ -7,17 +7,17 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.titi.app.data.daily.impl.local.model.TaskHistoryEntity
 
 internal class MapListConverter {
-
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-    private val mapType = Types
-        .newParameterizedType(
-            Map::class.java,
-            String::class.java,
-            Types.newParameterizedType(
-                List::class.java,
-                TaskHistoryEntity::class.java
+    private val mapType =
+        Types
+            .newParameterizedType(
+                Map::class.java,
+                String::class.java,
+                Types.newParameterizedType(
+                    List::class.java,
+                    TaskHistoryEntity::class.java
+                )
             )
-        )
 
     @TypeConverter
     fun fromJsonString(json: String): Map<String, List<TaskHistoryEntity>>? {
@@ -30,5 +30,4 @@ internal class MapListConverter {
         val adapter = moshi.adapter<Map<String, List<TaskHistoryEntity>>>(mapType)
         return adapter.toJson(data)
     }
-
 }

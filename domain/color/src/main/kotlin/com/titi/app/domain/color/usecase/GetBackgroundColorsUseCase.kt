@@ -7,8 +7,5 @@ import javax.inject.Inject
 class GetBackgroundColorsUseCase @Inject constructor(
     private val colorRepository: ColorRepository
 ) {
-
-    suspend operator fun invoke() =
-        colorRepository.getBackgroundColors()?.toDomain()
-
+    suspend operator fun invoke() = colorRepository.getBackgroundColors()?.toDomain()
 }

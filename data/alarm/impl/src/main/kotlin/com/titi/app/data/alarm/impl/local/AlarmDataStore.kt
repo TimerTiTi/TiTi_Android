@@ -12,22 +12,19 @@ import com.titi.app.core.util.toJson
 import com.titi.app.data.alarm.impl.local.model.AlarmsEntity
 
 internal class AlarmDataStore(context: Context) {
-
     private val dataStore: DataStore<Preferences> = context.dataStore
 
     suspend fun setAlarms(alarmsEntity: AlarmsEntity) {
         dataStore.storeValue(ALARM_KEY, alarmsEntity.toJson())
     }
 
-    suspend fun getAlarms(): AlarmsEntity? =
-        dataStore.readValue(ALARM_KEY)?.fromJson()
+    suspend fun getAlarms(): AlarmsEntity? = dataStore.readValue(ALARM_KEY)?.fromJson()
 
     suspend fun removeAlarms() {
         dataStore.storeValue(ALARM_KEY, null)
     }
 
     companion object {
-
         private const val ALARM_PREF_NAME = "alarmPrefName"
         private val ALARM_KEY = stringPreferencesKey("alarmKey")
 
@@ -35,5 +32,4 @@ internal class AlarmDataStore(context: Context) {
             ALARM_PREF_NAME
         )
     }
-
 }

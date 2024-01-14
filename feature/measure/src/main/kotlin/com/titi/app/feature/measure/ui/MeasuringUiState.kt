@@ -17,21 +17,23 @@ data class MeasuringUiState(
     val measuringRecordTimes: MeasuringRecordTimes,
     val splashResultState: SplashResultState,
     val measureTime: Long,
-    val isSleepMode: Boolean = false,
+    val isSleepMode: Boolean = false
 ) : MavericksState {
-
     constructor(args: Bundle) : this(
-        measuringRecordTimes = getSplashResultStateFromArgs(args).run {
+        measuringRecordTimes =
+        getSplashResultStateFromArgs(args).run {
             recordTimes.toMeasuringRecordTimes(
                 isSleepMode = false,
-                measureTime = getMeasureTime(
+                measureTime =
+                getMeasureTime(
                     recordTimes.recordStartAt ?: ZonedDateTime.now(ZoneOffset.UTC).toString()
                 ),
                 daily = daily
             )
         },
         splashResultState = getSplashResultStateFromArgs(args),
-        measureTime = getMeasureTime(
+        measureTime =
+        getMeasureTime(
             getSplashResultStateFromArgs(args).recordTimes.recordStartAt
                 ?: ZonedDateTime.now(ZoneOffset.UTC).toString()
         )
@@ -39,11 +41,11 @@ data class MeasuringUiState(
 
     val recordTimes: RecordTimes get() = splashResultState.recordTimes
     val measuringTimeColor: MeasuringTimeColor
-        get() = splashResultState.timeColor.toMeasuringTimeColor(
-            recordTimes.recordingMode
-        )
+        get() =
+            splashResultState.timeColor.toMeasuringTimeColor(
+                recordTimes.recordingMode
+            )
     val daily: Daily? get() = splashResultState.daily
-
 }
 
 fun getSplashResultStateFromArgs(args: Bundle): SplashResultState =
@@ -58,7 +60,7 @@ fun getSplashResultStateFromArgs(args: Bundle): SplashResultState =
 
 data class MeasuringTimeColor(
     val backgroundColor: Long,
-    val isTextBlackColor: Boolean,
+    val isTextBlackColor: Boolean
 )
 
 data class MeasuringRecordTimes(
@@ -68,7 +70,7 @@ data class MeasuringRecordTimes(
     val savedTime: Long,
     val savedGoalTime: Long,
     val finishGoalTime: String,
-    val isTaskTargetTimeOn: Boolean,
+    val isTaskTargetTimeOn: Boolean
 )
 
 fun TimeColor.toMeasuringTimeColor(recordingMode: Int) = MeasuringTimeColor(
@@ -82,59 +84,67 @@ fun RecordTimes.toMeasuringRecordTimes(
     daily: Daily?
 ): MeasuringRecordTimes {
     val calculateSumTime = savedSumTime + measureTime
-    val calculateSavedSumTime = if (isSleepMode) {
-        calculateSumTime - calculateSumTime % 60
-    } else {
-        calculateSumTime
-    }
+    val calculateSavedSumTime =
+        if (isSleepMode) {
+            calculateSumTime - calculateSumTime % 60
+        } else {
+            calculateSumTime
+        }
 
-    val calculateTime = if (recordingMode == 1) {
-        savedTimerTime - measureTime
-    } else {
-        savedStopWatchTime + measureTime
-    }
-    val calculateSavedTime = if (isSleepMode) {
+    val calculateTime =
         if (recordingMode == 1) {
-            calculateTime - calculateTime % 60 + 60
+            savedTimerTime - measureTime
         } else {
-            calculateTime - calculateTime % 60
+            savedStopWatchTime + measureTime
         }
-    } else {
-        calculateTime
-    }
+    val calculateSavedTime =
+        if (isSleepMode) {
+            if (recordingMode == 1) {
+                calculateTime - calculateTime % 60 + 60
+            } else {
+                calculateTime - calculateTime % 60
+            }
+        } else {
+            calculateTime
+        }
 
-    val calculateGoalTime = currentTask?.let {
-        if (it.isTaskTargetTimeOn) {
-            it.taskTargetTime - (daily?.tasks?.get(it.taskName) ?: 0) - measureTime
+    val calculateGoalTime =
+        currentTask?.let {
+            if (it.isTaskTargetTimeOn) {
+                it.taskTargetTime - (daily?.tasks?.get(it.taskName) ?: 0) - measureTime
+            } else {
+                savedGoalTime - measureTime
+            }
+        } ?: (savedGoalTime - measureTime)
+    val calculateSavedGoalTime =
+        if (isSleepMode) {
+            calculateGoalTime - calculateGoalTime % 60
         } else {
-            savedGoalTime - measureTime
+            calculateGoalTime
         }
-    } ?: (savedGoalTime - measureTime)
-    val calculateSavedGoalTime = if (isSleepMode) {
-        calculateGoalTime - calculateGoalTime % 60
-    } else {
-        calculateGoalTime
-    }
 
     val finishGoalTime = addTimeToNow(calculateSavedGoalTime)
 
-    val outCircularDividend = if (recordingMode == 1) {
-        setTimerTime - calculateSavedTime
-    } else {
-        calculateSavedTime
-    }
-    val outCircularDivisor = if (recordingMode == 1) {
-        setTimerTime.toFloat()
-    } else {
-        3600f
-    }
+    val outCircularDividend =
+        if (recordingMode == 1) {
+            setTimerTime - calculateSavedTime
+        } else {
+            calculateSavedTime
+        }
+    val outCircularDivisor =
+        if (recordingMode == 1) {
+            setTimerTime.toFloat()
+        } else {
+            3600f
+        }
     val outCircularProgress = outCircularDividend / outCircularDivisor
 
-    val inCircularDivisor = if (currentTask?.isTaskTargetTimeOn == true) {
-        currentTask?.taskTargetTime?.toFloat() ?: 0f
-    } else {
-        setGoalTime.toFloat()
-    }
+    val inCircularDivisor =
+        if (currentTask?.isTaskTargetTimeOn == true) {
+            currentTask?.taskTargetTime?.toFloat() ?: 0f
+        } else {
+            setGoalTime.toFloat()
+        }
     val inCircularProgress = calculateSavedSumTime / inCircularDivisor
 
     return MeasuringRecordTimes(
@@ -146,6 +156,4 @@ fun RecordTimes.toMeasuringRecordTimes(
         finishGoalTime = finishGoalTime,
         isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false
     )
-
 }
-

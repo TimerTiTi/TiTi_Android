@@ -12,7 +12,6 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class TiTiApplication : Application() {
-
     override fun onCreate() {
         super.onCreate()
 
@@ -34,5 +33,4 @@ class TiTiApplication : Application() {
             notificationManager.createNotificationChannel(channel)
         }
     }
-
 }

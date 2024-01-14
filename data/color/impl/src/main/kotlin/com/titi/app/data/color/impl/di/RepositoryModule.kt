@@ -11,11 +11,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal interface RepositoryModule {
-
     @Binds
     @Singleton
-    fun provideColorRepository(
-        colorRepositoryImpl: ColorRepositoryImpl
-    ): ColorRepository
-
+    fun provideColorRepository(colorRepositoryImpl: ColorRepositoryImpl): ColorRepository
 }

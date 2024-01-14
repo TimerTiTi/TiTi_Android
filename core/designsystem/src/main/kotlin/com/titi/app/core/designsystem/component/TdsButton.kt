@@ -33,22 +33,24 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 fun TdsTextButton(
     modifier: Modifier = Modifier,
     text: String,
-    textStyle: TdsTextStyle = TdsTextStyle.normalTextStyle,
+    textStyle: TdsTextStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
     textColor: TdsColor,
     fontSize: TextUnit,
     onClick: () -> Unit,
     enabled: Boolean = true
 ) {
     Button(
-        modifier = modifier
+        modifier =
+        modifier
             .widthIn(min = 36.dp)
             .heightIn(min = 36.dp),
         onClick = onClick,
         enabled = enabled,
         shape = RectangleShape,
-        colors = ButtonDefaults.buttonColors(
+        colors =
+        ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
-            disabledContainerColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent
         ),
         contentPadding = PaddingValues(12.dp, 8.dp)
     ) {
@@ -59,29 +61,30 @@ fun TdsTextButton(
             fontSize = fontSize
         )
     }
-
 }
 
 @Composable
 fun TdsTextButton(
     modifier: Modifier = Modifier,
     text: String,
-    textStyle: TdsTextStyle = TdsTextStyle.normalTextStyle,
+    textStyle: TdsTextStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
     textColor: Color,
     fontSize: TextUnit,
     onClick: () -> Unit,
     enabled: Boolean = true
 ) {
     Button(
-        modifier = modifier
+        modifier =
+        modifier
             .widthIn(min = 36.dp)
             .heightIn(min = 36.dp),
         onClick = onClick,
         enabled = enabled,
         shape = RectangleShape,
-        colors = ButtonDefaults.buttonColors(
+        colors =
+        ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
-            disabledContainerColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent
         ),
         contentPadding = PaddingValues(12.dp, 8.dp)
     ) {
@@ -92,7 +95,6 @@ fun TdsTextButton(
             fontSize = fontSize
         )
     }
-
 }
 
 @Composable
@@ -105,7 +107,8 @@ fun TdsIconButton(
     content: @Composable () -> Unit
 ) {
     Box(
-        modifier = modifier
+        modifier =
+        modifier
             .size(size)
             .clip(CircleShape)
             .clickable(
@@ -113,7 +116,8 @@ fun TdsIconButton(
                 enabled = enabled,
                 role = Role.Button,
                 interactionSource = interactionSource,
-                indication = rememberRipple(
+                indication =
+                rememberRipple(
                     bounded = false,
                     radius = size / 2
                 )
@@ -133,7 +137,7 @@ private fun TdsButtonPreview() {
                 text = "ABC",
                 fontSize = 16.sp,
                 onClick = { },
-                textColor = TdsColor.textColor
+                textColor = TdsColor.TEXT
             )
         }
     }

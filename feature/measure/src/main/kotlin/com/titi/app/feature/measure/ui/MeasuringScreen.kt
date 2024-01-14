@@ -47,37 +47,38 @@ import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
 @Composable
-fun MeasuringScreen(
-    splashResultState: SplashResultState,
-    onFinish: (isFinish: Boolean) -> Unit,
-) {
-    val viewModel: MeasuringViewModel = mavericksViewModel(
-        argsFactory = {
-            splashResultState.asMavericksArgs()
-        }
-    )
+fun MeasuringScreen(splashResultState: SplashResultState, onFinish: (isFinish: Boolean) -> Unit) {
+    val viewModel: MeasuringViewModel =
+        mavericksViewModel(
+            argsFactory = {
+                splashResultState.asMavericksArgs()
+            }
+        )
 
     val uiState by viewModel.collectAsState()
     val context = LocalContext.current
     var showSetExactAlarmPermissionDialog by remember { mutableStateOf(false) }
 
-    val (alarmTitle, alarmFinishMessage, alarmFiveMinutesBeforeFinish) = if (splashResultState.recordTimes.recordingMode == 1) {
-        Triple(
-            stringResource(id = R.string.timer),
-            stringResource(id = R.string.timer_finish_alarm_message),
-            stringResource(id = R.string.timer_five_minutes_before_finish_alarm_message)
-        )
-    } else {
-        Triple(
-            stringResource(id = R.string.stopwatch),
-            stringResource(id = R.string.stopwatch_alarm_message),
-            null
-        )
-    }
+    val (alarmTitle, alarmFinishMessage, alarmFiveMinutesBeforeFinish) =
+        if (splashResultState.recordTimes.recordingMode == 1) {
+            Triple(
+                stringResource(id = R.string.timer),
+                stringResource(id = R.string.timer_finish_alarm_message),
+                stringResource(id = R.string.timer_five_minutes_before_finish_alarm_message)
+            )
+        } else {
+            Triple(
+                stringResource(id = R.string.stopwatch),
+                stringResource(id = R.string.stopwatch_alarm_message),
+                null
+            )
+        }
 
     val isFinishState by remember {
         derivedStateOf {
-            uiState.measuringRecordTimes.savedTime <= 0 && splashResultState.recordTimes.recordingMode == 1
+            val savedTime = uiState.measuringRecordTimes.savedTime
+            val recordingMode = splashResultState.recordTimes.recordingMode
+            savedTime <= 0 && recordingMode == 1
         }
     }
 
@@ -85,7 +86,7 @@ fun MeasuringScreen(
         viewModel.stopMeasuring(
             recordTimes = uiState.recordTimes,
             measureTime = uiState.measureTime,
-            endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+            endTime = ZonedDateTime.now(ZoneOffset.UTC).toString()
         )
     }
 
@@ -96,7 +97,8 @@ fun MeasuringScreen(
             title = alarmTitle,
             finishMessage = alarmFinishMessage,
             fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
-            measureTime = if (splashResultState.recordTimes.recordingMode == 1) {
+            measureTime =
+            if (splashResultState.recordTimes.recordingMode == 1) {
                 splashResultState.recordTimes.savedTimerTime
             } else {
                 splashResultState.recordTimes.savedStopWatchTime
@@ -130,17 +132,19 @@ fun MeasuringScreen(
 
     if (showSetExactAlarmPermissionDialog) {
         TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+            tdsDialogInfo =
+            TdsDialogInfo.Confirm(
                 title = stringResource(id = R.string.alarm_permission_title),
                 message = stringResource(id = R.string.alarm_permission_message),
                 positiveText = stringResource(id = R.string.Ok),
                 negativeText = stringResource(id = R.string.Cancel),
                 onPositive = {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        val intent = Intent(
-                            Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
-                            Uri.parse("package:" + context.packageName)
-                        )
+                        val intent =
+                            Intent(
+                                Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
+                                Uri.parse("package:" + context.packageName)
+                            )
                         intent.addCategory(Intent.CATEGORY_DEFAULT)
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         context.startActivity(intent)
@@ -168,12 +172,13 @@ fun MeasuringScreen(
 private fun MeasuringScreen(
     uiState: MeasuringUiState,
     onSleepClick: () -> Unit,
-    onFinishClick: () -> Unit,
+    onFinishClick: () -> Unit
 ) {
     val scrollState = rememberScrollState()
 
     Column(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxSize()
             .background(Color.Black)
             .padding(top = 16.dp)
@@ -181,14 +186,16 @@ private fun MeasuringScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TdsIconButton(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .padding(start = 16.dp)
                 .align(Alignment.Start),
             size = 32.dp,
-            onClick = onSleepClick,
+            onClick = onSleepClick
         ) {
             Icon(
-                painter = if (uiState.isSleepMode) {
+                painter =
+                if (uiState.isSleepMode) {
                     painterResource(id = R.drawable.sleep_icon)
                 } else {
                     painterResource(id = R.drawable.non_sleep_icon)
@@ -203,7 +210,7 @@ private fun MeasuringScreen(
         TdsText(
             modifier = Modifier.padding(vertical = 12.dp),
             text = uiState.recordTimes.currentTask?.taskName,
-            textStyle = TdsTextStyle.normalTextStyle,
+            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
             fontSize = 18.sp,
             color = Color.White
         )
@@ -214,9 +221,9 @@ private fun MeasuringScreen(
             TdsTimer(
                 outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
                 outCircularProgress = outCircularProgress,
-                inCircularLineTrackColor = TdsColor.whiteColor,
+                inCircularLineTrackColor = TdsColor.WHITE,
                 inCircularProgress = inCircularProgress,
-                fontColor = TdsColor.whiteColor,
+                fontColor = TdsColor.WHITE,
                 themeColor = Color(uiState.measuringTimeColor.backgroundColor),
                 recordingMode = uiState.recordTimes.recordingMode,
                 savedSumTime = savedSumTime,
@@ -236,7 +243,7 @@ private fun MeasuringScreen(
             Icon(
                 painter = painterResource(id = R.drawable.stop_record_icon),
                 contentDescription = "startRecord",
-                tint = TdsColor.redColor.getColor()
+                tint = TdsColor.RED.getColor()
             )
         }
 

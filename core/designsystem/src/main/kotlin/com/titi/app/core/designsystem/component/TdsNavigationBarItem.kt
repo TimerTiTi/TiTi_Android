@@ -52,21 +52,22 @@ fun RowScope.TdsNavigationBarItem(
 ) {
     val styledIcon = @Composable {
         val iconColor by colors.iconColor(selected = selected, enabled = enabled)
-       val clearSemantics = label != null && (alwaysShowLabel || selected)
+        val clearSemantics = label != null && (alwaysShowLabel || selected)
         Box(modifier = if (clearSemantics) Modifier.clearAndSetSemantics {} else Modifier) {
             CompositionLocalProvider(LocalContentColor provides iconColor, content = icon)
         }
     }
 
-    val styledLabel: @Composable (() -> Unit)? = label?.let {
-        @Composable {
-            val style =TdsTextStyle.normalTextStyle.getTextStyle(fontSize = 14.sp)
-            val textColor by colors.textColor(selected = selected, enabled = enabled)
-            CompositionLocalProvider(LocalContentColor provides textColor) {
-                ProvideTextStyle(style, content = label)
+    val styledLabel: @Composable (() -> Unit)? =
+        label?.let {
+            @Composable {
+                val style = TdsTextStyle.NORMAL_TEXT_STYLE.getTextStyle(fontSize = 14.sp)
+                val textColor by colors.textColor(selected = selected, enabled = enabled)
+                CompositionLocalProvider(LocalContentColor provides textColor) {
+                    ProvideTextStyle(style, content = label)
+                }
             }
         }
-    }
 
     var itemWidth by remember { mutableStateOf(0) }
 
@@ -78,7 +79,7 @@ fun RowScope.TdsNavigationBarItem(
                 enabled = enabled,
                 role = Role.Tab,
                 interactionSource = interactionSource,
-                indication = null,
+                indication = null
             )
             .weight(1f)
             .onSizeChanged {
@@ -88,7 +89,7 @@ fun RowScope.TdsNavigationBarItem(
     ) {
         val animationProgress: Float by animateFloatAsState(
             targetValue = if (selected) 1f else 0f,
-            animationSpec = tween(ItemAnimationDurationMillis)
+            animationSpec = tween(ITEM_ANIMTATION_DURATION_MILLIS)
         )
 
         NavigationBarItemBaselineLayout(
@@ -101,22 +102,20 @@ fun RowScope.TdsNavigationBarItem(
 }
 
 object NavigationBarItemDefaults {
-
     @Composable
     fun colors(
-        selectedIconColor: Color = TdsColor.textColor.getColor(),
-        selectedTextColor: Color = TdsColor.textColor.getColor(),
-        unselectedIconColor: Color = TdsColor.lightGrayColor.getColor(),
-        unselectedTextColor: Color = TdsColor.lightGrayColor.getColor(),
-    ): NavigationBarItemColors =NavigationBarItemColors(
+        selectedIconColor: Color = TdsColor.TEXT.getColor(),
+        selectedTextColor: Color = TdsColor.TEXT.getColor(),
+        unselectedIconColor: Color = TdsColor.LIGHT_GRAY.getColor(),
+        unselectedTextColor: Color = TdsColor.LIGHT_GRAY.getColor()
+    ): NavigationBarItemColors = NavigationBarItemColors(
         selectedIconColor = selectedIconColor,
         selectedTextColor = selectedTextColor,
         unselectedIconColor = unselectedIconColor,
         unselectedTextColor = unselectedTextColor,
         disabledIconColor = unselectedIconColor,
-        disabledTextColor = unselectedTextColor,
+        disabledTextColor = unselectedTextColor
     )
-
 }
 
 @Stable
@@ -126,32 +125,33 @@ class NavigationBarItemColors internal constructor(
     private val unselectedIconColor: Color,
     private val unselectedTextColor: Color,
     private val disabledIconColor: Color,
-    private val disabledTextColor: Color,
+    private val disabledTextColor: Color
 ) {
-
     @Composable
     internal fun iconColor(selected: Boolean, enabled: Boolean): State<Color> {
-        val targetValue = when {
-            !enabled -> disabledIconColor
-            selected -> selectedIconColor
-            else -> unselectedIconColor
-        }
+        val targetValue =
+            when {
+                !enabled -> disabledIconColor
+                selected -> selectedIconColor
+                else -> unselectedIconColor
+            }
         return animateColorAsState(
             targetValue = targetValue,
-            animationSpec = tween(ItemAnimationDurationMillis)
+            animationSpec = tween(ITEM_ANIMTATION_DURATION_MILLIS)
         )
     }
 
     @Composable
     internal fun textColor(selected: Boolean, enabled: Boolean): State<Color> {
-        val targetValue = when {
-            !enabled -> disabledTextColor
-            selected -> selectedTextColor
-            else -> unselectedTextColor
-        }
+        val targetValue =
+            when {
+                !enabled -> disabledTextColor
+                selected -> selectedTextColor
+                else -> unselectedTextColor
+            }
         return animateColorAsState(
             targetValue = targetValue,
-            animationSpec = tween(ItemAnimationDurationMillis)
+            animationSpec = tween(ITEM_ANIMTATION_DURATION_MILLIS)
         )
     }
 
@@ -186,29 +186,29 @@ private fun NavigationBarItemBaselineLayout(
     icon: @Composable () -> Unit,
     label: @Composable (() -> Unit)?,
     alwaysShowLabel: Boolean,
-    animationProgress: Float,
+    animationProgress: Float
 ) {
     Layout(
         {
-            Box(Modifier.layoutId(IconLayoutIdTag)) { icon() }
+            Box(Modifier.layoutId(ICON_LAYOUT_ID_TAG)) { icon() }
 
             if (label != null) {
                 Box(
                     Modifier
-                        .layoutId(LabelLayoutIdTag)
+                        .layoutId(LABEL_LAYOUT_ID_TAG)
                         .alpha(if (alwaysShowLabel) 1f else animationProgress)
-                        .padding(horizontal = NavigationBarItemHorizontalPadding / 2)
+                        .padding(horizontal = NAVIGATION_BAR_ITEM_HORIZONTAL_PADDING / 2)
                 ) { label() }
             }
         }
     ) { measurables, constraints ->
         val iconPlaceable =
-            measurables.first { it.layoutId == IconLayoutIdTag }.measure(constraints)
+            measurables.first { it.layoutId == ICON_LAYOUT_ID_TAG }.measure(constraints)
 
         val labelPlaceable =
             label?.let {
                 measurables
-                    .first { it.layoutId == LabelLayoutIdTag }
+                    .first { it.layoutId == LABEL_LAYOUT_ID_TAG }
                     .measure(
                         constraints.copy(minHeight = 0)
                     )
@@ -251,13 +251,13 @@ private fun MeasureScope.placeLabelAndIcon(
     iconPlaceable: Placeable,
     constraints: Constraints,
     alwaysShowLabel: Boolean,
-    animationProgress: Float,
+    animationProgress: Float
 ): MeasureResult {
     val height = constraints.maxHeight
 
-    val labelY = height - labelPlaceable.height - NavigationBarItemVerticalPadding.roundToPx()
+    val labelY = height - labelPlaceable.height - NAVIGATION_BAR_ITEM_VERTICAL_PADDING.roundToPx()
 
-    val selectedIconY = NavigationBarItemVerticalPadding.roundToPx()
+    val selectedIconY = NAVIGATION_BAR_ITEM_VERTICAL_PADDING.roundToPx()
     val unselectedIconY =
         if (alwaysShowLabel) selectedIconY else (height - iconPlaceable.height) / 2
 
@@ -278,18 +278,18 @@ private fun MeasureScope.placeLabelAndIcon(
     }
 }
 
-private const val IndicatorRippleLayoutIdTag: String = "indicatorRipple"
+private const val INDICATOR_RIPPLE_LAYOUT_ID_TAG: String = "indicatorRipple"
 
-private const val IndicatorLayoutIdTag: String = "indicator"
+private const val INDICATOR_LAYOUT_ID_TAG: String = "indicator"
 
-private const val IconLayoutIdTag: String = "icon"
+private const val ICON_LAYOUT_ID_TAG: String = "icon"
 
-private const val LabelLayoutIdTag: String = "label"
+private const val LABEL_LAYOUT_ID_TAG: String = "label"
 
-private val NavigationBarHeight: Dp = 80.dp
+private val NAVIGATION_BAR_HEIGHT: Dp = 80.dp
 
-private const val ItemAnimationDurationMillis: Int = 100
+private const val ITEM_ANIMTATION_DURATION_MILLIS: Int = 100
 
-internal val NavigationBarItemHorizontalPadding: Dp = 8.dp
+internal val NAVIGATION_BAR_ITEM_HORIZONTAL_PADDING: Dp = 8.dp
 
-internal val NavigationBarItemVerticalPadding: Dp = 16.dp
+internal val NAVIGATION_BAR_ITEM_VERTICAL_PADDING: Dp = 16.dp

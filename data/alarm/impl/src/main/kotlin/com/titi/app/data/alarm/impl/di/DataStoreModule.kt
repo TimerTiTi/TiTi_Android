@@ -12,11 +12,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DataStoreModule {
-
     @Singleton
     @Provides
-    fun provideAlarmDataStore(
-        @ApplicationContext context: Context
-    ) = AlarmDataStore(context)
-
+    fun provideAlarmDataStore(@ApplicationContext context: Context) = AlarmDataStore(context)
 }

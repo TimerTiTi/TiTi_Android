@@ -16,9 +16,8 @@ data class TimerUiState(
     val todayDate: String = getTodayDate(),
     val recordTimes: RecordTimes,
     val timeColor: TimeColor,
-    val daily: Daily?,
+    val daily: Daily?
 ) : MavericksState {
-
     constructor(args: Bundle) : this(
         recordTimes = getSplashResultStateFromArgs(args).recordTimes,
         timeColor = getSplashResultStateFromArgs(args).timeColor,
@@ -31,7 +30,6 @@ data class TimerUiState(
     val timerColor = timeColor.toUiModel()
     val timerRecordTimes = recordTimes.toUiModel(daily)
     val isEnableStartRecording: Boolean = isDailyAfter6AM && isSetTask
-
 }
 
 fun getSplashResultStateFromArgs(args: Bundle): SplashResultState =
@@ -46,7 +44,7 @@ fun getSplashResultStateFromArgs(args: Bundle): SplashResultState =
 
 data class TimerColor(
     val backgroundColor: Long,
-    val isTextColorBlack: Boolean,
+    val isTextColorBlack: Boolean
 )
 
 private fun TimeColor.toUiModel() = TimerColor(
@@ -61,21 +59,23 @@ data class TimerRecordTimes(
     val savedTime: Long,
     val savedGoalTime: Long,
     val finishGoalTime: String,
-    val isTaskTargetTimeOn: Boolean,
+    val isTaskTargetTimeOn: Boolean
 )
 
-private fun RecordTimes.toUiModel(daily: Daily?) : TimerRecordTimes {
-    val goalTime = currentTask?.let {
-        if (it.isTaskTargetTimeOn) {
-            it.taskTargetTime - (daily?.tasks?.get(it.taskName) ?: 0)
-        } else {
-            savedGoalTime
-        }
-    } ?: savedGoalTime
+private fun RecordTimes.toUiModel(daily: Daily?): TimerRecordTimes {
+    val goalTime =
+        currentTask?.let {
+            if (it.isTaskTargetTimeOn) {
+                it.taskTargetTime - (daily?.tasks?.get(it.taskName) ?: 0)
+            } else {
+                savedGoalTime
+            }
+        } ?: savedGoalTime
 
     return TimerRecordTimes(
         outCircularProgress = (setTimerTime - savedTimerTime) / setTimerTime.toFloat(),
-        inCircularProgress = currentTask?.let {
+        inCircularProgress =
+        currentTask?.let {
             if (it.isTaskTargetTimeOn) {
                 val taskTime = daily?.tasks?.get(it.taskName) ?: 0
                 taskTime / it.taskTargetTime.toFloat()

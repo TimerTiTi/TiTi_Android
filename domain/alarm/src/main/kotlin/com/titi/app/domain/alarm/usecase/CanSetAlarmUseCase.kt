@@ -6,7 +6,5 @@ import javax.inject.Inject
 class CanSetAlarmUseCase @Inject constructor(
     private val alarmRepository: AlarmRepository
 ) {
-
     operator fun invoke() = alarmRepository.canScheduleExactAlarms()
-
 }

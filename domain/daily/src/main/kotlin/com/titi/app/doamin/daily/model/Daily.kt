@@ -19,5 +19,5 @@ data class Daily(
 @Parcelize
 data class TaskHistory(
     val startDate: String,
-    val endDate: String,
+    val endDate: String
 ) : Parcelable

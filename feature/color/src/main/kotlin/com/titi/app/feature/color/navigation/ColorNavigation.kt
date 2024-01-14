@@ -22,13 +22,12 @@ fun NavController.navigateToColorGraph(recordingMode: Int) {
 private fun makeRoute(recordingMode: Int) =
     "$COLOR_GRAPH_SCREEN?$COLOR_GRAPH_MODE_ARG=$recordingMode"
 
-fun NavGraphBuilder.colorGraph(
-    onFinish: () -> Unit,
-) {
+fun NavGraphBuilder.colorGraph(onFinish: () -> Unit) {
     navigation(
         route = COLOR_GRAPH_ROUTE,
         startDestination = COLOR_ROUTE,
-        arguments = listOf(
+        arguments =
+        listOf(
             navArgument(COLOR_GRAPH_MODE_ARG) {
                 NavType.IntType
             }

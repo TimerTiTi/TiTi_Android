@@ -53,7 +53,7 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 fun ColorScreen(
     viewModel: ColorViewModel = mavericksViewModel(),
     recordingMode: Int,
-    onFinish: () -> Unit,
+    onFinish: () -> Unit
 ) {
     val controller = rememberColorPickerController()
 
@@ -63,7 +63,8 @@ fun ColorScreen(
     var selectedColor by remember { mutableLongStateOf(0L) }
     if (showDialog) {
         TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+            tdsDialogInfo =
+            TdsDialogInfo.Confirm(
                 title = stringResource(R.string.setting_background_text),
                 cancelable = false,
                 positiveText = stringResource(id = R.string.Ok),
@@ -74,12 +75,13 @@ fun ColorScreen(
                     )
                     onFinish()
                 },
-                negativeText = stringResource(id = R.string.Cancel),
+                negativeText = stringResource(id = R.string.Cancel)
             ),
             onShowDialog = { showDialog = it }
         ) {
             Box(
-                modifier = Modifier
+                modifier =
+                Modifier
                     .size(40.dp)
                     .clip(RoundedCornerShape(6.dp))
                     .background(Color(selectedColor))
@@ -89,57 +91,63 @@ fun ColorScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxSize()
             .background(Color.Black)
     ) {
         HsvColorPicker(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .size(450.dp)
                 .padding(
                     vertical = 10.dp,
                     horizontal = 24.dp
                 ),
-            controller = controller,
+            controller = controller
         )
 
         TdsText(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
             text = "#${controller.selectedColor.value.hexCode}",
-            textStyle = TdsTextStyle.semiBoldTextStyle,
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             fontSize = 18.sp,
-            color = TdsColor.whiteColor,
+            color = TdsColor.WHITE,
             textAlign = TextAlign.Center
         )
 
         Spacer(modifier = Modifier.height(10.dp))
 
         AlphaSlider(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .fillMaxWidth()
                 .padding(
                     vertical = 10.dp,
                     horizontal = 24.dp
                 )
                 .height(35.dp),
-            controller = controller,
+            controller = controller
         )
 
         BrightnessSlider(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .fillMaxWidth()
                 .padding(
                     vertical = 10.dp,
                     horizontal = 24.dp
                 )
                 .height(35.dp),
-            controller = controller,
+            controller = controller
         )
 
         Row(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .padding(
                     top = 10.dp,
                     start = 24.dp,
@@ -147,11 +155,12 @@ fun ColorScreen(
                 )
         ) {
             AlphaTile(
-                modifier = Modifier
+                modifier =
+                Modifier
                     .size(80.dp)
                     .clip(RoundedCornerShape(6.dp))
                     .border(2.dp, Color.LightGray),
-                controller = controller,
+                controller = controller
             )
 
             Spacer(modifier = Modifier.width(10.dp))
@@ -169,7 +178,8 @@ fun ColorScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         ColorButtons(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .fillMaxWidth()
                 .padding(
                     top = 10.dp,
@@ -189,9 +199,8 @@ fun ColorScreen(
                     color = controller.selectedColor.value.toArgb().toLong()
                 )
                 onFinish()
-            },
+            }
         )
-
     }
 }
 
@@ -199,12 +208,13 @@ fun ColorScreen(
 private fun ColorPresetContent(
     modifier: Modifier = Modifier,
     colors: List<Long>,
-    onShowDialog: (Long) -> Unit,
+    onShowDialog: (Long) -> Unit
 ) {
     Column(modifier = modifier) {
         repeat(2) { columnIndex ->
             Row(
-                modifier = Modifier
+                modifier =
+                Modifier
                     .fillMaxWidth()
                     .padding(bottom = 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -212,7 +222,8 @@ private fun ColorPresetContent(
                 repeat(6) { rowIndex ->
                     val index = columnIndex * 6 + rowIndex
                     Box(
-                        modifier = Modifier
+                        modifier =
+                        Modifier
                             .size(35.dp)
                             .clip(RoundedCornerShape(6.dp))
                             .border(2.dp, Color.LightGray)
@@ -220,13 +231,13 @@ private fun ColorPresetContent(
                     ) {
                         colors.getOrNull(index)?.let {
                             Box(
-                                modifier = Modifier
+                                modifier =
+                                Modifier
                                     .fillMaxSize()
                                     .background(Color(it))
                                     .clickable { onShowDialog(it) }
                             )
                         }
-
                     }
                 }
             }
@@ -239,7 +250,7 @@ private fun ColorButtons(
     modifier: Modifier = Modifier,
     color: Color,
     onClickCancel: () -> Unit,
-    onClickConfirm: () -> Unit,
+    onClickConfirm: () -> Unit
 ) {
     Row(modifier = modifier) {
         OutlinedButton(
@@ -250,9 +261,9 @@ private fun ColorButtons(
         ) {
             TdsText(
                 text = stringResource(id = R.string.Cancel),
-                textStyle = TdsTextStyle.normalTextStyle,
+                textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = 16.sp,
-                color = TdsColor.redColor
+                color = TdsColor.RED
             )
         }
 
@@ -266,7 +277,7 @@ private fun ColorButtons(
         ) {
             TdsText(
                 text = stringResource(id = R.string.Ok),
-                textStyle = TdsTextStyle.normalTextStyle,
+                textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = 16.sp,
                 color = color.complementary()
             )

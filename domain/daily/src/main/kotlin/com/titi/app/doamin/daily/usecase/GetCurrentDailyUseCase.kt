@@ -7,8 +7,5 @@ import javax.inject.Inject
 class GetCurrentDailyUseCase @Inject constructor(
     private val dailyRepository: DailyRepository
 ) {
-
-    suspend operator fun invoke() =
-        dailyRepository.getCurrentDaily()?.toDomain()
-
+    suspend operator fun invoke() = dailyRepository.getCurrentDaily()?.toDomain()
 }

@@ -7,5 +7,5 @@ internal data class ColorEntity(
     val timerBackgroundColor: Long,
     val isTimerBlackTextColor: Boolean,
     val stopwatchBackgroundColor: Long,
-    val isStopwatchBlackTextColor: Boolean,
+    val isStopwatchBlackTextColor: Boolean
 )

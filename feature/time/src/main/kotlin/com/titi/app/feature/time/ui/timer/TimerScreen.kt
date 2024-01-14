@@ -44,13 +44,14 @@ fun TimerScreen(
     isFinish: Boolean,
     onChangeFinishStateFalse: () -> Unit,
     onNavigateToColor: () -> Unit,
-    onNavigateToMeasure: (String) -> Unit,
+    onNavigateToMeasure: (String) -> Unit
 ) {
-    val viewModel: TimerViewModel = mavericksViewModel(
-        argsFactory = {
-            splashResultState.asMavericksArgs()
-        }
-    )
+    val viewModel: TimerViewModel =
+        mavericksViewModel(
+            argsFactory = {
+                splashResultState.asMavericksArgs()
+            }
+        )
 
     LaunchedEffect(Unit) {
         viewModel.updateRecordingMode()
@@ -74,7 +75,8 @@ fun TimerScreen(
     if (showSelectColorDialog) {
         TimeColorDialog(
             backgroundColor = Color(uiState.timerColor.backgroundColor),
-            textColor = if (uiState.timerColor.isTextColorBlack) {
+            textColor =
+            if (uiState.timerColor.isTextColorBlack) {
                 Color.Black
             } else {
                 Color.White
@@ -113,7 +115,8 @@ fun TimerScreen(
 
     if (showCheckTaskDailyDialog) {
         TimeCheckDailyDialog(
-            title = if (!uiState.isSetTask && !uiState.isDailyAfter6AM) {
+            title =
+            if (!uiState.isSetTask && !uiState.isDailyAfter6AM) {
                 stringResource(id = R.string.daily_task_check_title)
             } else if (!uiState.isSetTask) {
                 stringResource(id = R.string.task_check_title)
@@ -147,10 +150,11 @@ fun TimerScreen(
         uiState = uiState,
         isFinish = isFinish,
         backgroundColor = Color(uiState.timerColor.backgroundColor),
-        textColor = if (uiState.timerColor.isTextColorBlack) {
-            TdsColor.blackColor
+        textColor =
+        if (uiState.timerColor.isTextColorBlack) {
+            TdsColor.BLACK
         } else {
-            TdsColor.whiteColor
+            TdsColor.WHITE
         },
         onClickColor = {
             viewModel.savePrevTimerColor(uiState.timerColor)
@@ -164,28 +168,30 @@ fun TimerScreen(
         },
         onClickStartRecord = {
             if (uiState.isEnableStartRecording) {
-                val updateRecordTimes = with(uiState.recordTimes) {
-                    if (savedTimerTime <= 0) {
-                        copy(
-                            recording = true,
-                            recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
-                            savedTimerTime = setTimerTime
-                        )
-                    } else {
-                        copy(
-                            recording = true,
-                            recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString()
-                        )
+                val updateRecordTimes =
+                    with(uiState.recordTimes) {
+                        if (savedTimerTime <= 0) {
+                            copy(
+                                recording = true,
+                                recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                                savedTimerTime = setTimerTime
+                            )
+                        } else {
+                            copy(
+                                recording = true,
+                                recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString()
+                            )
+                        }
                     }
-                }
 
                 viewModel.updateMeasuringState(updateRecordTimes)
 
-                val splashResultStateString = SplashResultState(
-                    recordTimes = updateRecordTimes,
-                    timeColor = uiState.timeColor,
-                    daily = uiState.daily
-                ).toJson()
+                val splashResultStateString =
+                    SplashResultState(
+                        recordTimes = updateRecordTimes,
+                        timeColor = uiState.timeColor,
+                        daily = uiState.daily
+                    ).toJson()
 
                 onNavigateToMeasure(splashResultStateString)
             } else {
@@ -208,12 +214,13 @@ private fun TimerScreen(
     onClickTask: () -> Unit,
     onClickAddDaily: () -> Unit,
     onClickStartRecord: () -> Unit,
-    onClickSettingTimer: () -> Unit,
+    onClickSettingTimer: () -> Unit
 ) {
     val scrollState = rememberScrollState()
 
     Column(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxSize()
             .background(backgroundColor)
             .padding(top = 16.dp)
@@ -224,7 +231,7 @@ private fun TimerScreen(
             todayDate = uiState.todayDate,
             isDailyAfter6AM = uiState.isDailyAfter6AM,
             textColor = textColor,
-            onClickColor = onClickColor,
+            onClickColor = onClickColor
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -243,10 +250,11 @@ private fun TimerScreen(
                 isFinish = isFinish,
                 outCircularLineColor = textColor.getColor(),
                 outCircularProgress = outCircularProgress,
-                inCircularLineTrackColor = if (textColor == TdsColor.whiteColor) {
-                    TdsColor.blackColor
+                inCircularLineTrackColor =
+                if (textColor == TdsColor.WHITE) {
+                    TdsColor.BLACK
                 } else {
-                    TdsColor.whiteColor
+                    TdsColor.WHITE
                 },
                 inCircularProgress = inCircularProgress,
                 fontColor = textColor,

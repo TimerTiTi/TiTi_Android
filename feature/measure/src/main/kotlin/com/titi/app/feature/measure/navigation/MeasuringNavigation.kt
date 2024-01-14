@@ -30,18 +30,20 @@ fun NavGraphBuilder.measuringGraph(onFinish: (Boolean) -> Unit) {
     navigation(
         route = MEASURING_GRAPH_ROUTE,
         startDestination = MEASURING_ROUTE,
-        arguments = listOf(
+        arguments =
+        listOf(
             navArgument(MEASURING_GRAPH_SPLASH_ARG) {
                 NavType.StringType
             }
         )
     ) {
         composable(route = MEASURING_ROUTE) { backstackEntry ->
-            val splashResultStateFromBackStackEntry = backstackEntry
-                .arguments
-                ?.getString(MEASURING_GRAPH_SPLASH_ARG)
-                ?.fromJson<SplashResultState>()
-                ?: SplashResultState()
+            val splashResultStateFromBackStackEntry =
+                backstackEntry
+                    .arguments
+                    ?.getString(MEASURING_GRAPH_SPLASH_ARG)
+                    ?.fromJson<SplashResultState>()
+                    ?: SplashResultState()
 
             MeasuringScreen(
                 splashResultState = splashResultStateFromBackStackEntry,

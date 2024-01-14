@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
+import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsInputTimeTextField
@@ -56,7 +57,6 @@ import com.titi.app.core.designsystem.util.DraggableItem
 import com.titi.app.core.designsystem.util.dragContainer
 import com.titi.app.core.designsystem.util.rememberDragDropState
 import com.titi.app.core.util.getTimeToLong
-import com.titi.app.core.designsystem.R
 import com.titi.app.domain.task.model.Task
 import kotlinx.coroutines.android.awaitFrame
 
@@ -65,7 +65,7 @@ import kotlinx.coroutines.android.awaitFrame
 fun TaskBottomSheet(
     viewModel: TaskViewModel = mavericksViewModel(),
     themeColor: Color,
-    onCloseBottomSheet: () -> Unit,
+    onCloseBottomSheet: () -> Unit
 ) {
     val uiState by viewModel.collectAsState()
 
@@ -77,7 +77,8 @@ fun TaskBottomSheet(
     if (showAddTaskDialog) {
         taskName = ""
         TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+            tdsDialogInfo =
+            TdsDialogInfo.Confirm(
                 title = stringResource(id = R.string.add_task_title),
                 message = stringResource(id = R.string.add_task_message),
                 cancelable = false,
@@ -85,7 +86,7 @@ fun TaskBottomSheet(
                 onPositive = {
                     viewModel.addTask(taskName)
                 },
-                negativeText = stringResource(id = R.string.Cancel),
+                negativeText = stringResource(id = R.string.Cancel)
             ),
             onShowDialog = { showAddTaskDialog = it }
         ) {
@@ -99,7 +100,8 @@ fun TaskBottomSheet(
             }
 
             TdsOutlinedInputTextField(
-                modifier = Modifier
+                modifier =
+                Modifier
                     .fillMaxWidth()
                     .height(26.dp)
                     .padding(horizontal = 15.dp)
@@ -109,9 +111,9 @@ fun TaskBottomSheet(
                 placeHolder = {
                     TdsText(
                         text = stringResource(id = R.string.add_task_title),
-                        textStyle = TdsTextStyle.normalTextStyle,
+                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                         fontSize = 17.sp,
-                        color = TdsColor.dividerColor
+                        color = TdsColor.DIVIDER
                     )
                 },
                 onValueChange = {
@@ -125,7 +127,8 @@ fun TaskBottomSheet(
 
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ModalBottomSheet(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxHeight(0.9f)
             .fillMaxWidth()
             .navigationBarsPadding(),
@@ -133,9 +136,9 @@ fun TaskBottomSheet(
         sheetState = bottomSheetState,
         shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
         tonalElevation = 0.dp,
-        containerColor = TdsColor.backgroundColor.getColor(),
-        contentColor = TdsColor.backgroundColor.getColor(),
-        dragHandle = null,
+        containerColor = TdsColor.BACKGROUND.getColor(),
+        contentColor = TdsColor.BACKGROUND.getColor(),
+        dragHandle = null
     ) {
         TaskBottomSheet(
             uiState = uiState,
@@ -173,7 +176,6 @@ fun TaskBottomSheet(
     }
 }
 
-
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun TaskBottomSheet(
@@ -187,7 +189,7 @@ fun TaskBottomSheet(
     onClickTargetTimeSwitch: (Task) -> Unit,
     onModifyTaskName: (Pair<Task, String>) -> Unit,
     onDeleteTask: (Task) -> Unit,
-    onTaskMove: (Pair<Int, Int>) -> Unit,
+    onTaskMove: (Pair<Int, Int>) -> Unit
 ) {
     var hour by remember { mutableStateOf("") }
     var minutes by remember { mutableStateOf("") }
@@ -202,7 +204,7 @@ fun TaskBottomSheet(
             Task(
                 id = 0,
                 position = 0,
-                taskName = "",
+                taskName = ""
             )
         )
     }
@@ -216,7 +218,8 @@ fun TaskBottomSheet(
         seconds = ""
 
         TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+            tdsDialogInfo =
+            TdsDialogInfo.Confirm(
                 title = editTask.taskName,
                 message = stringResource(id = R.string.edit_task_target_time),
                 positiveText = stringResource(id = R.string.Ok),
@@ -226,7 +229,7 @@ fun TaskBottomSheet(
                         onClickTargetTimeEditButton(editTask.copy(taskTargetTime = targetTime))
                     }
                 },
-                negativeText = stringResource(id = R.string.Cancel),
+                negativeText = stringResource(id = R.string.Cancel)
             ),
             onShowDialog = {
                 showTaskTargetTimeDialog = it
@@ -251,17 +254,18 @@ fun TaskBottomSheet(
             keyboard?.show()
         }
 
-        val confirm = TdsDialogInfo.Confirm(
-            title = stringResource(id = R.string.modify_task_title),
-            message = stringResource(id = R.string.add_task_message),
-            positiveText = stringResource(id = R.string.Ok),
-            onPositive = {
-                if (editTaskName.text != editTask.taskName) {
-                    onModifyTaskName(Pair(editTask, editTaskName.text))
-                }
-            },
-            negativeText = stringResource(id = R.string.Cancel),
-        )
+        val confirm =
+            TdsDialogInfo.Confirm(
+                title = stringResource(id = R.string.modify_task_title),
+                message = stringResource(id = R.string.add_task_message),
+                positiveText = stringResource(id = R.string.Ok),
+                onPositive = {
+                    if (editTaskName.text != editTask.taskName) {
+                        onModifyTaskName(Pair(editTask, editTaskName.text))
+                    }
+                },
+                negativeText = stringResource(id = R.string.Cancel)
+            )
 
         TdsDialog(
             tdsDialogInfo = confirm,
@@ -270,7 +274,8 @@ fun TaskBottomSheet(
             }
         ) {
             TdsOutlinedInputTextField(
-                modifier = Modifier
+                modifier =
+                Modifier
                     .fillMaxWidth()
                     .height(26.dp)
                     .padding(horizontal = 15.dp)
@@ -286,13 +291,15 @@ fun TaskBottomSheet(
 
     Column(modifier = Modifier.fillMaxSize()) {
         Box(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp)
         ) {
             TdsTextButton(
                 modifier = Modifier.align(Alignment.CenterStart),
-                text = if (editMode) {
+                text =
+                if (editMode) {
                     stringResource(id = R.string.done)
                 } else {
                     stringResource(id = R.string.edit)
@@ -305,9 +312,9 @@ fun TaskBottomSheet(
             TdsText(
                 modifier = Modifier.align(Alignment.Center),
                 text = stringResource(id = R.string.tasks),
-                textStyle = TdsTextStyle.normalTextStyle,
+                textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = 20.sp,
-                color = TdsColor.textColor
+                color = TdsColor.TEXT
             )
 
             TdsIconButton(
@@ -323,37 +330,42 @@ fun TaskBottomSheet(
         }
 
         val listState = rememberLazyListState()
-        val dragDropState = rememberDragDropState(lazyListState = listState) { from, to ->
-            onTaskMove(Pair(from, to))
-        }
-        val modifier = if (editMode) {
-            Modifier
-                .dragContainer(dragDropState)
-                .fillMaxSize()
-                .padding(horizontal = 20.dp)
-        } else {
-            Modifier
-                .fillMaxSize()
-                .padding(horizontal = 20.dp)
-        }
+        val dragDropState =
+            rememberDragDropState(lazyListState = listState) { from, to ->
+                onTaskMove(Pair(from, to))
+            }
+        val modifier =
+            if (editMode) {
+                Modifier
+                    .dragContainer(dragDropState)
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp)
+            } else {
+                Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp)
+            }
 
         LazyColumn(
             modifier = modifier,
-            state = listState,
+            state = listState
         ) {
             itemsIndexed(uiState.tasks) { index, task ->
                 DraggableItem(dragDropState = dragDropState, index = index) { isDragging ->
                     TdsTaskListItem(
-                        modifier = Modifier
+                        modifier =
+                        Modifier
                             .fillMaxWidth()
                             .background(
-                                color = if (isDragging) {
-                                    TdsColor.dividerColor.getColor()
+                                color =
+                                if (isDragging) {
+                                    TdsColor.DIVIDER.getColor()
                                 } else {
-                                    TdsColor.backgroundColor.getColor()
+                                    TdsColor.BACKGROUND.getColor()
                                 }
                             ),
-                        tdsTask = TdsTask(
+                        tdsTask =
+                        TdsTask(
                             taskTargetTime = task.taskTargetTime,
                             isTaskTargetTimeOn = task.isTaskTargetTimeOn,
                             taskName = task.taskName
@@ -367,10 +379,11 @@ fun TaskBottomSheet(
                         },
                         onLongClickTask = {
                             editTask = task
-                            editTaskName = editTaskName.copy(
-                                text = task.taskName,
-                                selection = TextRange(task.taskName.length)
-                            )
+                            editTaskName =
+                                editTaskName.copy(
+                                    text = task.taskName,
+                                    selection = TextRange(task.taskName.length)
+                                )
                             showTaskNameModifyDialog = true
                         },
                         onEdit = {
@@ -393,7 +406,6 @@ fun TaskBottomSheet(
                         }
                     )
                 }
-
             }
         }
     }
@@ -404,8 +416,10 @@ fun TaskBottomSheet(
 private fun TaskBottomSheetPreview() {
     TiTiTheme {
         TaskBottomSheet(
-            uiState = TaskUiState(
-                tasks = listOf(
+            uiState =
+            TaskUiState(
+                tasks =
+                listOf(
                     Task(
                         id = 0,
                         position = 0,
@@ -432,10 +446,10 @@ private fun TaskBottomSheetPreview() {
                         isTaskTargetTimeOn = false,
                         savedSumTime = 0,
                         isDelete = false
-                    ),
+                    )
                 )
             ),
-            themeColor = TdsColor.blueColor.getColor(),
+            themeColor = TdsColor.BLUE.getColor(),
             editMode = true,
             onClickEditButton = { },
             onClickAddButton = { },
@@ -444,7 +458,7 @@ private fun TaskBottomSheetPreview() {
             onClickTargetTimeSwitch = {},
             onModifyTaskName = {},
             onDeleteTask = {},
-            onTaskMove = {},
+            onTaskMove = {}
         )
     }
 }

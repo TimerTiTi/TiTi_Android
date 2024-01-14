@@ -17,7 +17,6 @@ internal class AlarmRepositoryImpl(
     private val context: Context,
     private val alarmDataStore: AlarmDataStore
 ) : AlarmRepository {
-
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
     override suspend fun getAlarms(): AlarmsRepositoryModel? =
@@ -32,11 +31,12 @@ internal class AlarmRepositoryImpl(
 
     override suspend fun setExactAlarms(alarms: AlarmsRepositoryModel) {
         alarms.alarms.forEachIndexed { index, alarm ->
-            val pendingIntent = Intent(context, AlarmReceiver::class.java).run {
-                putExtra("ALARM_TITLE", alarm.title)
-                putExtra("ALARM_MESSAGE", alarm.message)
-                PendingIntent.getBroadcast(context, index, this, PendingIntent.FLAG_IMMUTABLE)
-            }
+            val pendingIntent =
+                Intent(context, AlarmReceiver::class.java).run {
+                    putExtra("ALARM_TITLE", alarm.title)
+                    putExtra("ALARM_MESSAGE", alarm.message)
+                    PendingIntent.getBroadcast(context, index, this, PendingIntent.FLAG_IMMUTABLE)
+                }
 
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
@@ -56,14 +56,15 @@ internal class AlarmRepositoryImpl(
         runCatching {
             alarmDataStore.getAlarms()?.let {
                 it.alarms.forEachIndexed { index, _ ->
-                    val pendingIntent = Intent(context, AlarmReceiver::class.java).run {
-                        PendingIntent.getBroadcast(
-                            context,
-                            index,
-                            this,
-                            PendingIntent.FLAG_IMMUTABLE
-                        )
-                    }
+                    val pendingIntent =
+                        Intent(context, AlarmReceiver::class.java).run {
+                            PendingIntent.getBroadcast(
+                                context,
+                                index,
+                                this,
+                                PendingIntent.FLAG_IMMUTABLE
+                            )
+                        }
 
                     alarmManager.cancel(pendingIntent)
                 }

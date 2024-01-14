@@ -16,12 +16,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 internal class PermissionReceiver : BroadcastReceiver() {
-
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     internal interface ReceiverEntryPoint {
         fun getCanSetAlarmUseCase(): CanSetAlarmUseCase
+
         fun getGetAlarmsUseCase(): GetAlarmsUseCase
+
         fun getSetAlarmsUseCase(): SetAlarmsUseCase
     }
 
@@ -30,10 +31,11 @@ internal class PermissionReceiver : BroadcastReceiver() {
     lateinit var setAlarmsUseCase: SetAlarmsUseCase
 
     override fun onReceive(context: Context, intent: Intent) {
-        val entryPoint = EntryPointAccessors.fromApplication(
-            context,
-            ReceiverEntryPoint::class.java
-        )
+        val entryPoint =
+            EntryPointAccessors.fromApplication(
+                context,
+                ReceiverEntryPoint::class.java
+            )
         canSetAlarmUseCase = entryPoint.getCanSetAlarmUseCase()
         getAlarmsUseCase = entryPoint.getGetAlarmsUseCase()
         setAlarmsUseCase = entryPoint.getSetAlarmsUseCase()
@@ -49,5 +51,4 @@ internal class PermissionReceiver : BroadcastReceiver() {
             }
         }
     }
-
 }

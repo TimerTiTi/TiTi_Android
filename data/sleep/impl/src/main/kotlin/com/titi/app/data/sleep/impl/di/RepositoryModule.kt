@@ -11,11 +11,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal interface RepositoryModule {
-
     @Binds
     @Singleton
-    fun provideSleepRepository(
-        sleepRepositoryImpl: SleepRepositoryImpl
-    ): SleepRepository
-
+    fun provideSleepRepository(sleepRepositoryImpl: SleepRepositoryImpl): SleepRepository
 }

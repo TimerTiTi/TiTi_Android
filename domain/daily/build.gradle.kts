@@ -10,6 +10,6 @@ android {
 dependencies {
     implementation(project(":data:daily:api"))
     implementation(project(":core:util"))
-    
+
     implementation(libs.threetenabp)
 }

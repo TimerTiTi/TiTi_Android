@@ -8,7 +8,6 @@ import javax.inject.Inject
 class AddTaskUseCase @Inject constructor(
     private val taskRepository: TaskRepository
 ) {
-
     suspend operator fun invoke(taskName: String) {
         val task = taskRepository.getTaskByTaskName(taskName)
         val maxPosition = taskRepository.getMaxPosition()
@@ -29,5 +28,4 @@ class AddTaskUseCase @Inject constructor(
             )
         }
     }
-
 }

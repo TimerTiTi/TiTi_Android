@@ -8,7 +8,5 @@ import javax.inject.Inject
 class GetTimeColorUseCase @Inject constructor(
     private val colorRepository: ColorRepository
 ) {
-
     suspend operator fun invoke() = colorRepository.getColor()?.toDomain() ?: TimeColor()
-
 }

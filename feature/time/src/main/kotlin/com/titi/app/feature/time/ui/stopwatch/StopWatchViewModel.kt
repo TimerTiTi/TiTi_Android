@@ -21,7 +21,9 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class StopWatchViewModel @AssistedInject constructor(
+class StopWatchViewModel
+@AssistedInject
+constructor(
     @Assisted initialState: StopWatchUiState,
     getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
@@ -31,9 +33,8 @@ class StopWatchViewModel @AssistedInject constructor(
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
     private val addDailyUseCase: AddDailyUseCase,
     private val updateMeasuringStateUseCase: UpdateMeasuringStateUseCase,
-    private val updateSavedStopWatchTimeUseCase: UpdateSavedStopWatchTimeUseCase,
+    private val updateSavedStopWatchTimeUseCase: UpdateSavedStopWatchTimeUseCase
 ) : MavericksViewModel<StopWatchUiState>(initialState) {
-
     private lateinit var prevStopWatchColor: StopWatchColor
 
     init {
@@ -87,10 +88,7 @@ class StopWatchViewModel @AssistedInject constructor(
         prevStopWatchColor = stopWatchColor
     }
 
-    fun updateSetGoalTime(
-        recordTimes: RecordTimes,
-        setGoalTime: Long
-    ) {
+    fun updateSetGoalTime(recordTimes: RecordTimes, setGoalTime: Long) {
         viewModelScope.launch {
             updateSetGoalTimeUseCase(
                 recordTimes,
@@ -123,6 +121,6 @@ class StopWatchViewModel @AssistedInject constructor(
     }
 
     companion object :
-        MavericksViewModelFactory<StopWatchViewModel, StopWatchUiState> by hiltMavericksViewModelFactory()
-
+        MavericksViewModelFactory<StopWatchViewModel, StopWatchUiState>
+        by hiltMavericksViewModelFactory()
 }

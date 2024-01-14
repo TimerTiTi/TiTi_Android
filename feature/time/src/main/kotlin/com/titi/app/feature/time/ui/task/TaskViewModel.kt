@@ -24,16 +24,17 @@ data class TaskUiState(
     val tasks: List<Task> = emptyList()
 ) : MavericksState
 
-class TaskViewModel @AssistedInject constructor(
+class TaskViewModel
+@AssistedInject
+constructor(
     @Assisted initialState: TaskUiState,
     getTasksUseCase: GetTasksUseCase,
     private val addTaskUseCase: AddTaskUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val updateCurrentTaskUseCase: UpdateCurrentTaskUseCase,
     private val updateTaskNameUseCase: UpdateTaskNameUseCase,
-    private val updateTasksPositionUseCase: UpdateTasksPositionUseCase,
+    private val updateTasksPositionUseCase: UpdateTasksPositionUseCase
 ) : MavericksViewModel<TaskUiState>(initialState) {
-
     init {
         getTasksUseCase()
             .catch {
@@ -89,5 +90,4 @@ class TaskViewModel @AssistedInject constructor(
 
     companion object :
         MavericksViewModelFactory<TaskViewModel, TaskUiState> by hiltMavericksViewModelFactory()
-
 }

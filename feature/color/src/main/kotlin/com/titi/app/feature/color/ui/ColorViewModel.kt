@@ -17,13 +17,14 @@ data class ColorUiState(
     val colors: List<Long> = emptyList()
 ) : MavericksState
 
-class ColorViewModel @AssistedInject constructor(
+class ColorViewModel
+@AssistedInject
+constructor(
     @Assisted initialState: ColorUiState,
     getBackgroundColorsUseCase: GetBackgroundColorsUseCase,
     private val addBackgroundColorsUseCase: AddBackgroundColorsUseCase,
     private val updateColorUseCase: UpdateColorUseCase
 ) : MavericksViewModel<ColorUiState>(initialState) {
-
     init {
         suspend {
             getBackgroundColorsUseCase()
@@ -32,19 +33,13 @@ class ColorViewModel @AssistedInject constructor(
         }
     }
 
-    fun addBackgroundColor(
-        colors: List<Long>,
-        color: Long
-    ) {
+    fun addBackgroundColor(colors: List<Long>, color: Long) {
         viewModelScope.launch {
             addBackgroundColorsUseCase(colors, color)
         }
     }
 
-    fun updateColor(
-        recordingMode: Int,
-        color: Long,
-    ) {
+    fun updateColor(recordingMode: Int, color: Long) {
         viewModelScope.launch {
             updateColorUseCase(
                 recordingMode = recordingMode,
@@ -60,5 +55,4 @@ class ColorViewModel @AssistedInject constructor(
 
     companion object :
         MavericksViewModelFactory<ColorViewModel, ColorUiState> by hiltMavericksViewModelFactory()
-
 }

@@ -9,7 +9,6 @@ import javax.inject.Inject
 class UpdateRecordingModeUseCase @Inject constructor(
     private val recordTimesRepository: RecordTimesRepository
 ) {
-
     suspend operator fun invoke(recordingMode: Int) {
         val recordTimes = recordTimesRepository.getRecordTimes()?.toDomainModel() ?: RecordTimes()
         if (recordTimes.recordingMode != recordingMode) {
@@ -20,5 +19,4 @@ class UpdateRecordingModeUseCase @Inject constructor(
             )
         }
     }
-
 }

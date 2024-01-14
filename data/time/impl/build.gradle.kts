@@ -4,7 +4,6 @@ plugins {
 
 android {
     namespace = "com.titi.app.data.time.impl"
-
 }
 
 dependencies {

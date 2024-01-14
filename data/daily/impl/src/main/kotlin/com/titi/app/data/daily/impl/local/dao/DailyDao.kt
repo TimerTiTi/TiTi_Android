@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal interface DailyDao {
-
     @Query("SELECT * FROM dailies  ORDER BY id DESC LIMIT 1")
     suspend fun getCurrentDaily(): DailyEntity?
 
@@ -17,5 +16,4 @@ internal interface DailyDao {
 
     @Upsert
     suspend fun upsert(dailyEntity: DailyEntity)
-
 }

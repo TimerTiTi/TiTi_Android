@@ -15,7 +15,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 internal class AlarmReceiver : BroadcastReceiver() {
-
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     internal interface AlarmReceiverEntryPoint {
@@ -28,24 +27,25 @@ internal class AlarmReceiver : BroadcastReceiver() {
         val title = intent.getStringExtra("ALARM_TITLE") ?: return
         val message = intent.getStringExtra("ALARM_MESSAGE")
         val channelId = "titiChannelId"
-        val entryPoint = EntryPointAccessors.fromApplication(
-            context,
-            AlarmReceiverEntryPoint::class.java
-        )
+        val entryPoint =
+            EntryPointAccessors.fromApplication(
+                context,
+                AlarmReceiverEntryPoint::class.java
+            )
         alarmDataStore = entryPoint.getAlarmDataStore()
 
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_stat_name)
-            .setContentTitle(title)
-            .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+        val builder =
+            NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(R.drawable.ic_stat_name)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
         notificationManager.notify(0, builder.build())
 
         goAsync(CoroutineScope(Dispatchers.IO)) {
             alarmDataStore.removeAlarms()
         }
     }
-
 }

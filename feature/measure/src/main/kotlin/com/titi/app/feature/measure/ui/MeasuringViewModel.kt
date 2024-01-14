@@ -10,11 +10,11 @@ import com.titi.app.domain.alarm.usecase.CanSetAlarmUseCase
 import com.titi.app.domain.alarm.usecase.CancelAlarmsUseCase
 import com.titi.app.domain.alarm.usecase.SetStopWatchAlarmUseCase
 import com.titi.app.domain.alarm.usecase.SetTimerAlarmUseCase
-import com.titi.domain.sleep.GetSleepModeFlowUseCase
-import com.titi.domain.sleep.SetSleepModeUseCase
 import com.titi.app.domain.task.usecase.AddMeasureTimeAtTaskUseCase
 import com.titi.app.domain.time.model.RecordTimes
 import com.titi.app.domain.time.usecase.AddMeasureTimeAtRecordTimesUseCase
+import com.titi.domain.sleep.GetSleepModeFlowUseCase
+import com.titi.domain.sleep.SetSleepModeUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -25,7 +25,9 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
-class MeasuringViewModel @AssistedInject constructor(
+class MeasuringViewModel
+@AssistedInject
+constructor(
     @Assisted initialState: MeasuringUiState,
     private val addMeasureTimeAtDailyUseCase: AddMeasureTimeAtDailyUseCase,
     private val addMeasureTimeAtRecordTimesUseCase: AddMeasureTimeAtRecordTimesUseCase,
@@ -37,7 +39,6 @@ class MeasuringViewModel @AssistedInject constructor(
     private val setStopWatchAlarmUseCase: SetStopWatchAlarmUseCase,
     private val cancelAlarmsUseCase: CancelAlarmsUseCase
 ) : MavericksViewModel<MeasuringUiState>(initialState) {
-
     fun canSetAlarm() = canSetAlarmUseCase()
 
     fun start() {
@@ -45,10 +46,11 @@ class MeasuringViewModel @AssistedInject constructor(
             Log.e("MeasuringViewModel", it.message.toString())
         }.setOnEach {
             copy(
-                measuringRecordTimes = recordTimes.toMeasuringRecordTimes(
+                measuringRecordTimes =
+                recordTimes.toMeasuringRecordTimes(
                     isSleepMode = it,
                     measureTime = measureTime,
-                    daily = daily,
+                    daily = daily
                 ),
                 isSleepMode = it
             )
@@ -59,7 +61,8 @@ class MeasuringViewModel @AssistedInject constructor(
                 delay(1000)
                 setState {
                     copy(
-                        measuringRecordTimes = recordTimes.toMeasuringRecordTimes(
+                        measuringRecordTimes =
+                        recordTimes.toMeasuringRecordTimes(
                             isSleepMode = isSleepMode,
                             daily = daily,
                             measureTime = measureTime + 1
@@ -101,11 +104,7 @@ class MeasuringViewModel @AssistedInject constructor(
         }
     }
 
-    fun stopMeasuring(
-        recordTimes: RecordTimes,
-        measureTime: Long,
-        endTime: String
-    ) {
+    fun stopMeasuring(recordTimes: RecordTimes, measureTime: Long, endTime: String) {
         viewModelScope.launch {
             val taskName = recordTimes.currentTask?.taskName
             val startTime =
@@ -146,6 +145,6 @@ class MeasuringViewModel @AssistedInject constructor(
     }
 
     companion object :
-        MavericksViewModelFactory<MeasuringViewModel, MeasuringUiState> by hiltMavericksViewModelFactory()
-
+        MavericksViewModelFactory<MeasuringViewModel, MeasuringUiState>
+        by hiltMavericksViewModelFactory()
 }

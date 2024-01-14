@@ -14,7 +14,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DataBaseModule {
-
     @Singleton
     @Provides
     fun provideDailyDataBase(@ApplicationContext context: Context): DailyDataBase = databaseBuilder(
@@ -25,7 +24,5 @@ internal object DataBaseModule {
 
     @Singleton
     @Provides
-    fun provideDailyDao(dailyDataBase: DailyDataBase): DailyDao =
-        dailyDataBase.getDailyDao()
-
+    fun provideDailyDao(dailyDataBase: DailyDataBase): DailyDao = dailyDataBase.getDailyDao()
 }

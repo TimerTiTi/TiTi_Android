@@ -1,7 +1,6 @@
 package com.titi.app.core.designsystem.model
 
 sealed interface TdsDialogInfo {
-
     val title: String
     val message: String?
     val cancelable: Boolean
@@ -26,5 +25,4 @@ sealed interface TdsDialogInfo {
         val confirmText: String,
         val onConfirm: (() -> Unit)? = null
     ) : TdsDialogInfo
-
 }

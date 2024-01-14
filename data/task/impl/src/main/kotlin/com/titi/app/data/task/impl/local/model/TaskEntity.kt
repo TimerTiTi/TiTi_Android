@@ -10,11 +10,11 @@ import androidx.room.PrimaryKey
 )
 internal data class TaskEntity(
     @PrimaryKey(autoGenerate = true)
-    val id : Long,
+    val id: Long,
     val position: Int,
     val taskName: String,
     val taskTargetTime: Long,
     val isTaskTargetTimeOn: Boolean,
     val savedSumTime: Long,
-    val isDelete: Boolean,
+    val isDelete: Boolean
 )

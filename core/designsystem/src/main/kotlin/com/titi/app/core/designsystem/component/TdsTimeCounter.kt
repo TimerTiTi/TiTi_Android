@@ -19,7 +19,7 @@ fun TdsTimeCounter(
     tdsTime: TdsTime,
     color: Color,
     textStyle: TdsTextStyle,
-    fontSize: TextUnit,
+    fontSize: TextUnit
 ) {
     Row(
         modifier = modifier,
@@ -66,13 +66,14 @@ fun TdsTimeCounter(
 private fun TdsTimeCounterPreview() {
     TiTiTheme {
         TdsTimeCounter(
-            tdsTime = TdsTime(
+            tdsTime =
+            TdsTime(
                 hour = 20,
                 minutes = 20,
-                seconds = 20,
+                seconds = 20
             ),
-            color = TdsColor.textColor.getColor(),
-            textStyle = TdsTextStyle.blackTextStyle,
+            color = TdsColor.TEXT.getColor(),
+            textStyle = TdsTextStyle.BLACK_TEXT_STYLE,
             fontSize = 40.sp
         )
     }

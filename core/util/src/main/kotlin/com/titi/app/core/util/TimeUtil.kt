@@ -16,11 +16,7 @@ fun addTimeToNow(time: Long): String {
     return now.plus(interval).format(DateTimeFormatter.ofPattern("hh.mm a"))
 }
 
-fun getTimeToLong(
-    hour: String,
-    minutes: String,
-    seconds: String,
-): Long {
+fun getTimeToLong(hour: String, minutes: String, seconds: String): Long {
     val hourLong = hour.toLongOrNull() ?: 0
     val minutesLong = minutes.toLongOrNull() ?: 0
     val secondsLong = seconds.toLongOrNull() ?: 0
@@ -37,7 +33,8 @@ fun isAfterSixAM(dateTime: String?): Boolean {
         if (inputDateTime.dayOfMonth == currentDateTime.dayOfMonth) {
             true
         } else {
-            currentDateTime.hour <= 6 && inputDateTime.plusDays(1).dayOfMonth == currentDateTime.dayOfMonth
+            val plusDays = inputDateTime.plusDays(1).dayOfMonth
+            currentDateTime.hour <= 6 && plusDays == currentDateTime.dayOfMonth
         }
     }
 }
@@ -58,12 +55,13 @@ fun addTimeLine(
     val updateTimeLine = timeLine.toMutableList()
 
     while (current.isBefore(endTime)) {
-        val diffSeconds = if (current.hour == endTime.hour) {
-            Duration.between(current, endTime).seconds
-        } else {
-            val nextTime = current.plusHours(1).withMinute(0).withSecond(0)
-            Duration.between(current, nextTime).seconds
-        }
+        val diffSeconds =
+            if (current.hour == endTime.hour) {
+                Duration.between(current, endTime).seconds
+            } else {
+                val nextTime = current.plusHours(1).withMinute(0).withSecond(0)
+                Duration.between(current, nextTime).seconds
+            }
 
         updateTimeLine[current.hour] += diffSeconds
         current = current.plusHours(1).withMinute(0).withSecond(0)

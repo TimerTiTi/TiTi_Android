@@ -30,25 +30,27 @@ fun TdsOutlinedInputTextField(
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    placeHolder: (@Composable () -> Unit)? = null,
+    placeHolder: (@Composable () -> Unit)? = null
 ) {
     BasicTextField(
         modifier = modifier,
         value = text,
         onValueChange = onValueChange,
-        textStyle = TdsTextStyle.normalTextStyle.getTextStyle(fontSize = fontSize)
+        textStyle =
+        TdsTextStyle.NORMAL_TEXT_STYLE.getTextStyle(fontSize = fontSize)
             .copy(textAlign = TextAlign.Center),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions
     ) { innerTextField ->
         Box(
-            modifier = modifier
+            modifier =
+            modifier
                 .border(
                     width = 1.dp,
-                    color = TdsColor.dividerColor.getColor(),
+                    color = TdsColor.DIVIDER.getColor(),
                     shape = RoundedCornerShape(4.dp)
                 )
-                .background(TdsColor.backgroundColor.getColor()),
+                .background(TdsColor.BACKGROUND.getColor()),
             contentAlignment = Alignment.Center
         ) {
             innerTextField()
@@ -67,25 +69,27 @@ fun TdsOutlinedInputTextField(
     onValueChange: (TextFieldValue) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    placeHolder: (@Composable () -> Unit)? = null,
+    placeHolder: (@Composable () -> Unit)? = null
 ) {
     BasicTextField(
         modifier = modifier,
         value = text,
         onValueChange = onValueChange,
-        textStyle = TdsTextStyle.normalTextStyle.getTextStyle(fontSize = fontSize)
+        textStyle =
+        TdsTextStyle.NORMAL_TEXT_STYLE.getTextStyle(fontSize = fontSize)
             .copy(textAlign = TextAlign.Center),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions
     ) { innerTextField ->
         Box(
-            modifier = modifier
+            modifier =
+            modifier
                 .border(
                     width = 1.dp,
-                    color = TdsColor.dividerColor.getColor(),
+                    color = TdsColor.DIVIDER.getColor(),
                     shape = RoundedCornerShape(4.dp)
                 )
-                .background(TdsColor.backgroundColor.getColor()),
+                .background(TdsColor.BACKGROUND.getColor()),
             contentAlignment = Alignment.Center
         ) {
             innerTextField()
@@ -101,7 +105,8 @@ fun TdsOutlinedInputTextField(
 private fun TdsInputTextFieldPreview() {
     TiTiTheme {
         TdsOutlinedInputTextField(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .width(60.dp)
                 .height(40.dp),
             text = "ABC",

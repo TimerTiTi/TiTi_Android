@@ -6,11 +6,7 @@ import javax.inject.Inject
 class AddMeasureTimeAtTaskUseCase @Inject constructor(
     private val taskRepository: TaskRepository
 ) {
-
-    suspend operator fun invoke(
-        taskName: String,
-        measureTime: Long,
-    ) {
+    suspend operator fun invoke(taskName: String, measureTime: Long) {
         val task = taskRepository.getTaskByTaskName(taskName)
         task?.let { safeTask ->
             taskRepository.upsertTask(
@@ -20,5 +16,4 @@ class AddMeasureTimeAtTaskUseCase @Inject constructor(
             )
         }
     }
-
 }

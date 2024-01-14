@@ -9,7 +9,7 @@ internal data class AlarmsEntity(
 
 @JsonClass(generateAdapter = true)
 internal data class AlarmEntity(
-    val title : String,
+    val title: String,
     val message: String,
-    val finishTime: String,
+    val finishTime: String
 )

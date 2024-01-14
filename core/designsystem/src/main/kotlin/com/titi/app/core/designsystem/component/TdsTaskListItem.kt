@@ -41,12 +41,13 @@ fun TdsTaskListItem(
     onLongClickTask: () -> Unit,
     onEdit: () -> Unit,
     onTargetTimeOn: (Boolean) -> Unit,
-    onDelete: () -> Unit,
+    onDelete: () -> Unit
 ) {
     Column(modifier = modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Row(
-                modifier = Modifier
+                modifier =
+                Modifier
                     .weight(1f)
                     .combinedClickable(
                         onClick = onClickTask,
@@ -62,7 +63,7 @@ fun TdsTaskListItem(
                         Icon(
                             painter = painterResource(id = R.drawable.cancel_icon),
                             contentDescription = "cancel",
-                            tint = TdsColor.redColor.getColor()
+                            tint = TdsColor.RED.getColor()
                         )
                     }
                 }
@@ -70,9 +71,9 @@ fun TdsTaskListItem(
                 Column {
                     TdsText(
                         text = tdsTask.taskName,
-                        textStyle = TdsTextStyle.normalTextStyle,
+                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                         fontSize = 20.sp,
-                        color = TdsColor.textColor,
+                        color = TdsColor.TEXT,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -80,13 +81,14 @@ fun TdsTaskListItem(
                     AnimatedVisibility(visible = tdsTask.isTaskTargetTimeOn) {
                         Row(modifier = Modifier.padding(top = 4.dp)) {
                             TdsText(
-                                text = stringResource(
+                                text =
+                                stringResource(
                                     R.string.task_set_goal_time,
                                     tdsTask.taskTargetTime.getTimeString()
                                 ),
-                                textStyle = TdsTextStyle.normalTextStyle,
+                                textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                                 fontSize = 14.sp,
-                                color = TdsColor.lightGrayColor
+                                color = TdsColor.LIGHT_GRAY
                             )
 
                             Spacer(modifier = Modifier.width(8.dp))
@@ -94,7 +96,7 @@ fun TdsTaskListItem(
                             TdsText(
                                 modifier = Modifier.clickable { onEdit() },
                                 text = stringResource(R.string.edit),
-                                textStyle = TdsTextStyle.normalTextStyle,
+                                textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                                 fontSize = 14.sp,
                                 color = themeColor
                             )
@@ -107,13 +109,14 @@ fun TdsTaskListItem(
                 Switch(
                     checked = tdsTask.isTaskTargetTimeOn,
                     onCheckedChange = onTargetTimeOn,
-                    colors = SwitchDefaults.colors(
+                    colors =
+                    SwitchDefaults.colors(
                         checkedTrackColor = themeColor,
                         checkedBorderColor = Color.Transparent,
                         checkedThumbColor = Color.White,
-                        uncheckedTrackColor = TdsColor.dividerColor.getColor(),
+                        uncheckedTrackColor = TdsColor.DIVIDER.getColor(),
                         uncheckedBorderColor = Color.Transparent,
-                        uncheckedThumbColor = Color.White,
+                        uncheckedThumbColor = Color.White
                     )
                 )
             }
@@ -123,7 +126,7 @@ fun TdsTaskListItem(
                     modifier = Modifier.padding(start = 12.dp),
                     painter = painterResource(id = R.drawable.menu_icon),
                     contentDescription = "menu",
-                    tint = TdsColor.lightGrayColor.getColor()
+                    tint = TdsColor.LIGHT_GRAY.getColor()
                 )
             }
         }
@@ -137,21 +140,23 @@ fun TdsTaskListItem(
 private fun TdsTaskListItemPreview() {
     TiTiTheme {
         TdsTaskListItem(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
-            tdsTask = TdsTask(
+            tdsTask =
+            TdsTask(
                 taskTargetTime = 12346,
                 isTaskTargetTimeOn = false,
                 taskName = "English"
             ),
             editMode = true,
-            themeColor = TdsColor.blueColor.getColor(),
+            themeColor = TdsColor.BLUE.getColor(),
             onClickTask = {},
             onLongClickTask = {},
             onEdit = {},
             onTargetTimeOn = {},
-            onDelete = {},
+            onDelete = {}
         )
     }
 }

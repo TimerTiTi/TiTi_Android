@@ -41,13 +41,14 @@ import org.threeten.bp.ZonedDateTime
 fun StopWatchScreen(
     splashResultState: SplashResultState,
     onNavigateToColor: () -> Unit,
-    onNavigateToMeasure : (String) -> Unit,
+    onNavigateToMeasure: (String) -> Unit
 ) {
-    val viewModel: StopWatchViewModel = mavericksViewModel(
-        argsFactory = {
-            splashResultState.asMavericksArgs()
-        }
-    )
+    val viewModel: StopWatchViewModel =
+        mavericksViewModel(
+            argsFactory = {
+                splashResultState.asMavericksArgs()
+            }
+        )
 
     LaunchedEffect(Unit) {
         viewModel.updateRecordingMode()
@@ -70,7 +71,8 @@ fun StopWatchScreen(
     if (showSelectColorDialog) {
         TimeColorDialog(
             backgroundColor = Color(uiState.stopWatchColor.backgroundColor),
-            textColor = if (uiState.stopWatchColor.isTextColorBlack) {
+            textColor =
+            if (uiState.stopWatchColor.isTextColorBlack) {
                 Color.Black
             } else {
                 Color.White
@@ -108,7 +110,8 @@ fun StopWatchScreen(
 
     if (showCheckTaskDailyDialog) {
         TimeCheckDailyDialog(
-            title = if (!uiState.isSetTask && !uiState.isDailyAfter6AM) {
+            title =
+            if (!uiState.isSetTask && !uiState.isDailyAfter6AM) {
                 stringResource(id = R.string.daily_task_check_title)
             } else if (!uiState.isSetTask) {
                 stringResource(id = R.string.task_check_title)
@@ -124,10 +127,11 @@ fun StopWatchScreen(
     StopWatchScreen(
         uiState = uiState,
         backgroundColor = Color(uiState.stopWatchColor.backgroundColor),
-        textColor = if (uiState.stopWatchColor.isTextColorBlack) {
-            TdsColor.blackColor
+        textColor =
+        if (uiState.stopWatchColor.isTextColorBlack) {
+            TdsColor.BLACK
         } else {
-            TdsColor.whiteColor
+            TdsColor.WHITE
         },
         onClickColor = {
             viewModel.savePrevTimerColor(uiState.stopWatchColor)
@@ -141,18 +145,20 @@ fun StopWatchScreen(
         },
         onClickStartRecord = {
             if (uiState.isEnableStartRecording) {
-                val updateRecordTimes = uiState.recordTimes.copy(
-                    recording = true,
-                    recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString()
-                )
+                val updateRecordTimes =
+                    uiState.recordTimes.copy(
+                        recording = true,
+                        recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString()
+                    )
 
                 viewModel.updateMeasuringState(updateRecordTimes)
 
-                val splashResultStateString = SplashResultState(
-                    recordTimes = updateRecordTimes,
-                    timeColor = uiState.timeColor,
-                    daily = uiState.daily
-                ).toJson()
+                val splashResultStateString =
+                    SplashResultState(
+                        recordTimes = updateRecordTimes,
+                        timeColor = uiState.timeColor,
+                        daily = uiState.daily
+                    ).toJson()
 
                 onNavigateToMeasure(splashResultStateString)
             } else {
@@ -163,7 +169,6 @@ fun StopWatchScreen(
             viewModel.updateSavedStopWatchTime(uiState.recordTimes)
         }
     )
-
 }
 
 @Composable
@@ -175,12 +180,13 @@ private fun StopWatchScreen(
     onClickTask: () -> Unit,
     onClickAddDaily: () -> Unit,
     onClickStartRecord: () -> Unit,
-    onClickResetStopWatch: () -> Unit,
+    onClickResetStopWatch: () -> Unit
 ) {
     val scrollState = rememberScrollState()
 
     Column(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxSize()
             .background(backgroundColor)
             .padding(top = 16.dp)
@@ -191,7 +197,7 @@ private fun StopWatchScreen(
             todayDate = uiState.todayDate,
             isDailyAfter6AM = uiState.isDailyAfter6AM,
             textColor = textColor,
-            onClickColor = onClickColor,
+            onClickColor = onClickColor
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -209,10 +215,11 @@ private fun StopWatchScreen(
             TdsTimer(
                 outCircularLineColor = textColor.getColor(),
                 outCircularProgress = outCircularProgress,
-                inCircularLineTrackColor = if (textColor == TdsColor.whiteColor) {
-                    TdsColor.blackColor
+                inCircularLineTrackColor =
+                if (textColor == TdsColor.WHITE) {
+                    TdsColor.BLACK
                 } else {
-                    TdsColor.whiteColor
+                    TdsColor.WHITE
                 },
                 inCircularProgress = inCircularProgress,
                 fontColor = textColor,

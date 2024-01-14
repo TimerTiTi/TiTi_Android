@@ -8,9 +8,7 @@ import javax.inject.Inject
 class SetAlarmsUseCase @Inject constructor(
     private val alarmRepository: AlarmRepository
 ) {
-
     suspend operator fun invoke(alarms: Alarms) {
         alarmRepository.setExactAlarms(alarms.toRepositoryModel())
     }
-
 }

@@ -35,13 +35,16 @@ fun TiTiApp(
     splashResultState: SplashResultState,
     windowSizeClass: WindowSizeClass,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
-    appState: TiTiAppState = rememberNiaAppState(
-        windowSizeClass = windowSizeClass,
-        getTimeColorFlowUseCase = getTimeColorFlowUseCase
-    )
+    appState: TiTiAppState =
+        rememberNiaAppState(
+            windowSizeClass = windowSizeClass,
+            getTimeColorFlowUseCase = getTimeColorFlowUseCase
+        )
 ) {
     val requestPermissionLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
             Log.e("MainActivity", isGranted.toString())
         }
 
@@ -65,13 +68,14 @@ fun TiTiApp(
                     bottomNavigationColor = bottomNavigationColor,
                     destinations = appState.topLevelDestinations,
                     onNavigateToDestination = appState::navigateToTopLevelDestination,
-                    currentDestination = appState.currentDestination,
+                    currentDestination = appState.currentDestination
                 )
             }
         }
     ) {
         TiTiNavHost(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .fillMaxSize()
                 .padding(it),
             appState = appState,
@@ -85,7 +89,7 @@ private fun TiTiBottomBar(
     bottomNavigationColor: Long,
     destinations: List<TopLevelDestination>,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
-    currentDestination: NavDestination?,
+    currentDestination: NavDestination?
 ) {
     NavigationBar(
         containerColor = Color(bottomNavigationColor),
@@ -99,10 +103,10 @@ private fun TiTiBottomBar(
                 icon = {
                     Icon(
                         painter = painterResource(id = destination.iconResourceId),
-                        contentDescription = stringResource(id = destination.titleTextId),
+                        contentDescription = stringResource(id = destination.titleTextId)
                     )
                 },
-                label = { Text(stringResource(destination.titleTextId)) },
+                label = { Text(stringResource(destination.titleTextId)) }
             )
         }
     }

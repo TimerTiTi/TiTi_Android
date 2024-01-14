@@ -22,6 +22,5 @@ internal interface TaskDao {
     fun getTasks(): Flow<List<TaskEntity>>
 
     @Query("SELECT EXISTS(SELECT * FROM tasks WHERE taskName = :taskName)")
-    suspend fun isExistTaskByTaskName(taskName : String) : Boolean
-
+    suspend fun isExistTaskByTaskName(taskName: String): Boolean
 }

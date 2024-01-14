@@ -8,12 +8,10 @@ import javax.inject.Inject
 class UpdateSavedStopWatchTimeUseCase @Inject constructor(
     private val recordTimesRepository: RecordTimesRepository
 ) {
-
     suspend operator fun invoke(recordTimes: RecordTimes) {
         recordTimesRepository.setRecordTimes(
             recordTimes.toRepositoryModel()
                 .copy(savedStopWatchTime = 0)
         )
     }
-
 }

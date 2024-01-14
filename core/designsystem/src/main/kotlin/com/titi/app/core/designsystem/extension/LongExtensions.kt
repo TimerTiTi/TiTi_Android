@@ -3,11 +3,12 @@ package com.titi.app.core.designsystem.extension
 import com.titi.app.core.designsystem.model.TdsTime
 
 fun Long.getTdsTime(): TdsTime {
-    val time = if (this < 0) {
-        -this
-    } else {
-        this
-    }
+    val time =
+        if (this < 0) {
+            -this
+        } else {
+            this
+        }
     return TdsTime(
         hour = (time / 3600).toInt(),
         minutes = (time % 3600 / 60).toInt(),

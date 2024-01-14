@@ -22,7 +22,7 @@ import com.titi.app.feature.time.navigation.timeGraph
 fun TiTiNavHost(
     splashResultState: SplashResultState,
     appState: TiTiAppState,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val navController = appState.navController
 
@@ -37,10 +37,11 @@ fun TiTiNavHost(
         navController = navController,
         startDestination = TIME_GRAPH_ROUTE,
         enterTransition = appState.enterTransition,
-        exitTransition = appState.exitTransition,
+        exitTransition = appState.exitTransition
     ) {
         timeGraph(
-            startDestination = if (splashResultState.recordTimes.recordingMode == 1) {
+            startDestination =
+            if (splashResultState.recordTimes.recordingMode == 1) {
                 TIMER_SCREEN
             } else {
                 STOPWATCH_SCREEN

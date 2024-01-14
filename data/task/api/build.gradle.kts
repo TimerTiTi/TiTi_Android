@@ -1,5 +1,5 @@
 plugins {
-   id("titi.android.library-no-hilt")
+    id("titi.android.library-no-hilt")
 }
 
 android {

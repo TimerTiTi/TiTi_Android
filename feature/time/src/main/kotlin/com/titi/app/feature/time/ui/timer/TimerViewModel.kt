@@ -21,7 +21,9 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class TimerViewModel @AssistedInject constructor(
+class TimerViewModel
+@AssistedInject
+constructor(
     @Assisted initialState: TimerUiState,
     getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
@@ -31,9 +33,8 @@ class TimerViewModel @AssistedInject constructor(
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
     private val addDailyUseCase: AddDailyUseCase,
     private val updateMeasuringStateUseCase: UpdateMeasuringStateUseCase,
-    private val updateSetTimerTimeUseCase: UpdateSetTimerTimeUseCase,
+    private val updateSetTimerTimeUseCase: UpdateSetTimerTimeUseCase
 ) : MavericksViewModel<TimerUiState>(initialState) {
-
     init {
         getRecordTimesFlowUseCase().catch {
             Log.e("TimeViewModel", it.message.toString())
@@ -87,10 +88,7 @@ class TimerViewModel @AssistedInject constructor(
         prevTimerColor = timerColor
     }
 
-    fun updateSetGoalTime(
-        recordTimes: RecordTimes,
-        setGoalTime: Long
-    ) {
+    fun updateSetGoalTime(recordTimes: RecordTimes, setGoalTime: Long) {
         viewModelScope.launch {
             updateSetGoalTimeUseCase(
                 recordTimes,
@@ -111,10 +109,7 @@ class TimerViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateSetTimerTime(
-        recordTimes: RecordTimes,
-        timerTime: Long,
-    ) {
+    fun updateSetTimerTime(recordTimes: RecordTimes, timerTime: Long) {
         viewModelScope.launch {
             updateSetTimerTimeUseCase(
                 recordTimes,
@@ -130,7 +125,4 @@ class TimerViewModel @AssistedInject constructor(
 
     companion object :
         MavericksViewModelFactory<TimerViewModel, TimerUiState> by hiltMavericksViewModelFactory()
-
-
 }
-

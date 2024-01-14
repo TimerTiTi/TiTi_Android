@@ -6,7 +6,7 @@ import com.titi.app.core.designsystem.R
 
 enum class TopLevelDestination(
     @StringRes val titleTextId: Int,
-    @DrawableRes val iconResourceId: Int,
+    @DrawableRes val iconResourceId: Int
 ) {
     TIMER(
         titleTextId = R.string.timer,

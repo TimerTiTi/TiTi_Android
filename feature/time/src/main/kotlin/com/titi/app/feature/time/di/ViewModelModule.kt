@@ -14,7 +14,6 @@ import dagger.multibindings.IntoMap
 @Module
 @InstallIn(MavericksViewModelComponent::class)
 internal interface ViewModelModule {
-
     @Binds
     @IntoMap
     @ViewModelKey(TaskViewModel::class)
@@ -28,6 +27,7 @@ internal interface ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(StopWatchViewModel::class)
-    fun stopWatchViewModelFactory(factory: StopWatchViewModel.Factory): AssistedViewModelFactory<*, *>
-
+    fun stopWatchViewModelFactory(
+        factory: StopWatchViewModel.Factory
+    ): AssistedViewModelFactory<*, *>
 }

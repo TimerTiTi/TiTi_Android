@@ -9,37 +9,36 @@ import javax.inject.Inject
 class UpdateColorUseCase @Inject constructor(
     private val colorRepository: ColorRepository
 ) {
-
     suspend operator fun invoke(
         recordingMode: Int,
         backgroundColor: Long? = null,
-        isTextColorBlack: Boolean = false,
+        isTextColorBlack: Boolean = false
     ) {
         val timeColor = colorRepository.getColor()?.toDomain() ?: TimeColor()
-        val updateTimeColor = if (recordingMode == 1) {
-            if (backgroundColor != null) {
-                timeColor.copy(
-                    timerBackgroundColor = backgroundColor,
-                    isTimerBlackTextColor = isTextColorBlack,
-                )
+        val updateTimeColor =
+            if (recordingMode == 1) {
+                if (backgroundColor != null) {
+                    timeColor.copy(
+                        timerBackgroundColor = backgroundColor,
+                        isTimerBlackTextColor = isTextColorBlack
+                    )
+                } else {
+                    timeColor.copy(
+                        isTimerBlackTextColor = isTextColorBlack
+                    )
+                }
             } else {
-                timeColor.copy(
-                    isTimerBlackTextColor = isTextColorBlack
-                )
+                if (backgroundColor != null) {
+                    timeColor.copy(
+                        stopwatchBackgroundColor = backgroundColor,
+                        isStopwatchBlackTextColor = isTextColorBlack
+                    )
+                } else {
+                    timeColor.copy(
+                        isStopwatchBlackTextColor = isTextColorBlack
+                    )
+                }
             }
-        } else {
-            if (backgroundColor != null) {
-                timeColor.copy(
-                    stopwatchBackgroundColor = backgroundColor,
-                    isStopwatchBlackTextColor = isTextColorBlack,
-                )
-            } else {
-                timeColor.copy(
-                    isStopwatchBlackTextColor = isTextColorBlack
-                )
-            }
-        }
         colorRepository.setColor(updateTimeColor.toRepository())
     }
-
 }

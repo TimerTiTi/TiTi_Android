@@ -14,8 +14,5 @@ internal interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun provideTaskRepository(
-        taskRepositoryImpl: TaskRepositoryImpl
-    ): TaskRepository
-
+    fun provideTaskRepository(taskRepositoryImpl: TaskRepositoryImpl): TaskRepository
 }

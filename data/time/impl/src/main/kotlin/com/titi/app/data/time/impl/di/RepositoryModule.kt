@@ -17,5 +17,4 @@ internal interface RepositoryModule {
     fun provideRecordTimesRepository(
         recordTimesRepositoryImpl: RecordTimesRepositoryImpl
     ): RecordTimesRepository
-
 }

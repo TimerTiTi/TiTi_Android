@@ -20,14 +20,14 @@ fun TdsText(
     modifier: Modifier = Modifier,
     text: String? = null,
     textStyle: TdsTextStyle,
-    fontSize : TextUnit,
+    fontSize: TextUnit,
     textDecoration: TextDecoration? = null,
     color: TdsColor,
     textAlign: TextAlign? = null,
     overflow: TextOverflow = TextOverflow.Clip,
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
-    onTextLayout: (TextLayoutResult) -> Unit = {},
+    onTextLayout: (TextLayoutResult) -> Unit = {}
 ) {
     Text(
         text = text ?: "",
@@ -48,14 +48,14 @@ fun TdsText(
     modifier: Modifier = Modifier,
     text: String? = null,
     textStyle: TdsTextStyle,
-    fontSize : TextUnit,
+    fontSize: TextUnit,
     textDecoration: TextDecoration? = null,
     color: Color,
     textAlign: TextAlign? = null,
     overflow: TextOverflow = TextOverflow.Clip,
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
-    onTextLayout: (TextLayoutResult) -> Unit = {},
+    onTextLayout: (TextLayoutResult) -> Unit = {}
 ) {
     Text(
         text = text ?: "",
@@ -77,8 +77,8 @@ private fun TdsTextPreview() {
     TiTiTheme {
         TdsText(
             text = "ABC",
-            color = TdsColor.textColor,
-            textStyle = TdsTextStyle.blackTextStyle,
+            color = TdsColor.TEXT,
+            textStyle = TdsTextStyle.BLACK_TEXT_STYLE,
             fontSize = 40.sp
         )
     }

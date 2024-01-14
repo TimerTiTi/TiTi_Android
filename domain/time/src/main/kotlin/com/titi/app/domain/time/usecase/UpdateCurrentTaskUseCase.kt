@@ -10,7 +10,6 @@ import javax.inject.Inject
 class UpdateCurrentTaskUseCase @Inject constructor(
     private val recordTimesRepository: RecordTimesRepository
 ) {
-
     suspend operator fun invoke(currentTask: CurrentTask) {
         val recordTimes = recordTimesRepository.getRecordTimes()?.toDomainModel() ?: RecordTimes()
 
@@ -18,5 +17,4 @@ class UpdateCurrentTaskUseCase @Inject constructor(
             recordTimes.copy(currentTask = currentTask).toRepositoryModel()
         )
     }
-
 }

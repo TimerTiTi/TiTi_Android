@@ -12,11 +12,10 @@ import dagger.multibindings.IntoMap
 @Module
 @InstallIn(MavericksViewModelComponent::class)
 internal interface ViewModelModule {
-
     @Binds
     @IntoMap
     @ViewModelKey(MeasuringViewModel::class)
-    fun measuringViewModelFactory(factory: MeasuringViewModel.Factory): AssistedViewModelFactory<*, *>
-
-
+    fun measuringViewModelFactory(
+        factory: MeasuringViewModel.Factory
+    ): AssistedViewModelFactory<*, *>
 }

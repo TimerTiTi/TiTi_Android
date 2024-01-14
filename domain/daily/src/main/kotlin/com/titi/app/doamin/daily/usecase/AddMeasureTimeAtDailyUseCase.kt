@@ -5,14 +5,13 @@ import com.titi.app.data.daily.api.DailyRepository
 import com.titi.app.doamin.daily.mapper.toDomain
 import com.titi.app.doamin.daily.mapper.toRepositoryModel
 import com.titi.app.doamin.daily.model.TaskHistory
-import org.threeten.bp.ZonedDateTime
 import javax.inject.Inject
 import kotlin.math.max
+import org.threeten.bp.ZonedDateTime
 
 class AddMeasureTimeAtDailyUseCase @Inject constructor(
     private val dailyRepository: DailyRepository
 ) {
-
     suspend operator fun invoke(
         taskName: String,
         startTime: String,
@@ -22,29 +21,33 @@ class AddMeasureTimeAtDailyUseCase @Inject constructor(
         val recentDaily = dailyRepository.getCurrentDaily()?.toDomain()
 
         recentDaily?.let { daily ->
-            val taskHistory = TaskHistory(
-                startDate = startTime,
-                endDate = endTime
-            )
+            val taskHistory =
+                TaskHistory(
+                    startDate = startTime,
+                    endDate = endTime
+                )
 
-            val updateTimeLine = addTimeLine(
-                startTime = ZonedDateTime.parse(startTime),
-                endTime = ZonedDateTime.parse(endTime),
-                timeLine = daily.timeLine
-            )
+            val updateTimeLine =
+                addTimeLine(
+                    startTime = ZonedDateTime.parse(startTime),
+                    endTime = ZonedDateTime.parse(endTime),
+                    timeLine = daily.timeLine
+                )
 
             val updateMaxTime = max(daily.maxTime, measureTime)
 
-            val updateTasks = daily.tasks?.toMutableMap()?.apply {
-                this[taskName] = this[taskName]?.plus(measureTime) ?: measureTime
-            }?.toMap() ?: mapOf(taskName to measureTime)
+            val updateTasks =
+                daily.tasks?.toMutableMap()?.apply {
+                    this[taskName] = this[taskName]?.plus(measureTime) ?: measureTime
+                }?.toMap() ?: mapOf(taskName to measureTime)
 
-            val updateTaskHistories = daily.taskHistories?.toMutableMap()?.apply {
-                this[taskName] =
-                    this[taskName]?.toMutableList()?.apply { add(taskHistory) } ?: listOf(
-                        taskHistory
-                    )
-            }?.toMap() ?: mapOf(taskName to listOf(taskHistory))
+            val updateTaskHistories =
+                daily.taskHistories?.toMutableMap()?.apply {
+                    this[taskName] =
+                        this[taskName]?.toMutableList()?.apply { add(taskHistory) } ?: listOf(
+                            taskHistory
+                        )
+                }?.toMap() ?: mapOf(taskName to listOf(taskHistory))
 
             dailyRepository.upsert(
                 daily.copy(
@@ -56,5 +59,4 @@ class AddMeasureTimeAtDailyUseCase @Inject constructor(
             )
         }
     }
-
 }

@@ -18,12 +18,11 @@ import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.feature.main.ui.SplashResultState
 import com.titi.app.feature.main.ui.TiTiApp
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     @Inject
     lateinit var getTimeColorFlowUseCase: GetTimeColorFlowUseCase
 
@@ -56,7 +55,7 @@ class MainActivity : ComponentActivity() {
                     TiTiApp(
                         splashResultState = it,
                         windowSizeClass = calculateWindowSizeClass(this),
-                        getTimeColorFlowUseCase = getTimeColorFlowUseCase,
+                        getTimeColorFlowUseCase = getTimeColorFlowUseCase
                     )
                 }
             }

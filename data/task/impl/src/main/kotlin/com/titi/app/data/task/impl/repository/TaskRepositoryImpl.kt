@@ -7,21 +7,20 @@ import com.titi.app.data.task.impl.local.TaskDataBase
 import com.titi.app.data.task.impl.local.dao.TaskDao
 import com.titi.app.data.task.impl.mapper.toLocalModel
 import com.titi.app.data.task.impl.mapper.toRepositoryModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 internal class TaskRepositoryImpl @Inject constructor(
     private val taskDao: TaskDao,
-    private val taskDataBase: TaskDataBase,
+    private val taskDataBase: TaskDataBase
 ) : TaskRepository {
 
     override suspend fun upsertTask(taskRepositoryModel: TaskRepositoryModel) {
         taskDao.upsertTask(taskRepositoryModel.toLocalModel())
     }
 
-    override suspend fun getMaxPosition(): Int =
-        taskDao.getMaxPosition()
+    override suspend fun getMaxPosition(): Int = taskDao.getMaxPosition()
 
     override suspend fun getTaskByTaskName(taskName: String): TaskRepositoryModel? =
         taskDao.getTaskByTaskName(taskName = taskName)?.toRepositoryModel()
@@ -45,5 +44,4 @@ internal class TaskRepositoryImpl @Inject constructor(
             taskDao.upsertTask(toTask.toLocalModel())
         }
     }
-
 }

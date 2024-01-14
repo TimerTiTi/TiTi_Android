@@ -8,11 +8,7 @@ import javax.inject.Inject
 class UpdateSetGoalTimeUseCase @Inject constructor(
     private val recordTimesRepository: RecordTimesRepository
 ) {
-
-    suspend operator fun invoke(
-        recordTimes: RecordTimes,
-        setGoalTime: Long
-    ) {
+    suspend operator fun invoke(recordTimes: RecordTimes, setGoalTime: Long) {
         recordTimesRepository.setRecordTimes(
             recordTimes
                 .toRepositoryModel()
@@ -25,5 +21,4 @@ class UpdateSetGoalTimeUseCase @Inject constructor(
                 )
         )
     }
-
 }

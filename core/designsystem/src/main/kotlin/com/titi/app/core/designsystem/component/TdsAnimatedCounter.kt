@@ -27,7 +27,7 @@ internal fun TdsAnimatedCounter(
     count: Int,
     color: Color,
     textStyle: TdsTextStyle,
-    fontSize: TextUnit,
+    fontSize: TextUnit
 ) {
     var oldCount by remember {
         mutableIntStateOf(count)
@@ -43,11 +43,12 @@ internal fun TdsAnimatedCounter(
         for (i in countString.indices) {
             val oldChar = oldCountString.getOrNull(i)
             val newChar = countString[i]
-            val char = if (oldChar == newChar) {
-                oldCountString[i]
-            } else {
-                countString[i]
-            }
+            val char =
+                if (oldChar == newChar) {
+                    oldCountString[i]
+                } else {
+                    countString[i]
+                }
 
             AnimatedContent(
                 modifier = Modifier.weight(1f),
@@ -62,7 +63,7 @@ internal fun TdsAnimatedCounter(
                     textStyle = textStyle,
                     textAlign = TextAlign.Center,
                     fontSize = fontSize,
-                    color = color,
+                    color = color
                 )
             }
         }
@@ -75,8 +76,8 @@ private fun TdsAnimatedCounterPreview() {
     TiTiTheme {
         TdsAnimatedCounter(
             count = 13,
-            color = TdsColor.textColor.getColor(),
-            textStyle = TdsTextStyle.blackTextStyle,
+            color = TdsColor.TEXT.getColor(),
+            textStyle = TdsTextStyle.BLACK_TEXT_STYLE,
             fontSize = 40.sp
         )
     }

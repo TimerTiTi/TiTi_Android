@@ -12,11 +12,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DataStoreModule {
-
     @Singleton
     @Provides
-    fun provideColorDataStore(
-        @ApplicationContext context: Context
-    ) = ColorDataStore(context)
-
+    fun provideColorDataStore(@ApplicationContext context: Context) = ColorDataStore(context)
 }

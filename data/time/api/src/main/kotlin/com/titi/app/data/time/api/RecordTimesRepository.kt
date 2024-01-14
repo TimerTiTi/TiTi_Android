@@ -5,10 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface RecordTimesRepository {
 
-    suspend fun setRecordTimes(recordTimesRepositoryModel : RecordTimesRepositoryModel)
+    suspend fun setRecordTimes(recordTimesRepositoryModel: RecordTimesRepositoryModel)
 
-    suspend fun getRecordTimes() : RecordTimesRepositoryModel?
+    suspend fun getRecordTimes(): RecordTimesRepositoryModel?
 
-    fun getRecordTimesFlow() : Flow<RecordTimesRepositoryModel?>
-
+    fun getRecordTimesFlow(): Flow<RecordTimesRepositoryModel?>
 }

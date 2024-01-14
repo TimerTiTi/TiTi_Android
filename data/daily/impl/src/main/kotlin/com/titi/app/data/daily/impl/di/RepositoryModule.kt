@@ -11,11 +11,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal interface RepositoryModule {
-
     @Binds
     @Singleton
-    fun provideDailyRepository(
-        dailyRepositoryImpl: DailyRepositoryImpl
-    ): DailyRepository
-
+    fun provideDailyRepository(dailyRepositoryImpl: DailyRepositoryImpl): DailyRepository
 }

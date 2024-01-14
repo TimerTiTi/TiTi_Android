@@ -15,8 +15,6 @@ internal object DataStoreModule {
 
     @Singleton
     @Provides
-    fun provideRecordTimesDataStore(
-        @ApplicationContext context: Context
-    ) = RecordTimesDataStore(context)
-
+    fun provideRecordTimesDataStore(@ApplicationContext context: Context) =
+        RecordTimesDataStore(context)
 }

@@ -14,9 +14,8 @@ data class StopWatchUiState(
     val todayDate: String = getTodayDate(),
     val recordTimes: RecordTimes,
     val timeColor: TimeColor,
-    val daily: Daily?,
+    val daily: Daily?
 ) : MavericksState {
-
     constructor(args: Bundle) : this(
         recordTimes = getSplashResultStateFromArgs(args).recordTimes,
         timeColor = getSplashResultStateFromArgs(args).timeColor,
@@ -33,7 +32,7 @@ data class StopWatchUiState(
 
 data class StopWatchColor(
     val backgroundColor: Long,
-    val isTextColorBlack: Boolean,
+    val isTextColorBlack: Boolean
 )
 
 private fun TimeColor.toUiModel() = StopWatchColor(
@@ -48,21 +47,23 @@ data class StopWatchRecordTimes(
     val savedTime: Long,
     val savedGoalTime: Long,
     val finishGoalTime: String,
-    val isTaskTargetTimeOn: Boolean,
+    val isTaskTargetTimeOn: Boolean
 )
 
 private fun RecordTimes.toUiModel(daily: Daily?): StopWatchRecordTimes {
-    val goalTime = currentTask?.let {
-        if (it.isTaskTargetTimeOn) {
-            it.taskTargetTime - (daily?.tasks?.get(it.taskName) ?: 0)
-        } else {
-            savedGoalTime
-        }
-    } ?: savedGoalTime
+    val goalTime =
+        currentTask?.let {
+            if (it.isTaskTargetTimeOn) {
+                it.taskTargetTime - (daily?.tasks?.get(it.taskName) ?: 0)
+            } else {
+                savedGoalTime
+            }
+        } ?: savedGoalTime
 
     return StopWatchRecordTimes(
         outCircularProgress = savedStopWatchTime / 3600f,
-        inCircularProgress = currentTask?.let {
+        inCircularProgress =
+        currentTask?.let {
             if (it.isTaskTargetTimeOn) {
                 val taskTime = daily?.tasks?.get(it.taskName) ?: 0
                 taskTime / it.taskTargetTime.toFloat()

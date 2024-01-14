@@ -7,5 +7,5 @@ data class Alarms(
 data class Alarm(
     val title: String,
     val message: String,
-    val finishTime: String,
+    val finishTime: String
 )

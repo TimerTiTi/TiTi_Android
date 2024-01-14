@@ -12,16 +12,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 class BootReceiver : BroadcastReceiver() {
-
     lateinit var canSetAlarmUseCase: CanSetAlarmUseCase
     lateinit var getAlarmsUseCase: GetAlarmsUseCase
     lateinit var setAlarmsUseCase: SetAlarmsUseCase
 
     override fun onReceive(context: Context, intent: Intent) {
-        val entryPoint = EntryPointAccessors.fromApplication(
-            context,
-            PermissionReceiver.ReceiverEntryPoint::class.java
-        )
+        val entryPoint =
+            EntryPointAccessors.fromApplication(
+                context,
+                PermissionReceiver.ReceiverEntryPoint::class.java
+            )
         canSetAlarmUseCase = entryPoint.getCanSetAlarmUseCase()
         getAlarmsUseCase = entryPoint.getGetAlarmsUseCase()
         setAlarmsUseCase = entryPoint.getSetAlarmsUseCase()

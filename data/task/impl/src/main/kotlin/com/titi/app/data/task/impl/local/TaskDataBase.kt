@@ -17,5 +17,4 @@ internal abstract class TaskDataBase : RoomDatabase() {
     companion object {
         const val TASK_DATABASE_NAME = "titiTaskDataBaseName"
     }
-
 }

@@ -12,7 +12,8 @@ internal fun DailyRepositoryModel.toLocal() = DailyEntity(
     timeline = timeline,
     maxTime = maxTime,
     tasks = tasks,
-    taskHistories = taskHistories?.mapValues { taskRepositoryMap ->
+    taskHistories =
+    taskHistories?.mapValues { taskRepositoryMap ->
         taskRepositoryMap.value.map { taskHistoryRepository ->
             taskHistoryRepository.toLocal()
         }

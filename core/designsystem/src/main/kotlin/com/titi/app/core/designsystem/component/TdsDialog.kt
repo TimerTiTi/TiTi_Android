@@ -25,23 +25,25 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable
 fun TdsDialog(
-    modifier: Modifier = Modifier.background(color = TdsColor.backgroundColor.getColor()),
+    modifier: Modifier = Modifier.background(color = TdsColor.BACKGROUND.getColor()),
     tdsDialogInfo: TdsDialogInfo,
     onShowDialog: (Boolean) -> Unit,
-    bodyContent: (@Composable () -> Unit)? = null,
+    bodyContent: (@Composable () -> Unit)? = null
 ) {
     Dialog(
         onDismissRequest = {
             tdsDialogInfo.onDismiss?.invoke()
             onShowDialog(false)
         },
-        properties = DialogProperties(
+        properties =
+        DialogProperties(
             dismissOnBackPress = tdsDialogInfo.cancelable,
             dismissOnClickOutside = tdsDialogInfo.cancelable
         )
     ) {
         Surface(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
             shape = RoundedCornerShape(14.dp),
@@ -55,9 +57,9 @@ fun TdsDialog(
 
                 TdsText(
                     text = tdsDialogInfo.title,
-                    textStyle = TdsTextStyle.semiBoldTextStyle,
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 17.sp,
-                    color = TdsColor.textColor
+                    color = TdsColor.TEXT
                 )
 
                 tdsDialogInfo.message?.let { message ->
@@ -65,9 +67,9 @@ fun TdsDialog(
 
                     TdsText(
                         text = message,
-                        textStyle = TdsTextStyle.normalTextStyle,
+                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                         fontSize = 13.sp,
-                        color = TdsColor.textColor
+                        color = TdsColor.TEXT
                     )
                 }
 
@@ -78,7 +80,6 @@ fun TdsDialog(
 
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-
 
                 TdsDivider()
 
@@ -108,7 +109,8 @@ private fun TdsConfirmDialogButtons(
     onShowDialog: (Boolean) -> Unit
 ) {
     Row(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxWidth()
             .height(44.dp)
     ) {
@@ -119,9 +121,9 @@ private fun TdsConfirmDialogButtons(
                 onShowDialog(false)
             },
             text = tdsDialogInfo.negativeText,
-            textStyle = TdsTextStyle.normalTextStyle,
+            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
             fontSize = 17.sp,
-            textColor = TdsColor.redColor,
+            textColor = TdsColor.RED
         )
 
         TdsDivider()
@@ -133,9 +135,9 @@ private fun TdsConfirmDialogButtons(
                 onShowDialog(false)
             },
             text = tdsDialogInfo.positiveText,
-            textStyle = TdsTextStyle.normalTextStyle,
+            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
             fontSize = 16.sp,
-            textColor = TdsColor.blueColor,
+            textColor = TdsColor.BLUE
         )
     }
 }
@@ -146,7 +148,8 @@ private fun TdsAlertDialogButton(
     onShowDialog: (Boolean) -> Unit
 ) {
     TdsTextButton(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxWidth()
             .height(44.dp),
         onClick = {
@@ -154,9 +157,9 @@ private fun TdsAlertDialogButton(
             onShowDialog(false)
         },
         text = tdsDialogInfo.confirmText,
-        textStyle = TdsTextStyle.normalTextStyle,
+        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
         fontSize = 17.sp,
-        textColor = TdsColor.blueColor,
+        textColor = TdsColor.BLUE
     )
 }
 
@@ -165,7 +168,8 @@ private fun TdsAlertDialogButton(
 private fun TdsConfirmDialogPreview() {
     TiTiTheme {
         TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+            tdsDialogInfo =
+            TdsDialogInfo.Confirm(
                 title = "새로운 기록 설정",
                 message = "2023.03.10 목표시간 설정",
                 cancelable = false,
@@ -179,9 +183,9 @@ private fun TdsConfirmDialogPreview() {
             bodyContent = {
                 TdsText(
                     text = "tdsDialogInfo.message",
-                    textStyle = TdsTextStyle.normalTextStyle,
+                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 12.sp,
-                    color = TdsColor.textColor
+                    color = TdsColor.TEXT
                 )
             }
         )
@@ -193,7 +197,8 @@ private fun TdsConfirmDialogPreview() {
 private fun TdsAlertDialogPreview() {
     TiTiTheme {
         TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Alert(
+            tdsDialogInfo =
+            TdsDialogInfo.Alert(
                 title = "새로운 기록 설정",
                 message = "2023.03.10 목표시간 설정",
                 cancelable = false,
@@ -205,9 +210,9 @@ private fun TdsAlertDialogPreview() {
             bodyContent = {
                 TdsText(
                     text = "hihi",
-                    textStyle = TdsTextStyle.normalTextStyle,
+                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 12.sp,
-                    color = TdsColor.textColor
+                    color = TdsColor.TEXT
                 )
             }
         )

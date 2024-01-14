@@ -26,7 +26,7 @@ internal class RecordTimesDataStore(context: Context) {
         return dataStore.readValue(RECORD_TIMES_KEY)?.fromJson()
     }
 
-    fun getRecordTimesFlow() : Flow<RecordTimesEntity?> {
+    fun getRecordTimesFlow(): Flow<RecordTimesEntity?> {
         return dataStore.readFlowValue(RECORD_TIMES_KEY).map { it?.fromJson() }
     }
 
@@ -35,7 +35,8 @@ internal class RecordTimesDataStore(context: Context) {
         private const val RECORD_TIMES_PREF_NAME = "recordTimesPrefName"
         private val RECORD_TIMES_KEY = stringPreferencesKey("recordTimesKey")
 
-        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = RECORD_TIMES_PREF_NAME)
+        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
+            name = RECORD_TIMES_PREF_NAME
+        )
     }
-
 }
