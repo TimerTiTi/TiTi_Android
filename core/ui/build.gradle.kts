@@ -3,12 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.core.ui"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
+    namespace = "com.titi.app.core.ui"
 }
 
 dependencies {

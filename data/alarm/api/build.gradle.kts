@@ -3,10 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.titi.data.alarm.api"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
+    namespace = "com.titi.app.data.alarm.api"
 }

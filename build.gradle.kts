@@ -5,4 +5,13 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.firbaseServices) apply false
+    alias(libs.plugins.firebaseCrashlytics) apply false
+    alias(libs.plugins.ktlint) apply false
+}
+
+allprojects {
+    apply {
+        plugin("org.jlleitschuh.gradle.ktlint")
+    }
 }

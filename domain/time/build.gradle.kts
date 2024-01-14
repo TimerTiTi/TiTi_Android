@@ -1,21 +1,14 @@
 plugins {
-    id("titi.android.library")
+    id("titi.android.library-no-hilt")
     id("kotlin-parcelize")
 }
 
 android {
-    namespace = "com.titi.domain.time"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
+    namespace = "com.titi.app.domain.time"
 }
 
 dependencies {
     implementation(project(":data:time:api"))
 
     implementation(libs.threetenabp)
-
-    implementation(libs.javax)
 }

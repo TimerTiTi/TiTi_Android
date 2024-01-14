@@ -1,22 +1,12 @@
 plugins {
     id("titi.android.feature")
-    id("titi.android.library.compose")
 }
 
 android {
-    namespace = "com.titi.feature.main"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
+    namespace = "com.titi.app.feature.main"
 }
 
 dependencies {
-    implementation(project(":core:designsystem"))
-    implementation(project(":core:util"))
-    implementation(project(":core:ui"))
-
     implementation(project(":domain:color"))
     implementation(project(":domain:time"))
     implementation(project(":domain:daily"))
@@ -26,4 +16,5 @@ dependencies {
     implementation(project(":feature:measure"))
 
     implementation(libs.androidx.splashscreen)
+    implementation(libs.androidx.material3.window.size)
 }

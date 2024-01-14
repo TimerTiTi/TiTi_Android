@@ -1,19 +1,12 @@
 plugins {
-    id("titi.android.library")
+    id("titi.android.library-no-hilt")
     id("kotlin-parcelize")
 }
 
 android {
-    namespace = "com.titi.domain.color"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
+    namespace = "com.titi.app.domain.color"
 }
 
 dependencies {
     implementation(project(":data:color:api"))
-
-    implementation(libs.javax)
 }

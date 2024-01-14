@@ -1,0 +1,53 @@
+package com.titi.app.feature.main.ui.main
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.titi.app.doamin.daily.usecase.GetCurrentDailyUseCase
+import com.titi.app.domain.color.usecase.GetTimeColorUseCase
+import com.titi.app.domain.time.usecase.GetRecordTimesUseCase
+import com.titi.app.feature.main.ui.SplashResultState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+
+@HiltViewModel
+class MainViewModel
+@Inject
+constructor(
+    private val getRecordTimesUseCase: GetRecordTimesUseCase,
+    private val getTimeColorUseCase: GetTimeColorUseCase,
+    private val getCurrentDailyUseCase: GetCurrentDailyUseCase,
+) : ViewModel() {
+    private val _splashResultState: MutableStateFlow<SplashResultState?> =
+        MutableStateFlow(null)
+    val splashResultState = _splashResultState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            val recordTimesResult =
+                async {
+                    getRecordTimesUseCase()
+                }
+
+            val timeColorResult =
+                async {
+                    getTimeColorUseCase()
+                }
+
+            val dailyResult =
+                async {
+                    getCurrentDailyUseCase()
+                }
+
+            _splashResultState.value =
+                SplashResultState(
+                    recordTimes = recordTimesResult.await(),
+                    timeColor = timeColorResult.await(),
+                    daily = dailyResult.await(),
+                )
+        }
+    }
+}

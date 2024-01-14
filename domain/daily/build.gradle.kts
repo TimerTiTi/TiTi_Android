@@ -1,22 +1,15 @@
 plugins {
-    id("titi.android.library")
+    id("titi.android.library-no-hilt")
     id("kotlin-parcelize")
 }
 
 android {
-    namespace = "com.titi.doamin.daily"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
+    namespace = "com.titi.app.doamin.daily"
 }
 
 dependencies {
     implementation(project(":data:daily:api"))
-
     implementation(project(":core:util"))
-    
+
     implementation(libs.threetenabp)
-    implementation(libs.javax)
 }

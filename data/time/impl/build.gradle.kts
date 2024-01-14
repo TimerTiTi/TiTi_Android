@@ -1,21 +1,11 @@
 plugins {
-    id("titi.android.library")
-    id("titi.android.hilt")
+    id("titi.android.data.local")
 }
 
 android {
-    namespace = "com.titi.data.time.impl"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
+    namespace = "com.titi.app.data.time.impl"
 }
 
 dependencies {
-    implementation(project(":core:util"))
     implementation(project(":data:time:api"))
-
-    implementation(libs.bundles.moshi)
-    implementation(libs.bundles.datastore)
 }

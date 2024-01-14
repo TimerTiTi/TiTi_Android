@@ -1,18 +1,11 @@
 plugins {
-   id("titi.android.library")
+    id("titi.android.library-no-hilt")
 }
 
 android {
-    namespace = "com.titi.domain.task"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-      }
-
+    namespace = "com.titi.app.domain.task"
 }
 
 dependencies {
     implementation(project(":data:task:api"))
-
-    implementation(libs.javax)
 }
