@@ -3,6 +3,8 @@ import com.titi.common.BuildType
 
 plugins {
     id("titi.android.application")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -52,6 +54,10 @@ dependencies {
     implementation(project(":data:daily:impl"))
     implementation(project(":data:sleep:impl"))
     implementation(project(":data:alarm:impl"))
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
 
     implementation(libs.bundles.mavericks)
     implementation(libs.threetenabp)

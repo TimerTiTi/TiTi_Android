@@ -42,7 +42,9 @@ espresso-core = "3.5.1"
 junitKtx = "1.1.5"
 material3WindowSize = "1.1.2"
 
-firebaseServices = "4.4.0"
+firebaseServicesPlugin = "4.4.0"
+firebaseCrashlyticsPlugin = "2.9.9"
+firebaseBom = "32.7.0"
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -108,6 +110,10 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 androidx-monitor = { group = "androidx.test", name = "monitor", version.ref = "monitor" }
 androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -115,7 +121,8 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-firbaseServices = { id = "com.google.gms.google-services", version.ref = "firebaseServices" }
+firbaseServices = { id = "com.google.gms.google-services", version.ref = "firebaseServicesPlugin" }
+firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
 
 [bundles]
 

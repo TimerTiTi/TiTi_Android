@@ -6,4 +6,5 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.firbaseServices) apply false
+    alias(libs.plugins.firebaseCrashlytics) apply false
 }
