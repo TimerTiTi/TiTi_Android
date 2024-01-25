@@ -96,18 +96,26 @@ private fun TdsPieChartPreview() {
             holeRadiusPercent = 0f,
             pieData = listOf(
                 TdsPieData(
+                    key = "수업",
+                    value = "2:00:00",
                     progress = 0.2f,
                     color = Color.Blue,
                 ),
                 TdsPieData(
+                    key = "인공지능",
+                    value = "3:00:00",
                     progress = 0.3f,
                     color = Color.Red,
                 ),
                 TdsPieData(
+                    key = "알고리즘",
+                    value = "2:00:00",
                     progress = 0.2f,
                     color = Color.Gray,
                 ),
                 TdsPieData(
+                    key = "개발",
+                    value = "3:00:00",
                     progress = 0.3f,
                     color = Color.Cyan,
                 ),
