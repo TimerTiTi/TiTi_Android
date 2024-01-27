@@ -1,4 +1,4 @@
-package com.titi.app.core.designsystem.component.piechart
+package com.titi.app.core.designsystem.component
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.min
-import com.titi.app.core.designsystem.component.TdsTaskResultListItem
+import com.titi.app.core.designsystem.model.TdsPieData
 import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable

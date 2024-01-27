@@ -1,4 +1,4 @@
-package com.titi.app.core.designsystem.component.piechart
+package com.titi.app.core.designsystem.model
 
 import androidx.compose.ui.graphics.Color
 import javax.annotation.concurrent.Immutable
