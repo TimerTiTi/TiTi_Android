@@ -5,8 +5,8 @@ import javax.annotation.concurrent.Immutable
 
 @Immutable
 data class TdsPieData(
-    val key : String,
-    val value : String,
-    val progress : Float,
-    val color : Color,
+    val key: String,
+    val value: String,
+    val progress: Float,
+    val color: Color,
 )
