@@ -4,16 +4,24 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.min
+import com.titi.app.core.designsystem.component.TdsTaskResultListItem
 import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable
@@ -21,10 +29,11 @@ fun PieChart(
     modifier: Modifier = Modifier,
     pieData: List<TdsPieData>,
     holeRadiusPercent: Float = 0.5f,
+    containsDonut: Boolean = false,
     animationSpec: AnimationSpec<Float> = TweenSpec(durationMillis = 500),
 ) {
     val transitionProgress = remember(pieData) {
-        Animatable(initialValue = 0f)
+        Animatable(initialValue = 1f)
     }
 
     LaunchedEffect(pieData) {
@@ -39,6 +48,7 @@ fun PieChart(
         pieData = pieData,
         holeRadiusPercent = holeRadiusPercent,
         progress = transitionProgress.value,
+        containsDonut = containsDonut,
     )
 }
 
@@ -48,52 +58,80 @@ private fun TdsPieChart(
     pieData: List<TdsPieData>,
     holeRadiusPercent: Float = 0.5f,
     progress: Float,
+    containsDonut: Boolean = false,
 ) {
     var startAngle = 0f
+    val density = LocalDensity.current
 
-    Canvas(modifier = modifier) {
-        val radius = size.minDimension / 3
-        val centerX = size.width / 2
-        val centerY = size.height / 2
+    BoxWithConstraints(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
+        val radius = with(density) { (min(maxWidth, maxHeight) / 3).toPx() }
+        val centerX = with(density) { (maxWidth / 2).toPx() }
+        val centerY = with(density) { (maxHeight / 2).toPx() }
         val holeRadius = radius * holeRadiusPercent
+        val holeRadiusDp = with(density) { holeRadius.toDp() }
 
-        pieData.forEach { pie ->
-            val sweepAngle = (pie.progress * 360 - 3) * progress
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            pieData.forEach { pie ->
+                val sweepAngle = (pie.progress * 360 - 3) * progress
 
-            drawArc(
-                color = pie.color,
-                startAngle = startAngle,
-                sweepAngle = sweepAngle,
-                useCenter = false,
-                topLeft = Offset(centerX - radius, centerY - radius),
-                size = Size(radius * 2, radius * 2),
-                style = Stroke(width = radius - holeRadius),
-            )
+                drawArc(
+                    color = pie.color,
+                    startAngle = startAngle,
+                    sweepAngle = sweepAngle,
+                    useCenter = false,
+                    topLeft = Offset(centerX - radius, centerY - radius),
+                    size = Size(radius * 2, radius * 2),
+                    style = Stroke(width = radius - holeRadius),
+                )
 
-            startAngle += sweepAngle
+                startAngle += sweepAngle
 
-            drawArc(
-                color = Color.Black,
-                startAngle = startAngle,
-                sweepAngle = 3 * progress,
-                useCenter = false,
-                topLeft = Offset(centerX - radius, centerY - radius),
-                size = Size(radius * 2, radius * 2),
-                style = Stroke(width = radius - holeRadius),
-            )
+                drawArc(
+                    color = Color.Black,
+                    startAngle = startAngle,
+                    sweepAngle = 3 * progress,
+                    useCenter = false,
+                    topLeft = Offset(centerX - radius, centerY - radius),
+                    size = Size(radius * 2, radius * 2),
+                    style = Stroke(width = radius - holeRadius),
+                )
 
-            startAngle += 3
+                startAngle += 3
+            }
+        }
+
+        if (containsDonut) {
+            Column(
+                modifier = Modifier
+                    .size(holeRadiusDp * 2),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                pieData.forEach { pie ->
+                    TdsTaskResultListItem(
+                        taskName = pie.key,
+                        taskTotalTime = pie.value,
+                        color = pie.color,
+                        isSpacing = false,
+                        height = holeRadiusDp * 2 / pieData.size,
+                    )
+                }
+            }
         }
     }
 }
 
-@Preview(widthDp = 80, heightDp = 80)
+@Preview
 @Composable
 private fun TdsPieChartPreview() {
     TiTiTheme {
         PieChart(
             modifier = Modifier.fillMaxSize(),
-            holeRadiusPercent = 0f,
+            holeRadiusPercent = 0.5f,
+            containsDonut = true,
             pieData = listOf(
                 TdsPieData(
                     key = "수업",
