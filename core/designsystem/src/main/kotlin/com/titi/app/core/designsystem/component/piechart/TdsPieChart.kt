@@ -28,7 +28,6 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 fun PieChart(
     modifier: Modifier = Modifier,
     pieData: List<TdsPieData>,
-    holeRadiusPercent: Float = 0.5f,
     containsDonut: Boolean = false,
     animationSpec: AnimationSpec<Float> = TweenSpec(durationMillis = 500),
 ) {
@@ -46,7 +45,6 @@ fun PieChart(
     TdsPieChart(
         modifier = modifier,
         pieData = pieData,
-        holeRadiusPercent = holeRadiusPercent,
         progress = transitionProgress.value,
         containsDonut = containsDonut,
     )
@@ -56,7 +54,6 @@ fun PieChart(
 private fun TdsPieChart(
     modifier: Modifier = Modifier,
     pieData: List<TdsPieData>,
-    holeRadiusPercent: Float = 0.5f,
     progress: Float,
     containsDonut: Boolean = false,
 ) {
@@ -70,6 +67,11 @@ private fun TdsPieChart(
         val radius = with(density) { (min(maxWidth, maxHeight) / 3).toPx() }
         val centerX = with(density) { (maxWidth / 2).toPx() }
         val centerY = with(density) { (maxHeight / 2).toPx() }
+        val holeRadiusPercent = if (containsDonut) {
+            0.5f
+        } else {
+            0f
+        }
         val holeRadius = radius * holeRadiusPercent
         val holeRadiusDp = with(density) { holeRadius.toDp() }
 
@@ -130,7 +132,6 @@ private fun TdsPieChartPreview() {
     TiTiTheme {
         PieChart(
             modifier = Modifier.fillMaxSize(),
-            holeRadiusPercent = 0.5f,
             containsDonut = true,
             pieData = listOf(
                 TdsPieData(
