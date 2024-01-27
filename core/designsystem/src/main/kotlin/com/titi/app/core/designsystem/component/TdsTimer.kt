@@ -83,13 +83,11 @@ fun TdsTimer(
             )
 
         CircularProgressIndicator(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .size(outCircularSize)
                 .align(Alignment.Center),
             progress = outCircularAnimateProgress.value,
-            color =
-            if (savedTime < 60 && recordingMode == 1) {
+            color = if (savedTime < 60 && recordingMode == 1) {
                 TdsColor.RED.getColor()
             } else {
                 outCircularLineColor
@@ -100,8 +98,7 @@ fun TdsTimer(
         )
 
         CircularProgressIndicator(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .size(inCircularSize)
                 .align(Alignment.Center),
             progress = inCircularAnimateProgress.value,
@@ -112,8 +109,7 @@ fun TdsTimer(
         )
 
         Column(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .size(contentSize)
                 .align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -140,8 +136,7 @@ fun TdsTimer(
             Spacer(modifier = Modifier.weight(2f))
 
             TdsText(
-                text =
-                if (recordingMode == 1) {
+                text = if (recordingMode == 1) {
                     stringResource(R.string.timer)
                 } else {
                     stringResource(R.string.stopwatch)
@@ -185,8 +180,7 @@ fun TdsTimer(
             Spacer(modifier = Modifier.weight(2f))
 
             TdsText(
-                text =
-                if (isTaskTargetTimeOn) {
+                text = if (isTaskTargetTimeOn) {
                     stringResource(id = R.string.task_time)
                 } else {
                     stringResource(id = R.string.goal_time)
@@ -234,8 +228,7 @@ fun TdsTimer(
 private fun TdsTimerPreview() {
     TiTiTheme {
         TdsTimer(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
             isFinish = true,
@@ -259,8 +252,7 @@ private fun TdsTimerPreview() {
 private fun TdsTimerPreview1() {
     TiTiTheme {
         TdsTimer(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
             isFinish = false,
@@ -284,8 +276,7 @@ private fun TdsTimerPreview1() {
 private fun TdsTimerPreview2() {
     TiTiTheme {
         TdsTimer(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
             isFinish = false,
@@ -309,8 +300,7 @@ private fun TdsTimerPreview2() {
 private fun TdsTimerPreview3() {
     TiTiTheme {
         TdsTimer(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Gray),
             isFinish = false,

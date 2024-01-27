@@ -54,8 +54,7 @@ fun TdsInputTimeTextField(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         TdsOutlinedInputTextField(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .height(40.dp)
                 .weight(1f)
                 .focusRequester(hourFocus)
@@ -78,8 +77,7 @@ fun TdsInputTimeTextField(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = ImeAction.Done,
             ),
-            keyboardActions =
-            KeyboardActions(
+            keyboardActions = KeyboardActions(
                 onDone = {
                     focusManger.moveFocus(FocusDirection.Next)
                 },
@@ -103,8 +101,7 @@ fun TdsInputTimeTextField(
         )
 
         TdsOutlinedInputTextField(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .height(40.dp)
                 .weight(1f)
                 .focusRequester(minutesFocus)
@@ -125,13 +122,11 @@ fun TdsInputTimeTextField(
                 }
             },
             fontSize = 22.sp,
-            keyboardOptions =
-            KeyboardOptions(
+            keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = ImeAction.Done,
             ),
-            keyboardActions =
-            KeyboardActions(
+            keyboardActions = KeyboardActions(
                 onDone = {
                     focusManger.moveFocus(FocusDirection.Next)
                 },
@@ -155,8 +150,7 @@ fun TdsInputTimeTextField(
         )
 
         TdsOutlinedInputTextField(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .height(40.dp)
                 .weight(1f)
                 .focusRequester(secondsFocus)
@@ -174,13 +168,11 @@ fun TdsInputTimeTextField(
                 }
             },
             fontSize = 22.sp,
-            keyboardOptions =
-            KeyboardOptions(
+            keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = ImeAction.Done,
             ),
-            keyboardActions =
-            KeyboardActions(
+            keyboardActions = KeyboardActions(
                 onDone = {
                     focusManger.clearFocus()
                 },

@@ -36,15 +36,13 @@ fun TdsOutlinedInputTextField(
         modifier = modifier,
         value = text,
         onValueChange = onValueChange,
-        textStyle =
-        TdsTextStyle.NORMAL_TEXT_STYLE.getTextStyle(fontSize = fontSize)
+        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE.getTextStyle(fontSize = fontSize)
             .copy(textAlign = TextAlign.Center),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
     ) { innerTextField ->
         Box(
-            modifier =
-            modifier
+            modifier = modifier
                 .border(
                     width = 1.dp,
                     color = TdsColor.DIVIDER.getColor(),
@@ -75,8 +73,7 @@ fun TdsOutlinedInputTextField(
         modifier = modifier,
         value = text,
         onValueChange = onValueChange,
-        textStyle =
-        TdsTextStyle.NORMAL_TEXT_STYLE.getTextStyle(fontSize = fontSize)
+        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE.getTextStyle(fontSize = fontSize)
             .copy(textAlign = TextAlign.Center),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
@@ -105,8 +102,7 @@ fun TdsOutlinedInputTextField(
 private fun TdsInputTextFieldPreview() {
     TiTiTheme {
         TdsOutlinedInputTextField(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .width(60.dp)
                 .height(40.dp),
             text = "ABC",
