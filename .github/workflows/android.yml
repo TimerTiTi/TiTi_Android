@@ -3,6 +3,8 @@ name: Android CI
 on:
   push:
     branches: [ "develop" ]
+    tags:
+      - '**'
 
 jobs:
   build:
@@ -22,7 +24,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Ktlint
-        run:  ./gradlew ktlintCheck
+        run: ./gradlew ktlintCheck
 
       - name: Create google-services
         run: |
