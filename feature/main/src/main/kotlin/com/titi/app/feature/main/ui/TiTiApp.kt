@@ -6,6 +6,7 @@ import android.os.Build
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -74,10 +75,10 @@ fun TiTiApp(
         },
     ) {
         TiTiNavHost(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
-                .padding(it),
+                .padding(it)
+                .background(Color(bottomNavigationColor)),
             appState = appState,
             splashResultState = splashResultState,
         )
