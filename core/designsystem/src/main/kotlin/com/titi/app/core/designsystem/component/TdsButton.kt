@@ -40,15 +40,13 @@ fun TdsTextButton(
     enabled: Boolean = true,
 ) {
     Button(
-        modifier =
-        modifier
+        modifier = modifier
             .widthIn(min = 36.dp)
             .heightIn(min = 36.dp),
         onClick = onClick,
         enabled = enabled,
         shape = RectangleShape,
-        colors =
-        ButtonDefaults.buttonColors(
+        colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
             disabledContainerColor = Color.Transparent,
         ),
@@ -74,15 +72,13 @@ fun TdsTextButton(
     enabled: Boolean = true,
 ) {
     Button(
-        modifier =
-        modifier
+        modifier = modifier
             .widthIn(min = 36.dp)
             .heightIn(min = 36.dp),
         onClick = onClick,
         enabled = enabled,
         shape = RectangleShape,
-        colors =
-        ButtonDefaults.buttonColors(
+        colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
             disabledContainerColor = Color.Transparent,
         ),
@@ -107,8 +103,7 @@ fun TdsIconButton(
     content: @Composable () -> Unit,
 ) {
     Box(
-        modifier =
-        modifier
+        modifier = modifier
             .size(size)
             .clip(CircleShape)
             .clickable(
@@ -116,8 +111,7 @@ fun TdsIconButton(
                 enabled = enabled,
                 role = Role.Button,
                 interactionSource = interactionSource,
-                indication =
-                rememberRipple(
+                indication = rememberRipple(
                     bounded = false,
                     radius = size / 2,
                 ),

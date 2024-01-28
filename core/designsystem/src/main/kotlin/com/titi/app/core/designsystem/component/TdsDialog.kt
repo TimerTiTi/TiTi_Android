@@ -35,15 +35,13 @@ fun TdsDialog(
             tdsDialogInfo.onDismiss?.invoke()
             onShowDialog(false)
         },
-        properties =
-        DialogProperties(
+        properties = DialogProperties(
             dismissOnBackPress = tdsDialogInfo.cancelable,
             dismissOnClickOutside = tdsDialogInfo.cancelable,
         ),
     ) {
         Surface(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
             shape = RoundedCornerShape(14.dp),
@@ -109,8 +107,7 @@ private fun TdsConfirmDialogButtons(
     onShowDialog: (Boolean) -> Unit,
 ) {
     Row(
-        modifier =
-        Modifier
+        modifier = Modifier
             .fillMaxWidth()
             .height(44.dp),
     ) {
@@ -148,8 +145,7 @@ private fun TdsAlertDialogButton(
     onShowDialog: (Boolean) -> Unit,
 ) {
     TdsTextButton(
-        modifier =
-        Modifier
+        modifier = Modifier
             .fillMaxWidth()
             .height(44.dp),
         onClick = {
@@ -168,8 +164,7 @@ private fun TdsAlertDialogButton(
 private fun TdsConfirmDialogPreview() {
     TiTiTheme {
         TdsDialog(
-            tdsDialogInfo =
-            TdsDialogInfo.Confirm(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
                 title = "새로운 기록 설정",
                 message = "2023.03.10 목표시간 설정",
                 cancelable = false,
@@ -197,8 +192,7 @@ private fun TdsConfirmDialogPreview() {
 private fun TdsAlertDialogPreview() {
     TiTiTheme {
         TdsDialog(
-            tdsDialogInfo =
-            TdsDialogInfo.Alert(
+            tdsDialogInfo = TdsDialogInfo.Alert(
                 title = "새로운 기록 설정",
                 message = "2023.03.10 목표시간 설정",
                 cancelable = false,

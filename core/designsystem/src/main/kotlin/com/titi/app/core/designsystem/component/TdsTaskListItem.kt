@@ -46,8 +46,7 @@ fun TdsTaskListItem(
     Column(modifier = modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Row(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .weight(1f)
                     .combinedClickable(
                         onClick = onClickTask,
@@ -109,8 +108,7 @@ fun TdsTaskListItem(
                 Switch(
                     checked = tdsTask.isTaskTargetTimeOn,
                     onCheckedChange = onTargetTimeOn,
-                    colors =
-                    SwitchDefaults.colors(
+                    colors = SwitchDefaults.colors(
                         checkedTrackColor = themeColor,
                         checkedBorderColor = Color.Transparent,
                         checkedThumbColor = Color.White,
@@ -140,12 +138,10 @@ fun TdsTaskListItem(
 private fun TdsTaskListItemPreview() {
     TiTiTheme {
         TdsTaskListItem(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
-            tdsTask =
-            TdsTask(
+            tdsTask = TdsTask(
                 taskTargetTime = 12346,
                 isTaskTargetTimeOn = false,
                 taskName = "English",

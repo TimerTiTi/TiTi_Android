@@ -43,12 +43,11 @@ internal fun TdsAnimatedCounter(
         for (i in countString.indices) {
             val oldChar = oldCountString.getOrNull(i)
             val newChar = countString[i]
-            val char =
-                if (oldChar == newChar) {
-                    oldCountString[i]
-                } else {
-                    countString[i]
-                }
+            val char = if (oldChar == newChar) {
+                oldCountString[i]
+            } else {
+                countString[i]
+            }
 
             AnimatedContent(
                 modifier = Modifier.weight(1f),

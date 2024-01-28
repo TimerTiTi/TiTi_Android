@@ -25,3 +25,16 @@ fun Long.getTimeString(): String {
         minutes.toString().padStart(2, '0')
     }:${seconds.toString().padStart(2, '0')}"
 }
+
+fun Long.toTimeString(): String {
+    val totalSeconds = this.toInt()
+
+    val hours = totalSeconds / 3600
+    val minutes = (totalSeconds % 3600) / 60
+
+    return if (hours > 0) {
+        String.format("%d:%02d", hours, minutes)
+    } else {
+        String.format("%d:%02d", 0, minutes)
+    }
+}
