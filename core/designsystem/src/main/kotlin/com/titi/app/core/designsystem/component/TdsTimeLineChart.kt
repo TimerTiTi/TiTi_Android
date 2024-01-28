@@ -68,7 +68,7 @@ private fun TdsTimeLineBar(modifier: Modifier = Modifier, time: Int, hour: Strin
     val textStyle = TdsTextStyle
         .NORMAL_TEXT_STYLE
         .getTextStyle(fontSize = 10.sp)
-        .copy(color = TdsColor.BACKGROUND.getColor())
+        .copy(color = TdsColor.TEXT.getColor())
     val textLayoutResult = remember(hour) {
         textMeasurer.measure(hour, textStyle)
     }
@@ -124,7 +124,7 @@ private fun TdsTimeLineBarPreview() {
             modifier = Modifier
                 .width(30.dp)
                 .height(100.dp)
-                .background(Color.Black),
+                .background(Color.White),
             time = 3600,
             hour = "24",
             brush = Brush
@@ -145,7 +145,7 @@ private fun TdsTimeLineChartPreview() {
         TdsTimeLineChart(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black),
+                .background(Color.White),
             times = listOf(
                 3600,
                 1200,

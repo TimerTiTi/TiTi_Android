@@ -83,7 +83,7 @@ private fun TdsWeekLineBar(
     val textStyle = TdsTextStyle
         .NORMAL_TEXT_STYLE
         .getTextStyle(fontSize = 10.sp)
-        .copy(color = TdsColor.BACKGROUND.getColor())
+        .copy(color = TdsColor.TEXT.getColor())
     val timeTextMeasurer = rememberTextMeasurer()
     val dateTextMeasurer = rememberTextMeasurer()
     val timeTextLayoutResult = remember(time) {
@@ -157,7 +157,7 @@ private fun TdsWeekLineBarPreview() {
             modifier = Modifier
                 .width(30.dp)
                 .height(100.dp)
-                .background(Color.Black),
+                .background(Color.White),
             time = "1:19",
             progress = 0.5f,
             date = "1/28",
@@ -178,7 +178,7 @@ private fun TdsWeekLineChartPreview() {
         TdsWeekLineChart(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Black),
+                .background(Color.White),
             data = listOf(
                 TdsWeekLineChartData(
                     time = 6200,
