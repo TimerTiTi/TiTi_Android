@@ -38,7 +38,7 @@ fun TdsWeekLineChart(
     startColor: Color,
     endColor: Color,
 ) {
-    check(data.size == 7) {
+    require(data.size == 7) {
         "The TdsWeekLineChartDataList must be 7 in size"
     }
 

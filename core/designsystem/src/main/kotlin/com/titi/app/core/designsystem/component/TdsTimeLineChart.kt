@@ -35,7 +35,7 @@ fun TdsTimeLineChart(
     startColor: Color,
     endColor: Color,
 ) {
-    check(times.size == 24) {
+    require(times.size == 24) {
         "The times list must be 24 in size"
     }
 
