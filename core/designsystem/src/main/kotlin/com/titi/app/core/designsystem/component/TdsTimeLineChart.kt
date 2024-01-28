@@ -1,6 +1,7 @@
 package com.titi.app.core.designsystem.component
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -64,7 +65,10 @@ fun TdsTimeLineChart(
 @Composable
 private fun TdsTimeLineBar(modifier: Modifier = Modifier, time: Int, hour: String, brush: Brush) {
     val textMeasurer = rememberTextMeasurer()
-    val textStyle = TdsTextStyle.NORMAL_TEXT_STYLE.getTextStyle(fontSize = 10.sp)
+    val textStyle = TdsTextStyle
+        .NORMAL_TEXT_STYLE
+        .getTextStyle(fontSize = 10.sp)
+        .copy(color = TdsColor.BACKGROUND.getColor())
     val textLayoutResult = remember(hour) {
         textMeasurer.measure(hour, textStyle)
     }
@@ -119,7 +123,8 @@ private fun TdsTimeLineBarPreview() {
         TdsTimeLineBar(
             modifier = Modifier
                 .width(30.dp)
-                .height(100.dp),
+                .height(100.dp)
+                .background(Color.Black),
             time = 3600,
             hour = "24",
             brush = Brush
@@ -138,7 +143,9 @@ private fun TdsTimeLineBarPreview() {
 private fun TdsTimeLineChartPreview() {
     TiTiTheme {
         TdsTimeLineChart(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black),
             times = listOf(
                 3600,
                 1200,
