@@ -66,7 +66,7 @@ constructor(
     fun updateColor(isTextBlackColor: Boolean = false) {
         viewModelScope.launch {
             updateColorUseCase(
-                recordingMode = 1,
+                recordingMode = 2,
                 isTextColorBlack = isTextBlackColor,
             )
         }
@@ -76,7 +76,7 @@ constructor(
         viewModelScope.launch {
             if (::prevStopWatchColor.isInitialized) {
                 updateColorUseCase(
-                    recordingMode = 1,
+                    recordingMode = 2,
                     backgroundColor = prevStopWatchColor.backgroundColor,
                     isTextColorBlack = prevStopWatchColor.isTextColorBlack,
                 )
