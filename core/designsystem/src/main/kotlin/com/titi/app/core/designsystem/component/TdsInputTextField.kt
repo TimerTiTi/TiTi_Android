@@ -36,8 +36,13 @@ fun TdsOutlinedInputTextField(
         modifier = modifier,
         value = text,
         onValueChange = onValueChange,
-        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE.getTextStyle(fontSize = fontSize)
-            .copy(textAlign = TextAlign.Center),
+        textStyle = TdsTextStyle
+            .NORMAL_TEXT_STYLE
+            .getTextStyle(fontSize = fontSize)
+            .copy(
+                color = TdsColor.TEXT.getColor(),
+                textAlign = TextAlign.Center,
+            ),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
     ) { innerTextField ->
