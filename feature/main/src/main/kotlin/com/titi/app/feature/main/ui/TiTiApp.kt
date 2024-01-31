@@ -6,6 +6,8 @@ import android.os.Build
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -62,7 +64,6 @@ fun TiTiApp(
     val bottomNavigationColor by appState.bottomNavigationColor.collectAsStateWithLifecycle()
 
     Scaffold(
-        containerColor = Color(bottomNavigationColor),
         bottomBar = {
             if (appState.shouldShowBottomBar) {
                 TiTiBottomBar(
@@ -92,8 +93,14 @@ private fun TiTiBottomBar(
     onNavigateToDestination: (TopLevelDestination) -> Unit,
     currentDestination: NavDestination?,
 ) {
+    val animateBottomNavigationBackgroundColor by animateColorAsState(
+        targetValue = Color(bottomNavigationColor),
+        tween(0),
+        label = "animateBottomNavigationBackgroundColor",
+    )
+
     NavigationBar(
-        containerColor = Color(bottomNavigationColor),
+        containerColor = animateBottomNavigationBackgroundColor,
         tonalElevation = 0.dp,
     ) {
         destinations.forEach { destination ->

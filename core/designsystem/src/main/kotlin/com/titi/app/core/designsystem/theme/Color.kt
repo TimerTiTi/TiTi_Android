@@ -20,6 +20,10 @@ data class TdsColorsPalette(
     val d12: Color = Color.Unspecified,
     val textColor: Color = Color.Unspecified,
     val backgroundColor: Color = Color.Unspecified,
+    val secondaryBackgroundColor: Color = Color.Unspecified,
+    val switchBackgroundColor: Color = Color.Unspecified,
+    val alertBackgroundColor: Color = Color.Unspecified,
+    val tertiaryBackgroundColor: Color = Color.Unspecified,
     val redColor: Color = Color.Unspecified,
     val blueColor: Color = Color.Unspecified,
     val dividerColor: Color = Color.Unspecified,
@@ -44,6 +48,10 @@ val TdsLightColorsPalette =
         d12 = Color(0xFF928AEA),
         textColor = Color(0xFF000000),
         backgroundColor = Color(0xFFFFFFFF),
+        secondaryBackgroundColor = Color(0xFFF2F2F7),
+        switchBackgroundColor = Color(0xFFE9E9EB),
+        alertBackgroundColor = Color(0xD1EEEEEE),
+        tertiaryBackgroundColor = Color(0xFFFFFFFF),
         redColor = Color(0xFFFF453A),
         blueColor = Color(0xFF0A84FF),
         dividerColor = Color(0x4D000000),
@@ -68,9 +76,13 @@ val TdsDarkColorsPalette =
         d12 = Color(0xFF6379EB),
         textColor = Color(0xFFFFFFFF),
         backgroundColor = Color(0xFF000000),
+        secondaryBackgroundColor = Color(0xFF1C1C1E),
+        switchBackgroundColor = Color(0xFF39393D),
+        alertBackgroundColor = Color(0xD12B2B2B),
+        tertiaryBackgroundColor = Color(0xFF2C2C2E),
         redColor = Color(0xFFFF453A),
         blueColor = Color(0xFF0A84FF),
-        dividerColor = Color(0x99000000),
+        dividerColor = Color(0x4DFFFFFF),
         lightGrayColor = Color(0xFF555555),
         whiteColor = Color(0xFFFFFFFF),
         blackColor = Color(0xFF000000),
@@ -92,6 +104,10 @@ enum class TdsColor {
 
     TEXT,
     BACKGROUND,
+    SECONDARY_BACKGROUND,
+    SWITCH_BACKGROUND,
+    ALERT_BACKGROUND,
+    TERTIARY_BACKGROUND,
     RED,
     BLUE,
     DIVIDER,
@@ -118,6 +134,11 @@ enum class TdsColor {
 
         TEXT -> TiTiTheme.colors.textColor
         BACKGROUND -> TiTiTheme.colors.backgroundColor
+        SECONDARY_BACKGROUND -> TiTiTheme.colors.secondaryBackgroundColor
+        SWITCH_BACKGROUND -> TiTiTheme.colors.switchBackgroundColor
+        ALERT_BACKGROUND -> TiTiTheme.colors.alertBackgroundColor
+        TERTIARY_BACKGROUND -> TiTiTheme.colors.tertiaryBackgroundColor
+
         RED -> TiTiTheme.colors.redColor
         BLUE -> TiTiTheme.colors.blueColor
         DIVIDER -> TiTiTheme.colors.dividerColor

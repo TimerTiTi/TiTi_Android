@@ -75,8 +75,7 @@ fun TimerScreen(
     if (showSelectColorDialog) {
         TimeColorDialog(
             backgroundColor = Color(uiState.timerColor.backgroundColor),
-            textColor =
-            if (uiState.timerColor.isTextColorBlack) {
+            textColor = if (uiState.timerColor.isTextColorBlack) {
                 Color.Black
             } else {
                 Color.White
@@ -87,7 +86,9 @@ fun TimerScreen(
             onShowDialog = {
                 showSelectColorDialog = it
             },
-            onClickBackgroundColor = onNavigateToColor,
+            onClickBackgroundColor = {
+                onNavigateToColor()
+            },
             onClickTextColor = {
                 viewModel.updateColor(it)
             },
@@ -115,8 +116,7 @@ fun TimerScreen(
 
     if (showCheckTaskDailyDialog) {
         TimeCheckDailyDialog(
-            title =
-            if (!uiState.isSetTask && !uiState.isDailyAfter6AM) {
+            title = if (!uiState.isSetTask && !uiState.isDailyAfter6AM) {
                 stringResource(id = R.string.daily_task_check_title)
             } else if (!uiState.isSetTask) {
                 stringResource(id = R.string.task_check_title)
@@ -150,8 +150,7 @@ fun TimerScreen(
         uiState = uiState,
         isFinish = isFinish,
         backgroundColor = Color(uiState.timerColor.backgroundColor),
-        textColor =
-        if (uiState.timerColor.isTextColorBlack) {
+        textColor = if (uiState.timerColor.isTextColorBlack) {
             TdsColor.BLACK
         } else {
             TdsColor.WHITE
@@ -219,8 +218,7 @@ private fun TimerScreen(
     val scrollState = rememberScrollState()
 
     Column(
-        modifier =
-        Modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor)
             .padding(top = 16.dp)
@@ -250,8 +248,7 @@ private fun TimerScreen(
                 isFinish = isFinish,
                 outCircularLineColor = textColor.getColor(),
                 outCircularProgress = outCircularProgress,
-                inCircularLineTrackColor =
-                if (textColor == TdsColor.WHITE) {
+                inCircularLineTrackColor = if (textColor == TdsColor.WHITE) {
                     TdsColor.BLACK
                 } else {
                     TdsColor.WHITE

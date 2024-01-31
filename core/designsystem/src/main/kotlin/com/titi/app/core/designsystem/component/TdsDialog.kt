@@ -1,6 +1,5 @@
 package com.titi.app.core.designsystem.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +11,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,7 +23,7 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable
 fun TdsDialog(
-    modifier: Modifier = Modifier.background(color = TdsColor.BACKGROUND.getColor()),
+    modifier: Modifier = Modifier,
     tdsDialogInfo: TdsDialogInfo,
     onShowDialog: (Boolean) -> Unit,
     bodyContent: (@Composable () -> Unit)? = null,
@@ -45,7 +43,7 @@ fun TdsDialog(
                 .fillMaxWidth()
                 .wrapContentHeight(),
             shape = RoundedCornerShape(14.dp),
-            color = Color.Transparent,
+            color = TdsColor.ALERT_BACKGROUND.getColor(),
         ) {
             Column(
                 modifier = modifier,

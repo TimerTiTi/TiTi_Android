@@ -71,8 +71,7 @@ fun StopWatchScreen(
     if (showSelectColorDialog) {
         TimeColorDialog(
             backgroundColor = Color(uiState.stopWatchColor.backgroundColor),
-            textColor =
-            if (uiState.stopWatchColor.isTextColorBlack) {
+            textColor = if (uiState.stopWatchColor.isTextColorBlack) {
                 Color.Black
             } else {
                 Color.White
@@ -110,8 +109,7 @@ fun StopWatchScreen(
 
     if (showCheckTaskDailyDialog) {
         TimeCheckDailyDialog(
-            title =
-            if (!uiState.isSetTask && !uiState.isDailyAfter6AM) {
+            title = if (!uiState.isSetTask && !uiState.isDailyAfter6AM) {
                 stringResource(id = R.string.daily_task_check_title)
             } else if (!uiState.isSetTask) {
                 stringResource(id = R.string.task_check_title)
@@ -127,8 +125,7 @@ fun StopWatchScreen(
     StopWatchScreen(
         uiState = uiState,
         backgroundColor = Color(uiState.stopWatchColor.backgroundColor),
-        textColor =
-        if (uiState.stopWatchColor.isTextColorBlack) {
+        textColor = if (uiState.stopWatchColor.isTextColorBlack) {
             TdsColor.BLACK
         } else {
             TdsColor.WHITE
@@ -185,8 +182,7 @@ private fun StopWatchScreen(
     val scrollState = rememberScrollState()
 
     Column(
-        modifier =
-        Modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor)
             .padding(top = 16.dp)
@@ -215,8 +211,7 @@ private fun StopWatchScreen(
             TdsTimer(
                 outCircularLineColor = textColor.getColor(),
                 outCircularProgress = outCircularProgress,
-                inCircularLineTrackColor =
-                if (textColor == TdsColor.WHITE) {
+                inCircularLineTrackColor = if (textColor == TdsColor.WHITE) {
                     TdsColor.BLACK
                 } else {
                     TdsColor.WHITE

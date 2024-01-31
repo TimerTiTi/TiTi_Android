@@ -1,6 +1,5 @@
 package com.titi.app.feature.time.content
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -22,13 +21,13 @@ fun TimeColorDialog(
     onClickTextColor: (Boolean) -> Unit,
 ) {
     TdsDialog(
-        modifier = Modifier.background(color = Color(0xCCFFFFFF)),
-        tdsDialogInfo =
-        TdsDialogInfo.Confirm(
+        tdsDialogInfo = TdsDialogInfo.Confirm(
             title = stringResource(id = R.string.custom_color),
             positiveText = stringResource(id = R.string.Ok),
             negativeText = stringResource(id = R.string.Cancel),
-            onPositive = {},
+            onPositive = {
+                onShowDialog(false)
+            },
             onNegative = onNegative,
         ),
         onShowDialog = onShowDialog,
@@ -37,7 +36,6 @@ fun TimeColorDialog(
             backgroundColor = backgroundColor,
             textColor = textColor,
             onClickBackgroundColor = {
-                onShowDialog(false)
                 onClickBackgroundColor()
             },
             onClickTextColor = onClickTextColor,

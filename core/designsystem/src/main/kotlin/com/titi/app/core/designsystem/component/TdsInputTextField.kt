@@ -12,6 +12,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,10 +38,16 @@ fun TdsOutlinedInputTextField(
         modifier = modifier,
         value = text,
         onValueChange = onValueChange,
-        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE.getTextStyle(fontSize = fontSize)
-            .copy(textAlign = TextAlign.Center),
+        textStyle = TdsTextStyle
+            .NORMAL_TEXT_STYLE
+            .getTextStyle(fontSize = fontSize)
+            .copy(
+                color = TdsColor.TEXT.getColor(),
+                textAlign = TextAlign.Center,
+            ),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
+        cursorBrush = SolidColor(TdsColor.TEXT.getColor()),
     ) { innerTextField ->
         Box(
             modifier = modifier
@@ -48,7 +56,8 @@ fun TdsOutlinedInputTextField(
                     color = TdsColor.DIVIDER.getColor(),
                     shape = RoundedCornerShape(4.dp),
                 )
-                .background(TdsColor.BACKGROUND.getColor()),
+                .clip(RoundedCornerShape(4.dp))
+                .background(TdsColor.TERTIARY_BACKGROUND.getColor()),
             contentAlignment = Alignment.Center,
         ) {
             innerTextField()
@@ -77,6 +86,7 @@ fun TdsOutlinedInputTextField(
             .copy(textAlign = TextAlign.Center),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
+        cursorBrush = SolidColor(TdsColor.TEXT.getColor()),
     ) { innerTextField ->
         Box(
             modifier =
@@ -86,7 +96,8 @@ fun TdsOutlinedInputTextField(
                     color = TdsColor.DIVIDER.getColor(),
                     shape = RoundedCornerShape(4.dp),
                 )
-                .background(TdsColor.BACKGROUND.getColor()),
+                .clip(RoundedCornerShape(4.dp))
+                .background(TdsColor.TERTIARY_BACKGROUND.getColor()),
             contentAlignment = Alignment.Center,
         ) {
             innerTextField()

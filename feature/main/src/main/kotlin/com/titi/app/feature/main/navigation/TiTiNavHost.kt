@@ -1,12 +1,13 @@
 package com.titi.app.feature.main.navigation
 
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import com.titi.app.core.util.toJson
-import com.titi.app.feature.color.navigation.colorGraph
-import com.titi.app.feature.color.navigation.navigateToColorGraph
+import com.titi.app.feature.color.ui.ColorActivity
 import com.titi.app.feature.main.ui.SplashResultState
 import com.titi.app.feature.main.ui.TiTiAppState
 import com.titi.app.feature.main.ui.toFeatureTimeModel
@@ -25,6 +26,7 @@ fun TiTiNavHost(
     modifier: Modifier = Modifier,
 ) {
     val navController = appState.navController
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         if (splashResultState.recordTimes.recording) {
@@ -40,14 +42,18 @@ fun TiTiNavHost(
         exitTransition = appState.exitTransition,
     ) {
         timeGraph(
-            startDestination =
-            if (splashResultState.recordTimes.recordingMode == 1) {
+            startDestination = if (splashResultState.recordTimes.recordingMode == 1) {
                 TIMER_SCREEN
             } else {
                 STOPWATCH_SCREEN
             },
             splashResultState = splashResultState.toFeatureTimeModel(),
-            onNavigateToColor = navController::navigateToColorGraph,
+            onNavigateToColor = {
+                val intent = Intent(context, ColorActivity::class.java).apply {
+                    putExtra("recordingMode", it)
+                }
+                context.startActivity(intent)
+            },
             onNavigateToMeasure = navController::navigateToMeasuringGraph,
             nestedGraphs = {
                 measuringGraph(
@@ -58,10 +64,6 @@ fun TiTiNavHost(
                             ?.set(TIMER_FINISH_KEY, it)
                         navController.popBackStack()
                     },
-                )
-
-                colorGraph(
-                    onFinish = { navController.popBackStack() },
                 )
             },
         )
