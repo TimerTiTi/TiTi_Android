@@ -112,7 +112,7 @@ fun TdsTaskListItem(
                         checkedTrackColor = themeColor,
                         checkedBorderColor = Color.Transparent,
                         checkedThumbColor = Color.White,
-                        uncheckedTrackColor = TdsColor.DIVIDER.getColor(),
+                        uncheckedTrackColor = TdsColor.SWITCH_BACKGROUND.getColor(),
                         uncheckedBorderColor = Color.Transparent,
                         uncheckedThumbColor = Color.White,
                     ),

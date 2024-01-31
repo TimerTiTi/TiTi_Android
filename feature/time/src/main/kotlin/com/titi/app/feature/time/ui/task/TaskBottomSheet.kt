@@ -135,8 +135,8 @@ fun TaskBottomSheet(
         sheetState = bottomSheetState,
         shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
         tonalElevation = 0.dp,
-        containerColor = TdsColor.BACKGROUND.getColor(),
-        contentColor = TdsColor.BACKGROUND.getColor(),
+        containerColor = TdsColor.SECONDARY_BACKGROUND.getColor(),
+        contentColor = TdsColor.SECONDARY_BACKGROUND.getColor(),
         dragHandle = null,
     ) {
         TaskBottomSheet(
@@ -348,11 +348,10 @@ fun TaskBottomSheet(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(
-                                color =
-                                if (isDragging) {
+                                color = if (isDragging) {
                                     TdsColor.DIVIDER.getColor()
                                 } else {
-                                    TdsColor.BACKGROUND.getColor()
+                                    TdsColor.SECONDARY_BACKGROUND.getColor()
                                 },
                             ),
                         tdsTask = TdsTask(
