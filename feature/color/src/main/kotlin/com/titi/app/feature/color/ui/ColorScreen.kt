@@ -37,6 +37,7 @@ import com.airbnb.mvrx.compose.mavericksViewModel
 import com.github.skydoves.colorpicker.compose.AlphaSlider
 import com.github.skydoves.colorpicker.compose.AlphaTile
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
+import com.github.skydoves.colorpicker.compose.ColorPickerController
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import com.titi.app.core.designsystem.R
@@ -55,16 +56,14 @@ fun ColorScreen(
     recordingMode: Int,
     onFinish: () -> Unit,
 ) {
-    val controller = rememberColorPickerController()
-
     val uiState by viewModel.collectAsState()
+    val controller = rememberColorPickerController()
 
     var showDialog by remember { mutableStateOf(false) }
     var selectedColor by remember { mutableLongStateOf(0L) }
     if (showDialog) {
         TdsDialog(
-            tdsDialogInfo =
-            TdsDialogInfo.Confirm(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
                 title = stringResource(R.string.setting_background_text),
                 cancelable = false,
                 positiveText = stringResource(id = R.string.Ok),
@@ -80,8 +79,7 @@ fun ColorScreen(
             onShowDialog = { showDialog = it },
         ) {
             Box(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .size(40.dp)
                     .clip(RoundedCornerShape(6.dp))
                     .background(Color(selectedColor))
@@ -90,16 +88,44 @@ fun ColorScreen(
         }
     }
 
+    ColorScreen(
+        uiState = uiState,
+        controller = controller,
+        onShowDialog = {
+            selectedColor = it
+            showDialog = true
+        },
+        onClickCancel = onFinish,
+        onClickConfirm = {
+            viewModel.addBackgroundColor(
+                colors = uiState.colors,
+                color = controller.selectedColor.value.toArgb().toLong(),
+            )
+            viewModel.updateColor(
+                recordingMode = recordingMode,
+                color = controller.selectedColor.value.toArgb().toLong(),
+            )
+            onFinish()
+        },
+    )
+}
+
+@Composable
+private fun ColorScreen(
+    uiState: ColorUiState,
+    controller: ColorPickerController,
+    onShowDialog: (Long) -> Unit,
+    onClickCancel: () -> Unit,
+    onClickConfirm: () -> Unit,
+) {
     Column(
-        modifier =
-        Modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Color.Black),
     ) {
         HsvColorPicker(
-            modifier =
-            Modifier
-                .size(450.dp)
+            modifier = Modifier
+                .weight(1f)
                 .padding(
                     vertical = 10.dp,
                     horizontal = 24.dp,
@@ -108,8 +134,7 @@ fun ColorScreen(
         )
 
         TdsText(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
             text = "#${controller.selectedColor.value.hexCode}",
@@ -122,8 +147,7 @@ fun ColorScreen(
         Spacer(modifier = Modifier.height(10.dp))
 
         AlphaSlider(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     vertical = 10.dp,
@@ -134,8 +158,7 @@ fun ColorScreen(
         )
 
         BrightnessSlider(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     vertical = 10.dp,
@@ -146,8 +169,7 @@ fun ColorScreen(
         )
 
         Row(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .padding(
                     top = 10.dp,
                     start = 24.dp,
@@ -155,8 +177,7 @@ fun ColorScreen(
                 ),
         ) {
             AlphaTile(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .size(80.dp)
                     .clip(RoundedCornerShape(6.dp))
                     .border(2.dp, Color.LightGray),
@@ -168,18 +189,14 @@ fun ColorScreen(
             ColorPresetContent(
                 modifier = Modifier.fillMaxWidth(),
                 colors = uiState.colors,
-                onShowDialog = {
-                    selectedColor = it
-                    showDialog = true
-                },
+                onShowDialog = onShowDialog,
             )
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(10.dp))
 
         ColorButtons(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     top = 10.dp,
@@ -188,18 +205,8 @@ fun ColorScreen(
                     bottom = 24.dp,
                 ),
             color = controller.selectedColor.value,
-            onClickCancel = onFinish,
-            onClickConfirm = {
-                viewModel.addBackgroundColor(
-                    colors = uiState.colors,
-                    color = controller.selectedColor.value.toArgb().toLong(),
-                )
-                viewModel.updateColor(
-                    recordingMode = recordingMode,
-                    color = controller.selectedColor.value.toArgb().toLong(),
-                )
-                onFinish()
-            },
+            onClickCancel = onClickCancel,
+            onClickConfirm = onClickConfirm,
         )
     }
 }
@@ -213,8 +220,7 @@ private fun ColorPresetContent(
     Column(modifier = modifier) {
         repeat(2) { columnIndex ->
             Row(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -222,8 +228,7 @@ private fun ColorPresetContent(
                 repeat(6) { rowIndex ->
                     val index = columnIndex * 6 + rowIndex
                     Box(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .size(35.dp)
                             .clip(RoundedCornerShape(6.dp))
                             .border(2.dp, Color.LightGray)
@@ -231,8 +236,7 @@ private fun ColorPresetContent(
                     ) {
                         colors.getOrNull(index)?.let {
                             Box(
-                                modifier =
-                                Modifier
+                                modifier = Modifier
                                     .fillMaxSize()
                                     .background(Color(it))
                                     .clickable { onShowDialog(it) },
@@ -285,13 +289,16 @@ private fun ColorButtons(
     }
 }
 
-@Preview
+@Preview(widthDp = 600, heightDp = 600)
 @Composable
 private fun ColorScreenPreview() {
     TiTiTheme {
         ColorScreen(
-            recordingMode = 1,
-            onFinish = {},
+            uiState = ColorUiState(),
+            controller = rememberColorPickerController(),
+            onClickConfirm = {},
+            onClickCancel = {},
+            onShowDialog = {},
         )
     }
 }
