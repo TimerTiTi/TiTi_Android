@@ -150,8 +150,7 @@ fun TimerScreen(
         uiState = uiState,
         isFinish = isFinish,
         backgroundColor = Color(uiState.timerColor.backgroundColor),
-        textColor =
-        if (uiState.timerColor.isTextColorBlack) {
+        textColor = if (uiState.timerColor.isTextColorBlack) {
             TdsColor.BLACK
         } else {
             TdsColor.WHITE

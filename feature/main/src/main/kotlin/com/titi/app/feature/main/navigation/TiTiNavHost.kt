@@ -42,8 +42,7 @@ fun TiTiNavHost(
         exitTransition = appState.exitTransition,
     ) {
         timeGraph(
-            startDestination =
-            if (splashResultState.recordTimes.recordingMode == 1) {
+            startDestination = if (splashResultState.recordTimes.recordingMode == 1) {
                 TIMER_SCREEN
             } else {
                 STOPWATCH_SCREEN
