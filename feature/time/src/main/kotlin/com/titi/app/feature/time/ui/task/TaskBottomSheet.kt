@@ -77,14 +77,15 @@ fun TaskBottomSheet(
     if (showAddTaskDialog) {
         taskName = ""
         TdsDialog(
-            tdsDialogInfo =
-            TdsDialogInfo.Confirm(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
                 title = stringResource(id = R.string.add_task_title),
                 message = stringResource(id = R.string.add_task_message),
                 cancelable = false,
                 positiveText = stringResource(id = R.string.Ok),
                 onPositive = {
-                    viewModel.addTask(taskName)
+                    if (taskName.isNotEmpty()) {
+                        viewModel.addTask(taskName)
+                    }
                 },
                 negativeText = stringResource(id = R.string.Cancel),
             ),
@@ -100,8 +101,7 @@ fun TaskBottomSheet(
             }
 
             TdsOutlinedInputTextField(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .height(26.dp)
                     .padding(horizontal = 15.dp)
@@ -127,8 +127,7 @@ fun TaskBottomSheet(
 
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ModalBottomSheet(
-        modifier =
-        Modifier
+        modifier = Modifier
             .fillMaxHeight(0.9f)
             .fillMaxWidth()
             .navigationBarsPadding(),
@@ -218,8 +217,7 @@ fun TaskBottomSheet(
         seconds = ""
 
         TdsDialog(
-            tdsDialogInfo =
-            TdsDialogInfo.Confirm(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
                 title = editTask.taskName,
                 message = stringResource(id = R.string.edit_task_target_time),
                 positiveText = stringResource(id = R.string.Ok),
@@ -254,18 +252,17 @@ fun TaskBottomSheet(
             keyboard?.show()
         }
 
-        val confirm =
-            TdsDialogInfo.Confirm(
-                title = stringResource(id = R.string.modify_task_title),
-                message = stringResource(id = R.string.add_task_message),
-                positiveText = stringResource(id = R.string.Ok),
-                onPositive = {
-                    if (editTaskName.text != editTask.taskName) {
-                        onModifyTaskName(Pair(editTask, editTaskName.text))
-                    }
-                },
-                negativeText = stringResource(id = R.string.Cancel),
-            )
+        val confirm = TdsDialogInfo.Confirm(
+            title = stringResource(id = R.string.modify_task_title),
+            message = stringResource(id = R.string.add_task_message),
+            positiveText = stringResource(id = R.string.Ok),
+            onPositive = {
+                if (editTaskName.text != editTask.taskName) {
+                    onModifyTaskName(Pair(editTask, editTaskName.text))
+                }
+            },
+            negativeText = stringResource(id = R.string.Cancel),
+        )
 
         TdsDialog(
             tdsDialogInfo = confirm,
@@ -274,8 +271,7 @@ fun TaskBottomSheet(
             },
         ) {
             TdsOutlinedInputTextField(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .height(26.dp)
                     .padding(horizontal = 15.dp)
@@ -291,15 +287,13 @@ fun TaskBottomSheet(
 
     Column(modifier = Modifier.fillMaxSize()) {
         Box(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp),
         ) {
             TdsTextButton(
                 modifier = Modifier.align(Alignment.CenterStart),
-                text =
-                if (editMode) {
+                text = if (editMode) {
                     stringResource(id = R.string.done)
                 } else {
                     stringResource(id = R.string.edit)
@@ -330,21 +324,19 @@ fun TaskBottomSheet(
         }
 
         val listState = rememberLazyListState()
-        val dragDropState =
-            rememberDragDropState(lazyListState = listState) { from, to ->
-                onTaskMove(Pair(from, to))
-            }
-        val modifier =
-            if (editMode) {
-                Modifier
-                    .dragContainer(dragDropState)
-                    .fillMaxSize()
-                    .padding(horizontal = 20.dp)
-            } else {
-                Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 20.dp)
-            }
+        val dragDropState = rememberDragDropState(lazyListState = listState) { from, to ->
+            onTaskMove(Pair(from, to))
+        }
+        val modifier = if (editMode) {
+            Modifier
+                .dragContainer(dragDropState)
+                .fillMaxSize()
+                .padding(horizontal = 20.dp)
+        } else {
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp)
+        }
 
         LazyColumn(
             modifier = modifier,
@@ -353,8 +345,7 @@ fun TaskBottomSheet(
             itemsIndexed(uiState.tasks) { index, task ->
                 DraggableItem(dragDropState = dragDropState, index = index) { isDragging ->
                     TdsTaskListItem(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .fillMaxWidth()
                             .background(
                                 color =
@@ -364,8 +355,7 @@ fun TaskBottomSheet(
                                     TdsColor.BACKGROUND.getColor()
                                 },
                             ),
-                        tdsTask =
-                        TdsTask(
+                        tdsTask = TdsTask(
                             taskTargetTime = task.taskTargetTime,
                             isTaskTargetTimeOn = task.isTaskTargetTimeOn,
                             taskName = task.taskName,
@@ -379,11 +369,10 @@ fun TaskBottomSheet(
                         },
                         onLongClickTask = {
                             editTask = task
-                            editTaskName =
-                                editTaskName.copy(
-                                    text = task.taskName,
-                                    selection = TextRange(task.taskName.length),
-                                )
+                            editTaskName = editTaskName.copy(
+                                text = task.taskName,
+                                selection = TextRange(task.taskName.length),
+                            )
                             showTaskNameModifyDialog = true
                         },
                         onEdit = {
@@ -418,8 +407,7 @@ private fun TaskBottomSheetPreview() {
         TaskBottomSheet(
             uiState =
             TaskUiState(
-                tasks =
-                listOf(
+                tasks = listOf(
                     Task(
                         id = 0,
                         position = 0,
