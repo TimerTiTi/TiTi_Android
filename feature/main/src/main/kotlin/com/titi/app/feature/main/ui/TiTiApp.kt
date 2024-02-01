@@ -9,8 +9,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
@@ -32,6 +38,7 @@ import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.feature.main.navigation.TiTiNavHost
 import com.titi.app.feature.main.navigation.TopLevelDestination
 
+@OptIn(ExperimentalLayoutApi::class)
 @SuppressLint("UnusedContentLambdaTargetStateParameter")
 @Composable
 fun TiTiApp(
@@ -64,6 +71,8 @@ fun TiTiApp(
     val bottomNavigationColor by appState.bottomNavigationColor.collectAsStateWithLifecycle()
 
     Scaffold(
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+        containerColor = Color.Transparent,
         bottomBar = {
             if (appState.shouldShowBottomBar) {
                 TiTiBottomBar(
@@ -74,15 +83,22 @@ fun TiTiApp(
                 )
             }
         },
-    ) {
-        TiTiNavHost(
+    ) { padding ->
+        Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
-                .background(Color(bottomNavigationColor)),
-            appState = appState,
-            splashResultState = splashResultState,
-        )
+                .background(Color(bottomNavigationColor))
+                .padding(padding)
+                .consumeWindowInsets(padding)
+                .navigationBarsPadding()
+                .statusBarsPadding(),
+        ) {
+            TiTiNavHost(
+                modifier = Modifier.fillMaxSize(),
+                appState = appState,
+                splashResultState = splashResultState,
+            )
+        }
     }
 }
 
