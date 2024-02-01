@@ -1,6 +1,7 @@
 package com.titi.app.feature.time.ui.stopwatch
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -209,6 +210,9 @@ private fun StopWatchScreen(
 
         with(uiState.stopWatchRecordTimes) {
             TdsTimer(
+                modifier = Modifier.clickable {
+                    onClickStartRecord()
+                },
                 outCircularLineColor = textColor.getColor(),
                 outCircularProgress = outCircularProgress,
                 inCircularLineTrackColor = if (textColor == TdsColor.WHITE) {

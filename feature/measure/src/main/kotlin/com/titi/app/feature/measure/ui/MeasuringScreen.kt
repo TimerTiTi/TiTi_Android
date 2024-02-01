@@ -6,6 +6,7 @@ import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -219,6 +220,9 @@ private fun MeasuringScreen(
 
         with(uiState.measuringRecordTimes) {
             TdsTimer(
+                modifier = Modifier.clickable {
+                    onFinishClick()
+                },
                 outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
                 outCircularProgress = outCircularProgress,
                 inCircularLineTrackColor = TdsColor.WHITE,

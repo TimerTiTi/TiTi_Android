@@ -1,6 +1,7 @@
 package com.titi.app.feature.time.ui.timer
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -245,6 +246,9 @@ private fun TimerScreen(
 
         with(uiState.timerRecordTimes) {
             TdsTimer(
+                modifier = Modifier.clickable {
+                    onClickStartRecord()
+                },
                 isFinish = isFinish,
                 outCircularLineColor = textColor.getColor(),
                 outCircularProgress = outCircularProgress,
