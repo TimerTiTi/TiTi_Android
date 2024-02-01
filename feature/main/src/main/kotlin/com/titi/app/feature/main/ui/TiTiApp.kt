@@ -6,9 +6,6 @@ import android.os.Build
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -16,9 +13,11 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -34,6 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.titi.app.core.designsystem.component.TdsNavigationBarItem
+import com.titi.app.core.designsystem.component.TdsNavigationRailItem
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.feature.main.navigation.TiTiNavHost
 import com.titi.app.feature.main.navigation.TopLevelDestination
@@ -72,7 +72,7 @@ fun TiTiApp(
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
-        containerColor = Color.Transparent,
+        containerColor = Color(bottomNavigationColor),
         bottomBar = {
             if (appState.shouldShowBottomBar) {
                 TiTiBottomBar(
@@ -87,12 +87,21 @@ fun TiTiApp(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(bottomNavigationColor))
                 .padding(padding)
                 .consumeWindowInsets(padding)
                 .navigationBarsPadding()
                 .statusBarsPadding(),
         ) {
+            if (appState.shouldShowNavRail) {
+                TiTiRail(
+                    modifier = Modifier.safeDrawingPadding(),
+                    bottomNavigationColor = bottomNavigationColor,
+                    destinations = appState.topLevelDestinations,
+                    onNavigateToDestination = appState::navigateToTopLevelDestination,
+                    currentDestination = appState.currentDestination,
+                )
+            }
+
             TiTiNavHost(
                 modifier = Modifier.fillMaxSize(),
                 appState = appState,
@@ -109,19 +118,42 @@ private fun TiTiBottomBar(
     onNavigateToDestination: (TopLevelDestination) -> Unit,
     currentDestination: NavDestination?,
 ) {
-    val animateBottomNavigationBackgroundColor by animateColorAsState(
-        targetValue = Color(bottomNavigationColor),
-        tween(0),
-        label = "animateBottomNavigationBackgroundColor",
-    )
-
     NavigationBar(
-        containerColor = animateBottomNavigationBackgroundColor,
+        containerColor = Color(bottomNavigationColor),
         tonalElevation = 0.dp,
     ) {
         destinations.forEach { destination ->
             val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
             TdsNavigationBarItem(
+                selected = selected,
+                onClick = { onNavigateToDestination(destination) },
+                icon = {
+                    Icon(
+                        painter = painterResource(id = destination.iconResourceId),
+                        contentDescription = stringResource(id = destination.titleTextId),
+                    )
+                },
+                label = { Text(stringResource(destination.titleTextId)) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun TiTiRail(
+    modifier: Modifier = Modifier,
+    bottomNavigationColor: Long,
+    destinations: List<TopLevelDestination>,
+    onNavigateToDestination: (TopLevelDestination) -> Unit,
+    currentDestination: NavDestination?,
+) {
+    NavigationRail(
+        modifier = modifier,
+        containerColor = Color(bottomNavigationColor),
+    ) {
+        destinations.forEach { destination ->
+            val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
+            TdsNavigationRailItem(
                 selected = selected,
                 onClick = { onNavigateToDestination(destination) },
                 icon = {
