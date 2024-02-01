@@ -124,7 +124,6 @@ fun StopWatchScreen(
 
     StopWatchScreen(
         uiState = uiState,
-        backgroundColor = Color(uiState.stopWatchColor.backgroundColor),
         textColor = if (uiState.stopWatchColor.isTextColorBlack) {
             TdsColor.BLACK
         } else {
@@ -171,7 +170,6 @@ fun StopWatchScreen(
 @Composable
 private fun StopWatchScreen(
     uiState: StopWatchUiState,
-    backgroundColor: Color,
     textColor: TdsColor,
     onClickColor: () -> Unit,
     onClickTask: () -> Unit,

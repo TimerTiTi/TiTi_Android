@@ -149,7 +149,6 @@ fun TimerScreen(
     TimerScreen(
         uiState = uiState,
         isFinish = isFinish,
-        backgroundColor = Color(uiState.timerColor.backgroundColor),
         textColor = if (uiState.timerColor.isTextColorBlack) {
             TdsColor.BLACK
         } else {
@@ -207,7 +206,6 @@ fun TimerScreen(
 private fun TimerScreen(
     uiState: TimerUiState,
     isFinish: Boolean,
-    backgroundColor: Color,
     textColor: TdsColor,
     onClickColor: () -> Unit,
     onClickTask: () -> Unit,
