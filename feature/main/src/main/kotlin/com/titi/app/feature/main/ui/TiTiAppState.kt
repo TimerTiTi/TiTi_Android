@@ -85,13 +85,17 @@ class TiTiAppState(
         @Composable get() =
             windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact && isTopLevelDestination
 
+    val shouldShowNavRail: Boolean
+        @Composable get() =
+            windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact && isTopLevelDestination
+
     val bottomNavigationColor: StateFlow<Long> =
         getTimeColorFlowUseCase()
             .combine(currentDestinationRouteFlow) { timeColor: TimeColor, route: String? ->
                 when (route) {
                     TIMER_ROUTE -> timeColor.timerBackgroundColor
                     STOPWATCH_ROUTE -> timeColor.stopwatchBackgroundColor
-                    else -> 0xFFFFFFFF
+                    else -> 0xFF000000
                 }
             }
             .stateIn(
@@ -104,7 +108,7 @@ class TiTiAppState(
         @Composable get() =
             if (isTopLevelDestination) {
                 {
-                    fadeIn(tween(0))
+                    fadeIn(tween(300))
                 }
             } else {
                 {
@@ -119,7 +123,7 @@ class TiTiAppState(
         @Composable get() =
             if (isTopLevelDestination) {
                 {
-                    fadeOut(tween(0))
+                    fadeOut(tween(300))
                 }
             } else {
                 {

@@ -2,52 +2,37 @@ package com.titi.app.feature.main.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.titi.app.doamin.daily.usecase.GetCurrentDailyUseCase
-import com.titi.app.domain.color.usecase.GetTimeColorUseCase
-import com.titi.app.domain.time.usecase.GetRecordTimesUseCase
+import com.titi.app.doamin.daily.usecase.GetCurrentDailyFlowUseCase
+import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
+import com.titi.app.domain.time.usecase.GetRecordTimesFlowUseCase
 import com.titi.app.feature.main.ui.SplashResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.shareIn
 
 @HiltViewModel
-class MainViewModel
-@Inject
-constructor(
-    private val getRecordTimesUseCase: GetRecordTimesUseCase,
-    private val getTimeColorUseCase: GetTimeColorUseCase,
-    private val getCurrentDailyUseCase: GetCurrentDailyUseCase,
+class MainViewModel @Inject constructor(
+    getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
+    getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
+    getCurrentDailyFlowUseCase: GetCurrentDailyFlowUseCase,
 ) : ViewModel() {
-    private val _splashResultState: MutableStateFlow<SplashResultState?> =
-        MutableStateFlow(null)
-    val splashResultState = _splashResultState.asStateFlow()
 
-    init {
-        viewModelScope.launch {
-            val recordTimesResult =
-                async {
-                    getRecordTimesUseCase()
-                }
-
-            val timeColorResult =
-                async {
-                    getTimeColorUseCase()
-                }
-
-            val dailyResult =
-                async {
-                    getCurrentDailyUseCase()
-                }
-
-            _splashResultState.value =
-                SplashResultState(
-                    recordTimes = recordTimesResult.await(),
-                    timeColor = timeColorResult.await(),
-                    daily = dailyResult.await(),
-                )
-        }
-    }
+    val splashResultState: SharedFlow<SplashResultState?> = combine(
+        getRecordTimesFlowUseCase(),
+        getTimeColorFlowUseCase(),
+        getCurrentDailyFlowUseCase(),
+    ) { recordTimes, timeColor, daily ->
+        SplashResultState(
+            recordTimes = recordTimes,
+            timeColor = timeColor,
+            daily = daily,
+        )
+    }.shareIn(
+        started = SharingStarted.WhileSubscribed(),
+        scope = viewModelScope,
+        replay = 0,
+    )
 }
