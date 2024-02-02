@@ -1,7 +1,6 @@
 package com.titi.app.feature.time.ui.timer
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -224,7 +223,6 @@ private fun TimerScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(uiState.timerColor.backgroundColor))
                     .padding(top = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -289,8 +287,7 @@ private fun TimerScreen(
             Box(
                 Modifier
                     .fillMaxSize()
-                    .safeDrawingPadding()
-                    .background(Color(uiState.timerColor.backgroundColor)),
+                    .safeDrawingPadding(),
                 contentAlignment = Alignment.Center,
             ) {
                 with(uiState.timerRecordTimes) {

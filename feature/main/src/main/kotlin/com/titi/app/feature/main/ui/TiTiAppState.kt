@@ -95,7 +95,7 @@ class TiTiAppState(
                 when (route) {
                     TIMER_ROUTE -> timeColor.timerBackgroundColor
                     STOPWATCH_ROUTE -> timeColor.stopwatchBackgroundColor
-                    else -> 0xFFFFFFFF
+                    else -> 0xFF000000
                 }
             }
             .stateIn(
