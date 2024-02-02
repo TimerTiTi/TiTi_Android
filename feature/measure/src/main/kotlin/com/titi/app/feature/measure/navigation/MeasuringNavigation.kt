@@ -20,7 +20,9 @@ private const val MEASURING_SCREEN = "measuring"
 private const val MEASURING_ROUTE = MEASURING_SCREEN
 
 fun NavController.navigateToMeasuringGraph(splashResultState: String) {
-    navigate(route = makeRoute(splashResultState))
+    navigate(route = makeRoute(splashResultState)) {
+        launchSingleTop = true
+    }
 }
 
 private fun makeRoute(splashResultState: String) =
