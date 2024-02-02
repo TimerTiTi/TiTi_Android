@@ -1,19 +1,20 @@
 package com.titi.app.feature.measure.ui
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -26,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -175,84 +177,116 @@ private fun MeasuringScreen(
     onSleepClick: () -> Unit,
     onFinishClick: () -> Unit,
 ) {
-    val scrollState = rememberScrollState()
+    val configuration = LocalConfiguration.current
 
-    Column(
-        modifier =
-        Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-            .padding(top = 16.dp)
-            .verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        TdsIconButton(
-            modifier =
-            Modifier
-                .padding(start = 16.dp)
-                .align(Alignment.Start),
-            size = 32.dp,
-            onClick = onSleepClick,
-        ) {
-            Icon(
-                painter =
-                if (uiState.isSleepMode) {
-                    painterResource(id = R.drawable.sleep_icon)
-                } else {
-                    painterResource(id = R.drawable.non_sleep_icon)
-                },
-                contentDescription = "sleepIcon",
-                tint = Color.White,
-            )
+    when (configuration.orientation) {
+        Configuration.ORIENTATION_PORTRAIT -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black)
+                    .padding(top = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                TdsIconButton(
+                    modifier =
+                    Modifier
+                        .padding(start = 16.dp)
+                        .align(Alignment.Start),
+                    size = 32.dp,
+                    onClick = onSleepClick,
+                ) {
+                    Icon(
+                        painter =
+                        if (uiState.isSleepMode) {
+                            painterResource(id = R.drawable.sleep_icon)
+                        } else {
+                            painterResource(id = R.drawable.non_sleep_icon)
+                        },
+                        contentDescription = "sleepIcon",
+                        tint = Color.White,
+                    )
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                TdsText(
+                    modifier = Modifier.padding(vertical = 12.dp),
+                    text = uiState.recordTimes.currentTask?.taskName,
+                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                    fontSize = 18.sp,
+                    color = Color.White,
+                )
+
+                Spacer(modifier = Modifier.height(50.dp))
+
+                with(uiState.measuringRecordTimes) {
+                    TdsTimer(
+                        modifier = Modifier.clickable {
+                            onFinishClick()
+                        },
+                        outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
+                        outCircularProgress = outCircularProgress,
+                        inCircularLineTrackColor = TdsColor.WHITE,
+                        inCircularProgress = inCircularProgress,
+                        fontColor = TdsColor.WHITE,
+                        themeColor = Color(uiState.measuringTimeColor.backgroundColor),
+                        recordingMode = uiState.recordTimes.recordingMode,
+                        savedSumTime = savedSumTime,
+                        savedTime = savedTime,
+                        savedGoalTime = savedGoalTime,
+                        finishGoalTime = finishGoalTime,
+                        isTaskTargetTimeOn = isTaskTargetTimeOn,
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(50.dp))
+
+                TdsIconButton(
+                    onClick = onFinishClick,
+                    size = 70.dp,
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.stop_record_icon),
+                        contentDescription = "startRecord",
+                        tint = TdsColor.RED.getColor(),
+                    )
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Spacer(modifier = Modifier.height(80.dp))
+            }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        TdsText(
-            modifier = Modifier.padding(vertical = 12.dp),
-            text = uiState.recordTimes.currentTask?.taskName,
-            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
-            fontSize = 18.sp,
-            color = Color.White,
-        )
-
-        Spacer(modifier = Modifier.height(50.dp))
-
-        with(uiState.measuringRecordTimes) {
-            TdsTimer(
-                modifier = Modifier.clickable {
-                    onFinishClick()
-                },
-                outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
-                outCircularProgress = outCircularProgress,
-                inCircularLineTrackColor = TdsColor.WHITE,
-                inCircularProgress = inCircularProgress,
-                fontColor = TdsColor.WHITE,
-                themeColor = Color(uiState.measuringTimeColor.backgroundColor),
-                recordingMode = uiState.recordTimes.recordingMode,
-                savedSumTime = savedSumTime,
-                savedTime = savedTime,
-                savedGoalTime = savedGoalTime,
-                finishGoalTime = finishGoalTime,
-                isTaskTargetTimeOn = isTaskTargetTimeOn,
-            )
+        else -> {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .safeDrawingPadding()
+                    .background(Color.Black),
+                contentAlignment = Alignment.Center,
+            ) {
+                with(uiState.measuringRecordTimes) {
+                    TdsTimer(
+                        modifier = Modifier.clickable {
+                            onFinishClick()
+                        },
+                        outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
+                        outCircularProgress = outCircularProgress,
+                        inCircularLineTrackColor = TdsColor.WHITE,
+                        inCircularProgress = inCircularProgress,
+                        fontColor = TdsColor.WHITE,
+                        themeColor = Color(uiState.measuringTimeColor.backgroundColor),
+                        recordingMode = uiState.recordTimes.recordingMode,
+                        savedSumTime = savedSumTime,
+                        savedTime = savedTime,
+                        savedGoalTime = savedGoalTime,
+                        finishGoalTime = finishGoalTime,
+                        isTaskTargetTimeOn = isTaskTargetTimeOn,
+                    )
+                }
+            }
         }
-
-        Spacer(modifier = Modifier.height(50.dp))
-
-        TdsIconButton(
-            onClick = onFinishClick,
-            size = 70.dp,
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.stop_record_icon),
-                contentDescription = "startRecord",
-                tint = TdsColor.RED.getColor(),
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Spacer(modifier = Modifier.height(80.dp))
     }
 }

@@ -4,15 +4,12 @@ import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,7 +27,6 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsTimer
-import com.titi.app.core.designsystem.extension.times
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.util.toJson
 import com.titi.app.feature.time.SplashResultState
@@ -251,42 +247,34 @@ private fun StopWatchScreen(
         }
 
         else -> {
-            BoxWithConstraints(
+            Box(
                 Modifier
                     .fillMaxSize()
                     .safeDrawingPadding()
                     .background(Color(uiState.stopWatchColor.backgroundColor)),
+                contentAlignment = Alignment.Center,
             ) {
-                val maxWidth = maxWidth
-
-                Row(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Box(modifier = Modifier.size(maxWidth.times(0.2)))
-
-                    with(uiState.stopWatchRecordTimes) {
-                        TdsTimer(
-                            modifier = Modifier.clickable {
-                                onClickStartRecord()
-                            },
-                            outCircularLineColor = textColor.getColor(),
-                            outCircularProgress = outCircularProgress,
-                            inCircularLineTrackColor = if (textColor == TdsColor.WHITE) {
-                                TdsColor.BLACK
-                            } else {
-                                TdsColor.WHITE
-                            },
-                            inCircularProgress = inCircularProgress,
-                            fontColor = textColor,
-                            recordingMode = 2,
-                            savedSumTime = savedSumTime,
-                            savedTime = savedTime,
-                            savedGoalTime = savedGoalTime,
-                            finishGoalTime = finishGoalTime,
-                            isTaskTargetTimeOn = isTaskTargetTimeOn,
-                        )
-                    }
+                with(uiState.stopWatchRecordTimes) {
+                    TdsTimer(
+                        modifier = Modifier.clickable {
+                            onClickStartRecord()
+                        },
+                        outCircularLineColor = textColor.getColor(),
+                        outCircularProgress = outCircularProgress,
+                        inCircularLineTrackColor = if (textColor == TdsColor.WHITE) {
+                            TdsColor.BLACK
+                        } else {
+                            TdsColor.WHITE
+                        },
+                        inCircularProgress = inCircularProgress,
+                        fontColor = textColor,
+                        recordingMode = 2,
+                        savedSumTime = savedSumTime,
+                        savedTime = savedTime,
+                        savedGoalTime = savedGoalTime,
+                        finishGoalTime = finishGoalTime,
+                        isTaskTargetTimeOn = isTaskTargetTimeOn,
+                    )
                 }
             }
         }
