@@ -1,5 +1,6 @@
 package com.titi.app.feature.time.ui.stopwatch
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -182,6 +183,7 @@ private fun StopWatchScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color(uiState.stopWatchColor.backgroundColor))
             .padding(top = 16.dp)
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
