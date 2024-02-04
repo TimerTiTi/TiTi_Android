@@ -4,9 +4,7 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -106,22 +104,13 @@ private fun TdsPieChart(
         }
 
         if (containsDonut) {
-            Column(
-                modifier = Modifier
-                    .size(holeRadiusDp * 2),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                pieData.forEach { pie ->
-                    TdsTaskResultListItem(
-                        taskName = pie.key,
-                        taskTotalTime = pie.value,
-                        color = pie.color,
-                        isSpacing = false,
-                        height = holeRadiusDp * 2 / pieData.size,
-                    )
-                }
-            }
+            TdsTaskResultList(
+                modifier = Modifier.size(holeRadiusDp * 2),
+                pieData = pieData,
+                isSpacing = false,
+                isCheck = false,
+                height = holeRadiusDp * 2 / 5,
+            )
         }
     }
 }
