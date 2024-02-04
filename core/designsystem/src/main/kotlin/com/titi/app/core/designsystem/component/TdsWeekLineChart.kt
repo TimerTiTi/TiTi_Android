@@ -96,7 +96,7 @@ private fun TdsWeekLineBar(
     Canvas(modifier = modifier) {
         val spacing = 4.dp.toPx()
 
-        val radius = size.width * 0.5f
+        val radius = size.width * 0.2f
         val barWidth = size.width * 0.9f
         val allTextHeight = timeTextLayoutResult.size.height + dateTextLayoutResult.size.height
         val barMaxHeight = size.height - 2 * spacing - allTextHeight

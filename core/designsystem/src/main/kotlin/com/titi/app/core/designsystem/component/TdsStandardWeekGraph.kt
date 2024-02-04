@@ -64,7 +64,7 @@ fun TdsStandardWeekGraph(
                 ) {
                     TdsText(
                         text = weekInformation.first,
-                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                         fontSize = 25.sp,
                         color = TdsColor.TEXT,
                     )
@@ -73,7 +73,7 @@ fun TdsStandardWeekGraph(
 
                     TdsText(
                         text = weekInformation.second,
-                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                         fontSize = 25.sp,
                         color = TdsColor.TEXT,
                     )
@@ -82,7 +82,7 @@ fun TdsStandardWeekGraph(
 
                     TdsText(
                         text = weekInformation.third,
-                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 14.sp,
                         color = TdsColor.TEXT,
                     )
@@ -116,14 +116,14 @@ fun TdsStandardWeekGraph(
                     ) {
                         TdsText(
                             text = "Total",
-                            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                             fontSize = 12.sp,
                             color = TdsColor.TEXT,
                         )
 
                         TdsText(
                             text = weekLineChardData.sumOf { it.time }.getTimeString(),
-                            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                            textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                             fontSize = 22.sp,
                             color = tdsColors.first(),
                         )
@@ -132,14 +132,14 @@ fun TdsStandardWeekGraph(
 
                         TdsText(
                             text = "Max",
-                            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                             fontSize = 12.sp,
                             color = TdsColor.TEXT,
                         )
 
                         TdsText(
                             text = weekLineChardData.maxOf { it.time }.getTimeString(),
-                            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                            textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                             fontSize = 22.sp,
                             color = tdsColors.first(),
                         )
@@ -183,14 +183,14 @@ fun TdsStandardWeekGraph(
                     ) {
                         TdsText(
                             text = "Total",
-                            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                             fontSize = 12.sp,
                             color = TdsColor.TEXT,
                         )
 
                         TdsText(
                             text = taskData.getSumTime(),
-                            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                            textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                             fontSize = 22.sp,
                             color = tdsColors.first(),
                         )

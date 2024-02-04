@@ -48,7 +48,7 @@ fun TdsTaskResultListItem(
         if (leftText != null) {
             TdsText(
                 text = leftText,
-                textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                 fontSize = fontSize,
                 color = color,
             )
@@ -80,7 +80,7 @@ fun TdsTaskResultListItem(
 
         TdsText(
             text = taskTotalTime,
-            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+            textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
             fontSize = fontSize,
             color = color,
             overflow = TextOverflow.Ellipsis,
