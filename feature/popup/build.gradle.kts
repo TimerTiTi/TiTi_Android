@@ -7,4 +7,6 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:color"))
+    implementation(project(":feature:measure"))
 }
