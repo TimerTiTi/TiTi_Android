@@ -37,7 +37,9 @@ fun TdsTaskResultList(
                     isCheck = isCheck,
                 )
 
-                TdsDivider(color = TdsColor.GRAPH_BORDER)
+                if (isCheck) {
+                    TdsDivider(color = TdsColor.GRAPH_BORDER)
+                }
             }
         }
     }
