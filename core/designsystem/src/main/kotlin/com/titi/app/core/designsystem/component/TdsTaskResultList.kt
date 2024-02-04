@@ -13,7 +13,7 @@ import com.titi.app.core.designsystem.model.TdsTaskData
 @Composable
 fun TdsTaskResultList(
     modifier: Modifier = Modifier,
-    pieData: List<TdsTaskData>,
+    taskData: List<TdsTaskData>,
     colors: List<Color>,
     isSpacing: Boolean,
     isCheck: Boolean,
@@ -24,7 +24,7 @@ fun TdsTaskResultList(
         verticalArrangement = if (isCheck) Arrangement.Top else Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        itemsIndexed(pieData) { index, pie ->
+        itemsIndexed(taskData) { index, pie ->
             TdsTaskResultListItem(
                 height = height,
                 taskName = pie.key,

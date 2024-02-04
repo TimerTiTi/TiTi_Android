@@ -24,7 +24,7 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable
-fun PieChart(
+fun TdsPieChart(
     modifier: Modifier = Modifier,
     taskData: List<TdsTaskData>,
     colors: List<Color>,
@@ -44,7 +44,7 @@ fun PieChart(
 
     TdsPieChart(
         modifier = modifier,
-        pieData = taskData,
+        taskData = taskData,
         colors = colors,
         progress = transitionProgress.value,
         containsDonut = containsDonut,
@@ -54,7 +54,7 @@ fun PieChart(
 @Composable
 private fun TdsPieChart(
     modifier: Modifier = Modifier,
-    pieData: List<TdsTaskData>,
+    taskData: List<TdsTaskData>,
     colors: List<Color>,
     progress: Float,
     containsDonut: Boolean = false,
@@ -78,7 +78,7 @@ private fun TdsPieChart(
         val holeRadiusDp = with(density) { holeRadius.toDp() }
 
         Canvas(modifier = Modifier.fillMaxSize()) {
-            pieData.forEachIndexed { index, pie ->
+            taskData.forEachIndexed { index, pie ->
                 val sweepAngle = (pie.progress * 360 - 3) * progress
 
                 drawArc(
@@ -110,7 +110,7 @@ private fun TdsPieChart(
         if (containsDonut) {
             TdsTaskResultList(
                 modifier = Modifier.size(holeRadiusDp * 2),
-                pieData = pieData,
+                taskData = taskData,
                 isSpacing = false,
                 isCheck = false,
                 height = holeRadiusDp * 2 / 5,
@@ -124,7 +124,7 @@ private fun TdsPieChart(
 @Composable
 private fun TdsPieChartPreview() {
     TiTiTheme {
-        PieChart(
+        TdsPieChart(
             modifier = Modifier.fillMaxSize(),
             containsDonut = true,
             taskData = listOf(
