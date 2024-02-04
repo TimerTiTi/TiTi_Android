@@ -27,7 +27,11 @@ import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable
-fun TdsTimeTable(modifier: Modifier = Modifier, data: List<TdsTimeTableData>) {
+fun TdsTimeTable(
+    modifier: Modifier = Modifier,
+    timeTableData: List<TdsTimeTableData>,
+    colors: List<Color>,
+) {
     var hour by remember {
         mutableStateOf("0")
     }
@@ -75,14 +79,14 @@ fun TdsTimeTable(modifier: Modifier = Modifier, data: List<TdsTimeTableData>) {
             )
         }
 
-        data.forEach { timeTableData ->
+        timeTableData.forEachIndexed { index, timeTableData ->
             val idx = (timeTableData.hour - 6).let { if (it < 0) it + 24 else it }
             val startX = itemWidth + itemWidth * 6 * timeTableData.start / 3600f
             val startY = itemHeight * idx
             val barWidth = itemWidth * 6 * (timeTableData.end - timeTableData.start) / 3600
 
             drawRoundRect(
-                color = timeTableData.color,
+                color = colors[index % colors.size],
                 cornerRadius = CornerRadius(8.dp.toPx(), 8.dp.toPx()),
                 topLeft = Offset(
                     x = startX,
@@ -112,7 +116,7 @@ fun DrawScope.drawGrid() {
                 y = startY,
             ),
             size = Size(itemWidth, itemHeight),
-            style = Stroke(width = 3f),
+            style = Stroke(width = 1f),
         )
         startX += itemWidth
 
@@ -131,31 +135,36 @@ private fun TdsTimeTablePreview() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White),
-            data = listOf(
+            timeTableData = listOf(
                 TdsTimeTableData(
                     hour = 3,
                     start = 1800,
                     end = 2400,
-                    color = TdsColor.D1.getColor(),
                 ),
                 TdsTimeTableData(
                     hour = 5,
                     start = 1234,
                     end = 2555,
-                    color = TdsColor.D5.getColor(),
                 ),
                 TdsTimeTableData(
                     hour = 12,
                     start = 600,
                     end = 3444,
-                    color = TdsColor.D6.getColor(),
                 ),
                 TdsTimeTableData(
                     hour = 23,
                     start = 2121,
                     end = 3333,
-                    color = TdsColor.D12.getColor(),
                 ),
+            ),
+            colors = listOf(
+                TdsColor.D1.getColor(),
+                TdsColor.D2.getColor(),
+                TdsColor.D3.getColor(),
+                TdsColor.D4.getColor(),
+                TdsColor.D5.getColor(),
+                TdsColor.D6.getColor(),
+                TdsColor.D7.getColor(),
             ),
         )
     }

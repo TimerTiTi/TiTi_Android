@@ -75,7 +75,7 @@ fun TdsStandardDailyGraph(
 
                 TdsText(
                     text = "TimeLine",
-                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 16.sp,
                     color = TdsColor.TEXT,
                 )

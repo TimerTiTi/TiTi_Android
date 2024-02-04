@@ -1,6 +1,7 @@
 package com.titi.app.core.designsystem.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
@@ -9,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.titi.app.core.designsystem.model.TdsTaskData
+import com.titi.app.core.designsystem.theme.TdsColor
 
 @Composable
 fun TdsTaskResultList(
@@ -25,14 +27,18 @@ fun TdsTaskResultList(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         itemsIndexed(taskData) { index, pie ->
-            TdsTaskResultListItem(
-                height = height,
-                taskName = pie.key,
-                taskTotalTime = pie.value,
-                color = colors[index % colors.size],
-                isSpacing = isSpacing,
-                isCheck = isCheck,
-            )
+            Column {
+                TdsTaskResultListItem(
+                    height = height,
+                    taskName = pie.key,
+                    taskTotalTime = pie.value,
+                    color = colors[index % colors.size],
+                    isSpacing = isSpacing,
+                    isCheck = isCheck,
+                )
+
+                TdsDivider(color = TdsColor.GRAPH_BORDER)
+            }
         }
     }
 }
