@@ -18,12 +18,12 @@ fun TdsTaskResultList(
     taskData: List<TdsTaskData>,
     colors: List<Color>,
     isSpacing: Boolean,
-    isCheck: Boolean,
+    leftText: String? = null,
     height: Dp,
 ) {
     LazyColumn(
         modifier = modifier,
-        verticalArrangement = if (isCheck) Arrangement.Top else Arrangement.Center,
+        verticalArrangement = if (leftText != null) Arrangement.Top else Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         itemsIndexed(taskData) { index, pie ->
@@ -34,10 +34,14 @@ fun TdsTaskResultList(
                     taskTotalTime = pie.value,
                     color = colors[index % colors.size],
                     isSpacing = isSpacing,
-                    isCheck = isCheck,
+                    leftText = when (leftText) {
+                        null -> null
+                        "Top" -> "Top${index + 1}"
+                        else -> leftText
+                    },
                 )
 
-                if (isCheck) {
+                if (leftText != null) {
                     TdsDivider(color = TdsColor.GRAPH_BORDER)
                 }
             }

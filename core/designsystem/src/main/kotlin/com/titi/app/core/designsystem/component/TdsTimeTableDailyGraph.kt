@@ -158,7 +158,7 @@ fun TdsTimeTableDailyGraph(
                             taskData = taskData,
                             colors = tdsColors.map { it.getColor() },
                             isSpacing = true,
-                            isCheck = true,
+                            leftText = "✔",
                             height = 20.dp,
                         )
                     }

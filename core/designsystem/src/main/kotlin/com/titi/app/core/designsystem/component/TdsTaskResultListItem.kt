@@ -30,10 +30,10 @@ fun TdsTaskResultListItem(
     taskTotalTime: String,
     color: Color,
     isSpacing: Boolean,
-    isCheck: Boolean,
+    leftText: String? = null,
 ) {
     val density = LocalDensity.current
-    val radius = if (isCheck) 0.dp else height / 10
+    val radius = if (leftText == null) 0.dp else height / 10
     val padding = height / 10
     val fontSize = with(density) { (height / 2).coerceAtLeast(10.dp).toSp() }
 
@@ -45,9 +45,9 @@ fun TdsTaskResultListItem(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if (isCheck) {
+        if (leftText != null) {
             TdsText(
-                text = "✔",
+                text = leftText,
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = fontSize,
                 color = color,
@@ -99,7 +99,7 @@ private fun TdsTaskResultListItemPreview() {
             taskTotalTime = "5:25:30",
             color = TdsColor.D1.getColor(),
             isSpacing = true,
-            isCheck = true,
+            leftText = "✔",
         )
     }
 }
