@@ -38,8 +38,6 @@ fun TiTiNavHost(
         modifier = modifier,
         navController = navController,
         startDestination = TIME_GRAPH_ROUTE,
-        enterTransition = appState.enterTransition,
-        exitTransition = appState.exitTransition,
     ) {
         timeGraph(
             startDestination = if (splashResultState.recordTimes.recordingMode == 1) {

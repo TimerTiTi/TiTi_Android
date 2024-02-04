@@ -1,18 +1,11 @@
 package com.titi.app.feature.main.ui
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -101,38 +94,8 @@ class TiTiAppState(
             .stateIn(
                 scope = coroutineScope,
                 SharingStarted.WhileSubscribed(),
-                initialValue = 0xFFFFFFFF,
+                initialValue = 0xFF000000,
             )
-
-    val enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition)
-        @Composable get() =
-            if (isTopLevelDestination) {
-                {
-                    fadeIn(tween(300))
-                }
-            } else {
-                {
-                    slideIntoContainer(
-                        AnimatedContentTransitionScope.SlideDirection.Left,
-                        animationSpec = tween(200),
-                    )
-                }
-            }
-
-    val exitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition)
-        @Composable get() =
-            if (isTopLevelDestination) {
-                {
-                    fadeOut(tween(300))
-                }
-            } else {
-                {
-                    slideOutOfContainer(
-                        AnimatedContentTransitionScope.SlideDirection.Right,
-                        animationSpec = tween(200, delayMillis = 200),
-                    )
-                }
-            }
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
         val topLevelNavOptions =
