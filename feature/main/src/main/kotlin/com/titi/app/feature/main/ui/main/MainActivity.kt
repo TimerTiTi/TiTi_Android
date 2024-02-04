@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -93,21 +94,22 @@ class MainActivity : ComponentActivity() {
             TiTiTheme {
                 splashResultState?.let {
                     if (it.recordTimes.recording) {
-                        val intent = Intent(this, PopUpActivity::class.java).apply {
-                            putExtra(
-                                MEASURE_SPLASH_RESULT_KEY,
-                                it.toJson(),
-                            )
-                        }
+                        SideEffect {
+                            val intent = Intent(this, PopUpActivity::class.java).apply {
+                                putExtra(
+                                    MEASURE_SPLASH_RESULT_KEY,
+                                    it.toJson(),
+                                )
+                            }
 
-                        measuringResult.launch(intent)
-                    } else {
-                        TiTiApp(
-                            splashResultState = it,
-                            appState = appState,
-                            measuringResult = measuringResult,
-                        )
+                            measuringResult.launch(intent)
+                        }
                     }
+                    TiTiApp(
+                        splashResultState = it,
+                        appState = appState,
+                        measuringResult = measuringResult,
+                    )
                 }
             }
         }

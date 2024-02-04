@@ -1,9 +1,11 @@
 package com.titi.app.data.alarm.impl
 
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.core.app.NotificationCompat
 import com.titi.app.core.util.goAsync
 import com.titi.app.data.alarm.impl.local.AlarmDataStore
@@ -27,12 +29,22 @@ internal class AlarmReceiver : BroadcastReceiver() {
         val title = intent.getStringExtra("ALARM_TITLE") ?: return
         val message = intent.getStringExtra("ALARM_MESSAGE")
         val channelId = "titiChannelId"
-        val entryPoint =
-            EntryPointAccessors.fromApplication(
-                context,
-                AlarmReceiverEntryPoint::class.java,
-            )
+        val entryPoint = EntryPointAccessors.fromApplication(
+            context,
+            AlarmReceiverEntryPoint::class.java,
+        )
         alarmDataStore = entryPoint.getAlarmDataStore()
+
+        val deepLink = "titi://"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(deepLink)).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_MUTABLE,
+        )
 
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -41,6 +53,8 @@ internal class AlarmReceiver : BroadcastReceiver() {
                 .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentTitle(title)
                 .setContentText(message)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
         notificationManager.notify(0, builder.build())
 
