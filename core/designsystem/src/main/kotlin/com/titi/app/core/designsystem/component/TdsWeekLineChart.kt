@@ -34,21 +34,21 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 @Composable
 fun TdsWeekLineChart(
     modifier: Modifier = Modifier,
-    data: List<TdsWeekLineChartData>,
+    weekLineChardData: List<TdsWeekLineChartData>,
     startColor: Color,
     endColor: Color,
 ) {
-    require(data.size == 7) {
+    require(weekLineChardData.size == 7) {
         "The TdsWeekLineChartDataList must be 7 in size"
     }
 
-    val maxTime = data.maxBy { it.time }.time.toFloat()
+    val maxTime = weekLineChardData.maxBy { it.time }.time.toFloat()
 
     BoxWithConstraints(modifier = modifier) {
-        val itemWidth = maxWidth / data.size
+        val itemWidth = maxWidth / weekLineChardData.size
 
         Row(modifier = Modifier.fillMaxSize()) {
-            data.forEach {
+            weekLineChardData.forEach {
                 TdsWeekLineBar(
                     modifier = Modifier
                         .width(itemWidth)
@@ -96,7 +96,7 @@ private fun TdsWeekLineBar(
     Canvas(modifier = modifier) {
         val spacing = 4.dp.toPx()
 
-        val radius = size.width * 0.5f
+        val radius = size.width * 0.2f
         val barWidth = size.width * 0.9f
         val allTextHeight = timeTextLayoutResult.size.height + dateTextLayoutResult.size.height
         val barMaxHeight = size.height - 2 * spacing - allTextHeight
@@ -179,7 +179,7 @@ private fun TdsWeekLineChartPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White),
-            data = listOf(
+            weekLineChardData = listOf(
                 TdsWeekLineChartData(
                     time = 6200,
                     date = "1/12",

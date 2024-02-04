@@ -6,12 +6,12 @@ import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 fun getTodayDate(): String {
-    val now = ZonedDateTime.now()
+    val now = ZonedDateTime.now(ZoneOffset.UTC)
     return now.format(DateTimeFormatter.ofPattern("uuuu.MM.dd"))
 }
 
 fun addTimeToNow(time: Long): String {
-    val now = ZonedDateTime.now()
+    val now = ZonedDateTime.now(ZoneOffset.UTC)
     val interval = Duration.ofSeconds(time)
     return now.plus(interval).format(DateTimeFormatter.ofPattern("hh.mm a"))
 }
