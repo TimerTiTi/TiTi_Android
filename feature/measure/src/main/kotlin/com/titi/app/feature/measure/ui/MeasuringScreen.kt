@@ -45,12 +45,15 @@ import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.ui.setBrightness
+import com.titi.app.core.util.fromJson
 import com.titi.app.feature.measure.SplashResultState
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
 @Composable
-fun MeasuringScreen(splashResultState: SplashResultState, onFinish: (isFinish: Boolean) -> Unit) {
+fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> Unit) {
+    val splashResultState = splashResultState.fromJson<SplashResultState>() ?: SplashResultState()
+
     val viewModel: MeasuringViewModel =
         mavericksViewModel(
             argsFactory = {

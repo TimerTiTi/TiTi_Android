@@ -1,13 +1,17 @@
 package com.titi.app.feature.main.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,9 +20,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.util.toJson
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.feature.main.ui.SplashResultState
 import com.titi.app.feature.main.ui.TiTiApp
+import com.titi.app.feature.main.ui.rememberNiaAppState
+import com.titi.app.feature.popup.PopUpActivity
+import com.titi.app.feature.popup.PopUpActivity.Companion.MEASURE_SPLASH_RESULT_KEY
+import com.titi.app.feature.time.navigation.TIMER_FINISH_KEY
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.filterNotNull
@@ -61,12 +70,45 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
+            val appState = rememberNiaAppState(
+                windowSizeClass = calculateWindowSizeClass(this),
+                getTimeColorFlowUseCase = getTimeColorFlowUseCase,
+            )
+
+            val measuringResult =
+                rememberLauncherForActivityResult(
+                    ActivityResultContracts.StartActivityForResult(),
+                ) { result ->
+                    if (result.resultCode == RESULT_OK) {
+                        result.data?.let { data ->
+                            val isFinish = data.getBooleanExtra(TIMER_FINISH_KEY, false)
+
+                            appState.navController
+                                .currentBackStackEntry
+                                ?.savedStateHandle
+                                ?.set(TIMER_FINISH_KEY, isFinish)
+                        }
+                    }
+                }
+
             TiTiTheme {
                 splashResultState?.let {
+                    if (it.recordTimes.recording) {
+                        SideEffect {
+                            val intent = Intent(this, PopUpActivity::class.java).apply {
+                                putExtra(
+                                    MEASURE_SPLASH_RESULT_KEY,
+                                    it.toJson(),
+                                )
+                            }
+
+                            measuringResult.launch(intent)
+                        }
+                    }
                     TiTiApp(
                         splashResultState = it,
-                        windowSizeClass = calculateWindowSizeClass(this),
-                        getTimeColorFlowUseCase = getTimeColorFlowUseCase,
+                        appState = appState,
+                        measuringResult = measuringResult,
                     )
                 }
             }

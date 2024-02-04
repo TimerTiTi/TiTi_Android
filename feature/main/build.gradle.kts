@@ -12,8 +12,7 @@ dependencies {
     implementation(project(":domain:daily"))
 
     implementation(project(":feature:time"))
-    implementation(project(":feature:color"))
-    implementation(project(":feature:measure"))
+    implementation(project(":feature:popup"))
 
     implementation(libs.androidx.splashscreen)
     implementation(libs.androidx.material3.window.size)
