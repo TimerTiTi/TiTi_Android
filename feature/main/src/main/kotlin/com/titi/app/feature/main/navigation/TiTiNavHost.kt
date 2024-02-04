@@ -7,14 +7,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import com.titi.app.core.util.toJson
-import com.titi.app.feature.color.ui.ColorActivity
 import com.titi.app.feature.main.ui.SplashResultState
 import com.titi.app.feature.main.ui.TiTiAppState
 import com.titi.app.feature.main.ui.toFeatureTimeModel
-import com.titi.app.feature.measure.navigation.measuringGraph
-import com.titi.app.feature.measure.navigation.navigateToMeasuringGraph
+import com.titi.app.feature.popup.PopUpActivity
+import com.titi.app.feature.popup.PopUpActivity.Companion.POPUP_START_DESTINATION_KEY
+import com.titi.app.feature.popup.navigation.makeColorRoute
+import com.titi.app.feature.popup.navigation.makeMeasuringRoute
 import com.titi.app.feature.time.navigation.STOPWATCH_SCREEN
-import com.titi.app.feature.time.navigation.TIMER_FINISH_KEY
 import com.titi.app.feature.time.navigation.TIMER_SCREEN
 import com.titi.app.feature.time.navigation.TIME_GRAPH_ROUTE
 import com.titi.app.feature.time.navigation.timeGraph
@@ -30,7 +30,13 @@ fun TiTiNavHost(
 
     LaunchedEffect(Unit) {
         if (splashResultState.recordTimes.recording) {
-            navController.navigateToMeasuringGraph(splashResultState.toJson())
+            val intent = Intent(context, PopUpActivity::class.java).apply {
+                putExtra(
+                    POPUP_START_DESTINATION_KEY,
+                    makeMeasuringRoute(splashResultState.toJson()),
+                )
+            }
+            context.startActivity(intent)
         }
     }
 
@@ -47,22 +53,22 @@ fun TiTiNavHost(
             },
             splashResultState = splashResultState.toFeatureTimeModel(),
             onNavigateToColor = {
-                val intent = Intent(context, ColorActivity::class.java).apply {
-                    putExtra("recordingMode", it)
+                val intent = Intent(context, PopUpActivity::class.java).apply {
+                    putExtra(
+                        POPUP_START_DESTINATION_KEY,
+                        makeColorRoute(it),
+                    )
                 }
                 context.startActivity(intent)
             },
-            onNavigateToMeasure = navController::navigateToMeasuringGraph,
-            nestedGraphs = {
-                measuringGraph(
-                    onFinish = {
-                        navController
-                            .previousBackStackEntry
-                            ?.savedStateHandle
-                            ?.set(TIMER_FINISH_KEY, it)
-                        navController.popBackStack()
-                    },
-                )
+            onNavigateToMeasure = {
+                val intent = Intent(context, PopUpActivity::class.java).apply {
+                    putExtra(
+                        POPUP_START_DESTINATION_KEY,
+                        makeMeasuringRoute(it),
+                    )
+                }
+                context.startActivity(intent)
             },
         )
     }

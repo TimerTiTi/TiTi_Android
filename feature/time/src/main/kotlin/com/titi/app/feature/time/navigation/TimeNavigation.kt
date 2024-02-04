@@ -32,7 +32,6 @@ fun NavController.navigateToStopWatch(navOptions: NavOptions) {
 fun NavGraphBuilder.timeGraph(
     startDestination: String,
     splashResultState: SplashResultState,
-    nestedGraphs: NavGraphBuilder.() -> Unit,
     onNavigateToColor: (Int) -> Unit,
     onNavigateToMeasure: (String) -> Unit,
 ) {
@@ -64,7 +63,5 @@ fun NavGraphBuilder.timeGraph(
                 onNavigateToMeasure = onNavigateToMeasure,
             )
         }
-
-        nestedGraphs()
     }
 }
