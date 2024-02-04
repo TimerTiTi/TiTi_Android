@@ -2,9 +2,12 @@ package com.titi.app.feature.main.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.util.Log
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
@@ -20,7 +23,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,7 +36,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.titi.app.core.designsystem.component.TdsNavigationBarItem
 import com.titi.app.core.designsystem.component.TdsNavigationRailItem
-import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.feature.main.navigation.TiTiNavHost
 import com.titi.app.feature.main.navigation.TopLevelDestination
 
@@ -43,13 +44,8 @@ import com.titi.app.feature.main.navigation.TopLevelDestination
 @Composable
 fun TiTiApp(
     splashResultState: SplashResultState,
-    windowSizeClass: WindowSizeClass,
-    getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
-    appState: TiTiAppState =
-        rememberNiaAppState(
-            windowSizeClass = windowSizeClass,
-            getTimeColorFlowUseCase = getTimeColorFlowUseCase,
-        ),
+    appState: TiTiAppState,
+    measuringResult: ManagedActivityResultLauncher<Intent, ActivityResult>,
 ) {
     val requestPermissionLauncher =
         rememberLauncherForActivityResult(
@@ -106,6 +102,7 @@ fun TiTiApp(
                 modifier = Modifier.fillMaxSize(),
                 appState = appState,
                 splashResultState = splashResultState,
+                measuringResult = measuringResult,
             )
         }
     }

@@ -1,19 +1,18 @@
 package com.titi.app.feature.main.navigation
 
 import android.content.Intent
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.result.ActivityResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
-import com.titi.app.core.util.toJson
 import com.titi.app.feature.main.ui.SplashResultState
 import com.titi.app.feature.main.ui.TiTiAppState
 import com.titi.app.feature.main.ui.toFeatureTimeModel
 import com.titi.app.feature.popup.PopUpActivity
-import com.titi.app.feature.popup.PopUpActivity.Companion.POPUP_START_DESTINATION_KEY
-import com.titi.app.feature.popup.navigation.makeColorRoute
-import com.titi.app.feature.popup.navigation.makeMeasuringRoute
+import com.titi.app.feature.popup.PopUpActivity.Companion.COLOR_RECORDING_MODE_KEY
+import com.titi.app.feature.popup.PopUpActivity.Companion.MEASURE_SPLASH_RESULT_KEY
 import com.titi.app.feature.time.navigation.STOPWATCH_SCREEN
 import com.titi.app.feature.time.navigation.TIMER_SCREEN
 import com.titi.app.feature.time.navigation.TIME_GRAPH_ROUTE
@@ -23,22 +22,11 @@ import com.titi.app.feature.time.navigation.timeGraph
 fun TiTiNavHost(
     splashResultState: SplashResultState,
     appState: TiTiAppState,
+    measuringResult: ManagedActivityResultLauncher<Intent, ActivityResult>,
     modifier: Modifier = Modifier,
 ) {
     val navController = appState.navController
     val context = LocalContext.current
-
-    LaunchedEffect(Unit) {
-        if (splashResultState.recordTimes.recording) {
-            val intent = Intent(context, PopUpActivity::class.java).apply {
-                putExtra(
-                    POPUP_START_DESTINATION_KEY,
-                    makeMeasuringRoute(splashResultState.toJson()),
-                )
-            }
-            context.startActivity(intent)
-        }
-    }
 
     NavHost(
         modifier = modifier,
@@ -55,8 +43,8 @@ fun TiTiNavHost(
             onNavigateToColor = {
                 val intent = Intent(context, PopUpActivity::class.java).apply {
                     putExtra(
-                        POPUP_START_DESTINATION_KEY,
-                        makeColorRoute(it),
+                        COLOR_RECORDING_MODE_KEY,
+                        it,
                     )
                 }
                 context.startActivity(intent)
@@ -64,11 +52,12 @@ fun TiTiNavHost(
             onNavigateToMeasure = {
                 val intent = Intent(context, PopUpActivity::class.java).apply {
                     putExtra(
-                        POPUP_START_DESTINATION_KEY,
-                        makeMeasuringRoute(it),
+                        MEASURE_SPLASH_RESULT_KEY,
+                        it,
                     )
                 }
-                context.startActivity(intent)
+
+                measuringResult.launch(intent)
             },
         )
     }
