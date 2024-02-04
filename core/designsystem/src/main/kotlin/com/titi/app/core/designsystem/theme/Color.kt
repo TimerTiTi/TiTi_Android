@@ -24,6 +24,7 @@ data class TdsColorsPalette(
     val switchBackgroundColor: Color = Color.Unspecified,
     val alertBackgroundColor: Color = Color.Unspecified,
     val tertiaryBackgroundColor: Color = Color.Unspecified,
+    val graphBorderColor: Color = Color.Unspecified,
     val redColor: Color = Color.Unspecified,
     val blueColor: Color = Color.Unspecified,
     val dividerColor: Color = Color.Unspecified,
@@ -32,61 +33,61 @@ data class TdsColorsPalette(
     val blackColor: Color = Color.Unspecified,
 )
 
-val TdsLightColorsPalette =
-    TdsColorsPalette(
-        d1 = Color(0xFF8299E3),
-        d2 = Color(0xFF9AC0DA),
-        d3 = Color(0xFF97D2C2),
-        d4 = Color(0xFFA6DE9A),
-        d5 = Color(0xFFFCE672),
-        d6 = Color(0xFFFFC568),
-        d7 = Color(0xFFFEA97E),
-        d8 = Color(0xFFFF9CA1),
-        d9 = Color(0xFFD19AD0),
-        d10 = Color(0xFFD19AD0),
-        d11 = Color(0xFFAF8CD8),
-        d12 = Color(0xFF928AEA),
-        textColor = Color(0xFF000000),
-        backgroundColor = Color(0xFFFFFFFF),
-        secondaryBackgroundColor = Color(0xFFF2F2F7),
-        switchBackgroundColor = Color(0xFFE9E9EB),
-        alertBackgroundColor = Color(0xD1EEEEEE),
-        tertiaryBackgroundColor = Color(0xFFFFFFFF),
-        redColor = Color(0xFFFF453A),
-        blueColor = Color(0xFF0A84FF),
-        dividerColor = Color(0x4D000000),
-        lightGrayColor = Color(0xFF555555),
-        whiteColor = Color(0xFFFFFFFF),
-        blackColor = Color(0xFF000000),
-    )
+val TdsLightColorsPalette = TdsColorsPalette(
+    d1 = Color(0xFF8299E3),
+    d2 = Color(0xFF9AC0DA),
+    d3 = Color(0xFF97D2C2),
+    d4 = Color(0xFFA6DE9A),
+    d5 = Color(0xFFFCE672),
+    d6 = Color(0xFFFFC568),
+    d7 = Color(0xFFFEA97E),
+    d8 = Color(0xFFFF9CA1),
+    d9 = Color(0xFFD19AD0),
+    d10 = Color(0xFFD19AD0),
+    d11 = Color(0xFFAF8CD8),
+    d12 = Color(0xFF928AEA),
+    textColor = Color(0xFF000000),
+    backgroundColor = Color(0xFFFFFFFF),
+    secondaryBackgroundColor = Color(0xFFF2F2F7),
+    switchBackgroundColor = Color(0xFFE9E9EB),
+    alertBackgroundColor = Color(0xD1EEEEEE),
+    tertiaryBackgroundColor = Color(0xFFFFFFFF),
+    graphBorderColor = Color(0xFFBBBBBB),
+    redColor = Color(0xFFFF453A),
+    blueColor = Color(0xFF0A84FF),
+    dividerColor = Color(0x4D000000),
+    lightGrayColor = Color(0xFF555555),
+    whiteColor = Color(0xFFFFFFFF),
+    blackColor = Color(0xFF000000),
+)
 
-val TdsDarkColorsPalette =
-    TdsColorsPalette(
-        d1 = Color(0xFF87A6F8),
-        d2 = Color(0xFFA7D7F9),
-        d3 = Color(0xFFA7FAE8),
-        d4 = Color(0xFFA4FBB9),
-        d5 = Color(0xFFF8FC95),
-        d6 = Color(0xFFEDC38D),
-        d7 = Color(0xFFEDA479),
-        d8 = Color(0xFFEB827E),
-        d9 = Color(0xFFF0ABAD),
-        d10 = Color(0xFFCF9AD1),
-        d11 = Color(0xFF896FC7),
-        d12 = Color(0xFF6379EB),
-        textColor = Color(0xFFFFFFFF),
-        backgroundColor = Color(0xFF000000),
-        secondaryBackgroundColor = Color(0xFF1C1C1E),
-        switchBackgroundColor = Color(0xFF39393D),
-        alertBackgroundColor = Color(0xD12B2B2B),
-        tertiaryBackgroundColor = Color(0xFF2C2C2E),
-        redColor = Color(0xFFFF453A),
-        blueColor = Color(0xFF0A84FF),
-        dividerColor = Color(0x4DFFFFFF),
-        lightGrayColor = Color(0xFF555555),
-        whiteColor = Color(0xFFFFFFFF),
-        blackColor = Color(0xFF000000),
-    )
+val TdsDarkColorsPalette = TdsColorsPalette(
+    d1 = Color(0xFF87A6F8),
+    d2 = Color(0xFFA7D7F9),
+    d3 = Color(0xFFA7FAE8),
+    d4 = Color(0xFFA4FBB9),
+    d5 = Color(0xFFF8FC95),
+    d6 = Color(0xFFEDC38D),
+    d7 = Color(0xFFEDA479),
+    d8 = Color(0xFFEB827E),
+    d9 = Color(0xFFF0ABAD),
+    d10 = Color(0xFFCF9AD1),
+    d11 = Color(0xFF896FC7),
+    d12 = Color(0xFF6379EB),
+    textColor = Color(0xFFFFFFFF),
+    backgroundColor = Color(0xFF000000),
+    secondaryBackgroundColor = Color(0xFF1C1C1E),
+    switchBackgroundColor = Color(0xFF39393D),
+    alertBackgroundColor = Color(0xD12B2B2B),
+    tertiaryBackgroundColor = Color(0xFF2C2C2E),
+    graphBorderColor = Color(0xFF818181),
+    redColor = Color(0xFFFF453A),
+    blueColor = Color(0xFF0A84FF),
+    dividerColor = Color(0x4DFFFFFF),
+    lightGrayColor = Color(0xFF555555),
+    whiteColor = Color(0xFFFFFFFF),
+    blackColor = Color(0xFF000000),
+)
 
 enum class TdsColor {
     D1,
@@ -108,6 +109,9 @@ enum class TdsColor {
     SWITCH_BACKGROUND,
     ALERT_BACKGROUND,
     TERTIARY_BACKGROUND,
+
+    GRAPH_BORDER,
+
     RED,
     BLUE,
     DIVIDER,
@@ -138,6 +142,8 @@ enum class TdsColor {
         SWITCH_BACKGROUND -> TiTiTheme.colors.switchBackgroundColor
         ALERT_BACKGROUND -> TiTiTheme.colors.alertBackgroundColor
         TERTIARY_BACKGROUND -> TiTiTheme.colors.tertiaryBackgroundColor
+
+        GRAPH_BORDER -> TiTiTheme.colors.graphBorderColor
 
         RED -> TiTiTheme.colors.redColor
         BLUE -> TiTiTheme.colors.blueColor
