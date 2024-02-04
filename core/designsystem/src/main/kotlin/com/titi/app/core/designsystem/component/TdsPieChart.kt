@@ -59,7 +59,7 @@ private fun TdsPieChart(
     progress: Float,
     containsDonut: Boolean = false,
 ) {
-    var startAngle = 0f
+    var startAngle = 270f
     val density = LocalDensity.current
 
     BoxWithConstraints(
@@ -79,7 +79,7 @@ private fun TdsPieChart(
 
         Canvas(modifier = Modifier.fillMaxSize()) {
             taskData.forEachIndexed { index, pie ->
-                val sweepAngle = (pie.progress * 360 - 3) * progress
+                val sweepAngle = (pie.progress * 360 - 1) * progress
 
                 drawArc(
                     color = colors[index % colors.size],
@@ -96,14 +96,14 @@ private fun TdsPieChart(
                 drawArc(
                     color = Color.Black,
                     startAngle = startAngle,
-                    sweepAngle = 3 * progress,
+                    sweepAngle = 1 * progress,
                     useCenter = false,
                     topLeft = Offset(centerX - radius, centerY - radius),
                     size = Size(radius * 2, radius * 2),
                     style = Stroke(width = radius - holeRadius),
                 )
 
-                startAngle += 3
+                startAngle += 1
             }
         }
 
