@@ -33,7 +33,7 @@ fun TdsTaskResultListItem(
     isCheck: Boolean,
 ) {
     val density = LocalDensity.current
-    val radius = height / 10
+    val radius = if (isCheck) 0.dp else height / 10
     val padding = height / 10
     val fontSize = with(density) { (height / 2).coerceAtLeast(10.dp).toSp() }
 

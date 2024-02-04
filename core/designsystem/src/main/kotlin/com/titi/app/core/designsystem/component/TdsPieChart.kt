@@ -19,21 +19,23 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.min
-import com.titi.app.core.designsystem.model.TdsPieData
+import com.titi.app.core.designsystem.model.TdsTaskData
+import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable
 fun PieChart(
     modifier: Modifier = Modifier,
-    pieData: List<TdsPieData>,
+    taskData: List<TdsTaskData>,
+    colors: List<Color>,
     containsDonut: Boolean = false,
     animationSpec: AnimationSpec<Float> = TweenSpec(durationMillis = 500),
 ) {
-    val transitionProgress = remember(pieData) {
+    val transitionProgress = remember(taskData) {
         Animatable(initialValue = 1f)
     }
 
-    LaunchedEffect(pieData) {
+    LaunchedEffect(taskData) {
         transitionProgress.animateTo(
             targetValue = 1f,
             animationSpec = animationSpec,
@@ -42,7 +44,8 @@ fun PieChart(
 
     TdsPieChart(
         modifier = modifier,
-        pieData = pieData,
+        pieData = taskData,
+        colors = colors,
         progress = transitionProgress.value,
         containsDonut = containsDonut,
     )
@@ -51,7 +54,8 @@ fun PieChart(
 @Composable
 private fun TdsPieChart(
     modifier: Modifier = Modifier,
-    pieData: List<TdsPieData>,
+    pieData: List<TdsTaskData>,
+    colors: List<Color>,
     progress: Float,
     containsDonut: Boolean = false,
 ) {
@@ -74,11 +78,11 @@ private fun TdsPieChart(
         val holeRadiusDp = with(density) { holeRadius.toDp() }
 
         Canvas(modifier = Modifier.fillMaxSize()) {
-            pieData.forEach { pie ->
+            pieData.forEachIndexed { index, pie ->
                 val sweepAngle = (pie.progress * 360 - 3) * progress
 
                 drawArc(
-                    color = pie.color,
+                    color = colors[index % colors.size],
                     startAngle = startAngle,
                     sweepAngle = sweepAngle,
                     useCenter = false,
@@ -110,6 +114,7 @@ private fun TdsPieChart(
                 isSpacing = false,
                 isCheck = false,
                 height = holeRadiusDp * 2 / 5,
+                colors = colors,
             )
         }
     }
@@ -122,31 +127,35 @@ private fun TdsPieChartPreview() {
         PieChart(
             modifier = Modifier.fillMaxSize(),
             containsDonut = true,
-            pieData = listOf(
-                TdsPieData(
+            taskData = listOf(
+                TdsTaskData(
                     key = "수업",
                     value = "2:00:00",
                     progress = 0.2f,
-                    color = Color.Blue,
                 ),
-                TdsPieData(
+                TdsTaskData(
                     key = "인공지능",
                     value = "3:00:00",
                     progress = 0.3f,
-                    color = Color.Red,
                 ),
-                TdsPieData(
+                TdsTaskData(
                     key = "알고리즘",
                     value = "2:00:00",
                     progress = 0.2f,
-                    color = Color.Gray,
                 ),
-                TdsPieData(
+                TdsTaskData(
                     key = "개발",
                     value = "3:00:00",
                     progress = 0.3f,
-                    color = Color.Cyan,
                 ),
+            ),
+            colors = listOf(
+                TdsColor.D1.getColor(),
+                TdsColor.D2.getColor(),
+                TdsColor.D3.getColor(),
+                TdsColor.D4.getColor(),
+                TdsColor.D5.getColor(),
+                TdsColor.D6.getColor(),
             ),
         )
     }
