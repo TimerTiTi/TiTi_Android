@@ -6,3 +6,7 @@ plugins {
 android {
     namespace = "com.titi.app.core.designsystem"
 }
+
+dependencies {
+    implementation(libs.threetenabp)
+}
