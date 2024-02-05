@@ -97,14 +97,11 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     }
 
     LaunchedEffect(Unit) {
-        viewModel.start()
-
         viewModel.setAlarm(
             title = alarmTitle,
             finishMessage = alarmFinishMessage,
             fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
-            measureTime =
-            if (splashResultState.recordTimes.recordingMode == 1) {
+            measureTime = if (splashResultState.recordTimes.recordingMode == 1) {
                 splashResultState.recordTimes.savedTimerTime
             } else {
                 splashResultState.recordTimes.savedStopWatchTime
