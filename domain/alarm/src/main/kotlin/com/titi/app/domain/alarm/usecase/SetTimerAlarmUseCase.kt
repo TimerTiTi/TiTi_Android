@@ -19,35 +19,33 @@ class SetTimerAlarmUseCase @Inject constructor(
     ) {
         val now = ZonedDateTime.now(ZoneOffset.UTC)
         val finishTime = now.plusSeconds(measureTime).toString()
-        val fiveMinutesBeforeFinishTime: String? =
-            if (measureTime > FIVE_MINUTES) {
-                now.plusSeconds(measureTime - FIVE_MINUTES).toString()
-            } else {
-                null
-            }
+        val fiveMinutesBeforeFinishTime: String? = if (measureTime > FIVE_MINUTES) {
+            now.plusSeconds(measureTime - FIVE_MINUTES).toString()
+        } else {
+            null
+        }
 
-        val alarms =
-            Alarms(
-                alarms = mutableListOf<Alarm>().apply {
+        val alarms = Alarms(
+            alarms = mutableListOf<Alarm>().apply {
+                add(
+                    Alarm(
+                        title = title,
+                        message = finishMessage,
+                        finishTime = finishTime,
+                    ),
+                )
+
+                if (fiveMinutesBeforeFinishTime != null) {
                     add(
                         Alarm(
                             title = title,
-                            message = finishMessage,
-                            finishTime = finishTime,
+                            message = fiveMinutesBeforeFinish,
+                            finishTime = fiveMinutesBeforeFinishTime,
                         ),
                     )
-
-                    if (fiveMinutesBeforeFinishTime != null) {
-                        add(
-                            Alarm(
-                                title = title,
-                                message = fiveMinutesBeforeFinish,
-                                finishTime = fiveMinutesBeforeFinishTime,
-                            ),
-                        )
-                    }
-                }.toList(),
-            )
+                }
+            }.toList(),
+        )
 
         if (alarmRepository.canScheduleExactAlarms()) {
             alarmRepository.setExactAlarms(alarms.toRepositoryModel())

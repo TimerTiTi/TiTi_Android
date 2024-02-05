@@ -18,7 +18,6 @@ import com.titi.domain.sleep.SetSleepModeUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -39,9 +38,8 @@ constructor(
     private val setStopWatchAlarmUseCase: SetStopWatchAlarmUseCase,
     private val cancelAlarmsUseCase: CancelAlarmsUseCase,
 ) : MavericksViewModel<MeasuringUiState>(initialState) {
-    fun canSetAlarm() = canSetAlarmUseCase()
 
-    fun start() {
+    init {
         getSleepModeFlowUseCase().catch {
             Log.e("MeasuringViewModel", it.message.toString())
         }.setOnEach {
@@ -56,7 +54,7 @@ constructor(
             )
         }
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             while (true) {
                 delay(1000)
                 setState {
@@ -73,6 +71,8 @@ constructor(
             }
         }
     }
+
+    fun canSetAlarm() = canSetAlarmUseCase()
 
     fun setAlarm(
         title: String,
