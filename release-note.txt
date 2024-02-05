@@ -1,5 +1,4 @@
-TiTi android dev 0.1.3(4)
-- 화면 전환 이슈 처리
-- Notification 클릭 이벤트 달기
+TiTi android dev 0.1.4(5)
+- 측정 화면 화면 회전 이슈 fix
 
 
