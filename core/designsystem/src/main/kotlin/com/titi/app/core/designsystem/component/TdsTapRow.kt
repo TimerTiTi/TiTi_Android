@@ -69,13 +69,11 @@ fun TdsTabRow(
                         },
                         tabWidth = tabWidth,
                         text = text,
+                        isDivider = index != selectedItemIndex &&
+                            index != items.size - 1 &&
+                            index != selectedItemIndex - 1,
+                        dividerHeight = tabHeight / 2,
                     )
-
-                    if (index != items.size - 1 && selectedItemIndex != index) {
-                        Row(modifier = Modifier.height(tabHeight / 2)) {
-                            TdsDivider()
-                        }
-                    }
                 }
             }
         }
@@ -83,7 +81,13 @@ fun TdsTabRow(
 }
 
 @Composable
-private fun TdsTabRowItem(onClick: () -> Unit, tabWidth: Dp, text: String) {
+private fun TdsTabRowItem(
+    onClick: () -> Unit,
+    tabWidth: Dp,
+    text: String,
+    isDivider: Boolean,
+    dividerHeight: Dp,
+) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(4.dp))
@@ -96,10 +100,20 @@ private fun TdsTabRowItem(onClick: () -> Unit, tabWidth: Dp, text: String) {
     ) {
         TdsText(
             text = text,
-            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
-            fontSize = 14.sp,
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+            fontSize = 13.sp,
             color = TdsColor.TEXT,
         )
+
+        if (isDivider) {
+            Row(
+                modifier = Modifier
+                    .height(dividerHeight)
+                    .align(Alignment.CenterEnd),
+            ) {
+                TdsDivider()
+            }
+        }
     }
 }
 
