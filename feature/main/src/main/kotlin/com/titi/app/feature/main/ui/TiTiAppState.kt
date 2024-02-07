@@ -33,6 +33,7 @@ fun rememberNiaAppState(
     navController: NavHostController = rememberNavController(),
     windowSizeClass: WindowSizeClass,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
+    isSystemDarkTheme: Boolean,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
 ): TiTiAppState {
     return remember(
@@ -42,6 +43,7 @@ fun rememberNiaAppState(
         TiTiAppState(
             navController,
             windowSizeClass,
+            isSystemDarkTheme,
             coroutineScope,
             getTimeColorFlowUseCase,
         )
@@ -52,6 +54,7 @@ fun rememberNiaAppState(
 class TiTiAppState(
     val navController: NavHostController,
     val windowSizeClass: WindowSizeClass,
+    isSystemDarkTheme: Boolean,
     coroutineScope: CoroutineScope,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
 ) {
@@ -91,6 +94,7 @@ class TiTiAppState(
                 when (route) {
                     TIMER_ROUTE -> timeColor.timerBackgroundColor
                     STOPWATCH_ROUTE -> timeColor.stopwatchBackgroundColor
+                    LOG_ROUTE -> if (isSystemDarkTheme) 0xFF000000 else 0xFFFFFFFF
                     else -> 0xFF000000
                 }
             }
