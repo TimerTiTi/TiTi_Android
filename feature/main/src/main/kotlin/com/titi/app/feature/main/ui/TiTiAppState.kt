@@ -14,6 +14,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
+import com.titi.app.feature.log.navigation.LOG_ROUTE
+import com.titi.app.feature.log.navigation.navigateToLog
 import com.titi.app.feature.main.navigation.TopLevelDestination
 import com.titi.app.feature.time.navigation.STOPWATCH_ROUTE
 import com.titi.app.feature.time.navigation.TIMER_ROUTE
@@ -66,6 +68,7 @@ class TiTiAppState(
             when (currentDestination?.route) {
                 TIMER_ROUTE -> TopLevelDestination.TIMER
                 STOPWATCH_ROUTE -> TopLevelDestination.STOPWATCH
+                LOG_ROUTE -> TopLevelDestination.LOG
                 else -> null
             }
 
@@ -111,6 +114,7 @@ class TiTiAppState(
         when (topLevelDestination) {
             TopLevelDestination.TIMER -> navController.navigateToTimer(topLevelNavOptions)
             TopLevelDestination.STOPWATCH -> navController.navigateToStopWatch(topLevelNavOptions)
+            TopLevelDestination.LOG -> navController.navigateToLog(topLevelNavOptions)
         }
     }
 }
