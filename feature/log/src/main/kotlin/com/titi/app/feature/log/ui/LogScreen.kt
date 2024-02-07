@@ -22,9 +22,12 @@ import androidx.compose.ui.unit.dp
 import com.titi.app.core.designsystem.component.TdsTabRow
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
+import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import kotlinx.coroutines.launch
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZonedDateTime
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -129,6 +132,38 @@ fun LogScreen() {
     val todayDate = "2024.02.04"
     val todayDayOfTheWeek = 6
 
+    val todayDateTime = ZonedDateTime.now(ZoneOffset.UTC)
+    val weekLineChardData = listOf(
+        TdsWeekLineChartData(
+            time = 6200,
+            date = "1/12",
+        ),
+        TdsWeekLineChartData(
+            time = 3700,
+            date = "1/13",
+        ),
+        TdsWeekLineChartData(
+            time = 5200,
+            date = "1/14",
+        ),
+        TdsWeekLineChartData(
+            time = 1042,
+            date = "1/15",
+        ),
+        TdsWeekLineChartData(
+            time = 4536,
+            date = "1/16",
+        ),
+        TdsWeekLineChartData(
+            time = 3700,
+            date = "1/17",
+        ),
+        TdsWeekLineChartData(
+            time = 2455,
+            date = "1/18",
+        ),
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -167,7 +202,12 @@ fun LogScreen() {
                     timeTableData = timeTableData,
                 )
 
-                2 -> WeekScreen()
+                2 -> WeekScreen(
+                    todayDateTime = todayDateTime,
+                    weekLineChardData = weekLineChardData,
+                    tdsColors = tdsColors,
+                    taskData = taskData,
+                )
             }
         }
     }
