@@ -2,7 +2,7 @@ package com.titi.app.core.designsystem.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.extension.getWeekInformation
+import com.titi.app.core.designsystem.extension.times
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
@@ -36,6 +37,7 @@ import org.threeten.bp.ZonedDateTime
 
 @Composable
 fun TdsStandardWeekGraph(
+    modifier: Modifier = Modifier,
     todayDateTime: ZonedDateTime,
     weekLineChardData: List<TdsWeekLineChartData>,
     tdsColors: List<TdsColor>,
@@ -43,13 +45,15 @@ fun TdsStandardWeekGraph(
 ) {
     val weekInformation = todayDateTime.getWeekInformation()
 
-    Box(
-        modifier = Modifier.size(365.dp),
+    BoxWithConstraints(
+        modifier = modifier.padding(vertical = 10.dp),
         contentAlignment = Alignment.Center,
     ) {
+        val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+
         Card(
             modifier = Modifier
-                .size(345.dp),
+                .size(size),
             shape = RoundedCornerShape(25.dp),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             elevation = CardDefaults.outlinedCardElevation(defaultElevation = 10.dp),
@@ -102,7 +106,7 @@ fun TdsStandardWeekGraph(
                 ) {
                     TdsWeekLineChart(
                         modifier = Modifier
-                            .width(225.dp)
+                            .width(size * 0.6)
                             .fillMaxHeight(),
                         weekLineChardData = weekLineChardData,
                         startColor = tdsColors.first().getColor(),
@@ -154,7 +158,7 @@ fun TdsStandardWeekGraph(
                     TdsTaskResultList(
                         modifier = Modifier
                             .fillMaxHeight()
-                            .width(215.dp)
+                            .width(size * 0.6)
                             .border(
                                 width = 2.dp,
                                 color = TdsColor.GRAPH_BORDER.getColor(),
@@ -237,6 +241,7 @@ private fun TdsStandardWeekGraphPreview() {
 
     TiTiTheme {
         TdsStandardWeekGraph(
+            modifier = Modifier.fillMaxWidth(),
             todayDateTime = ZonedDateTime.now(ZoneOffset.UTC),
             weekLineChardData = listOf(
                 TdsWeekLineChartData(

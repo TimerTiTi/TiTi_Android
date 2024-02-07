@@ -1,7 +1,7 @@
 package com.titi.app.core.designsystem.component
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,6 +26,7 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable
 fun TdsTimeLineDailyGraph(
+    modifier: Modifier = Modifier,
     todayDate: String,
     todayDayOfTheWeek: Int,
     tdsColors: List<TdsColor>,
@@ -33,13 +34,15 @@ fun TdsTimeLineDailyGraph(
     totalTime: String,
     maxTime: String,
 ) {
-    Box(
-        modifier = Modifier.size(365.dp),
+    BoxWithConstraints(
+        modifier = modifier.padding(vertical = 10.dp),
         contentAlignment = Alignment.Center,
     ) {
+        val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+
         Card(
             modifier = Modifier
-                .size(345.dp),
+                .size(size),
             shape = RoundedCornerShape(25.dp),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             elevation = CardDefaults.outlinedCardElevation(defaultElevation = 10.dp),
@@ -134,6 +137,7 @@ fun TdsTimeLineDailyGraph(
 private fun TdsTimeLineDailyGraphPreview() {
     TiTiTheme {
         TdsTimeLineDailyGraph(
+            modifier = Modifier.fillMaxWidth(),
             todayDate = "2024.02.04",
             todayDayOfTheWeek = 6,
             tdsColors = listOf(

@@ -1,10 +1,12 @@
 package com.titi.app.core.designsystem.component
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -22,17 +24,20 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable
 fun TdsTaskProgressDailyGraph(
+    modifier: Modifier = Modifier,
     todayDate: String,
     taskData: List<TdsTaskData>,
     tdsColors: List<TdsColor>,
 ) {
-    Box(
-        modifier = Modifier.size(365.dp),
+    BoxWithConstraints(
+        modifier = modifier.padding(vertical = 10.dp),
         contentAlignment = Alignment.Center,
     ) {
+        val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+
         Card(
             modifier = Modifier
-                .size(345.dp),
+                .size(size),
             shape = RoundedCornerShape(25.dp),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             elevation = CardDefaults.outlinedCardElevation(defaultElevation = 10.dp),
@@ -86,6 +91,7 @@ private fun TdsTaskProgressDailyGraphPreview() {
 
     TiTiTheme {
         TdsTaskProgressDailyGraph(
+            modifier = Modifier.fillMaxWidth(),
             todayDate = "2024.02.04",
             taskData = taskData,
             tdsColors = listOf(

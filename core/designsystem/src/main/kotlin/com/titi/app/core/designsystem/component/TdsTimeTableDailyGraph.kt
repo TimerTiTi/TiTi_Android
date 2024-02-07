@@ -1,7 +1,7 @@
 package com.titi.app.core.designsystem.component
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.titi.app.core.designsystem.extension.times
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
@@ -32,19 +33,22 @@ import com.titi.app.core.designsystem.util.getSumTime
 
 @Composable
 fun TdsTimeTableDailyGraph(
+    modifier: Modifier = Modifier,
     todayDate: String,
     todayDayOfTheWeek: Int,
     tdsColors: List<TdsColor>,
     taskData: List<TdsTaskData>,
     timeTableData: List<TdsTimeTableData>,
 ) {
-    Box(
-        modifier = Modifier.size(365.dp),
+    BoxWithConstraints(
+        modifier = modifier.padding(vertical = 10.dp),
         contentAlignment = Alignment.Center,
     ) {
+        val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+
         Card(
             modifier = Modifier
-                .size(345.dp),
+                .size(size),
             shape = RoundedCornerShape(25.dp),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             elevation = CardDefaults.outlinedCardElevation(defaultElevation = 10.dp),
@@ -78,7 +82,7 @@ fun TdsTimeTableDailyGraph(
                 Row(modifier = Modifier.fillMaxSize()) {
                     Column(
                         modifier = Modifier
-                            .width(215.dp)
+                            .width(size * 0.6)
                             .fillMaxHeight(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
@@ -222,6 +226,7 @@ private fun TdsTimeTableDailyGraphPreview() {
 
     TiTiTheme {
         TdsTimeTableDailyGraph(
+            modifier = Modifier.fillMaxWidth(),
             todayDate = "2024.02.04",
             todayDayOfTheWeek = 6,
             tdsColors = listOf(
