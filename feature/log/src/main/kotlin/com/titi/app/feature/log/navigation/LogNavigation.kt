@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.titi.app.feature.log.LogScreen
+import com.titi.app.feature.log.ui.LogScreen
 
 private const val LOG_GRAPH_SCREEN = "logGraph"
 const val LOG_GRAPH_ROUTE = LOG_GRAPH_SCREEN
