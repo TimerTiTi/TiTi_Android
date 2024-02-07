@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -21,11 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.titi.app.core.designsystem.component.TdsTabRow
-import com.titi.app.core.designsystem.component.TdsText
+import com.titi.app.core.designsystem.model.TdsTaskData
+import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
-import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import kotlinx.coroutines.launch
 
@@ -33,7 +30,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun LogScreen() {
     val scope = rememberCoroutineScope()
-    val verticalScroll = rememberScrollState()
     var tabSelectedIndex by remember {
         mutableIntStateOf(0)
     }
@@ -43,14 +39,100 @@ fun LogScreen() {
         },
     )
 
+    val taskData = listOf(
+        TdsTaskData(
+            key = "수업",
+            value = "02:00:00",
+            progress = 0.2f,
+        ),
+        TdsTaskData(
+            key = "인공지능",
+            value = "03:00:00",
+            progress = 0.3f,
+        ),
+        TdsTaskData(
+            key = "알고리즘",
+            value = "02:00:00",
+            progress = 0.2f,
+        ),
+        TdsTaskData(
+            key = "개발",
+            value = "03:00:00",
+            progress = 0.3f,
+        ),
+    )
+
+    val tdsColors = listOf(
+        TdsColor.D1,
+        TdsColor.D2,
+        TdsColor.D3,
+        TdsColor.D4,
+        TdsColor.D5,
+        TdsColor.D6,
+        TdsColor.D7,
+        TdsColor.D8,
+        TdsColor.D9,
+        TdsColor.D11,
+        TdsColor.D12,
+    )
+
+    val timeLines = listOf(
+        3600,
+        1200,
+        300,
+        400,
+        100,
+        600,
+        800,
+        1200,
+        300,
+        400,
+        100,
+        600,
+        800,
+        1200,
+        300,
+        400,
+        100,
+        600,
+        800,
+        1200,
+        300,
+        400,
+        100,
+        600,
+    )
+
+    val timeTableData = listOf(
+        TdsTimeTableData(
+            hour = 3,
+            start = 1800,
+            end = 2400,
+        ),
+        TdsTimeTableData(
+            hour = 5,
+            start = 1234,
+            end = 2555,
+        ),
+        TdsTimeTableData(
+            hour = 12,
+            start = 600,
+            end = 3444,
+        ),
+        TdsTimeTableData(
+            hour = 23,
+            start = 2121,
+            end = 3333,
+        ),
+    )
+
+    val todayDate = "2024.02.04"
+    val todayDayOfTheWeek = 6
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                horizontal = 25.dp,
-                vertical = 15.dp,
-            )
-            .verticalScroll(verticalScroll),
+            .padding(vertical = 15.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TdsTabRow(
@@ -74,12 +156,19 @@ fun LogScreen() {
             state = pagerState,
             userScrollEnabled = false,
         ) { page ->
-            TdsText(
-                text = "$page",
-                textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
-                fontSize = 40.sp,
-                color = TdsColor.SEGMENT_INDICATIOR,
-            )
+            when (page % 3) {
+                0 -> HomeScreen()
+                1 -> DailyScreen(
+                    todayDate = todayDate,
+                    todayDayOfTheWeek = todayDayOfTheWeek,
+                    taskData = taskData,
+                    tdsColors = tdsColors,
+                    timeLines = timeLines,
+                    timeTableData = timeTableData,
+                )
+
+                2 -> WeekScreen()
+            }
         }
     }
 }

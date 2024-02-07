@@ -49,7 +49,7 @@ fun TdsStandardDailyGraph(
                 .size(size),
             shape = RoundedCornerShape(25.dp),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
-            elevation = CardDefaults.outlinedCardElevation(defaultElevation = 10.dp),
+            elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
         ) {
             Column(
                 modifier = Modifier.padding(10.dp),
