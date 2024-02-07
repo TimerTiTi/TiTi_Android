@@ -1,6 +1,8 @@
 package com.titi.app.feature.log.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,10 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -21,17 +27,20 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsColorRow
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsStandardDailyGraph
 import com.titi.app.core.designsystem.component.TdsTaskProgressDailyGraph
+import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTimeLineDailyGraph
 import com.titi.app.core.designsystem.component.TdsTimeTableDailyGraph
 import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import kotlinx.coroutines.launch
 
@@ -51,15 +60,7 @@ fun DailyScreen(
             .fillMaxSize()
             .verticalScroll(scrollState),
     ) {
-        CalendarContent(
-            modifier = Modifier.fillMaxWidth(),
-            todayDate = todayDate,
-            todayDayOfTheWeek = todayDayOfTheWeek,
-            taskData = taskData,
-            tdsColors = tdsColors,
-            timeLines = timeLines,
-            timeTableData = timeTableData,
-        )
+        CalendarContent(modifier = Modifier.fillMaxWidth())
 
         Spacer(modifier = Modifier.height(15.dp))
 
@@ -86,15 +87,7 @@ fun DailyScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CalendarContent(
-    modifier: Modifier = Modifier,
-    todayDate: String,
-    todayDayOfTheWeek: Int,
-    taskData: List<TdsTaskData>,
-    tdsColors: List<TdsColor>,
-    timeLines: List<Int>,
-    timeTableData: List<TdsTimeTableData>,
-) {
+fun CalendarContent(modifier: Modifier = Modifier) {
     val pagerState = rememberPagerState(
         pageCount = {
             4
@@ -109,13 +102,9 @@ fun CalendarContent(
         TdsIconButton(
             onClick = {
                 scope.launch {
-                    pagerState.animateScrollToPage(
-                        if (pagerState.currentPage - 1 < 0) {
-                            3
-                        } else {
-                            pagerState.currentPage - 1
-                        },
-                    )
+                    if (pagerState.currentPage - 1 >= 0) {
+                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                    }
                 }
             },
         ) {
@@ -131,54 +120,44 @@ fun CalendarContent(
             userScrollEnabled = true,
             state = pagerState,
         ) { page ->
-            when (page % 4) {
-                0 -> TdsStandardDailyGraph(
-                    modifier = Modifier.fillMaxWidth(),
-                    todayDate = todayDate,
-                    todayDayOfTheWeek = todayDayOfTheWeek,
-                    tdsColors = tdsColors,
-                    timeLines = timeLines,
-                    taskData = taskData,
-                )
+            BoxWithConstraints(
+                modifier = modifier.padding(vertical = 10.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
 
-                1 -> TdsTimeTableDailyGraph(
-                    modifier = Modifier.fillMaxWidth(),
-                    todayDate = todayDate,
-                    todayDayOfTheWeek = todayDayOfTheWeek,
-                    tdsColors = tdsColors,
-                    taskData = taskData,
-                    timeTableData = timeTableData,
-                )
-
-                2 -> TdsTimeLineDailyGraph(
-                    modifier = Modifier.fillMaxWidth(),
-                    todayDate = todayDate,
-                    todayDayOfTheWeek = todayDayOfTheWeek,
-                    tdsColors = tdsColors,
-                    timeLines = timeLines,
-                    totalTime = timeLines.sum().toLong().getTimeString(),
-                    maxTime = timeLines.max().toLong().getTimeString(),
-                )
-
-                3 -> TdsTaskProgressDailyGraph(
-                    modifier = Modifier.fillMaxWidth(),
-                    todayDate = todayDate,
-                    taskData = taskData,
-                    tdsColors = tdsColors,
-                )
+                Card(
+                    modifier = Modifier
+                        .size(size),
+                    shape = RoundedCornerShape(25.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = TdsColor.BACKGROUND.getColor(),
+                    ),
+                    elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        TdsText(
+                            text = "달력",
+                            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                            fontSize = 40.sp,
+                            color = TdsColor.TEXT,
+                        )
+                    }
+                }
             }
         }
 
         TdsIconButton(
             onClick = {
                 scope.launch {
-                    pagerState.animateScrollToPage(
-                        if (pagerState.currentPage + 1 > 3) {
-                            0
-                        } else {
-                            pagerState.currentPage + 1
-                        },
-                    )
+                    if (pagerState.currentPage + 1 < 4) {
+                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    }
                 }
             },
         ) {
@@ -216,13 +195,9 @@ private fun GraphContent(
         TdsIconButton(
             onClick = {
                 scope.launch {
-                    pagerState.scrollToPage(
-                        if (pagerState.currentPage - 1 < 0) {
-                            3
-                        } else {
-                            pagerState.currentPage - 1
-                        },
-                    )
+                    if (pagerState.currentPage - 1 >= 0) {
+                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                    }
                 }
             },
         ) {
@@ -279,13 +254,9 @@ private fun GraphContent(
         TdsIconButton(
             onClick = {
                 scope.launch {
-                    pagerState.scrollToPage(
-                        if (pagerState.currentPage + 1 > 3) {
-                            0
-                        } else {
-                            pagerState.currentPage + 1
-                        },
-                    )
+                    if (pagerState.currentPage + 1 < 4) {
+                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    }
                 }
             },
         ) {
