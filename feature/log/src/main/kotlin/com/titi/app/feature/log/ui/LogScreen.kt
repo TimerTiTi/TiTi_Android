@@ -144,7 +144,7 @@ fun LogScreen() {
             onClick = {
                 tabSelectedIndex = it
                 scope.launch {
-                    pagerState.scrollToPage(it)
+                    pagerState.animateScrollToPage(it)
                 }
             },
         )

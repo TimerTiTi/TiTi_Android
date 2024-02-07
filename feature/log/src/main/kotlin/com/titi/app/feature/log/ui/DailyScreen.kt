@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -21,6 +22,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.titi.app.core.designsystem.R
+import com.titi.app.core.designsystem.component.TdsColorRow
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsStandardDailyGraph
 import com.titi.app.core.designsystem.component.TdsTaskProgressDailyGraph
@@ -59,7 +61,16 @@ fun DailyScreen(
             timeTableData = timeTableData,
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(15.dp))
+
+        TdsColorRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 42.dp),
+            onClick = {},
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
 
         GraphContent(
             modifier = Modifier.fillMaxWidth(),
@@ -98,7 +109,7 @@ fun CalendarContent(
         TdsIconButton(
             onClick = {
                 scope.launch {
-                    pagerState.scrollToPage(
+                    pagerState.animateScrollToPage(
                         if (pagerState.currentPage - 1 < 0) {
                             3
                         } else {
@@ -161,7 +172,7 @@ fun CalendarContent(
         TdsIconButton(
             onClick = {
                 scope.launch {
-                    pagerState.scrollToPage(
+                    pagerState.animateScrollToPage(
                         if (pagerState.currentPage + 1 > 3) {
                             0
                         } else {
