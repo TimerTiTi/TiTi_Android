@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="bottom_timer_text">Timer</string>
+    <string name="bottom_stopwatch_text">Stopwatch</string>
+    <string name="bottom_log_text">Log</string>
+
     <string name="sum_time" translatable="false">누적 시간</string>
     <string name="timer" translatable="false">타이머</string>
     <string name="stopwatch" translatable="false">스탑워치</string>
