@@ -56,7 +56,7 @@ fun TdsCircularProgressIndicator(
             text = sumTime.toString(),
             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             fontSize = fontSize,
-            color = TdsColor.BACKGROUND,
+            color = TdsColor.TEXT,
             textAlign = TextAlign.Center,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
@@ -71,7 +71,7 @@ private fun TdsCircularProgressIndicatorPreview() {
         TdsCircularProgressIndicator(
             modifier = Modifier
                 .size(110.dp)
-                .background(Color.Black),
+                .background(TdsColor.BACKGROUND.getColor()),
             sumTime = 500,
             maxTime = 1000,
             color = TdsColor.D1.getColor(),
