@@ -48,7 +48,7 @@ firebaseBom = "32.7.1"
 
 ktlint = "12.1.0"
 
-calendar = "2.4.1"
+calendar = "2.5.0-beta01"
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
