@@ -192,7 +192,11 @@ fun LogScreen() {
             userScrollEnabled = false,
         ) { page ->
             when (page % 3) {
-                0 -> HomeScreen()
+                0 -> HomeScreen(
+                    tdsColors = tdsColors,
+                    taskData = taskData,
+                    weekLineChardData = weekLineChardData,
+                )
                 1 -> DailyScreen(
                     todayDate = todayDate,
                     todayDayOfTheWeek = todayDayOfTheWeek,
