@@ -48,6 +48,8 @@ firebaseBom = "32.7.1"
 
 ktlint = "12.1.0"
 
+calendar = "2.4.1"
+
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -115,6 +117,8 @@ androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+
+calendar = { group = "com.kizitonwose.calendar", name = "compose", version.ref = "calendar" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
