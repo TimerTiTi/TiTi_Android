@@ -19,9 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.titi.app.core.designsystem.component.TdsCard
 import com.titi.app.core.designsystem.component.TdsCircularProgressIndicator
+import com.titi.app.core.designsystem.component.TdsDayOfTheWeek
 import com.titi.app.core.designsystem.component.TdsFilledCard
 import com.titi.app.core.designsystem.component.TdsTaskResultList
 import com.titi.app.core.designsystem.component.TdsText
+import com.titi.app.core.designsystem.component.TdsTimeLineChart
 import com.titi.app.core.designsystem.component.TdsWeekLineChart
 import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.extension.getWeekInformation
@@ -38,6 +40,7 @@ fun HomeScreen(
     tdsColors: List<TdsColor>,
     taskData: List<TdsTaskData>,
     weekLineChardData: List<TdsWeekLineChartData>,
+    timeLines: List<Int>,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -68,6 +71,13 @@ fun HomeScreen(
             todayDateTime = ZonedDateTime.now(ZoneOffset.UTC),
             weekLineChardData = weekLineChardData,
             tdsColors = tdsColors,
+        )
+
+        TimeLineCard(
+            todayDate = "2024.02.08",
+            todayDayOfTheWeek = 0,
+            tdsColors = tdsColors,
+            timeLines = timeLines,
         )
     }
 }
@@ -244,7 +254,53 @@ private fun WeekCard(
 }
 
 @Composable
-private fun TimeLineCard() {
+private fun TimeLineCard(
+    todayDate: String,
+    todayDayOfTheWeek: Int,
+    tdsColors: List<TdsColor>,
+    timeLines: List<Int>,
+) {
+    TdsFilledCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(160.dp),
+    ) {
+        Column(
+            modifier = Modifier.padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.Bottom,
+            ) {
+                TdsText(
+                    text = todayDate,
+                    textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                    fontSize = 25.sp,
+                    color = TdsColor.TEXT,
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                TdsDayOfTheWeek(
+                    modifier = Modifier.padding(bottom = 2.dp),
+                    todayDayOfTheWeek = todayDayOfTheWeek,
+                    color = tdsColors.first(),
+                )
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            TdsTimeLineChart(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                times = timeLines,
+                startColor = tdsColors[0].getColor(),
+                endColor = tdsColors[1].getColor(),
+            )
+        }
+    }
 }
 
 @Preview
@@ -323,11 +379,39 @@ private fun HomeScreenPreview() {
         ),
     )
 
+    val timeLines = listOf(
+        3600,
+        1200,
+        300,
+        400,
+        100,
+        600,
+        800,
+        1200,
+        300,
+        400,
+        100,
+        600,
+        800,
+        1200,
+        300,
+        400,
+        100,
+        600,
+        800,
+        1200,
+        300,
+        400,
+        100,
+        600,
+    )
+
     TiTiTheme {
         HomeScreen(
             tdsColors = tdsColors,
             taskData = taskData,
             weekLineChardData = weekLineChardData,
+            timeLines = timeLines,
         )
     }
 }

@@ -196,6 +196,7 @@ fun LogScreen() {
                     tdsColors = tdsColors,
                     taskData = taskData,
                     weekLineChardData = weekLineChardData,
+                    timeLines = timeLines,
                 )
                 1 -> DailyScreen(
                     todayDate = todayDate,
