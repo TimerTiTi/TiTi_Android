@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
@@ -42,7 +41,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
@@ -241,38 +239,33 @@ fun Day(
     themeColor: TdsColor,
     onClick: (CalendarDay) -> Unit,
 ) {
-    BoxWithConstraints(
+    Box(
         modifier = Modifier
+            .padding(horizontal = 5.dp)
             .aspectRatio(1f)
+            .clip(CircleShape)
+            .background(
+                color = if (isSelected) {
+                    themeColor.getColor()
+                } else {
+                    Color.Transparent
+                },
+            )
             .clickable(
                 enabled = day.position == DayPosition.MonthDate,
                 onClick = { onClick(day) },
             ),
         contentAlignment = Alignment.Center,
     ) {
-        Box(
-            modifier = Modifier
-                .size(min(maxWidth, maxHeight) / 5 * 3)
-                .clip(CircleShape)
-                .background(
-                    color = if (isSelected) {
-                        themeColor.getColor()
-                    } else {
-                        Color.Transparent
-                    },
-                ),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = day.date.dayOfMonth.toString(),
-                color = if (day.position == DayPosition.MonthDate) {
-                    TdsColor.TEXT.getColor()
-                } else {
-                    Color.Gray
-                },
-                style = TdsTextStyle.SEMI_BOLD_TEXT_STYLE.getTextStyle(fontSize = 18.sp),
-            )
-        }
+        Text(
+            text = day.date.dayOfMonth.toString(),
+            color = if (day.position == DayPosition.MonthDate) {
+                TdsColor.TEXT.getColor()
+            } else {
+                Color.Gray
+            },
+            style = TdsTextStyle.SEMI_BOLD_TEXT_STYLE.getTextStyle(fontSize = 18.sp),
+        )
     }
 }
 
