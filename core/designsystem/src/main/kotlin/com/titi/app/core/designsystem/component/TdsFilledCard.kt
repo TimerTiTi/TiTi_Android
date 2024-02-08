@@ -43,6 +43,27 @@ fun TdsFilledCard(modifier: Modifier = Modifier, content: @Composable () -> Unit
     }
 }
 
+@Composable
+fun TdsCard(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+    Card(
+        modifier = modifier,
+        shape = RoundedCornerShape(25.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = TdsColor.BACKGROUND.getColor(),
+        ),
+        elevation = CardDefaults.outlinedCardElevation(
+            defaultElevation = 5.dp,
+        ),
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center,
+        ) {
+            content()
+        }
+    }
+}
+
 @Preview
 @Composable
 private fun TdsFilledCardPreview() {
