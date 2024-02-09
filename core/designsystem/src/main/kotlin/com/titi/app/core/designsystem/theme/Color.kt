@@ -27,6 +27,8 @@ data class TdsColorsPalette(
     val segmentBackgroundColor: Color = Color.Unspecified,
     val segmentIndicatorColor: Color = Color.Unspecified,
     val graphBorderColor: Color = Color.Unspecified,
+    val shadowColor: Color = Color.Unspecified,
+
     val redColor: Color = Color.Unspecified,
     val blueColor: Color = Color.Unspecified,
     val dividerColor: Color = Color.Unspecified,
@@ -57,6 +59,8 @@ val TdsLightColorsPalette = TdsColorsPalette(
     segmentBackgroundColor = Color(0xFFEFEFF0),
     segmentIndicatorColor = Color(0xFFFFFFFF),
     graphBorderColor = Color(0xFFBBBBBB),
+    shadowColor = Color(0xFFE0E0E0),
+
     redColor = Color(0xFFFF453A),
     blueColor = Color(0xFF0A84FF),
     dividerColor = Color(0x4D000000),
@@ -87,6 +91,8 @@ val TdsDarkColorsPalette = TdsColorsPalette(
     segmentBackgroundColor = Color(0xFF1C1C20),
     segmentIndicatorColor = Color(0xFF636366),
     graphBorderColor = Color(0xFF818181),
+    shadowColor = Color(0xFF808080),
+
     redColor = Color(0xFFFF453A),
     blueColor = Color(0xFF0A84FF),
     dividerColor = Color(0x4DFFFFFF),
@@ -116,9 +122,10 @@ enum class TdsColor {
     ALERT_BACKGROUND,
     TERTIARY_BACKGROUND,
     SEGMENT_BACKGROUND,
-    SEGMENT_INDICATIOR,
+    SEGMENT_INDICATOR,
 
     GRAPH_BORDER,
+    SHADOW,
 
     RED,
     BLUE,
@@ -151,9 +158,10 @@ enum class TdsColor {
         ALERT_BACKGROUND -> TiTiTheme.colors.alertBackgroundColor
         TERTIARY_BACKGROUND -> TiTiTheme.colors.tertiaryBackgroundColor
         SEGMENT_BACKGROUND -> TiTiTheme.colors.segmentBackgroundColor
-        SEGMENT_INDICATIOR -> TiTiTheme.colors.segmentIndicatorColor
+        SEGMENT_INDICATOR -> TiTiTheme.colors.segmentIndicatorColor
 
         GRAPH_BORDER -> TiTiTheme.colors.graphBorderColor
+        SHADOW -> TiTiTheme.colors.shadowColor
 
         RED -> TiTiTheme.colors.redColor
         BLUE -> TiTiTheme.colors.blueColor

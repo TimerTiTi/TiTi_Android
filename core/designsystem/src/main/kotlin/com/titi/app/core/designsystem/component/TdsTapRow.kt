@@ -125,7 +125,7 @@ private fun TdsTabRowIndicator(indicatorWidth: Dp, indicatorHeight: Dp, indicato
             .clip(RoundedCornerShape(4.dp))
             .height(indicatorHeight)
             .width(indicatorWidth)
-            .background(TdsColor.SEGMENT_INDICATIOR.getColor())
+            .background(TdsColor.SEGMENT_INDICATOR.getColor())
             .border(
                 width = 1.dp,
                 color = TdsColor.DIVIDER.getColor(),

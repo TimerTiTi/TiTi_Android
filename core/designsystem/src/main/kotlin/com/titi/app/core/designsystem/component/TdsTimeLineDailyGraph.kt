@@ -1,5 +1,6 @@
 package com.titi.app.core.designsystem.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -12,8 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,15 +41,19 @@ fun TdsTimeLineDailyGraph(
     ) {
         val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
 
-        Card(
+        OutlinedCard(
             modifier = Modifier
                 .size(size),
             shape = RoundedCornerShape(25.dp),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
+            border = BorderStroke(
+                width = 3.dp,
+                TdsColor.SHADOW.getColor(),
+            ),
         ) {
             Column(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier.padding(13.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(modifier = Modifier.height(5.dp))

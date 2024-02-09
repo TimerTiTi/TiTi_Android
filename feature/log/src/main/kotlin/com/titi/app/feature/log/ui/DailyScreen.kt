@@ -1,5 +1,6 @@
 package com.titi.app.feature.log.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,9 +23,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -158,7 +159,7 @@ fun CalendarContent(modifier: Modifier = Modifier) {
         ) {
             val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
 
-            Card(
+            OutlinedCard(
                 modifier = Modifier
                     .width(size)
                     .wrapContentHeight(),
@@ -167,10 +168,12 @@ fun CalendarContent(modifier: Modifier = Modifier) {
                     containerColor = TdsColor.BACKGROUND.getColor(),
                 ),
                 elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
+                border = BorderStroke(3.dp, TdsColor.SHADOW.getColor()),
             ) {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        .padding(3.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
                 ) {

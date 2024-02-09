@@ -1,5 +1,7 @@
 package com.titi.app.core.designsystem.component
 
+import android.content.res.Configuration
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,8 +10,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +28,7 @@ fun TdsFilledCard(modifier: Modifier = Modifier, content: @Composable () -> Unit
     ) {
         val width = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
 
-        Card(
+        OutlinedCard(
             modifier = Modifier
                 .width(width)
                 .wrapContentHeight(),
@@ -37,6 +39,10 @@ fun TdsFilledCard(modifier: Modifier = Modifier, content: @Composable () -> Unit
             elevation = CardDefaults.outlinedCardElevation(
                 defaultElevation = 5.dp,
             ),
+            border = BorderStroke(
+                width = 3.dp,
+                TdsColor.SHADOW.getColor(),
+            ),
         ) {
             content()
         }
@@ -45,7 +51,7 @@ fun TdsFilledCard(modifier: Modifier = Modifier, content: @Composable () -> Unit
 
 @Composable
 fun TdsCard(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
-    Card(
+    OutlinedCard(
         modifier = modifier,
         shape = RoundedCornerShape(25.dp),
         colors = CardDefaults.cardColors(
@@ -53,6 +59,10 @@ fun TdsCard(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
         ),
         elevation = CardDefaults.outlinedCardElevation(
             defaultElevation = 5.dp,
+        ),
+        border = BorderStroke(
+            width = 3.dp,
+            TdsColor.SHADOW.getColor(),
         ),
     ) {
         Box(
@@ -65,6 +75,7 @@ fun TdsCard(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
 }
 
 @Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun TdsFilledCardPreview() {
     TiTiTheme {
