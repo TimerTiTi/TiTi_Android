@@ -9,11 +9,15 @@ enum class TopLevelDestination(
     @DrawableRes val iconResourceId: Int,
 ) {
     TIMER(
-        titleTextId = R.string.timer,
+        titleTextId = R.string.bottom_timer_text,
         iconResourceId = R.drawable.timer_icon,
     ),
     STOPWATCH(
-        titleTextId = R.string.stopwatch,
+        titleTextId = R.string.bottom_stopwatch_text,
         iconResourceId = R.drawable.stopwatch_icon,
+    ),
+    LOG(
+        titleTextId = R.string.bottom_log_text,
+        iconResourceId = R.drawable.log_icon,
     ),
 }

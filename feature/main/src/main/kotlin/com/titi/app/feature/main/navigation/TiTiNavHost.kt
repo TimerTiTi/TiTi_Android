@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
+import com.titi.app.feature.log.navigation.logGraph
 import com.titi.app.feature.main.ui.SplashResultState
 import com.titi.app.feature.main.ui.TiTiAppState
 import com.titi.app.feature.main.ui.toFeatureTimeModel
@@ -60,5 +61,7 @@ fun TiTiNavHost(
                 measuringResult.launch(intent)
             },
         )
+
+        logGraph()
     }
 }

@@ -12,6 +12,7 @@ dependencies {
     implementation(project(":domain:daily"))
 
     implementation(project(":feature:time"))
+    implementation(project(":feature:log"))
     implementation(project(":feature:popup"))
 
     implementation(libs.androidx.splashscreen)

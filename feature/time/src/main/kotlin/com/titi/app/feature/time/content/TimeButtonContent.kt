@@ -37,8 +37,7 @@ fun TimeButtonContent(
             Icon(
                 painter = painterResource(id = R.drawable.add_record_icon),
                 contentDescription = "addRecord",
-                tint =
-                if (isDailyAfter6AM) {
+                tint = if (isDailyAfter6AM) {
                     Color.Unspecified
                 } else {
                     TdsColor.RED.getColor()

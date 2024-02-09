@@ -1,7 +1,8 @@
 package com.titi.app.core.designsystem.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,14 +14,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.titi.app.core.designsystem.extension.times
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
@@ -30,25 +32,32 @@ import com.titi.app.core.designsystem.util.getSumTime
 
 @Composable
 fun TdsStandardDailyGraph(
+    modifier: Modifier = Modifier,
     todayDate: String,
     todayDayOfTheWeek: Int,
     tdsColors: List<TdsColor>,
     timeLines: List<Int>,
     taskData: List<TdsTaskData>,
 ) {
-    Box(
-        modifier = Modifier.size(365.dp),
+    BoxWithConstraints(
+        modifier = modifier.padding(vertical = 10.dp),
         contentAlignment = Alignment.Center,
     ) {
-        Card(
+        val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+
+        OutlinedCard(
             modifier = Modifier
-                .size(345.dp),
+                .size(size),
             shape = RoundedCornerShape(25.dp),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
-            elevation = CardDefaults.outlinedCardElevation(defaultElevation = 10.dp),
+            elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
+            border = BorderStroke(
+                width = 3.dp,
+                TdsColor.SHADOW.getColor(),
+            ),
         ) {
             Column(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier.padding(13.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Row(
@@ -103,7 +112,7 @@ fun TdsStandardDailyGraph(
                     TdsTaskResultList(
                         modifier = Modifier
                             .fillMaxHeight()
-                            .width(215.dp)
+                            .width(size * 0.6)
                             .border(
                                 width = 2.dp,
                                 color = TdsColor.GRAPH_BORDER.getColor(),
@@ -201,6 +210,7 @@ private fun TdsStandardDailyGraphPreview() {
 
     TiTiTheme {
         TdsStandardDailyGraph(
+            modifier = Modifier.fillMaxWidth(),
             todayDate = "2024.02.04",
             todayDayOfTheWeek = 6,
             tdsColors = listOf(

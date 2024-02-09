@@ -1,7 +1,8 @@
 package com.titi.app.core.designsystem.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,8 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +27,7 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable
 fun TdsTimeLineDailyGraph(
+    modifier: Modifier = Modifier,
     todayDate: String,
     todayDayOfTheWeek: Int,
     tdsColors: List<TdsColor>,
@@ -33,19 +35,25 @@ fun TdsTimeLineDailyGraph(
     totalTime: String,
     maxTime: String,
 ) {
-    Box(
-        modifier = Modifier.size(365.dp),
+    BoxWithConstraints(
+        modifier = modifier.padding(vertical = 10.dp),
         contentAlignment = Alignment.Center,
     ) {
-        Card(
+        val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+
+        OutlinedCard(
             modifier = Modifier
-                .size(345.dp),
+                .size(size),
             shape = RoundedCornerShape(25.dp),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
-            elevation = CardDefaults.outlinedCardElevation(defaultElevation = 10.dp),
+            elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
+            border = BorderStroke(
+                width = 3.dp,
+                TdsColor.SHADOW.getColor(),
+            ),
         ) {
             Column(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier.padding(13.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(modifier = Modifier.height(5.dp))
@@ -134,6 +142,7 @@ fun TdsTimeLineDailyGraph(
 private fun TdsTimeLineDailyGraphPreview() {
     TiTiTheme {
         TdsTimeLineDailyGraph(
+            modifier = Modifier.fillMaxWidth(),
             todayDate = "2024.02.04",
             todayDayOfTheWeek = 6,
             tdsColors = listOf(

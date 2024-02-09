@@ -1,0 +1,486 @@
+package com.titi.app.feature.log.ui
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.titi.app.core.designsystem.component.TdsCard
+import com.titi.app.core.designsystem.component.TdsCircularProgressIndicator
+import com.titi.app.core.designsystem.component.TdsDayOfTheWeek
+import com.titi.app.core.designsystem.component.TdsFilledCard
+import com.titi.app.core.designsystem.component.TdsTaskResultList
+import com.titi.app.core.designsystem.component.TdsText
+import com.titi.app.core.designsystem.component.TdsTimeLineChart
+import com.titi.app.core.designsystem.component.TdsWeekLineChart
+import com.titi.app.core.designsystem.extension.getTimeString
+import com.titi.app.core.designsystem.extension.getWeekInformation
+import com.titi.app.core.designsystem.model.TdsTaskData
+import com.titi.app.core.designsystem.model.TdsWeekLineChartData
+import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.core.designsystem.theme.TdsTextStyle
+import com.titi.app.core.designsystem.theme.TiTiTheme
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZonedDateTime
+
+@Composable
+fun HomeScreen(
+    tdsColors: List<TdsColor>,
+    taskData: List<TdsTaskData>,
+    weekLineChardData: List<TdsWeekLineChartData>,
+    timeLines: List<Int>,
+) {
+    val scrollState = rememberScrollState()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        TotalCard(
+            tdsColors = tdsColors,
+            taskData = taskData,
+        )
+
+        Spacer(modifier = Modifier.height(11.dp))
+
+        TdsText(
+            text = "Total",
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+            color = TdsColor.TEXT,
+            fontSize = 11.sp,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        BoxWithConstraints(
+            modifier = Modifier
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center,
+        ) {
+            val width = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+
+            Row(
+                modifier = Modifier.width(width),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                MonthSumCard(themeColor = tdsColors.first())
+
+                WeekSumCard(themeColor = tdsColors.first())
+            }
+        }
+
+        WeekCard(
+            todayDateTime = ZonedDateTime.now(ZoneOffset.UTC),
+            weekLineChardData = weekLineChardData,
+            tdsColors = tdsColors,
+        )
+
+        Spacer(modifier = Modifier.height(11.dp))
+
+        TdsText(
+            text = "Week",
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+            color = TdsColor.TEXT,
+            fontSize = 11.sp,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TimeLineCard(
+            todayDate = "2024.02.08",
+            todayDayOfTheWeek = 0,
+            tdsColors = tdsColors,
+            timeLines = timeLines,
+        )
+
+        Spacer(modifier = Modifier.height(11.dp))
+
+        TdsText(
+            text = "Daily",
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+            color = TdsColor.TEXT,
+            fontSize = 11.sp,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+@Composable
+private fun TotalCard(tdsColors: List<TdsColor>, taskData: List<TdsTaskData>) {
+    TdsFilledCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(178.dp),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            TdsCircularProgressIndicator(
+                modifier = Modifier.size(110.dp),
+                sumTime = 10,
+                maxTime = 100,
+                color = tdsColors.first().getColor(),
+            )
+
+            Spacer(modifier = Modifier.width(15.dp))
+
+            TdsTaskResultList(
+                modifier = Modifier.weight(1f),
+                taskData = taskData,
+                colors = tdsColors.map { it.getColor() },
+                isSpacing = true,
+                height = 20.dp,
+                leftText = "Top",
+            )
+        }
+    }
+}
+
+@Composable
+private fun MonthSumCard(themeColor: TdsColor) {
+    Column(
+        modifier = Modifier.wrapContentSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        TdsCard(
+            modifier = Modifier.size(158.dp),
+        ) {
+            TdsCircularProgressIndicator(
+                modifier = Modifier.size(110.dp),
+                sumTime = 10,
+                maxTime = 100,
+                color = themeColor.getColor(),
+            )
+        }
+
+        Spacer(modifier = Modifier.height(11.dp))
+
+        TdsText(
+            text = "Month",
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+            color = TdsColor.TEXT,
+            fontSize = 11.sp,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+@Composable
+private fun WeekSumCard(themeColor: TdsColor) {
+    Column(
+        modifier = Modifier.wrapContentSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        TdsCard(
+            modifier = Modifier.size(158.dp),
+        ) {
+            TdsCircularProgressIndicator(
+                modifier = Modifier.size(110.dp),
+                sumTime = 20,
+                maxTime = 100,
+                color = themeColor.getColor(),
+            )
+        }
+
+        Spacer(modifier = Modifier.height(11.dp))
+
+        TdsText(
+            text = "Week",
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+            color = TdsColor.TEXT,
+            fontSize = 11.sp,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+@Composable
+private fun WeekCard(
+    todayDateTime: ZonedDateTime,
+    weekLineChardData: List<TdsWeekLineChartData>,
+    tdsColors: List<TdsColor>,
+) {
+    val weekInformation = todayDateTime.getWeekInformation()
+
+    TdsFilledCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(178.dp),
+    ) {
+        Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = 10.dp,
+                        start = 10.dp,
+                        end = 10.dp,
+                    ),
+                verticalAlignment = Alignment.Bottom,
+            ) {
+                TdsText(
+                    text = weekInformation.first,
+                    textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                    fontSize = 25.sp,
+                    color = TdsColor.TEXT,
+                )
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                TdsText(
+                    text = weekInformation.second,
+                    textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                    fontSize = 25.sp,
+                    color = TdsColor.TEXT,
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                TdsText(
+                    text = weekInformation.third,
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    fontSize = 14.sp,
+                    color = TdsColor.TEXT,
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(10.dp),
+            ) {
+                TdsWeekLineChart(
+                    modifier = Modifier.weight(3f),
+                    weekLineChardData = weekLineChardData,
+                    startColor = tdsColors.first().getColor(),
+                    endColor = tdsColors[2].getColor(),
+                )
+
+                Column(
+                    modifier = Modifier.weight(2f),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom,
+                ) {
+                    TdsText(
+                        text = "Total",
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                        fontSize = 12.sp,
+                        color = TdsColor.TEXT,
+                    )
+
+                    TdsText(
+                        text = weekLineChardData.sumOf { it.time }.getTimeString(),
+                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                        fontSize = 22.sp,
+                        color = tdsColors.first(),
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    TdsText(
+                        text = "Average",
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                        fontSize = 12.sp,
+                        color = TdsColor.TEXT,
+                    )
+
+                    TdsText(
+                        text = (weekLineChardData.sumOf { it.time } / weekLineChardData.size)
+                            .getTimeString(),
+                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                        fontSize = 22.sp,
+                        color = tdsColors.first(),
+                    )
+
+                    Spacer(modifier = Modifier.height(18.dp))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TimeLineCard(
+    todayDate: String,
+    todayDayOfTheWeek: Int,
+    tdsColors: List<TdsColor>,
+    timeLines: List<Int>,
+) {
+    TdsFilledCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(178.dp),
+    ) {
+        Column(
+            modifier = Modifier.padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.Bottom,
+            ) {
+                TdsText(
+                    text = todayDate,
+                    textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                    fontSize = 25.sp,
+                    color = TdsColor.TEXT,
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                TdsDayOfTheWeek(
+                    modifier = Modifier.padding(bottom = 2.dp),
+                    todayDayOfTheWeek = todayDayOfTheWeek,
+                    color = tdsColors.first(),
+                )
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            TdsTimeLineChart(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                times = timeLines,
+                startColor = tdsColors[0].getColor(),
+                endColor = tdsColors[1].getColor(),
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun HomeScreenPreview() {
+    val tdsColors = listOf(
+        TdsColor.D1,
+        TdsColor.D2,
+        TdsColor.D3,
+        TdsColor.D4,
+        TdsColor.D5,
+        TdsColor.D6,
+        TdsColor.D7,
+        TdsColor.D8,
+        TdsColor.D9,
+        TdsColor.D11,
+        TdsColor.D12,
+    )
+
+    val taskData = listOf(
+        TdsTaskData(
+            key = "수업",
+            value = "02:00:00",
+            progress = 0.2f,
+        ),
+        TdsTaskData(
+            key = "인공지능",
+            value = "03:00:00",
+            progress = 0.3f,
+        ),
+        TdsTaskData(
+            key = "알고리즘",
+            value = "02:00:00",
+            progress = 0.2f,
+        ),
+        TdsTaskData(
+            key = "개발",
+            value = "03:00:00",
+            progress = 0.3f,
+        ),
+        TdsTaskData(
+            key = "개발",
+            value = "03:00:00",
+            progress = 0.3f,
+        ),
+    )
+
+    val weekLineChardData = listOf(
+        TdsWeekLineChartData(
+            time = 6200,
+            date = "1/12",
+        ),
+        TdsWeekLineChartData(
+            time = 3700,
+            date = "1/13",
+        ),
+        TdsWeekLineChartData(
+            time = 5200,
+            date = "1/14",
+        ),
+        TdsWeekLineChartData(
+            time = 1042,
+            date = "1/15",
+        ),
+        TdsWeekLineChartData(
+            time = 4536,
+            date = "1/16",
+        ),
+        TdsWeekLineChartData(
+            time = 3700,
+            date = "1/17",
+        ),
+        TdsWeekLineChartData(
+            time = 2455,
+            date = "1/18",
+        ),
+    )
+
+    val timeLines = listOf(
+        3600,
+        1200,
+        300,
+        400,
+        100,
+        600,
+        800,
+        1200,
+        300,
+        400,
+        100,
+        600,
+        800,
+        1200,
+        300,
+        400,
+        100,
+        600,
+        800,
+        1200,
+        300,
+        400,
+        100,
+        600,
+    )
+
+    TiTiTheme {
+        HomeScreen(
+            tdsColors = tdsColors,
+            taskData = taskData,
+            weekLineChardData = weekLineChardData,
+            timeLines = timeLines,
+        )
+    }
+}
