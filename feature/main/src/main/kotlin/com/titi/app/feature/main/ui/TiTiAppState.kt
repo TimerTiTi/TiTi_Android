@@ -1,7 +1,6 @@
 package com.titi.app.feature.main.ui
 
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -81,12 +80,7 @@ class TiTiAppState(
         @Composable get() = currentTopLevelDestination != null
 
     val shouldShowBottomBar: Boolean
-        @Composable get() =
-            windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact && isTopLevelDestination
-
-    val shouldShowNavRail: Boolean
-        @Composable get() =
-            windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact && isTopLevelDestination
+        @Composable get() = isTopLevelDestination
 
     val bottomNavigationColor: StateFlow<Long> =
         getTimeColorFlowUseCase()
