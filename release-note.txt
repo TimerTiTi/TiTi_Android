@@ -1,4 +1,6 @@
-TiTi android dev 0.1.4(5)
-- 측정 화면 화면 회전 이슈 fix
+TiTi android dev 0.2.0(6)
+- 로그 화면 구현 (임의의 데이터)
+- 가로 화면 수정
+- UTC 현재 시간 맞지 않는 이슈
 
 
