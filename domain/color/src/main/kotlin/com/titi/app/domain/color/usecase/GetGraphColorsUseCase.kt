@@ -10,6 +10,6 @@ import kotlinx.coroutines.flow.map
 class GetGraphColorsUseCase @Inject constructor(
     private val colorRepository: ColorRepository,
 ) {
-    operator fun invoke(): Flow<GraphColor> =
-        colorRepository.getGraphColorsFlow().map { it?.toDomainModel() ?: GraphColor() }
+    operator fun invoke(): Flow<GraphColor?> =
+        colorRepository.getGraphColorsFlow().map { it?.toDomainModel() }
 }

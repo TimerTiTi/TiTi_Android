@@ -1,9 +1,9 @@
 package com.titi.app.domain.color.model
 
 data class GraphColor(
-    val selectedIndex: Int = 0,
-    val direction: GraphDirection = GraphDirection.Right,
-    val graphColors: List<GraphColorType> = GraphColorType.entries,
+    val selectedIndex: Int,
+    val direction: GraphDirection,
+    val graphColors: List<GraphColorType>,
 ) {
     enum class GraphDirection {
         Left,
