@@ -11,7 +11,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -72,7 +71,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val appState = rememberNiaAppState(
-                windowSizeClass = calculateWindowSizeClass(this),
                 getTimeColorFlowUseCase = getTimeColorFlowUseCase,
                 isSystemDarkTheme = isSystemInDarkTheme(),
             )

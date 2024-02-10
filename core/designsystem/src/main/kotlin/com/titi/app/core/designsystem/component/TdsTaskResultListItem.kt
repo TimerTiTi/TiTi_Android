@@ -14,11 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
@@ -32,10 +32,9 @@ fun TdsTaskResultListItem(
     isSpacing: Boolean,
     leftText: String? = null,
 ) {
-    val density = LocalDensity.current
     val radius = if (leftText == null) 0.dp else height / 10
     val padding = height / 10
-    val fontSize = with(density) { (height / 2).coerceAtLeast(10.dp).toSp() }
+    val fontSize = (height.value / 2).sp
 
     Row(
         modifier = Modifier

@@ -1,6 +1,10 @@
+
+
+
 package com.titi.app.core.util
 
 import org.threeten.bp.Duration
+import org.threeten.bp.ZoneId
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -27,8 +31,9 @@ fun isAfterSixAM(dateTime: String?): Boolean {
     return if (dateTime.isNullOrBlank()) {
         false
     } else {
-        val inputDateTime = ZonedDateTime.parse(dateTime)
-        val currentDateTime = ZonedDateTime.now(ZoneOffset.UTC)
+        val inputDateTime =
+            ZonedDateTime.parse(dateTime).withZoneSameInstant(ZoneId.systemDefault())
+        val currentDateTime = ZonedDateTime.now()
 
         if (inputDateTime.dayOfMonth == currentDateTime.dayOfMonth) {
             true

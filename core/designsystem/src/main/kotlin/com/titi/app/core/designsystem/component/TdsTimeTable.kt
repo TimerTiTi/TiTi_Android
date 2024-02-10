@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
@@ -87,7 +86,7 @@ fun TdsTimeTable(
 
             drawRoundRect(
                 color = colors[index % colors.size],
-                cornerRadius = CornerRadius(8.dp.toPx(), 8.dp.toPx()),
+                cornerRadius = CornerRadius(itemHeight / 5, itemHeight / 5),
                 topLeft = Offset(
                     x = startX,
                     y = startY,
