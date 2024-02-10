@@ -55,7 +55,7 @@ fun TdsStandardWeekGraph(
         OutlinedCard(
             modifier = Modifier
                 .size(size),
-            shape = RoundedCornerShape(25.dp),
+            shape = RoundedCornerShape(size * 0.07),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
             border = BorderStroke(
@@ -74,7 +74,7 @@ fun TdsStandardWeekGraph(
                     TdsText(
                         text = weekInformation.first,
                         textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                        fontSize = 25.sp,
+                        fontSize = (size.value * 0.07).sp,
                         color = TdsColor.TEXT,
                     )
 
@@ -83,7 +83,7 @@ fun TdsStandardWeekGraph(
                     TdsText(
                         text = weekInformation.second,
                         textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                        fontSize = 25.sp,
+                        fontSize = (size.value * 0.07).sp,
                         color = TdsColor.TEXT,
                     )
 
@@ -92,7 +92,7 @@ fun TdsStandardWeekGraph(
                     TdsText(
                         text = weekInformation.third,
                         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                        fontSize = 14.sp,
+                        fontSize = (size.value * 0.05).sp,
                         color = TdsColor.TEXT,
                     )
                 }
@@ -102,7 +102,7 @@ fun TdsStandardWeekGraph(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(140.dp)
+                        .height(size * 0.4)
                         .border(
                             width = 2.dp,
                             color = TdsColor.GRAPH_BORDER.getColor(),
@@ -115,7 +115,7 @@ fun TdsStandardWeekGraph(
                             .fillMaxHeight(),
                         weekLineChardData = weekLineChardData,
                         startColor = tdsColors.first().getColor(),
-                        endColor = tdsColors.get(2).getColor(),
+                        endColor = tdsColors[2].getColor(),
                     )
 
                     Column(
@@ -126,14 +126,14 @@ fun TdsStandardWeekGraph(
                         TdsText(
                             text = "Total",
                             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                            fontSize = 12.sp,
+                            fontSize = (size.value * 0.04).sp,
                             color = TdsColor.TEXT,
                         )
 
                         TdsText(
                             text = weekLineChardData.sumOf { it.time }.getTimeString(),
                             textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                            fontSize = 22.sp,
+                            fontSize = (size.value * 0.06).sp,
                             color = tdsColors.first(),
                         )
 
@@ -142,14 +142,14 @@ fun TdsStandardWeekGraph(
                         TdsText(
                             text = "Max",
                             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                            fontSize = 12.sp,
+                            fontSize = (size.value * 0.04).sp,
                             color = TdsColor.TEXT,
                         )
 
                         TdsText(
                             text = weekLineChardData.maxOf { it.time }.getTimeString(),
                             textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                            fontSize = 22.sp,
+                            fontSize = (size.value * 0.06).sp,
                             color = tdsColors.first(),
                         )
 
@@ -186,28 +186,29 @@ fun TdsStandardWeekGraph(
                                 width = 2.dp,
                                 color = TdsColor.GRAPH_BORDER.getColor(),
                             )
-                            .padding(2.dp)
-                            .padding(vertical = 10.dp),
+                            .padding(2.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
+                        Spacer(modifier = Modifier.height(10.dp))
+
                         TdsText(
                             text = "Total",
                             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                            fontSize = 12.sp,
+                            fontSize = (size.value * 0.04).sp,
                             color = TdsColor.TEXT,
                         )
 
                         TdsText(
                             text = taskData.getSumTime(),
                             textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                            fontSize = 22.sp,
+                            fontSize = (size.value * 0.06).sp,
                             color = tdsColors.first(),
                         )
 
-                        Spacer(modifier = Modifier.height(10.dp))
-
                         TdsPieChart(
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(vertical = 3.dp),
                             taskData = taskData,
                             colors = tdsColors.map { it.getColor() },
                         )

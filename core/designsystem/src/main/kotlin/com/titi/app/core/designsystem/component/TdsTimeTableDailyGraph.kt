@@ -50,7 +50,7 @@ fun TdsTimeTableDailyGraph(
         OutlinedCard(
             modifier = Modifier
                 .size(size),
-            shape = RoundedCornerShape(25.dp),
+            shape = RoundedCornerShape(size * 0.07),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
             border = BorderStroke(
@@ -69,7 +69,7 @@ fun TdsTimeTableDailyGraph(
                     TdsText(
                         text = todayDate,
                         textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                        fontSize = 25.sp,
+                        fontSize = (size.value * 0.07).sp,
                         color = TdsColor.TEXT,
                     )
 
@@ -94,14 +94,14 @@ fun TdsTimeTableDailyGraph(
                         TdsText(
                             text = "Times",
                             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                            fontSize = 16.sp,
+                            fontSize = (size.value * 0.05).sp,
                             color = TdsColor.TEXT,
                         )
 
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(100.dp)
+                                .height(size * 0.3)
                                 .border(
                                     width = 2.dp,
                                     color = TdsColor.GRAPH_BORDER.getColor(),
@@ -126,28 +126,28 @@ fun TdsTimeTableDailyGraph(
                                 TdsText(
                                     text = "Total",
                                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                                    fontSize = 12.sp,
+                                    fontSize = (size.value * 0.04).sp,
                                     color = TdsColor.TEXT,
                                 )
 
                                 TdsText(
                                     text = taskData.getSumTime(),
                                     textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                                    fontSize = 22.sp,
+                                    fontSize = (size.value * 0.06).sp,
                                     color = tdsColors.first(),
                                 )
 
                                 TdsText(
                                     text = "Max",
                                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                                    fontSize = 12.sp,
+                                    fontSize = (size.value * 0.04).sp,
                                     color = TdsColor.TEXT,
                                 )
 
                                 TdsText(
                                     text = taskData.getMaxTime(),
                                     textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                                    fontSize = 22.sp,
+                                    fontSize = (size.value * 0.06).sp,
                                     color = tdsColors.first(),
                                 )
                             }
@@ -181,7 +181,7 @@ fun TdsTimeTableDailyGraph(
                         TdsText(
                             text = "TimeTable",
                             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                            fontSize = 16.sp,
+                            fontSize = (size.value * 0.05).sp,
                             color = TdsColor.TEXT,
                         )
 

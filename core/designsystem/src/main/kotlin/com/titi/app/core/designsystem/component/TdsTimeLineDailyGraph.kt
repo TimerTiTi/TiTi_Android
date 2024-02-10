@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.titi.app.core.designsystem.extension.times
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
@@ -44,7 +45,7 @@ fun TdsTimeLineDailyGraph(
         OutlinedCard(
             modifier = Modifier
                 .size(size),
-            shape = RoundedCornerShape(25.dp),
+            shape = RoundedCornerShape(size * 0.07),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
             border = BorderStroke(
@@ -61,7 +62,7 @@ fun TdsTimeLineDailyGraph(
                 TdsText(
                     text = todayDate,
                     textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                    fontSize = 25.sp,
+                    fontSize = (size.value * 0.07).sp,
                     color = TdsColor.TEXT,
                 )
 
@@ -78,7 +79,7 @@ fun TdsTimeLineDailyGraph(
                 TdsText(
                     text = "TimeLine",
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                    fontSize = 16.sp,
+                    fontSize = (size.value * 0.05).sp,
                     color = TdsColor.TEXT,
                 )
 
@@ -87,7 +88,7 @@ fun TdsTimeLineDailyGraph(
                 TdsTimeLineChart(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(150.dp),
+                        .height(size * 0.4),
                     times = timeLines,
                     startColor = tdsColors[0].getColor(),
                     endColor = tdsColors[1].getColor(),
@@ -102,14 +103,14 @@ fun TdsTimeLineDailyGraph(
                         TdsText(
                             text = "Total",
                             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                            fontSize = 12.sp,
+                            fontSize = (size.value * 0.06).sp,
                             color = TdsColor.TEXT,
                         )
 
                         TdsText(
                             text = totalTime,
                             textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                            fontSize = 22.sp,
+                            fontSize = (size.value * 0.1).sp,
                             color = tdsColors.first(),
                         )
                     }
@@ -120,14 +121,14 @@ fun TdsTimeLineDailyGraph(
                         TdsText(
                             text = "Max",
                             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                            fontSize = 12.sp,
+                            fontSize = (size.value * 0.06).sp,
                             color = TdsColor.TEXT,
                         )
 
                         TdsText(
                             text = maxTime,
                             textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                            fontSize = 22.sp,
+                            fontSize = (size.value * 0.1).sp,
                             color = tdsColors.first(),
                         )
                     }

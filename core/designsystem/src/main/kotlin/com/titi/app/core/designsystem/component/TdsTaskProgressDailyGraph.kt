@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.titi.app.core.designsystem.extension.times
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
@@ -39,7 +40,7 @@ fun TdsTaskProgressDailyGraph(
         OutlinedCard(
             modifier = Modifier
                 .size(size),
-            shape = RoundedCornerShape(25.dp),
+            shape = RoundedCornerShape(size * 0.07),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
             border = BorderStroke(
@@ -56,7 +57,7 @@ fun TdsTaskProgressDailyGraph(
                 TdsText(
                     text = todayDate,
                     textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                    fontSize = 25.sp,
+                    fontSize = (size.value * 0.07).sp,
                     color = TdsColor.TEXT,
                 )
 
