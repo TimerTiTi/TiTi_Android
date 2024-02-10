@@ -3,6 +3,7 @@ package com.titi.app.data.color.impl.repository
 import com.titi.app.data.color.api.ColorRepository
 import com.titi.app.data.color.api.model.BackgroundColorRepositoryModel
 import com.titi.app.data.color.api.model.ColorRepositoryModel
+import com.titi.app.data.color.api.model.GraphColorRepositoryModel
 import com.titi.app.data.color.impl.local.ColorDataStore
 import com.titi.app.data.color.impl.mapper.toLocal
 import com.titi.app.data.color.impl.mapper.toRepositoryModel
@@ -23,6 +24,10 @@ internal class ColorRepositoryImpl @Inject constructor(
         colorDataStore.setBackgroundColors(backgroundColorRepositoryModel.toLocal())
     }
 
+    override suspend fun setGraphColors(graphColorRepositoryModel: GraphColorRepositoryModel) {
+        colorDataStore.setGraphColors(graphColorRepositoryModel.toLocal())
+    }
+
     override suspend fun getColor(): ColorRepositoryModel? {
         return colorDataStore.getColor()?.toRepositoryModel()
     }
@@ -33,5 +38,9 @@ internal class ColorRepositoryImpl @Inject constructor(
 
     override fun getColorFlow(): Flow<ColorRepositoryModel?> {
         return colorDataStore.getColorFlow().map { it?.toRepositoryModel() }
+    }
+
+    override fun getGraphColorsFlow(): Flow<GraphColorRepositoryModel?> {
+        return colorDataStore.getGraphColorsFlow().map { it?.toRepositoryModel() }
     }
 }

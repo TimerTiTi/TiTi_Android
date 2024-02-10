@@ -2,8 +2,10 @@ package com.titi.app.data.color.impl.mapper
 
 import com.titi.app.data.color.api.model.BackgroundColorRepositoryModel
 import com.titi.app.data.color.api.model.ColorRepositoryModel
+import com.titi.app.data.color.api.model.GraphColorRepositoryModel
 import com.titi.app.data.color.impl.local.model.BackgroundColorEntity
 import com.titi.app.data.color.impl.local.model.ColorEntity
+import com.titi.app.data.color.impl.local.model.GraphColorEntity
 
 internal fun ColorRepositoryModel.toLocal() = ColorEntity(
     timerBackgroundColor = timerBackgroundColor,
@@ -14,4 +16,10 @@ internal fun ColorRepositoryModel.toLocal() = ColorEntity(
 
 internal fun BackgroundColorRepositoryModel.toLocal() = BackgroundColorEntity(
     backgroundColors = backgroundColors,
+)
+
+internal fun GraphColorRepositoryModel.toLocal() = GraphColorEntity(
+    selectedIndex = selectedIndex,
+    direction = direction,
+    graphColors = graphColors,
 )
