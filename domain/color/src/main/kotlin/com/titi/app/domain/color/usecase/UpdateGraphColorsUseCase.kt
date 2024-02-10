@@ -18,7 +18,15 @@ class UpdateGraphColorsUseCase @Inject constructor(
                 } else {
                     GraphColor.GraphDirection.Right
                 },
-                graphColors = graphColor.graphColors,
+                graphColors = if (graphColor.direction == GraphColor.GraphDirection.Right) {
+                    val reverseGraphColorEntries = graphColorEntries.reversed()
+                    val reverseSelectedIndex = graphColorEntries.size - 1 - selectedIndex
+                    reverseGraphColorEntries.subList(reverseSelectedIndex, graphColorEntries.size) +
+                        reverseGraphColorEntries.subList(0, reverseSelectedIndex)
+                } else {
+                    graphColorEntries.subList(selectedIndex, graphColorEntries.size) +
+                        graphColorEntries.subList(0, selectedIndex)
+                },
             )
         } else {
             GraphColor(
