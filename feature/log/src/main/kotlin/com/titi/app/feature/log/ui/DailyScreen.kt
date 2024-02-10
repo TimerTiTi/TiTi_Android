@@ -80,6 +80,7 @@ fun DailyScreen(
     tdsColors: List<TdsColor>,
     timeLines: List<Int>,
     timeTableData: List<TdsTimeTableData>,
+    onClickGraphColor: (Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -96,7 +97,7 @@ fun DailyScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 42.dp),
-            onClick = {},
+            onClick = onClickGraphColor,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -496,6 +497,7 @@ private fun DailyScreenPreview() {
             tdsColors = tdsColors,
             timeLines = timeLines,
             timeTableData = timeTableData,
+            onClickGraphColor = {},
         )
     }
 }

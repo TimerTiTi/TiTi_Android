@@ -27,6 +27,7 @@ fun WeekScreen(
     weekLineChardData: List<TdsWeekLineChartData>,
     tdsColors: List<TdsColor>,
     taskData: List<TdsTaskData>,
+    onClickGraphColor: (Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -43,7 +44,7 @@ fun WeekScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 42.dp),
-            onClick = {},
+            onClick = onClickGraphColor,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -138,7 +139,7 @@ private fun WeekScreenPreview() {
             weekLineChardData = weekLineChardData,
             tdsColors = tdsColors,
             taskData = taskData,
-
+            onClickGraphColor = {},
         )
     }
 }
