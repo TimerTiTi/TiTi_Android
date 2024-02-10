@@ -18,6 +18,7 @@ class UpdateGraphColorsUseCase @Inject constructor(
                 } else {
                     GraphColor.GraphDirection.Right
                 },
+                graphColors = graphColor.graphColors,
             )
         } else {
             GraphColor(
