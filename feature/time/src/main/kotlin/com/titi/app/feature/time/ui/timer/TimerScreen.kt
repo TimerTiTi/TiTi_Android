@@ -50,12 +50,11 @@ fun TimerScreen(
     onNavigateToColor: () -> Unit,
     onNavigateToMeasure: (String) -> Unit,
 ) {
-    val viewModel: TimerViewModel =
-        mavericksViewModel(
-            argsFactory = {
-                splashResultState.asMavericksArgs()
-            },
-        )
+    val viewModel: TimerViewModel = mavericksViewModel(
+        argsFactory = {
+            splashResultState.asMavericksArgs()
+        },
+    )
 
     LaunchedEffect(Unit) {
         viewModel.updateRecordingMode()

@@ -28,8 +28,7 @@ fun TimeTimerDialog(onPositive: (Long) -> Unit, onShowDialog: (Boolean) -> Unit)
         tdsDialogInfo =
         TdsDialogInfo.Confirm(
             title = stringResource(R.string.set_timer_time_title),
-            message =
-            stringResource(
+            message = stringResource(
                 R.string.set_timer_time_message,
                 addTimeToNow(setTimerTime),
             ),

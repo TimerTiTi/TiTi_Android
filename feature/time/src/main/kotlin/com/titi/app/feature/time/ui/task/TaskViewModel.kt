@@ -20,9 +20,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class TaskViewModel
-@AssistedInject
-constructor(
+class TaskViewModel @AssistedInject constructor(
     @Assisted initialState: TaskUiState,
     getTasksUseCase: GetTasksUseCase,
     private val addTaskUseCase: AddTaskUseCase,

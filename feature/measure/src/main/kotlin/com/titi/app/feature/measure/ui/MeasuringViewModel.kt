@@ -26,9 +26,7 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
-class MeasuringViewModel
-@AssistedInject
-constructor(
+class MeasuringViewModel @AssistedInject constructor(
     @Assisted initialState: MeasuringUiState,
     private val addMeasureTimeAtDailyUseCase: AddMeasureTimeAtDailyUseCase,
     private val addMeasureTimeAtRecordTimesUseCase: AddMeasureTimeAtRecordTimesUseCase,

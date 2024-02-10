@@ -46,12 +46,11 @@ fun StopWatchScreen(
     onNavigateToColor: () -> Unit,
     onNavigateToMeasure: (String) -> Unit,
 ) {
-    val viewModel: StopWatchViewModel =
-        mavericksViewModel(
-            argsFactory = {
-                splashResultState.asMavericksArgs()
-            },
-        )
+    val viewModel: StopWatchViewModel = mavericksViewModel(
+        argsFactory = {
+            splashResultState.asMavericksArgs()
+        },
+    )
 
     LaunchedEffect(Unit) {
         viewModel.updateRecordingMode()

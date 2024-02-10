@@ -23,9 +23,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class StopWatchViewModel
-@AssistedInject
-constructor(
+class StopWatchViewModel @AssistedInject constructor(
     @Assisted initialState: StopWatchUiState,
     getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,

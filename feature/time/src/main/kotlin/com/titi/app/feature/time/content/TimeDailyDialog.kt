@@ -26,8 +26,7 @@ fun TimeDailyDialog(
     var seconds by remember { mutableStateOf("") }
 
     TdsDialog(
-        tdsDialogInfo =
-        TdsDialogInfo.Confirm(
+        tdsDialogInfo = TdsDialogInfo.Confirm(
             title = stringResource(R.string.add_daily_title),
             message = stringResource(R.string.add_daily_message, todayDate),
             positiveText = stringResource(id = R.string.Ok),

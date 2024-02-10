@@ -23,9 +23,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class TimerViewModel
-@AssistedInject
-constructor(
+class TimerViewModel @AssistedInject constructor(
     @Assisted initialState: TimerUiState,
     getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
