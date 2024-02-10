@@ -7,6 +7,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain:color"))
+
     implementation(libs.threetenabp)
     implementation(libs.calendar)
 }
