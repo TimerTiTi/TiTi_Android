@@ -1,5 +1,3 @@
-TiTi android dev 0.2.1(7)
-- UTC 이슈 수정
-- 가로 모드 화면 수정
-- 그래프 사이즈 조정
+TiTi android dev 0.2.2(8)
+- 로그 화면 color 로직 연결
 - 타임 테이블 격자 수정
