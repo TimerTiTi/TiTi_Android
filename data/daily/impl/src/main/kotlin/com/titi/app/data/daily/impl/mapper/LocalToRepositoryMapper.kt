@@ -5,7 +5,7 @@ import com.titi.app.data.daily.api.model.TaskHistoryRepositoryModel
 import com.titi.app.data.daily.impl.local.model.DailyEntity
 import com.titi.app.data.daily.impl.local.model.TaskHistoryEntity
 
-internal fun DailyEntity.toRepository() = DailyRepositoryModel(
+internal fun DailyEntity.toRepositoryModel() = DailyRepositoryModel(
     id = id,
     status = status,
     day = day,
@@ -15,12 +15,12 @@ internal fun DailyEntity.toRepository() = DailyRepositoryModel(
     taskHistories =
     taskHistories?.mapValues { taskHistoryMap ->
         taskHistoryMap.value.map { taskHistory ->
-            taskHistory.toRepository()
+            taskHistory.toRepositoryModel()
         }
     },
 )
 
-internal fun TaskHistoryEntity.toRepository() = TaskHistoryRepositoryModel(
+internal fun TaskHistoryEntity.toRepositoryModel() = TaskHistoryRepositoryModel(
     startDate = startDate,
     endDate = endDate,
 )

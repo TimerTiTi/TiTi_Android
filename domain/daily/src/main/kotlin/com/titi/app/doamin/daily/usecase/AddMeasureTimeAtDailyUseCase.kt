@@ -2,7 +2,7 @@ package com.titi.app.doamin.daily.usecase
 
 import com.titi.app.core.util.addTimeLine
 import com.titi.app.data.daily.api.DailyRepository
-import com.titi.app.doamin.daily.mapper.toDomain
+import com.titi.app.doamin.daily.mapper.toDomainModel
 import com.titi.app.doamin.daily.mapper.toRepositoryModel
 import com.titi.app.doamin.daily.model.TaskHistory
 import javax.inject.Inject
@@ -18,7 +18,7 @@ class AddMeasureTimeAtDailyUseCase @Inject constructor(
         endTime: String,
         measureTime: Long,
     ) {
-        val recentDaily = dailyRepository.getCurrentDaily()?.toDomain()
+        val recentDaily = dailyRepository.getCurrentDaily()?.toDomainModel()
 
         recentDaily?.let { daily ->
             val taskHistory =
