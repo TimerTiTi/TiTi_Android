@@ -1,6 +1,5 @@
 package com.titi.app.feature.log.ui
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -153,7 +152,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
     )
 
     val uiState by viewModel.collectAsState()
-    Log.e("ABC", uiState.graphColors.graphColors.toString())
+
     Column(
         modifier = Modifier
             .fillMaxSize()
