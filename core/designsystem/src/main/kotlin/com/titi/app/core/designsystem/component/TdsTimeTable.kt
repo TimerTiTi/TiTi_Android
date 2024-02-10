@@ -104,10 +104,10 @@ fun DrawScope.drawGrid() {
     val itemWidth = size.width / 7
     val itemHeight = size.height / 24
 
-    var startX = 0f
-    var startY = 0f
-
     repeat(7 * 24) { idx ->
+        val startX = (idx % 7) * itemWidth
+        val startY = (idx / 7) * itemHeight
+
         drawRect(
             color = Color(0x80626262),
             topLeft = Offset(
@@ -117,12 +117,6 @@ fun DrawScope.drawGrid() {
             size = Size(itemWidth, itemHeight),
             style = Stroke(width = 1f),
         )
-        startX += itemWidth
-
-        if (startX == itemWidth * 7) {
-            startX = 0f
-            startY += itemHeight
-        }
     }
 }
 
