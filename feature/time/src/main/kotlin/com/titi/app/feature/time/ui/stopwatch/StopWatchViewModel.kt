@@ -15,6 +15,8 @@ import com.titi.app.domain.time.usecase.UpdateMeasuringStateUseCase
 import com.titi.app.domain.time.usecase.UpdateRecordingModeUseCase
 import com.titi.app.domain.time.usecase.UpdateSavedStopWatchTimeUseCase
 import com.titi.app.domain.time.usecase.UpdateSetGoalTimeUseCase
+import com.titi.app.feature.time.model.StopWatchColor
+import com.titi.app.feature.time.model.StopWatchUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

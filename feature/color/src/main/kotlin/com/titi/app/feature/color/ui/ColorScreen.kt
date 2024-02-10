@@ -49,6 +49,7 @@ import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.feature.color.model.ColorUiState
 
 @Composable
 fun ColorScreen(

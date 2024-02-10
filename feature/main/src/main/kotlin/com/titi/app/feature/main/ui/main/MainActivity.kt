@@ -22,7 +22,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.core.util.toJson
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
-import com.titi.app.feature.main.ui.SplashResultState
+import com.titi.app.feature.main.model.SplashResultState
 import com.titi.app.feature.main.ui.TiTiApp
 import com.titi.app.feature.main.ui.rememberNiaAppState
 import com.titi.app.feature.popup.PopUpActivity

@@ -1,8 +1,6 @@
-package com.titi.app.feature.time.ui.timer
+package com.titi.app.feature.time.model
 
-import android.os.Build
 import android.os.Bundle
-import com.airbnb.mvrx.Mavericks
 import com.airbnb.mvrx.MavericksState
 import com.titi.app.core.util.addTimeToNow
 import com.titi.app.core.util.getTodayDate
@@ -10,9 +8,8 @@ import com.titi.app.core.util.isAfterSixAM
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.app.domain.time.model.RecordTimes
-import com.titi.app.feature.time.SplashResultState
 
-data class TimerUiState(
+data class StopWatchUiState(
     val todayDate: String = getTodayDate(),
     val recordTimes: RecordTimes,
     val timeColor: TimeColor,
@@ -27,32 +24,22 @@ data class TimerUiState(
     val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day)
     val isSetTask: Boolean = recordTimes.currentTask != null
     val taskName: String = recordTimes.currentTask?.taskName ?: ""
-    val timerColor = timeColor.toUiModel()
-    val timerRecordTimes = recordTimes.toUiModel(daily)
+    val stopWatchColor = timeColor.toUiModel()
+    val stopWatchRecordTimes = recordTimes.toUiModel(daily)
     val isEnableStartRecording: Boolean = isDailyAfter6AM && isSetTask
 }
 
-fun getSplashResultStateFromArgs(args: Bundle): SplashResultState =
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        args.getParcelable(
-            Mavericks.KEY_ARG,
-            SplashResultState::class.java,
-        )
-    } else {
-        args.getParcelable(Mavericks.KEY_ARG)
-    } ?: SplashResultState()
-
-data class TimerColor(
+data class StopWatchColor(
     val backgroundColor: Long,
     val isTextColorBlack: Boolean,
 )
 
-private fun TimeColor.toUiModel() = TimerColor(
-    backgroundColor = timerBackgroundColor,
-    isTextColorBlack = isTimerBlackTextColor,
+private fun TimeColor.toUiModel() = StopWatchColor(
+    backgroundColor = stopwatchBackgroundColor,
+    isTextColorBlack = isStopwatchBlackTextColor,
 )
 
-data class TimerRecordTimes(
+data class StopWatchRecordTimes(
     val outCircularProgress: Float,
     val inCircularProgress: Float,
     val savedSumTime: Long,
@@ -62,7 +49,7 @@ data class TimerRecordTimes(
     val isTaskTargetTimeOn: Boolean,
 )
 
-private fun RecordTimes.toUiModel(daily: Daily?): TimerRecordTimes {
+private fun RecordTimes.toUiModel(daily: Daily?): StopWatchRecordTimes {
     val goalTime =
         currentTask?.let {
             if (it.isTaskTargetTimeOn) {
@@ -72,8 +59,8 @@ private fun RecordTimes.toUiModel(daily: Daily?): TimerRecordTimes {
             }
         } ?: savedGoalTime
 
-    return TimerRecordTimes(
-        outCircularProgress = (setTimerTime - savedTimerTime) / setTimerTime.toFloat(),
+    return StopWatchRecordTimes(
+        outCircularProgress = savedStopWatchTime / 3600f,
         inCircularProgress =
         currentTask?.let {
             if (it.isTaskTargetTimeOn) {
@@ -84,7 +71,7 @@ private fun RecordTimes.toUiModel(daily: Daily?): TimerRecordTimes {
             }
         } ?: (savedSumTime / setGoalTime.toFloat()),
         savedSumTime = savedSumTime,
-        savedTime = savedTimerTime,
+        savedTime = savedStopWatchTime,
         savedGoalTime = goalTime,
         finishGoalTime = addTimeToNow(goalTime),
         isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false,

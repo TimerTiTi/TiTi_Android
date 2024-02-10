@@ -1,7 +1,6 @@
 package com.titi.app.feature.time.ui.task
 
 import android.util.Log
-import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
@@ -14,15 +13,12 @@ import com.titi.app.domain.task.usecase.UpdateTaskUseCase
 import com.titi.app.domain.task.usecase.UpdateTasksPositionUseCase
 import com.titi.app.domain.time.model.CurrentTask
 import com.titi.app.domain.time.usecase.UpdateCurrentTaskUseCase
+import com.titi.app.feature.time.model.TaskUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-
-data class TaskUiState(
-    val tasks: List<Task> = emptyList(),
-) : MavericksState
 
 class TaskViewModel
 @AssistedInject

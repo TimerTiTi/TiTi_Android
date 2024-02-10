@@ -46,7 +46,8 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.ui.setBrightness
 import com.titi.app.core.util.fromJson
-import com.titi.app.feature.measure.SplashResultState
+import com.titi.app.feature.measure.model.MeasuringUiState
+import com.titi.app.feature.measure.model.SplashResultState
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 

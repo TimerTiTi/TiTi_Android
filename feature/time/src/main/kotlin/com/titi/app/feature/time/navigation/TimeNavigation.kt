@@ -7,7 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.titi.app.feature.time.SplashResultState
+import com.titi.app.feature.time.model.SplashResultState
 import com.titi.app.feature.time.ui.stopwatch.StopWatchScreen
 import com.titi.app.feature.time.ui.timer.TimerScreen
 

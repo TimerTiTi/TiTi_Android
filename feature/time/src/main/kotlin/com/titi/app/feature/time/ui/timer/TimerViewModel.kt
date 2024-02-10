@@ -15,6 +15,8 @@ import com.titi.app.domain.time.usecase.UpdateMeasuringStateUseCase
 import com.titi.app.domain.time.usecase.UpdateRecordingModeUseCase
 import com.titi.app.domain.time.usecase.UpdateSetGoalTimeUseCase
 import com.titi.app.domain.time.usecase.UpdateSetTimerTimeUseCase
+import com.titi.app.feature.time.model.TimerColor
+import com.titi.app.feature.time.model.TimerUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

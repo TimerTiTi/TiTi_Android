@@ -33,6 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.titi.app.core.designsystem.component.TdsNavigationBarItem
+import com.titi.app.feature.main.model.SplashResultState
 import com.titi.app.feature.main.navigation.TiTiNavHost
 import com.titi.app.feature.main.navigation.TopLevelDestination
 
