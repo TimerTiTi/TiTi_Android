@@ -1,6 +1,5 @@
 package com.titi.app.feature.main.ui
 
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -30,18 +29,13 @@ import kotlinx.coroutines.flow.stateIn
 @Composable
 fun rememberNiaAppState(
     navController: NavHostController = rememberNavController(),
-    windowSizeClass: WindowSizeClass,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     isSystemDarkTheme: Boolean,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
 ): TiTiAppState {
-    return remember(
-        navController,
-        windowSizeClass,
-    ) {
+    return remember(navController) {
         TiTiAppState(
             navController,
-            windowSizeClass,
             isSystemDarkTheme,
             coroutineScope,
             getTimeColorFlowUseCase,
@@ -52,7 +46,6 @@ fun rememberNiaAppState(
 @Stable
 class TiTiAppState(
     val navController: NavHostController,
-    val windowSizeClass: WindowSizeClass,
     isSystemDarkTheme: Boolean,
     coroutineScope: CoroutineScope,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
