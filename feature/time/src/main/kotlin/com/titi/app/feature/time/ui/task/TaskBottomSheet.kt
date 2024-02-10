@@ -25,7 +25,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -58,9 +57,10 @@ import com.titi.app.core.designsystem.util.dragContainer
 import com.titi.app.core.designsystem.util.rememberDragDropState
 import com.titi.app.core.util.getTimeToLong
 import com.titi.app.domain.task.model.Task
+import com.titi.app.feature.time.model.TaskUiState
 import kotlinx.coroutines.android.awaitFrame
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskBottomSheet(
     viewModel: TaskViewModel = mavericksViewModel(),
@@ -175,7 +175,7 @@ fun TaskBottomSheet(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TaskBottomSheet(
     uiState: TaskUiState,

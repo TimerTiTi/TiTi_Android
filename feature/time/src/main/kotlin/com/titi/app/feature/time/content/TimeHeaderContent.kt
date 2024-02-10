@@ -25,8 +25,7 @@ fun TimeHeaderContent(
     onClickColor: () -> Unit,
 ) {
     Box(
-        modifier =
-        Modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
     ) {

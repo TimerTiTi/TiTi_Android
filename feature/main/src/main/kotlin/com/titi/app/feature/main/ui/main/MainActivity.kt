@@ -10,7 +10,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,7 +21,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.core.util.toJson
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
-import com.titi.app.feature.main.ui.SplashResultState
+import com.titi.app.feature.main.model.SplashResultState
 import com.titi.app.feature.main.ui.TiTiApp
 import com.titi.app.feature.main.ui.rememberNiaAppState
 import com.titi.app.feature.popup.PopUpActivity
@@ -41,7 +40,6 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

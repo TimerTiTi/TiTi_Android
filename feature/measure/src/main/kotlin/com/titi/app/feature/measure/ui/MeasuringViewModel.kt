@@ -13,6 +13,8 @@ import com.titi.app.domain.alarm.usecase.SetTimerAlarmUseCase
 import com.titi.app.domain.task.usecase.AddMeasureTimeAtTaskUseCase
 import com.titi.app.domain.time.model.RecordTimes
 import com.titi.app.domain.time.usecase.AddMeasureTimeAtRecordTimesUseCase
+import com.titi.app.feature.measure.model.MeasuringUiState
+import com.titi.app.feature.measure.model.toMeasuringRecordTimes
 import com.titi.domain.sleep.GetSleepModeFlowUseCase
 import com.titi.domain.sleep.SetSleepModeUseCase
 import dagger.assisted.Assisted
@@ -24,9 +26,7 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
-class MeasuringViewModel
-@AssistedInject
-constructor(
+class MeasuringViewModel @AssistedInject constructor(
     @Assisted initialState: MeasuringUiState,
     private val addMeasureTimeAtDailyUseCase: AddMeasureTimeAtDailyUseCase,
     private val addMeasureTimeAtRecordTimesUseCase: AddMeasureTimeAtRecordTimesUseCase,

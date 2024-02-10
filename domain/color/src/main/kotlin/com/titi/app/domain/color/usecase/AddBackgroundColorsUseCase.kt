@@ -1,7 +1,7 @@
 package com.titi.app.domain.color.usecase
 
 import com.titi.app.data.color.api.ColorRepository
-import com.titi.app.domain.color.mapper.toRepository
+import com.titi.app.domain.color.mapper.toRepositoryModel
 import com.titi.app.domain.color.model.BackgroundColors
 import javax.inject.Inject
 
@@ -22,6 +22,6 @@ class AddBackgroundColorsUseCase @Inject constructor(
                     }.toList()
             }
 
-        colorRepository.setBackgroundColors(BackgroundColors(newColors).toRepository())
+        colorRepository.setBackgroundColors(BackgroundColors(newColors).toRepositoryModel())
     }
 }

@@ -28,6 +28,7 @@ fun TdsColorRow(modifier: Modifier = Modifier, onClick: (Int) -> Unit) {
         TdsColor.D7,
         TdsColor.D8,
         TdsColor.D9,
+        TdsColor.D10,
         TdsColor.D11,
         TdsColor.D12,
     )

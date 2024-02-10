@@ -1,6 +1,8 @@
-package com.titi.app.feature.time.ui.stopwatch
+package com.titi.app.feature.time.model
 
+import android.os.Build
 import android.os.Bundle
+import com.airbnb.mvrx.Mavericks
 import com.airbnb.mvrx.MavericksState
 import com.titi.app.core.util.addTimeToNow
 import com.titi.app.core.util.getTodayDate
@@ -8,9 +10,8 @@ import com.titi.app.core.util.isAfterSixAM
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.app.domain.time.model.RecordTimes
-import com.titi.app.feature.time.ui.timer.getSplashResultStateFromArgs
 
-data class StopWatchUiState(
+data class TimerUiState(
     val todayDate: String = getTodayDate(),
     val recordTimes: RecordTimes,
     val timeColor: TimeColor,
@@ -25,22 +26,32 @@ data class StopWatchUiState(
     val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day)
     val isSetTask: Boolean = recordTimes.currentTask != null
     val taskName: String = recordTimes.currentTask?.taskName ?: ""
-    val stopWatchColor = timeColor.toUiModel()
-    val stopWatchRecordTimes = recordTimes.toUiModel(daily)
+    val timerColor = timeColor.toUiModel()
+    val timerRecordTimes = recordTimes.toUiModel(daily)
     val isEnableStartRecording: Boolean = isDailyAfter6AM && isSetTask
 }
 
-data class StopWatchColor(
+fun getSplashResultStateFromArgs(args: Bundle): SplashResultState =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        args.getParcelable(
+            Mavericks.KEY_ARG,
+            SplashResultState::class.java,
+        )
+    } else {
+        args.getParcelable(Mavericks.KEY_ARG)
+    } ?: SplashResultState()
+
+data class TimerColor(
     val backgroundColor: Long,
     val isTextColorBlack: Boolean,
 )
 
-private fun TimeColor.toUiModel() = StopWatchColor(
-    backgroundColor = stopwatchBackgroundColor,
-    isTextColorBlack = isStopwatchBlackTextColor,
+private fun TimeColor.toUiModel() = TimerColor(
+    backgroundColor = timerBackgroundColor,
+    isTextColorBlack = isTimerBlackTextColor,
 )
 
-data class StopWatchRecordTimes(
+data class TimerRecordTimes(
     val outCircularProgress: Float,
     val inCircularProgress: Float,
     val savedSumTime: Long,
@@ -50,7 +61,7 @@ data class StopWatchRecordTimes(
     val isTaskTargetTimeOn: Boolean,
 )
 
-private fun RecordTimes.toUiModel(daily: Daily?): StopWatchRecordTimes {
+private fun RecordTimes.toUiModel(daily: Daily?): TimerRecordTimes {
     val goalTime =
         currentTask?.let {
             if (it.isTaskTargetTimeOn) {
@@ -60,8 +71,8 @@ private fun RecordTimes.toUiModel(daily: Daily?): StopWatchRecordTimes {
             }
         } ?: savedGoalTime
 
-    return StopWatchRecordTimes(
-        outCircularProgress = savedStopWatchTime / 3600f,
+    return TimerRecordTimes(
+        outCircularProgress = (setTimerTime - savedTimerTime) / setTimerTime.toFloat(),
         inCircularProgress =
         currentTask?.let {
             if (it.isTaskTargetTimeOn) {
@@ -72,7 +83,7 @@ private fun RecordTimes.toUiModel(daily: Daily?): StopWatchRecordTimes {
             }
         } ?: (savedSumTime / setGoalTime.toFloat()),
         savedSumTime = savedSumTime,
-        savedTime = savedStopWatchTime,
+        savedTime = savedTimerTime,
         savedGoalTime = goalTime,
         finishGoalTime = addTimeToNow(goalTime),
         isTaskTargetTimeOn = currentTask?.isTaskTargetTimeOn ?: false,

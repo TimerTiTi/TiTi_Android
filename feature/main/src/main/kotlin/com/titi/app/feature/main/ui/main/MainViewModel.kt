@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.titi.app.doamin.daily.usecase.GetCurrentDailyFlowUseCase
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.domain.time.usecase.GetRecordTimesFlowUseCase
-import com.titi.app.feature.main.ui.SplashResultState
+import com.titi.app.feature.main.model.SplashResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.SharedFlow

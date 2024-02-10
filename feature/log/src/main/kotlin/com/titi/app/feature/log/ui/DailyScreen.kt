@@ -80,6 +80,7 @@ fun DailyScreen(
     tdsColors: List<TdsColor>,
     timeLines: List<Int>,
     timeTableData: List<TdsTimeTableData>,
+    onClickGraphColor: (Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -88,7 +89,10 @@ fun DailyScreen(
             .fillMaxSize()
             .verticalScroll(scrollState),
     ) {
-        CalendarContent(modifier = Modifier.fillMaxWidth())
+        CalendarContent(
+            modifier = Modifier.fillMaxWidth(),
+            themeColor = tdsColors.first(),
+        )
 
         Spacer(modifier = Modifier.height(15.dp))
 
@@ -96,7 +100,7 @@ fun DailyScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 42.dp),
-            onClick = {},
+            onClick = onClickGraphColor,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -114,7 +118,7 @@ fun DailyScreen(
 }
 
 @Composable
-fun CalendarContent(modifier: Modifier = Modifier) {
+fun CalendarContent(modifier: Modifier = Modifier, themeColor: TdsColor) {
     val scope = rememberCoroutineScope()
 
     val currentMonth = remember { YearMonth.now() }
@@ -187,14 +191,14 @@ fun CalendarContent(modifier: Modifier = Modifier) {
                         }",
                         textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                         fontSize = 24.sp,
-                        color = TdsColor.D1,
+                        color = themeColor,
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
 
                     DaysOfWeekTitle(
                         daysOfWeek,
-                        TdsColor.D1,
+                        themeColor,
                     )
 
                     var selectedDate by remember { mutableStateOf<LocalDate>(LocalDate.now()) }
@@ -205,7 +209,7 @@ fun CalendarContent(modifier: Modifier = Modifier) {
                             Day(
                                 day = day,
                                 isSelected = selectedDate == day.date,
-                                themeColor = TdsColor.D1,
+                                themeColor = themeColor,
                             ) { selectedDay ->
                                 selectedDate = if (selectedDate == selectedDay.date) {
                                     selectedDate
@@ -496,6 +500,7 @@ private fun DailyScreenPreview() {
             tdsColors = tdsColors,
             timeLines = timeLines,
             timeTableData = timeTableData,
+            onClickGraphColor = {},
         )
     }
 }

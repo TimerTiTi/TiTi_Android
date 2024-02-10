@@ -1,8 +1,8 @@
 package com.titi.app.domain.color.usecase
 
 import com.titi.app.data.color.api.ColorRepository
-import com.titi.app.domain.color.mapper.toDomain
-import com.titi.app.domain.color.mapper.toRepository
+import com.titi.app.domain.color.mapper.toDomainModel
+import com.titi.app.domain.color.mapper.toRepositoryModel
 import com.titi.app.domain.color.model.TimeColor
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ class UpdateColorUseCase @Inject constructor(
         backgroundColor: Long? = null,
         isTextColorBlack: Boolean = false,
     ) {
-        val timeColor = colorRepository.getColor()?.toDomain() ?: TimeColor()
+        val timeColor = colorRepository.getColor()?.toDomainModel() ?: TimeColor()
         val updateTimeColor =
             if (recordingMode == 1) {
                 if (backgroundColor != null) {
@@ -39,6 +39,6 @@ class UpdateColorUseCase @Inject constructor(
                     )
                 }
             }
-        colorRepository.setColor(updateTimeColor.toRepository())
+        colorRepository.setColor(updateTimeColor.toRepositoryModel())
     }
 }

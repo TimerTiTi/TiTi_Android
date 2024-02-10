@@ -28,13 +28,14 @@ import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.util.toJson
-import com.titi.app.feature.time.SplashResultState
 import com.titi.app.feature.time.content.TimeButtonContent
 import com.titi.app.feature.time.content.TimeCheckDailyDialog
 import com.titi.app.feature.time.content.TimeColorDialog
 import com.titi.app.feature.time.content.TimeDailyDialog
 import com.titi.app.feature.time.content.TimeHeaderContent
 import com.titi.app.feature.time.content.TimeTaskContent
+import com.titi.app.feature.time.model.SplashResultState
+import com.titi.app.feature.time.model.StopWatchUiState
 import com.titi.app.feature.time.ui.task.TaskBottomSheet
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
@@ -45,12 +46,11 @@ fun StopWatchScreen(
     onNavigateToColor: () -> Unit,
     onNavigateToMeasure: (String) -> Unit,
 ) {
-    val viewModel: StopWatchViewModel =
-        mavericksViewModel(
-            argsFactory = {
-                splashResultState.asMavericksArgs()
-            },
-        )
+    val viewModel: StopWatchViewModel = mavericksViewModel(
+        argsFactory = {
+            splashResultState.asMavericksArgs()
+        },
+    )
 
     LaunchedEffect(Unit) {
         viewModel.updateRecordingMode()

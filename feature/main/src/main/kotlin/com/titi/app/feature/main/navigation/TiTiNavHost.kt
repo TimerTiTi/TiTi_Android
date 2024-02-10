@@ -8,9 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import com.titi.app.feature.log.navigation.logGraph
-import com.titi.app.feature.main.ui.SplashResultState
+import com.titi.app.feature.main.model.SplashResultState
+import com.titi.app.feature.main.model.toFeatureTimeModel
 import com.titi.app.feature.main.ui.TiTiAppState
-import com.titi.app.feature.main.ui.toFeatureTimeModel
 import com.titi.app.feature.popup.PopUpActivity
 import com.titi.app.feature.popup.PopUpActivity.Companion.COLOR_RECORDING_MODE_KEY
 import com.titi.app.feature.popup.PopUpActivity.Companion.MEASURE_SPLASH_RESULT_KEY

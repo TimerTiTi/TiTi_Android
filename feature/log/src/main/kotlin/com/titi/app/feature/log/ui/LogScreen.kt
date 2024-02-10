@@ -1,5 +1,6 @@
 package com.titi.app.feature.log.ui
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,11 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.airbnb.mvrx.compose.collectAsState
+import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.component.TdsTabRow
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
-import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneOffset
@@ -31,7 +33,7 @@ import org.threeten.bp.ZonedDateTime
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun LogScreen() {
+fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
     val scope = rememberCoroutineScope()
     var tabSelectedIndex by remember {
         mutableIntStateOf(0)
@@ -63,20 +65,6 @@ fun LogScreen() {
             value = "03:00:00",
             progress = 0.3f,
         ),
-    )
-
-    val tdsColors = listOf(
-        TdsColor.D1,
-        TdsColor.D2,
-        TdsColor.D3,
-        TdsColor.D4,
-        TdsColor.D5,
-        TdsColor.D6,
-        TdsColor.D7,
-        TdsColor.D8,
-        TdsColor.D9,
-        TdsColor.D11,
-        TdsColor.D12,
     )
 
     val timeLines = listOf(
@@ -164,6 +152,8 @@ fun LogScreen() {
         ),
     )
 
+    val uiState by viewModel.collectAsState()
+    Log.e("ABC", uiState.graphColors.graphColors.toString())
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -193,25 +183,38 @@ fun LogScreen() {
         ) { page ->
             when (page % 3) {
                 0 -> HomeScreen(
-                    tdsColors = tdsColors,
+                    tdsColors = uiState.graphColors.graphColors,
                     taskData = taskData,
                     weekLineChardData = weekLineChardData,
                     timeLines = timeLines,
                 )
+
                 1 -> DailyScreen(
                     todayDate = todayDate,
                     todayDayOfTheWeek = todayDayOfTheWeek,
                     taskData = taskData,
-                    tdsColors = tdsColors,
+                    tdsColors = uiState.graphColors.graphColors,
                     timeLines = timeLines,
                     timeTableData = timeTableData,
+                    onClickGraphColor = {
+                        viewModel.updateGraphColors(
+                            selectedIndex = it,
+                            graphColorUiState = uiState.graphColors,
+                        )
+                    },
                 )
 
                 2 -> WeekScreen(
                     todayDateTime = todayDateTime,
                     weekLineChardData = weekLineChardData,
-                    tdsColors = tdsColors,
+                    tdsColors = uiState.graphColors.graphColors,
                     taskData = taskData,
+                    onClickGraphColor = {
+                        viewModel.updateGraphColors(
+                            selectedIndex = it,
+                            graphColorUiState = uiState.graphColors,
+                        )
+                    },
                 )
             }
         }

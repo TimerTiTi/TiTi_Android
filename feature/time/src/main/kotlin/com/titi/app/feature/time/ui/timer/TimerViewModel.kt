@@ -15,15 +15,15 @@ import com.titi.app.domain.time.usecase.UpdateMeasuringStateUseCase
 import com.titi.app.domain.time.usecase.UpdateRecordingModeUseCase
 import com.titi.app.domain.time.usecase.UpdateSetGoalTimeUseCase
 import com.titi.app.domain.time.usecase.UpdateSetTimerTimeUseCase
+import com.titi.app.feature.time.model.TimerColor
+import com.titi.app.feature.time.model.TimerUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class TimerViewModel
-@AssistedInject
-constructor(
+class TimerViewModel @AssistedInject constructor(
     @Assisted initialState: TimerUiState,
     getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,

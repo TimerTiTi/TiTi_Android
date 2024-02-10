@@ -1,6 +1,5 @@
 package com.titi.app.feature.color.ui
 
-import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
@@ -8,18 +7,13 @@ import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.app.domain.color.usecase.AddBackgroundColorsUseCase
 import com.titi.app.domain.color.usecase.GetBackgroundColorsUseCase
 import com.titi.app.domain.color.usecase.UpdateColorUseCase
+import com.titi.app.feature.color.model.ColorUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
-data class ColorUiState(
-    val colors: List<Long> = emptyList(),
-) : MavericksState
-
-class ColorViewModel
-@AssistedInject
-constructor(
+class ColorViewModel @AssistedInject constructor(
     @Assisted initialState: ColorUiState,
     getBackgroundColorsUseCase: GetBackgroundColorsUseCase,
     private val addBackgroundColorsUseCase: AddBackgroundColorsUseCase,

@@ -38,19 +38,18 @@ fun ColorSelectContent(
     onClickBackgroundColor: () -> Unit,
     onClickTextColor: (Boolean) -> Unit,
 ) {
-    val builder =
-        rememberBalloonBuilder {
-            setArrowSize(10)
-            setArrowPosition(0.5f)
-            setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
-            setWidth(BalloonSizeSpec.WRAP)
-            setHeight(BalloonSizeSpec.WRAP)
-            setPadding(12)
-            setMarginHorizontal(12)
-            setCornerRadius(8f)
-            setBackgroundColor(color = Color(0xCCFFFFFF))
-            setBalloonAnimation(BalloonAnimation.ELASTIC)
-        }
+    val builder = rememberBalloonBuilder {
+        setArrowSize(10)
+        setArrowPosition(0.5f)
+        setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+        setWidth(BalloonSizeSpec.WRAP)
+        setHeight(BalloonSizeSpec.WRAP)
+        setPadding(12)
+        setMarginHorizontal(12)
+        setCornerRadius(8f)
+        setBackgroundColor(color = Color(0xCCFFFFFF))
+        setBalloonAnimation(BalloonAnimation.ELASTIC)
+    }
 
     Row {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {

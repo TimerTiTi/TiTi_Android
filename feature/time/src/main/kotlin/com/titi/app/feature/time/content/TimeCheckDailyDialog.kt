@@ -13,8 +13,7 @@ import com.titi.app.core.designsystem.model.TdsDialogInfo
 @Composable
 fun TimeCheckDailyDialog(title: String, onShowDialog: (Boolean) -> Unit) {
     TdsDialog(
-        tdsDialogInfo =
-        TdsDialogInfo.Alert(
+        tdsDialogInfo = TdsDialogInfo.Alert(
             title = title,
             confirmText = stringResource(id = R.string.Ok),
         ),

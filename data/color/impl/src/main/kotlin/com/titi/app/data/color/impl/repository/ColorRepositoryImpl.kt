@@ -3,8 +3,9 @@ package com.titi.app.data.color.impl.repository
 import com.titi.app.data.color.api.ColorRepository
 import com.titi.app.data.color.api.model.BackgroundColorRepositoryModel
 import com.titi.app.data.color.api.model.ColorRepositoryModel
+import com.titi.app.data.color.api.model.GraphColorRepositoryModel
 import com.titi.app.data.color.impl.local.ColorDataStore
-import com.titi.app.data.color.impl.mapper.toLocal
+import com.titi.app.data.color.impl.mapper.toLocalModel
 import com.titi.app.data.color.impl.mapper.toRepositoryModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -14,13 +15,17 @@ internal class ColorRepositoryImpl @Inject constructor(
     private val colorDataStore: ColorDataStore,
 ) : ColorRepository {
     override suspend fun setColor(colorRepositoryModel: ColorRepositoryModel) {
-        colorDataStore.setColor(colorRepositoryModel.toLocal())
+        colorDataStore.setColor(colorRepositoryModel.toLocalModel())
     }
 
     override suspend fun setBackgroundColors(
         backgroundColorRepositoryModel: BackgroundColorRepositoryModel,
     ) {
-        colorDataStore.setBackgroundColors(backgroundColorRepositoryModel.toLocal())
+        colorDataStore.setBackgroundColors(backgroundColorRepositoryModel.toLocalModel())
+    }
+
+    override suspend fun setGraphColors(graphColorRepositoryModel: GraphColorRepositoryModel) {
+        colorDataStore.setGraphColors(graphColorRepositoryModel.toLocalModel())
     }
 
     override suspend fun getColor(): ColorRepositoryModel? {
@@ -33,5 +38,9 @@ internal class ColorRepositoryImpl @Inject constructor(
 
     override fun getColorFlow(): Flow<ColorRepositoryModel?> {
         return colorDataStore.getColorFlow().map { it?.toRepositoryModel() }
+    }
+
+    override fun getGraphColorsFlow(): Flow<GraphColorRepositoryModel?> {
+        return colorDataStore.getGraphColorsFlow().map { it?.toRepositoryModel() }
     }
 }
