@@ -175,7 +175,9 @@ fun TdsTimeTableDailyGraph(
                     Spacer(modifier = Modifier.width(5.dp))
 
                     Column(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .width(size * 0.30)
+                            .height(size * 0.84),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         TdsText(
