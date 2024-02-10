@@ -36,7 +36,10 @@ fun WeekScreen(
             .fillMaxSize()
             .verticalScroll(scrollState),
     ) {
-        CalendarContent(modifier = Modifier.fillMaxWidth())
+        CalendarContent(
+            modifier = Modifier.fillMaxWidth(),
+            themeColor = tdsColors.first(),
+        )
 
         Spacer(modifier = Modifier.height(15.dp))
 
