@@ -1,5 +1,6 @@
 package com.titi.app.feature.log.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
@@ -308,20 +310,24 @@ private fun GraphContent(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        TdsIconButton(
-            onClick = {
-                scope.launch {
-                    if (pagerState.currentPage - 1 >= 0) {
-                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                    }
+        Column(modifier = Modifier.size(32.dp)) {
+            AnimatedVisibility(visible = pagerState.currentPage != 0) {
+                TdsIconButton(
+                    onClick = {
+                        scope.launch {
+                            if (pagerState.currentPage - 1 >= 0) {
+                                pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                            }
+                        }
+                    },
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.arrow_left_icon),
+                        contentDescription = "arrowLeft",
+                        tint = TdsColor.TEXT.getColor(),
+                    )
                 }
-            },
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.arrow_left_icon),
-                contentDescription = "arrowLeft",
-                tint = TdsColor.TEXT.getColor(),
-            )
+            }
         }
 
         HorizontalPager(
@@ -367,20 +373,24 @@ private fun GraphContent(
             }
         }
 
-        TdsIconButton(
-            onClick = {
-                scope.launch {
-                    if (pagerState.currentPage + 1 < 4) {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                    }
+        Column(modifier = Modifier.size(32.dp)) {
+            AnimatedVisibility(visible = pagerState.currentPage != 3) {
+                TdsIconButton(
+                    onClick = {
+                        scope.launch {
+                            if (pagerState.currentPage + 1 < 4) {
+                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            }
+                        }
+                    },
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.arrow_right_icon),
+                        contentDescription = "arrowRight",
+                        tint = TdsColor.TEXT.getColor(),
+                    )
                 }
-            },
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.arrow_right_icon),
-                contentDescription = "arrowRight",
-                tint = TdsColor.TEXT.getColor(),
-            )
+            }
         }
     }
 }
