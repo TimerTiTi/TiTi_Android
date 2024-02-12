@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +27,7 @@ import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import java.time.LocalDate
 import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
@@ -153,6 +155,10 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
 
     val uiState by viewModel.collectAsState()
 
+    LaunchedEffect(Unit) {
+        viewModel.updateCurrentDateDaily(LocalDate.now())
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -195,7 +201,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                     timeLines = timeLines,
                     timeTableData = timeTableData,
                     onClickDate = {
-                        viewModel.updateDailyCurrentDate(it)
+                        viewModel.updateCurrentDateDaily(it)
                     },
                     onClickGraphColor = {
                         viewModel.updateGraphColors(

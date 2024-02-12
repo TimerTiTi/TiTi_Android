@@ -2,6 +2,7 @@ package com.titi.app.feature.log.model
 
 import com.airbnb.mvrx.MavericksState
 import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.GraphColor
 import java.time.LocalDate
 
@@ -32,6 +33,7 @@ data class GraphColorUiState(
 
 data class DailyUiState(
     val currentDate: LocalDate = LocalDate.now(),
+    val daily: Daily = Daily(),
 )
 
 data class WeekUiState(

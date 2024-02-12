@@ -5,6 +5,8 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
+import com.titi.app.doamin.daily.model.Daily
+import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
 import com.titi.app.feature.log.mapper.toDomainModel
@@ -23,6 +25,7 @@ class LogViewModel @AssistedInject constructor(
     @Assisted initialState: LogUiState,
     getGraphColorsUseCase: GetGraphColorsUseCase,
     private val updateGraphColorsUseCase: UpdateGraphColorsUseCase,
+    private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
 ) : MavericksViewModel<LogUiState>(initialState) {
 
     init {
@@ -43,19 +46,36 @@ class LogViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateDailyCurrentDate(date: LocalDate) {
-        viewModelScope.launch {
-            setState {
-                copy(dailyUiState = dailyUiState.copy(currentDate = date))
-            }
-        }
-    }
-
     fun updateWeekCurrentDate(date: LocalDate) {
         viewModelScope.launch {
             setState {
                 copy(weekUiState = weekUiState.copy(currentDate = date))
             }
+        }
+    }
+
+    fun updateCurrentDateDaily(date: LocalDate) {
+        viewModelScope.launch {
+            getCurrentDateDailyUseCase(date)
+                .onSuccess {
+                    setState {
+                        copy(
+                            dailyUiState = dailyUiState.copy(
+                                currentDate = date,
+                                daily = it ?: Daily(),
+                            ),
+                        )
+                    }
+                }.onFailure {
+                    setState {
+                        copy(
+                            dailyUiState = dailyUiState.copy(
+                                currentDate = date,
+                                daily = Daily(),
+                            ),
+                        )
+                    }
+                }
         }
     }
 
