@@ -14,6 +14,7 @@ import com.titi.app.feature.log.model.LogUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import java.time.LocalDate
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
@@ -39,6 +40,22 @@ class LogViewModel @AssistedInject constructor(
                 selectedIndex = selectedIndex,
                 graphColor = graphColorUiState.toDomainModel(),
             )
+        }
+    }
+
+    fun updateDailyCurrentDate(date: LocalDate) {
+        viewModelScope.launch {
+            setState {
+                copy(dailyUiState = dailyUiState.copy(currentDate = date))
+            }
+        }
+    }
+
+    fun updateWeekCurrentDate(date: LocalDate) {
+        viewModelScope.launch {
+            setState {
+                copy(weekUiState = weekUiState.copy(currentDate = date))
+            }
         }
     }
 

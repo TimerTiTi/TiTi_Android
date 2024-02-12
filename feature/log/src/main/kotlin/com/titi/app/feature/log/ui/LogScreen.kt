@@ -195,6 +195,10 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                     tdsColors = uiState.graphColors.graphColors,
                     timeLines = timeLines,
                     timeTableData = timeTableData,
+                    currentDate = uiState.dailyUiState.currentDate,
+                    onClickDate = {
+                        viewModel.updateDailyCurrentDate(it)
+                    },
                     onClickGraphColor = {
                         viewModel.updateGraphColors(
                             selectedIndex = it,
@@ -208,6 +212,10 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                     weekLineChardData = weekLineChardData,
                     tdsColors = uiState.graphColors.graphColors,
                     taskData = taskData,
+                    currentDate = uiState.weekUiState.currentDate,
+                    onClickDate = {
+                        viewModel.updateWeekCurrentDate(it)
+                    },
                     onClickGraphColor = {
                         viewModel.updateGraphColors(
                             selectedIndex = it,

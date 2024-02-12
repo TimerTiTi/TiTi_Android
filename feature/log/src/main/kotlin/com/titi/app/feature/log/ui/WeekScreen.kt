@@ -18,6 +18,7 @@ import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import java.time.LocalDate
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
@@ -27,6 +28,8 @@ fun WeekScreen(
     weekLineChardData: List<TdsWeekLineChartData>,
     tdsColors: List<TdsColor>,
     taskData: List<TdsTaskData>,
+    currentDate: LocalDate,
+    onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -39,6 +42,8 @@ fun WeekScreen(
         CalendarContent(
             modifier = Modifier.fillMaxWidth(),
             themeColor = tdsColors.first(),
+            currentDate = currentDate,
+            onClickDate = onClickDate,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -142,6 +147,8 @@ private fun WeekScreenPreview() {
             weekLineChardData = weekLineChardData,
             tdsColors = tdsColors,
             taskData = taskData,
+            currentDate = LocalDate.now(),
+            onClickDate = {},
             onClickGraphColor = {},
         )
     }

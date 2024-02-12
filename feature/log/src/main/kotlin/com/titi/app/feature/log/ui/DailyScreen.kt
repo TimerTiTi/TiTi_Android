@@ -30,11 +30,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -80,6 +77,8 @@ fun DailyScreen(
     tdsColors: List<TdsColor>,
     timeLines: List<Int>,
     timeTableData: List<TdsTimeTableData>,
+    currentDate: LocalDate,
+    onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -92,6 +91,8 @@ fun DailyScreen(
         CalendarContent(
             modifier = Modifier.fillMaxWidth(),
             themeColor = tdsColors.first(),
+            currentDate = currentDate,
+            onClickDate = onClickDate,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -118,7 +119,12 @@ fun DailyScreen(
 }
 
 @Composable
-fun CalendarContent(modifier: Modifier = Modifier, themeColor: TdsColor) {
+fun CalendarContent(
+    modifier: Modifier = Modifier,
+    themeColor: TdsColor,
+    currentDate: LocalDate,
+    onClickDate: (LocalDate) -> Unit,
+) {
     val scope = rememberCoroutineScope()
 
     val currentMonth = remember { YearMonth.now() }
@@ -201,20 +207,16 @@ fun CalendarContent(modifier: Modifier = Modifier, themeColor: TdsColor) {
                         themeColor,
                     )
 
-                    var selectedDate by remember { mutableStateOf<LocalDate>(LocalDate.now()) }
-
                     HorizontalCalendar(
                         state = state,
                         dayContent = { day ->
                             Day(
                                 day = day,
-                                isSelected = selectedDate == day.date,
+                                isSelected = currentDate == day.date,
                                 themeColor = themeColor,
                             ) { selectedDay ->
-                                selectedDate = if (selectedDate == selectedDay.date) {
-                                    selectedDate
-                                } else {
-                                    selectedDay.date
+                                if (currentDate != selectedDay.date) {
+                                    onClickDate(selectedDay.date)
                                 }
                             }
                         },
@@ -246,7 +248,7 @@ fun Day(
     day: CalendarDay,
     isSelected: Boolean,
     themeColor: TdsColor,
-    onClick: (CalendarDay) -> Unit,
+    onClickDate: (CalendarDay) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -262,7 +264,7 @@ fun Day(
             )
             .clickable(
                 enabled = day.position == DayPosition.MonthDate,
-                onClick = { onClick(day) },
+                onClick = { onClickDate(day) },
             ),
         contentAlignment = Alignment.Center,
     ) {
@@ -500,6 +502,8 @@ private fun DailyScreenPreview() {
             tdsColors = tdsColors,
             timeLines = timeLines,
             timeTableData = timeTableData,
+            currentDate = LocalDate.now(),
+            onClickDate = {},
             onClickGraphColor = {},
         )
     }
