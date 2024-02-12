@@ -11,6 +11,13 @@ internal interface DailyDao {
     @Query("SELECT * FROM dailies  ORDER BY id DESC LIMIT 1")
     suspend fun getCurrentDaily(): DailyEntity?
 
+    @Query(
+        "SELECT * FROM dailies " +
+            " WHERE datetime(day) " +
+            "BETWEEN datetime(:startDateTime) AND datetime(:endDateTime)",
+    )
+    suspend fun getCurrentDateDaily(startDateTime: String, endDateTime: String): DailyEntity?
+
     @Query("SELECT * FROM dailies ORDER BY id DESC LIMIT 1")
     fun getCurrentDailyFlow(): Flow<DailyEntity?>
 

@@ -16,6 +16,13 @@ internal class DailyRepositoryImpl @Inject constructor(
         return dailyDao.getCurrentDaily()?.toRepositoryModel()
     }
 
+    override suspend fun getCurrentDateDaily(currentDate: String): DailyRepositoryModel? {
+        return dailyDao.getCurrentDateDaily(
+            startDateTime = currentDate.substring(0, 10),
+            endDateTime = currentDate.substring(0, 10) + "T23:59:59Z",
+        )?.toRepositoryModel()
+    }
+
     override fun getCurrentDailyFlow(): Flow<DailyRepositoryModel?> {
         return dailyDao.getCurrentDailyFlow().map { it?.toRepositoryModel() }
     }
