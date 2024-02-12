@@ -12,9 +12,9 @@ class GetCurrentDateDailyUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(currentDate: LocalDate): Result<Daily?> {
-        val currentDateString = currentDate.atStartOfDay(ZoneOffset.UTC).toString()
+        val startDateTime = currentDate.atStartOfDay(ZoneOffset.UTC).toString()
         return runCatching {
-            dailyRepository.getCurrentDateDaily(currentDateString)?.toDomainModel()
+            dailyRepository.getDateDaily(startDateTime = startDateTime)?.toDomainModel()
         }
     }
 }

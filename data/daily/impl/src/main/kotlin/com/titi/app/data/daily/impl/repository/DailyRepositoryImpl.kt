@@ -12,19 +12,24 @@ import kotlinx.coroutines.flow.map
 internal class DailyRepositoryImpl @Inject constructor(
     private val dailyDao: DailyDao,
 ) : DailyRepository {
-    override suspend fun getCurrentDaily(): DailyRepositoryModel? {
-        return dailyDao.getCurrentDaily()?.toRepositoryModel()
-    }
-
-    override suspend fun getCurrentDateDaily(currentDate: String): DailyRepositoryModel? {
-        return dailyDao.getCurrentDateDaily(
-            startDateTime = currentDate.substring(0, 10),
-            endDateTime = currentDate.substring(0, 10) + "T23:59:59Z",
+    override suspend fun getDateDaily(
+        startDateTime: String,
+        endDateTime: String,
+    ): DailyRepositoryModel? {
+        return dailyDao.getDateDaily(
+            startDateTime = startDateTime,
+            endDateTime = endDateTime,
         )?.toRepositoryModel()
     }
 
-    override fun getCurrentDailyFlow(): Flow<DailyRepositoryModel?> {
-        return dailyDao.getCurrentDailyFlow().map { it?.toRepositoryModel() }
+    override fun getDateDailyFlow(
+        startDateTime: String,
+        endDateTime: String,
+    ): Flow<DailyRepositoryModel?> {
+        return dailyDao.getDateDailyFlow(
+            startDateTime = startDateTime,
+            endDateTime = endDateTime,
+        ).map { it?.toRepositoryModel() }
     }
 
     override suspend fun upsert(dailyRepositoryModel: DailyRepositoryModel) {
