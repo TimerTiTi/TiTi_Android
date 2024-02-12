@@ -189,13 +189,11 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                 )
 
                 1 -> DailyScreen(
-                    todayDate = todayDate,
-                    todayDayOfTheWeek = todayDayOfTheWeek,
+                    currentDate = uiState.dailyUiState.currentDate,
                     taskData = taskData,
                     tdsColors = uiState.graphColors.graphColors,
                     timeLines = timeLines,
                     timeTableData = timeTableData,
-                    currentDate = uiState.dailyUiState.currentDate,
                     onClickDate = {
                         viewModel.updateDailyCurrentDate(it)
                     },

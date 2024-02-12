@@ -71,13 +71,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun DailyScreen(
-    todayDate: String,
-    todayDayOfTheWeek: Int,
+    currentDate: LocalDate,
     taskData: List<TdsTaskData>,
     tdsColors: List<TdsColor>,
     timeLines: List<Int>,
     timeTableData: List<TdsTimeTableData>,
-    currentDate: LocalDate,
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
 ) {
@@ -108,8 +106,8 @@ fun DailyScreen(
 
         GraphContent(
             modifier = Modifier.fillMaxWidth(),
-            todayDate = todayDate,
-            todayDayOfTheWeek = todayDayOfTheWeek,
+            todayDate = currentDate.toString().replace('-', '.'),
+            todayDayOfTheWeek = currentDate.dayOfWeek.value - 1,
             taskData = taskData,
             tdsColors = tdsColors,
             timeLines = timeLines,
@@ -491,13 +489,8 @@ private fun DailyScreenPreview() {
         ),
     )
 
-    val todayDate = "2024.02.04"
-    val todayDayOfTheWeek = 6
-
     TiTiTheme {
         DailyScreen(
-            todayDate = todayDate,
-            todayDayOfTheWeek = todayDayOfTheWeek,
             taskData = taskData,
             tdsColors = tdsColors,
             timeLines = timeLines,
