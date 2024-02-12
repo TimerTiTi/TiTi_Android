@@ -56,7 +56,6 @@ import com.titi.app.core.designsystem.component.TdsTaskProgressDailyGraph
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTimeLineDailyGraph
 import com.titi.app.core.designsystem.component.TdsTimeTableDailyGraph
-import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
@@ -72,9 +71,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun DailyScreen(
     currentDate: LocalDate,
+    totalTime: String,
+    maxTime: String,
     taskData: List<TdsTaskData>,
     tdsColors: List<TdsColor>,
-    timeLines: List<Int>,
+    timeLines: List<Long>,
     timeTableData: List<TdsTimeTableData>,
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
@@ -108,6 +109,8 @@ fun DailyScreen(
             modifier = Modifier.fillMaxWidth(),
             todayDate = currentDate.toString().replace('-', '.'),
             todayDayOfTheWeek = currentDate.dayOfWeek.value - 1,
+            totalTime = totalTime,
+            maxTime = maxTime,
             taskData = taskData,
             tdsColors = tdsColors,
             timeLines = timeLines,
@@ -298,9 +301,11 @@ private fun GraphContent(
     modifier: Modifier = Modifier,
     todayDate: String,
     todayDayOfTheWeek: Int,
+    totalTime: String,
+    maxTime: String,
     taskData: List<TdsTaskData>,
     tdsColors: List<TdsColor>,
-    timeLines: List<Int>,
+    timeLines: List<Long>,
     timeTableData: List<TdsTimeTableData>,
 ) {
     val pagerState = rememberPagerState(
@@ -347,6 +352,8 @@ private fun GraphContent(
                     tdsColors = tdsColors,
                     timeLines = timeLines,
                     taskData = taskData,
+                    totalTime = totalTime,
+                    maxTime = maxTime,
                 )
 
                 1 -> TdsTimeTableDailyGraph(
@@ -356,6 +363,8 @@ private fun GraphContent(
                     tdsColors = tdsColors,
                     taskData = taskData,
                     timeTableData = timeTableData,
+                    totalTime = totalTime,
+                    maxTime = maxTime,
                 )
 
                 2 -> TdsTimeLineDailyGraph(
@@ -364,8 +373,8 @@ private fun GraphContent(
                     todayDayOfTheWeek = todayDayOfTheWeek,
                     tdsColors = tdsColors,
                     timeLines = timeLines,
-                    totalTime = timeLines.sum().toLong().getTimeString(),
-                    maxTime = timeLines.max().toLong().getTimeString(),
+                    totalTime = totalTime,
+                    maxTime = maxTime,
                 )
 
                 3 -> TdsTaskProgressDailyGraph(
@@ -440,7 +449,7 @@ private fun DailyScreenPreview() {
     )
 
     val timeLines = listOf(
-        3600,
+        3600L,
         1200,
         300,
         400,
@@ -493,6 +502,8 @@ private fun DailyScreenPreview() {
         DailyScreen(
             taskData = taskData,
             tdsColors = tdsColors,
+            totalTime = "08:00:00",
+            maxTime = "03:00:00",
             timeLines = timeLines,
             timeTableData = timeTableData,
             currentDate = LocalDate.now(),

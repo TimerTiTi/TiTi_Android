@@ -1,6 +1,8 @@
 package com.titi.app.feature.log.model
 
 import com.airbnb.mvrx.MavericksState
+import com.titi.app.core.designsystem.extension.getTimeString
+import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.GraphColor
@@ -33,8 +35,25 @@ data class GraphColorUiState(
 
 data class DailyUiState(
     val currentDate: LocalDate = LocalDate.now(),
-    val daily: Daily = Daily(),
-)
+    val daily: Daily? = null,
+) {
+    private val sumTime = daily?.tasks?.values?.sum()
+
+    val timeLine = daily?.timeLine
+    val totalTime = sumTime?.getTimeString()
+    val maxTime = daily?.maxTime?.getTimeString()
+    val taskData = daily?.tasks?.map {
+        TdsTaskData(
+            key = it.key,
+            value = it.value.getTimeString(),
+            progress = if (sumTime != null && sumTime > 0L) {
+                it.value / sumTime.toFloat()
+            } else {
+                0f
+            },
+        )
+    }
+}
 
 data class WeekUiState(
     val currentDate: LocalDate = LocalDate.now(),

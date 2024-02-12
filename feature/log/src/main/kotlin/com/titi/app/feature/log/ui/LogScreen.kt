@@ -69,7 +69,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
     )
 
     val timeLines = listOf(
-        3600,
+        3600L,
         1200,
         300,
         400,
@@ -117,9 +117,6 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
             end = 3333,
         ),
     )
-
-    val todayDate = "2024.02.04"
-    val todayDayOfTheWeek = 6
 
     val todayDateTime = ZonedDateTime.now(ZoneOffset.UTC)
     val weekLineChardData = listOf(
@@ -196,9 +193,11 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
 
                 1 -> DailyScreen(
                     currentDate = uiState.dailyUiState.currentDate,
-                    taskData = taskData,
+                    totalTime = uiState.dailyUiState.totalTime ?: "00:00:00",
+                    maxTime = uiState.dailyUiState.maxTime ?: "00:00:00",
+                    taskData = uiState.dailyUiState.taskData ?: emptyList(),
                     tdsColors = uiState.graphColors.graphColors,
-                    timeLines = timeLines,
+                    timeLines = uiState.dailyUiState.timeLine ?: LongArray(24) { 0L }.toList(),
                     timeTableData = timeTableData,
                     onClickDate = {
                         viewModel.updateCurrentDateDaily(it)

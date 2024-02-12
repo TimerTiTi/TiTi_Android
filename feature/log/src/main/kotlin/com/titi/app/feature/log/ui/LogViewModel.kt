@@ -5,7 +5,6 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
-import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
@@ -62,7 +61,7 @@ class LogViewModel @AssistedInject constructor(
                         copy(
                             dailyUiState = dailyUiState.copy(
                                 currentDate = date,
-                                daily = it ?: Daily(),
+                                daily = it,
                             ),
                         )
                     }
@@ -71,7 +70,7 @@ class LogViewModel @AssistedInject constructor(
                         copy(
                             dailyUiState = dailyUiState.copy(
                                 currentDate = date,
-                                daily = Daily(),
+                                daily = null,
                             ),
                         )
                     }

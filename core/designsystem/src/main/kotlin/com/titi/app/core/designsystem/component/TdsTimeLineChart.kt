@@ -31,7 +31,7 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 @Composable
 fun TdsTimeLineChart(
     modifier: Modifier = Modifier,
-    times: List<Int>,
+    times: List<Long>,
     startColor: Color,
     endColor: Color,
 ) {
@@ -63,7 +63,7 @@ fun TdsTimeLineChart(
 }
 
 @Composable
-private fun TdsTimeLineBar(modifier: Modifier = Modifier, time: Int, hour: String, brush: Brush) {
+private fun TdsTimeLineBar(modifier: Modifier = Modifier, time: Long, hour: String, brush: Brush) {
     val textMeasurer = rememberTextMeasurer()
     val textStyle = TdsTextStyle
         .NORMAL_TEXT_STYLE

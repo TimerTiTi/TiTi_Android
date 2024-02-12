@@ -32,7 +32,7 @@ fun TdsTimeLineDailyGraph(
     todayDate: String,
     todayDayOfTheWeek: Int,
     tdsColors: List<TdsColor>,
-    timeLines: List<Int>,
+    timeLines: List<Long>,
     totalTime: String,
     maxTime: String,
 ) {
