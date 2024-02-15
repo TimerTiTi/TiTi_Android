@@ -22,6 +22,16 @@ internal class DailyRepositoryImpl @Inject constructor(
         )?.toRepositoryModel()
     }
 
+    override suspend fun getWeekDaily(
+        startDateTime: String,
+        endDateTime: String,
+    ): List<DailyRepositoryModel>? {
+        return dailyDao.getWeekDaily(
+            startDateTime = startDateTime,
+            endDateTime = endDateTime,
+        )?.map { it.toRepositoryModel() }
+    }
+
     override fun getDateDailyFlow(
         startDateTime: String,
         endDateTime: String,
