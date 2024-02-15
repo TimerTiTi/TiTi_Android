@@ -18,7 +18,7 @@ class AddMeasureTimeAtDailyUseCase @Inject constructor(
         endTime: String,
         measureTime: Long,
     ) {
-        val recentDaily = dailyRepository.getCurrentDaily()?.toDomainModel()
+        val recentDaily = dailyRepository.getDateDaily()?.toDomainModel()
 
         recentDaily?.let { daily ->
             val taskHistory =

@@ -11,7 +11,7 @@ class AddDailyUseCase @Inject constructor(
     private val dailyRepository: DailyRepository,
 ) {
     suspend operator fun invoke() {
-        val recentDaily = dailyRepository.getCurrentDaily()
+        val recentDaily = dailyRepository.getDateDaily()
 
         if (recentDaily != null) {
             dailyRepository.upsert(

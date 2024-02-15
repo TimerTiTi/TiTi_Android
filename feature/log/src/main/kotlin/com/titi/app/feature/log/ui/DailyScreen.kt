@@ -30,11 +30,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,7 +56,6 @@ import com.titi.app.core.designsystem.component.TdsTaskProgressDailyGraph
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTimeLineDailyGraph
 import com.titi.app.core.designsystem.component.TdsTimeTableDailyGraph
-import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
@@ -74,12 +70,14 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun DailyScreen(
-    todayDate: String,
-    todayDayOfTheWeek: Int,
+    currentDate: LocalDate,
+    totalTime: String,
+    maxTime: String,
     taskData: List<TdsTaskData>,
     tdsColors: List<TdsColor>,
-    timeLines: List<Int>,
+    timeLines: List<Long>,
     timeTableData: List<TdsTimeTableData>,
+    onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -92,6 +90,8 @@ fun DailyScreen(
         CalendarContent(
             modifier = Modifier.fillMaxWidth(),
             themeColor = tdsColors.first(),
+            currentDate = currentDate,
+            onClickDate = onClickDate,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -107,8 +107,10 @@ fun DailyScreen(
 
         GraphContent(
             modifier = Modifier.fillMaxWidth(),
-            todayDate = todayDate,
-            todayDayOfTheWeek = todayDayOfTheWeek,
+            todayDate = currentDate.toString().replace('-', '.'),
+            todayDayOfTheWeek = currentDate.dayOfWeek.value - 1,
+            totalTime = totalTime,
+            maxTime = maxTime,
             taskData = taskData,
             tdsColors = tdsColors,
             timeLines = timeLines,
@@ -118,7 +120,12 @@ fun DailyScreen(
 }
 
 @Composable
-fun CalendarContent(modifier: Modifier = Modifier, themeColor: TdsColor) {
+fun CalendarContent(
+    modifier: Modifier = Modifier,
+    themeColor: TdsColor,
+    currentDate: LocalDate,
+    onClickDate: (LocalDate) -> Unit,
+) {
     val scope = rememberCoroutineScope()
 
     val currentMonth = remember { YearMonth.now() }
@@ -201,20 +208,16 @@ fun CalendarContent(modifier: Modifier = Modifier, themeColor: TdsColor) {
                         themeColor,
                     )
 
-                    var selectedDate by remember { mutableStateOf<LocalDate>(LocalDate.now()) }
-
                     HorizontalCalendar(
                         state = state,
                         dayContent = { day ->
                             Day(
                                 day = day,
-                                isSelected = selectedDate == day.date,
+                                isSelected = currentDate == day.date,
                                 themeColor = themeColor,
                             ) { selectedDay ->
-                                selectedDate = if (selectedDate == selectedDay.date) {
-                                    selectedDate
-                                } else {
-                                    selectedDay.date
+                                if (currentDate != selectedDay.date) {
+                                    onClickDate(selectedDay.date)
                                 }
                             }
                         },
@@ -246,7 +249,7 @@ fun Day(
     day: CalendarDay,
     isSelected: Boolean,
     themeColor: TdsColor,
-    onClick: (CalendarDay) -> Unit,
+    onClickDate: (CalendarDay) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -262,7 +265,7 @@ fun Day(
             )
             .clickable(
                 enabled = day.position == DayPosition.MonthDate,
-                onClick = { onClick(day) },
+                onClick = { onClickDate(day) },
             ),
         contentAlignment = Alignment.Center,
     ) {
@@ -298,9 +301,11 @@ private fun GraphContent(
     modifier: Modifier = Modifier,
     todayDate: String,
     todayDayOfTheWeek: Int,
+    totalTime: String,
+    maxTime: String,
     taskData: List<TdsTaskData>,
     tdsColors: List<TdsColor>,
-    timeLines: List<Int>,
+    timeLines: List<Long>,
     timeTableData: List<TdsTimeTableData>,
 ) {
     val pagerState = rememberPagerState(
@@ -347,6 +352,8 @@ private fun GraphContent(
                     tdsColors = tdsColors,
                     timeLines = timeLines,
                     taskData = taskData,
+                    totalTime = totalTime,
+                    maxTime = maxTime,
                 )
 
                 1 -> TdsTimeTableDailyGraph(
@@ -356,6 +363,8 @@ private fun GraphContent(
                     tdsColors = tdsColors,
                     taskData = taskData,
                     timeTableData = timeTableData,
+                    totalTime = totalTime,
+                    maxTime = maxTime,
                 )
 
                 2 -> TdsTimeLineDailyGraph(
@@ -364,8 +373,8 @@ private fun GraphContent(
                     todayDayOfTheWeek = todayDayOfTheWeek,
                     tdsColors = tdsColors,
                     timeLines = timeLines,
-                    totalTime = timeLines.sum().toLong().getTimeString(),
-                    maxTime = timeLines.max().toLong().getTimeString(),
+                    totalTime = totalTime,
+                    maxTime = maxTime,
                 )
 
                 3 -> TdsTaskProgressDailyGraph(
@@ -440,7 +449,7 @@ private fun DailyScreenPreview() {
     )
 
     val timeLines = listOf(
-        3600,
+        3600L,
         1200,
         300,
         400,
@@ -489,17 +498,16 @@ private fun DailyScreenPreview() {
         ),
     )
 
-    val todayDate = "2024.02.04"
-    val todayDayOfTheWeek = 6
-
     TiTiTheme {
         DailyScreen(
-            todayDate = todayDate,
-            todayDayOfTheWeek = todayDayOfTheWeek,
             taskData = taskData,
             tdsColors = tdsColors,
+            totalTime = "08:00:00",
+            maxTime = "03:00:00",
             timeLines = timeLines,
             timeTableData = timeTableData,
+            currentDate = LocalDate.now(),
+            onClickDate = {},
             onClickGraphColor = {},
         )
     }

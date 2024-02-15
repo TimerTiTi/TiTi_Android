@@ -43,7 +43,7 @@ fun HomeScreen(
     tdsColors: List<TdsColor>,
     taskData: List<TdsTaskData>,
     weekLineChardData: List<TdsWeekLineChartData>,
-    timeLines: List<Int>,
+    timeLines: List<Long>,
 ) {
     val scrollState = rememberScrollState()
 
@@ -327,7 +327,7 @@ private fun TimeLineCard(
     todayDate: String,
     todayDayOfTheWeek: Int,
     tdsColors: List<TdsColor>,
-    timeLines: List<Int>,
+    timeLines: List<Long>,
 ) {
     TdsFilledCard(
         modifier = Modifier
@@ -449,7 +449,7 @@ private fun HomeScreenPreview() {
     )
 
     val timeLines = listOf(
-        3600,
+        3600L,
         1200,
         300,
         400,

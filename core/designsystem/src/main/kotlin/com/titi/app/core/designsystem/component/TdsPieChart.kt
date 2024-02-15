@@ -112,11 +112,7 @@ private fun TdsPieChart(
                 modifier = Modifier.size(holeRadiusDp * 2),
                 taskData = taskData,
                 isSpacing = false,
-                height = if (taskData.size > 5) {
-                    holeRadiusDp * 2 / 5
-                } else {
-                    holeRadiusDp * 2 / taskData.size
-                },
+                height = holeRadiusDp * 2 / 5,
                 colors = colors,
             )
         }

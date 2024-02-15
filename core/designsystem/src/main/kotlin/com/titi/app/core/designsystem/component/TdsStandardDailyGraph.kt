@@ -27,16 +27,16 @@ import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
-import com.titi.app.core.designsystem.util.getMaxTime
-import com.titi.app.core.designsystem.util.getSumTime
 
 @Composable
 fun TdsStandardDailyGraph(
     modifier: Modifier = Modifier,
     todayDate: String,
     todayDayOfTheWeek: Int,
+    totalTime: String,
+    maxTime: String,
     tdsColors: List<TdsColor>,
-    timeLines: List<Int>,
+    timeLines: List<Long>,
     taskData: List<TdsTaskData>,
 ) {
     BoxWithConstraints(
@@ -148,7 +148,7 @@ fun TdsStandardDailyGraph(
                         )
 
                         TdsText(
-                            text = taskData.getSumTime(),
+                            text = totalTime,
                             textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                             fontSize = (size.value * 0.06).sp,
                             color = tdsColors.first(),
@@ -162,7 +162,7 @@ fun TdsStandardDailyGraph(
                         )
 
                         TdsText(
-                            text = taskData.getMaxTime(),
+                            text = maxTime,
                             textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                             fontSize = (size.value * 0.06).sp,
                             color = tdsColors.first(),
@@ -222,6 +222,8 @@ private fun TdsStandardDailyGraphPreview() {
                 TdsColor.D6,
                 TdsColor.D7,
             ),
+            totalTime = "08:00:00",
+            maxTime = "02:00:00",
             timeLines = listOf(
                 3600,
                 1200,

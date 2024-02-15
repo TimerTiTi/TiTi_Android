@@ -31,7 +31,6 @@ import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
-import com.titi.app.core.designsystem.util.getSumTime
 import kotlin.math.min
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
@@ -199,7 +198,7 @@ fun TdsStandardWeekGraph(
                         )
 
                         TdsText(
-                            text = taskData.getSumTime(),
+                            text = "08:00:00",
                             textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                             fontSize = (size.value * 0.06).sp,
                             color = tdsColors.first(),
