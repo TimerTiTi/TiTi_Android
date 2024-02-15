@@ -24,12 +24,9 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.component.TdsTabRow
 import com.titi.app.core.designsystem.model.TdsTaskData
-import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import kotlinx.coroutines.launch
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.ZonedDateTime
 import java.time.LocalDate
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -95,30 +92,6 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
         600,
     )
 
-    val timeTableData = listOf(
-        TdsTimeTableData(
-            hour = 3,
-            start = 1800,
-            end = 2400,
-        ),
-        TdsTimeTableData(
-            hour = 5,
-            start = 1234,
-            end = 2555,
-        ),
-        TdsTimeTableData(
-            hour = 12,
-            start = 600,
-            end = 3444,
-        ),
-        TdsTimeTableData(
-            hour = 23,
-            start = 2121,
-            end = 3333,
-        ),
-    )
-
-    val todayDateTime = ZonedDateTime.now(ZoneOffset.UTC)
     val weekLineChardData = listOf(
         TdsWeekLineChartData(
             time = 6200,
@@ -218,7 +191,8 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                     maxTime = uiState.weekUiState.weekGraphData.maxWeekTime,
                     weekLineChardData = uiState.weekUiState.weekGraphData.weekLineChartData,
                     tdsColors = uiState.graphColors.graphColors,
-                    taskData = taskData,
+                    topLevelTaskTotal = uiState.weekUiState.weekGraphData.topLevelTaskTotal,
+                    topLevelTaskData = uiState.weekUiState.weekGraphData.topLevelTdsTaskData,
                     currentDate = uiState.weekUiState.currentDate,
                     onClickDate = {
                         viewModel.updateWeekCurrentDate(it)

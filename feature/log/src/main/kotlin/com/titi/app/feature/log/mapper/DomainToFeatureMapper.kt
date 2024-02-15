@@ -12,11 +12,11 @@ import com.titi.app.domain.color.model.GraphColor
 import com.titi.app.feature.log.model.DailyGraphData
 import com.titi.app.feature.log.model.GraphColorUiState
 import com.titi.app.feature.log.model.WeekGraphData
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.ZonedDateTime
-import org.threeten.bp.temporal.ChronoUnit
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 import kotlin.math.max
 
 internal fun GraphColor.toFeatureModel() = GraphColorUiState(
@@ -48,7 +48,7 @@ internal fun Daily.toFeatureModel(): DailyGraphData {
             ?.flatten()
             ?.flatMap { makeTimeTableData(it.startDate, it.endDate) }
             ?: emptyList(),
-        )
+    )
 }
 
 internal fun makeTimeTableData(startDate: String, endDate: String): List<TdsTimeTableData> {
@@ -85,10 +85,13 @@ internal fun List<Daily>.toFeatureModel(currentDate: LocalDate): WeekGraphData {
 
     var totalWeekTime = 0L
     var maxWeekTime = 0L
+    val totalTaskMap = mutableMapOf<String, Long>()
 
-    this.forEach {
-        val dateTime = java.time.ZonedDateTime.parse(it.day).withZoneSameInstant(ZoneId.systemDefault())
-        val sumTime = it.tasks?.values?.sum() ?: 0L
+    this.forEach { daily ->
+        val dateTime = ZonedDateTime
+            .parse(daily.day)
+            .withZoneSameInstant(ZoneId.systemDefault())
+        val sumTime = daily.tasks?.values?.sum() ?: 0L
 
         val updateWeekLineChartData = TdsWeekLineChartData(
             time = sumTime,
@@ -98,12 +101,28 @@ internal fun List<Daily>.toFeatureModel(currentDate: LocalDate): WeekGraphData {
         defaultWeekLineChartData[dateTime.dayOfWeek.value] = updateWeekLineChartData
         totalWeekTime += sumTime
         maxWeekTime = max(maxWeekTime, sumTime)
+        daily.tasks?.let { taskMap -> totalTaskMap.putAll(taskMap) }
     }
 
+    val topLevelTask = totalTaskMap
+        .toList()
+        .sortedByDescending { it.second }
+        .take(5)
+    val topLevelTaskSum = topLevelTask.sumOf { it.second }
+
+    val topLevelTdsTaskData = topLevelTask.map {
+        TdsTaskData(
+            key = it.first,
+            value = it.second.getTimeString(),
+            progress = if (topLevelTaskSum == 0L) 0f else it.second / topLevelTaskSum.toFloat(),
+        )
+    }
     return WeekGraphData(
         weekInformation = currentDate.getWeekInformation(),
         totalWeekTime = totalWeekTime.getTimeString(),
         maxWeekTime = maxWeekTime.getTimeString(),
         weekLineChartData = defaultWeekLineChartData.toList(),
+        topLevelTaskTotal = topLevelTaskSum.getTimeString(),
+        topLevelTdsTaskData = topLevelTdsTaskData,
     )
 }

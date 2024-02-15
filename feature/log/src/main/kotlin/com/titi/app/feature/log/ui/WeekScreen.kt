@@ -27,7 +27,8 @@ fun WeekScreen(
     weekLineChardData: List<TdsWeekLineChartData>,
     weekInformation: Triple<String, String, String>,
     tdsColors: List<TdsColor>,
-    taskData: List<TdsTaskData>,
+    topLevelTaskData: List<TdsTaskData>,
+    topLevelTaskTotal: String,
     currentDate: LocalDate,
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
@@ -66,7 +67,8 @@ fun WeekScreen(
             weekInformation = weekInformation,
             weekLineChardData = weekLineChardData,
             tdsColors = tdsColors,
-            taskData = taskData,
+            topLevelTaskData = topLevelTaskData,
+            topLevelTaskTotal = topLevelTaskTotal,
         )
     }
 }
@@ -149,7 +151,8 @@ private fun WeekScreenPreview() {
             maxTime = "03:00:00",
             weekLineChardData = weekLineChardData,
             tdsColors = tdsColors,
-            taskData = taskData,
+            topLevelTaskData = taskData,
+            topLevelTaskTotal = "08:00:00",
             currentDate = LocalDate.now(),
             onClickDate = {},
             onClickGraphColor = {},

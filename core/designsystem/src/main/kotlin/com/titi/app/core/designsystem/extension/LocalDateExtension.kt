@@ -34,6 +34,8 @@ fun LocalDate.makeDefaultWeekLineChardData(): List<TdsWeekLineChartData> {
                 date = "${startDay.monthValue}/${startDay.dayOfMonth}",
             ),
         )
+
+        startDay = startDay.plusDays(1)
     }
 
     return weekLineChartData.toList()

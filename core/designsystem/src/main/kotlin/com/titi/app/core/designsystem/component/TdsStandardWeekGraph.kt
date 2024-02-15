@@ -23,17 +23,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.titi.app.core.designsystem.extension.getTimeString
-import com.titi.app.core.designsystem.extension.getWeekInformation
 import com.titi.app.core.designsystem.extension.times
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
-import kotlin.math.min
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.ZonedDateTime
 
 @Composable
 fun TdsStandardWeekGraph(
@@ -43,7 +38,8 @@ fun TdsStandardWeekGraph(
     maxTime: String,
     weekLineChardData: List<TdsWeekLineChartData>,
     tdsColors: List<TdsColor>,
-    taskData: List<TdsTaskData>,
+    topLevelTaskData: List<TdsTaskData>,
+    topLevelTaskTotal: String,
 ) {
     BoxWithConstraints(
         modifier = modifier.padding(vertical = 10.dp),
@@ -169,7 +165,7 @@ fun TdsStandardWeekGraph(
                             )
                             .padding(2.dp)
                             .padding(horizontal = 6.dp),
-                        taskData = taskData,
+                        taskData = topLevelTaskData,
                         isSpacing = true,
                         leftText = "Top",
                         height = 20.dp,
@@ -198,7 +194,7 @@ fun TdsStandardWeekGraph(
                         )
 
                         TdsText(
-                            text = "08:00:00",
+                            text = topLevelTaskTotal,
                             textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                             fontSize = (size.value * 0.06).sp,
                             color = tdsColors.first(),
@@ -208,7 +204,7 @@ fun TdsStandardWeekGraph(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(vertical = 3.dp),
-                            taskData = taskData,
+                            taskData = topLevelTaskData,
                             colors = tdsColors.map { it.getColor() },
                         )
                     }
@@ -289,9 +285,8 @@ private fun TdsStandardWeekGraphPreview() {
                 TdsColor.D6,
                 TdsColor.D7,
             ),
-            taskData = taskData
-                .sortedByDescending { it.progress }
-                .subList(0, min(taskData.size, 5)),
+            topLevelTaskData = taskData,
+            topLevelTaskTotal = "08:00:00",
         )
     }
 }

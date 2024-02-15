@@ -57,6 +57,8 @@ data class WeekGraphData(
     val totalWeekTime: String = "",
     val maxWeekTime: String = "",
     val weekLineChartData: List<TdsWeekLineChartData> = emptyList(),
+    val topLevelTaskTotal: String = "",
+    val topLevelTdsTaskData: List<TdsTaskData> = emptyList(),
 )
 
 
