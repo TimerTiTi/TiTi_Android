@@ -191,7 +191,7 @@ fun TdsStandardWeekGraph(
                         Spacer(modifier = Modifier.height(10.dp))
 
                         TdsText(
-                            text = "Total",
+                            text = "Top 5",
                             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                             fontSize = (size.value * 0.04).sp,
                             color = TdsColor.TEXT,
