@@ -6,6 +6,7 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
+import com.titi.app.doamin.daily.usecase.GetWeekDailyUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
 import com.titi.app.feature.log.mapper.toDomainModel
@@ -26,6 +27,7 @@ class LogViewModel @AssistedInject constructor(
     getGraphColorsUseCase: GetGraphColorsUseCase,
     private val updateGraphColorsUseCase: UpdateGraphColorsUseCase,
     private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
+    private val getWeekDailyUseCase: GetWeekDailyUseCase,
 ) : MavericksViewModel<LogUiState>(initialState) {
 
     init {
@@ -48,9 +50,25 @@ class LogViewModel @AssistedInject constructor(
 
     fun updateWeekCurrentDate(date: LocalDate) {
         viewModelScope.launch {
-            setState {
-                copy(weekUiState = weekUiState.copy(currentDate = date))
-            }
+            getWeekDailyUseCase(date)
+                .onSuccess {
+                    setState {
+                        copy(
+                            weekUiState = weekUiState.copy(
+                                currentDate = date,
+                            ),
+                        )
+                    }
+                }
+                .onFailure {
+                    setState {
+                        copy(
+                            weekUiState = weekUiState.copy(
+                                currentDate = date,
+                            ),
+                        )
+                    }
+                }
         }
     }
 

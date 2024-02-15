@@ -73,13 +73,3 @@ fun addTimeLine(
 
     return updateTimeLine.toList()
 }
-
-fun getMondaySunday(currentDate: LocalDate): Pair<LocalDate, LocalDate> {
-    val diffMonday = currentDate.dayOfWeek.value - DayOfWeek.MONDAY.value
-    val diffSunday = DayOfWeek.SUNDAY.value - currentDate.dayOfWeek.value
-
-    val monday = currentDate.minusDays(diffMonday.toLong())
-    val sunday = currentDate.plusDays(diffSunday.toLong())
-
-    return Pair(monday, sunday)
-}

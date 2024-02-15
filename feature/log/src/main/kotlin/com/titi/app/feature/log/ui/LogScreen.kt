@@ -27,10 +27,10 @@ import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TiTiTheme
-import java.time.LocalDate
 import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
+import java.time.LocalDate
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -153,7 +153,9 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
     val uiState by viewModel.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.updateCurrentDateDaily(LocalDate.now())
+        val currentDate = LocalDate.now()
+        viewModel.updateCurrentDateDaily(currentDate)
+        viewModel.updateWeekCurrentDate(currentDate)
     }
 
     Column(
