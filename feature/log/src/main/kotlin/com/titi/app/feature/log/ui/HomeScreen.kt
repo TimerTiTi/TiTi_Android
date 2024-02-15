@@ -35,8 +35,7 @@ import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.ZonedDateTime
+import java.time.LocalDate
 
 @Composable
 fun HomeScreen(
@@ -87,7 +86,6 @@ fun HomeScreen(
         }
 
         WeekCard(
-            todayDateTime = ZonedDateTime.now(ZoneOffset.UTC),
             weekLineChardData = weekLineChardData,
             tdsColors = tdsColors,
         )
@@ -219,11 +217,10 @@ private fun WeekSumCard(themeColor: TdsColor) {
 
 @Composable
 private fun WeekCard(
-    todayDateTime: ZonedDateTime,
     weekLineChardData: List<TdsWeekLineChartData>,
     tdsColors: List<TdsColor>,
 ) {
-    val weekInformation = todayDateTime.getWeekInformation()
+    val weekInformation = LocalDate.now().getWeekInformation()
 
     TdsFilledCard(
         modifier = Modifier

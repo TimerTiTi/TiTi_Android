@@ -53,7 +53,7 @@ fun TdsWeekLineChart(
                     modifier = Modifier
                         .width(itemWidth)
                         .fillMaxHeight(),
-                    time = it.time.toTimeString(),
+                    time = if (it.time == 0L) "" else it.time.toTimeString(),
                     progress = if (maxTime == 0f) {
                         0f
                     } else {

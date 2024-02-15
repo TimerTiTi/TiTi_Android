@@ -19,13 +19,13 @@ import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import java.time.LocalDate
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.ZonedDateTime
 
 @Composable
 fun WeekScreen(
-    todayDateTime: ZonedDateTime,
+    totalTime: String,
+    maxTime: String,
     weekLineChardData: List<TdsWeekLineChartData>,
+    weekInformation: Triple<String, String, String>,
     tdsColors: List<TdsColor>,
     taskData: List<TdsTaskData>,
     currentDate: LocalDate,
@@ -61,7 +61,9 @@ fun WeekScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp),
-            todayDateTime = todayDateTime,
+            totalTime = totalTime,
+            maxTime = maxTime,
+            weekInformation = weekInformation,
             weekLineChardData = weekLineChardData,
             tdsColors = tdsColors,
             taskData = taskData,
@@ -72,7 +74,6 @@ fun WeekScreen(
 @Preview
 @Composable
 private fun WeekScreenPreview() {
-    val todayDateTime = ZonedDateTime.now(ZoneOffset.UTC)
     val weekLineChardData = listOf(
         TdsWeekLineChartData(
             time = 6200,
@@ -143,7 +144,9 @@ private fun WeekScreenPreview() {
 
     TiTiTheme {
         WeekScreen(
-            todayDateTime = todayDateTime,
+            weekInformation = Triple("2024.02", "Week 2", "02.12~02.19"),
+            totalTime = "08:00:00",
+            maxTime = "03:00:00",
             weekLineChardData = weekLineChardData,
             tdsColors = tdsColors,
             taskData = taskData,

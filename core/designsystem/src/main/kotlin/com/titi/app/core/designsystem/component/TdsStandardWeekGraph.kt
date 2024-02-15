@@ -38,13 +38,13 @@ import org.threeten.bp.ZonedDateTime
 @Composable
 fun TdsStandardWeekGraph(
     modifier: Modifier = Modifier,
-    todayDateTime: ZonedDateTime,
+    weekInformation: Triple<String, String, String>,
+    totalTime: String,
+    maxTime: String,
     weekLineChardData: List<TdsWeekLineChartData>,
     tdsColors: List<TdsColor>,
     taskData: List<TdsTaskData>,
 ) {
-    val weekInformation = todayDateTime.getWeekInformation()
-
     BoxWithConstraints(
         modifier = modifier.padding(vertical = 10.dp),
         contentAlignment = Alignment.Center,
@@ -130,7 +130,7 @@ fun TdsStandardWeekGraph(
                         )
 
                         TdsText(
-                            text = weekLineChardData.sumOf { it.time }.getTimeString(),
+                            text = totalTime,
                             textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                             fontSize = (size.value * 0.06).sp,
                             color = tdsColors.first(),
@@ -146,7 +146,7 @@ fun TdsStandardWeekGraph(
                         )
 
                         TdsText(
-                            text = weekLineChardData.maxOf { it.time }.getTimeString(),
+                            text = maxTime,
                             textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                             fontSize = (size.value * 0.06).sp,
                             color = tdsColors.first(),
@@ -247,7 +247,9 @@ private fun TdsStandardWeekGraphPreview() {
     TiTiTheme {
         TdsStandardWeekGraph(
             modifier = Modifier.fillMaxWidth(),
-            todayDateTime = ZonedDateTime.now(ZoneOffset.UTC),
+            totalTime = "08:00:00",
+            maxTime = "03:00:00",
+            weekInformation = Triple("2024.02", "Week 2", "02.12~02.19"),
             weekLineChardData = listOf(
                 TdsWeekLineChartData(
                     time = 6200,

@@ -1,8 +1,10 @@
 package com.titi.app.feature.log.model
 
 import com.airbnb.mvrx.MavericksState
+import com.titi.app.core.designsystem.extension.getWeekInformation
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
+import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.domain.color.model.GraphColor
 import java.time.LocalDate
@@ -47,6 +49,15 @@ data class DailyGraphData(
 
 data class WeekUiState(
     val currentDate: LocalDate = LocalDate.now(),
+    val weekGraphData: WeekGraphData = WeekGraphData(),
 )
+
+data class WeekGraphData(
+    val weekInformation: Triple<String, String, String> = LocalDate.now().getWeekInformation(),
+    val totalWeekTime: String = "",
+    val maxWeekTime: String = "",
+    val weekLineChartData: List<TdsWeekLineChartData> = emptyList(),
+)
+
 
 

@@ -14,6 +14,7 @@ import com.titi.app.feature.log.mapper.toFeatureModel
 import com.titi.app.feature.log.model.DailyGraphData
 import com.titi.app.feature.log.model.GraphColorUiState
 import com.titi.app.feature.log.model.LogUiState
+import com.titi.app.feature.log.model.WeekGraphData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -56,6 +57,7 @@ class LogViewModel @AssistedInject constructor(
                         copy(
                             weekUiState = weekUiState.copy(
                                 currentDate = date,
+                                weekGraphData = it?.toFeatureModel(date) ?: WeekGraphData(),
                             ),
                         )
                     }
@@ -65,6 +67,7 @@ class LogViewModel @AssistedInject constructor(
                         copy(
                             weekUiState = weekUiState.copy(
                                 currentDate = date,
+                                weekGraphData = WeekGraphData(),
                             ),
                         )
                     }
