@@ -1,6 +1,3 @@
-
-
-
 package com.titi.app.core.util
 
 import org.threeten.bp.Duration

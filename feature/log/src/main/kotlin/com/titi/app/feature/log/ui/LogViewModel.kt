@@ -6,25 +6,29 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
+import com.titi.app.doamin.daily.usecase.GetWeekDailyUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
 import com.titi.app.feature.log.mapper.toDomainModel
 import com.titi.app.feature.log.mapper.toFeatureModel
+import com.titi.app.feature.log.model.DailyGraphData
 import com.titi.app.feature.log.model.GraphColorUiState
 import com.titi.app.feature.log.model.LogUiState
+import com.titi.app.feature.log.model.WeekGraphData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import java.time.LocalDate
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class LogViewModel @AssistedInject constructor(
     @Assisted initialState: LogUiState,
     getGraphColorsUseCase: GetGraphColorsUseCase,
     private val updateGraphColorsUseCase: UpdateGraphColorsUseCase,
     private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
+    private val getWeekDailyUseCase: GetWeekDailyUseCase,
 ) : MavericksViewModel<LogUiState>(initialState) {
 
     init {
@@ -47,9 +51,27 @@ class LogViewModel @AssistedInject constructor(
 
     fun updateWeekCurrentDate(date: LocalDate) {
         viewModelScope.launch {
-            setState {
-                copy(weekUiState = weekUiState.copy(currentDate = date))
-            }
+            getWeekDailyUseCase(date)
+                .onSuccess {
+                    setState {
+                        copy(
+                            weekUiState = weekUiState.copy(
+                                currentDate = date,
+                                weekGraphData = it?.toFeatureModel(date) ?: WeekGraphData(),
+                            ),
+                        )
+                    }
+                }
+                .onFailure {
+                    setState {
+                        copy(
+                            weekUiState = weekUiState.copy(
+                                currentDate = date,
+                                weekGraphData = WeekGraphData(),
+                            ),
+                        )
+                    }
+                }
         }
     }
 
@@ -61,7 +83,7 @@ class LogViewModel @AssistedInject constructor(
                         copy(
                             dailyUiState = dailyUiState.copy(
                                 currentDate = date,
-                                daily = it,
+                                dailyGraphData = it?.toFeatureModel() ?: DailyGraphData(),
                             ),
                         )
                     }
@@ -70,7 +92,7 @@ class LogViewModel @AssistedInject constructor(
                         copy(
                             dailyUiState = dailyUiState.copy(
                                 currentDate = date,
-                                daily = null,
+                                dailyGraphData = DailyGraphData(),
                             ),
                         )
                     }

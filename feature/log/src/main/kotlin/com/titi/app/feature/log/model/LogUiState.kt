@@ -1,16 +1,13 @@
 package com.titi.app.feature.log.model
 
 import com.airbnb.mvrx.MavericksState
-import com.titi.app.core.designsystem.extension.getTimeString
+import com.titi.app.core.designsystem.extension.getWeekInformation
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
+import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
-import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.GraphColor
 import java.time.LocalDate
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.ZonedDateTime
-import org.threeten.bp.temporal.ChronoUnit
 
 data class LogUiState(
     val graphColors: GraphColorUiState = GraphColorUiState(),
@@ -39,58 +36,30 @@ data class GraphColorUiState(
 
 data class DailyUiState(
     val currentDate: LocalDate = LocalDate.now(),
-    val daily: Daily? = null,
-) {
-    private val sumTime = daily?.tasks?.values?.sum()
+    val dailyGraphData: DailyGraphData = DailyGraphData(),
+)
 
-    val timeLine = daily?.timeLine
-    val totalTime = sumTime?.getTimeString()
-    val maxTime = daily?.maxTime?.getTimeString()
-    val taskData = daily?.tasks?.map {
-        TdsTaskData(
-            key = it.key,
-            value = it.value.getTimeString(),
-            progress = if (sumTime != null && sumTime > 0L) {
-                it.value / sumTime.toFloat()
-            } else {
-                0f
-            },
-        )
-    }
-    val tdsTimeTableData = daily
-        ?.taskHistories
-        ?.values
-        ?.flatten()
-        ?.flatMap { makeTimeTableData(it.startDate, it.endDate) }
-}
+data class DailyGraphData(
+    val totalTime: String = "",
+    val maxTime: String = "",
+    val timeLine: List<Long> = LongArray(24) { 0L }.toList(),
+    val taskData: List<TdsTaskData> = emptyList(),
+    val tdsTimeTableData: List<TdsTimeTableData> = emptyList(),
+)
 
 data class WeekUiState(
     val currentDate: LocalDate = LocalDate.now(),
+    val weekGraphData: WeekGraphData = WeekGraphData(),
 )
 
-fun makeTimeTableData(startDate: String, endDate: String): List<TdsTimeTableData> {
-    var startZonedDateTime = ZonedDateTime
-        .parse(startDate)
-        .withZoneSameInstant(ZoneOffset.systemDefault())
-    val endZonedDateTime = ZonedDateTime
-        .parse(endDate)
-        .withZoneSameInstant(ZoneOffset.systemDefault())
+data class WeekGraphData(
+    val weekInformation: Triple<String, String, String> = LocalDate.now().getWeekInformation(),
+    val totalWeekTime: String = "",
+    val maxWeekTime: String = "",
+    val weekLineChartData: List<TdsWeekLineChartData> = emptyList(),
+    val topLevelTaskTotal: String = "",
+    val topLevelTdsTaskData: List<TdsTaskData> = emptyList(),
+)
 
-    val timeTableData = mutableListOf<TdsTimeTableData>()
 
-    while (startZonedDateTime.isBefore(endZonedDateTime)) {
-        var nextHour = startZonedDateTime.truncatedTo(ChronoUnit.HOURS).plusHours(1)
-        nextHour = if (nextHour.isBefore(endZonedDateTime)) nextHour else endZonedDateTime
 
-        timeTableData.add(
-            TdsTimeTableData(
-                hour = startZonedDateTime.hour,
-                start = startZonedDateTime.minute * 60 + startZonedDateTime.second,
-                end = nextHour.minute * 60 + nextHour.second,
-            ),
-        )
-        startZonedDateTime = nextHour
-    }
-
-    return timeTableData.toList()
-}

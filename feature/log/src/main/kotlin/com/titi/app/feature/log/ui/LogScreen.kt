@@ -24,13 +24,10 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.component.TdsTabRow
 import com.titi.app.core.designsystem.model.TdsTaskData
-import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TiTiTheme
-import java.time.LocalDate
 import kotlinx.coroutines.launch
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.ZonedDateTime
+import java.time.LocalDate
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -95,30 +92,6 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
         600,
     )
 
-    val timeTableData = listOf(
-        TdsTimeTableData(
-            hour = 3,
-            start = 1800,
-            end = 2400,
-        ),
-        TdsTimeTableData(
-            hour = 5,
-            start = 1234,
-            end = 2555,
-        ),
-        TdsTimeTableData(
-            hour = 12,
-            start = 600,
-            end = 3444,
-        ),
-        TdsTimeTableData(
-            hour = 23,
-            start = 2121,
-            end = 3333,
-        ),
-    )
-
-    val todayDateTime = ZonedDateTime.now(ZoneOffset.UTC)
     val weekLineChardData = listOf(
         TdsWeekLineChartData(
             time = 6200,
@@ -153,7 +126,9 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
     val uiState by viewModel.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.updateCurrentDateDaily(LocalDate.now())
+        val currentDate = LocalDate.now()
+        viewModel.updateCurrentDateDaily(currentDate)
+        viewModel.updateWeekCurrentDate(currentDate)
     }
 
     Column(
@@ -193,12 +168,12 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
 
                 1 -> DailyScreen(
                     currentDate = uiState.dailyUiState.currentDate,
-                    totalTime = uiState.dailyUiState.totalTime ?: "00:00:00",
-                    maxTime = uiState.dailyUiState.maxTime ?: "00:00:00",
-                    taskData = uiState.dailyUiState.taskData ?: emptyList(),
+                    totalTime = uiState.dailyUiState.dailyGraphData.totalTime,
+                    maxTime = uiState.dailyUiState.dailyGraphData.maxTime,
+                    taskData = uiState.dailyUiState.dailyGraphData.taskData,
                     tdsColors = uiState.graphColors.graphColors,
-                    timeLines = uiState.dailyUiState.timeLine ?: LongArray(24) { 0L }.toList(),
-                    timeTableData = uiState.dailyUiState.tdsTimeTableData ?: emptyList(),
+                    timeLines = uiState.dailyUiState.dailyGraphData.timeLine,
+                    timeTableData = uiState.dailyUiState.dailyGraphData.tdsTimeTableData,
                     onClickDate = {
                         viewModel.updateCurrentDateDaily(it)
                     },
@@ -211,10 +186,13 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                 )
 
                 2 -> WeekScreen(
-                    todayDateTime = todayDateTime,
-                    weekLineChardData = weekLineChardData,
+                    weekInformation = uiState.weekUiState.weekGraphData.weekInformation,
+                    totalTime = uiState.weekUiState.weekGraphData.totalWeekTime,
+                    maxTime = uiState.weekUiState.weekGraphData.maxWeekTime,
+                    weekLineChardData = uiState.weekUiState.weekGraphData.weekLineChartData,
                     tdsColors = uiState.graphColors.graphColors,
-                    taskData = taskData,
+                    topLevelTaskTotal = uiState.weekUiState.weekGraphData.topLevelTaskTotal,
+                    topLevelTaskData = uiState.weekUiState.weekGraphData.topLevelTdsTaskData,
                     currentDate = uiState.weekUiState.currentDate,
                     onClickDate = {
                         viewModel.updateWeekCurrentDate(it)
