@@ -10,15 +10,16 @@ import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
 import com.titi.app.feature.log.mapper.toDomainModel
 import com.titi.app.feature.log.mapper.toFeatureModel
+import com.titi.app.feature.log.model.DailyGraphData
 import com.titi.app.feature.log.model.GraphColorUiState
 import com.titi.app.feature.log.model.LogUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import java.time.LocalDate
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class LogViewModel @AssistedInject constructor(
     @Assisted initialState: LogUiState,
@@ -61,7 +62,7 @@ class LogViewModel @AssistedInject constructor(
                         copy(
                             dailyUiState = dailyUiState.copy(
                                 currentDate = date,
-                                daily = it,
+                                dailyGraphData = it?.toFeatureModel() ?: DailyGraphData(),
                             ),
                         )
                     }
@@ -70,7 +71,7 @@ class LogViewModel @AssistedInject constructor(
                         copy(
                             dailyUiState = dailyUiState.copy(
                                 currentDate = date,
-                                daily = null,
+                                dailyGraphData = DailyGraphData(),
                             ),
                         )
                     }
