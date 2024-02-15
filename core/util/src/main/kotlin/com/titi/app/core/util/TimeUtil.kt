@@ -1,9 +1,8 @@
-
-
-
 package com.titi.app.core.util
 
+import org.threeten.bp.DayOfWeek
 import org.threeten.bp.Duration
+import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
@@ -73,4 +72,14 @@ fun addTimeLine(
     }
 
     return updateTimeLine.toList()
+}
+
+fun getMondaySunday(currentDate: LocalDate): Pair<LocalDate, LocalDate> {
+    val diffMonday = currentDate.dayOfWeek.value - DayOfWeek.MONDAY.value
+    val diffSunday = DayOfWeek.SUNDAY.value - currentDate.dayOfWeek.value
+
+    val monday = currentDate.minusDays(diffMonday.toLong())
+    val sunday = currentDate.plusDays(diffSunday.toLong())
+
+    return Pair(monday, sunday)
 }
