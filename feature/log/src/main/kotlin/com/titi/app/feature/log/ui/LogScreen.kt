@@ -198,7 +198,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                     taskData = uiState.dailyUiState.taskData ?: emptyList(),
                     tdsColors = uiState.graphColors.graphColors,
                     timeLines = uiState.dailyUiState.timeLine ?: LongArray(24) { 0L }.toList(),
-                    timeTableData = timeTableData,
+                    timeTableData = uiState.dailyUiState.tdsTimeTableData ?: emptyList(),
                     onClickDate = {
                         viewModel.updateCurrentDateDaily(it)
                     },
