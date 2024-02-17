@@ -7,6 +7,7 @@ import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.core.util.isCurrentDaily
 import com.titi.app.core.util.isCurrentWeek
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.GraphColor
@@ -139,7 +140,7 @@ internal fun List<Daily>.toHomeFeatureModel(currentDate: LocalDate): HomeUiState
     val weekDailies =
         monthDailies.filter { isCurrentWeek(ZonedDateTime.parse(it.day), currentDate) }
     val todayDaily =
-        monthDailies.firstOrNull { isCurrentWeek(ZonedDateTime.parse(it.day), currentDate) }
+        weekDailies.firstOrNull { isCurrentDaily(ZonedDateTime.parse(it.day), currentDate) }
 
     val monthTaskMap = mutableMapOf<String, Long>()
     var monthTotalTime = 0L
