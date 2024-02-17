@@ -41,9 +41,10 @@ data class GraphColorUiState(
 data class HomeUiState(
     val monthDailies: List<Daily> = emptyList(),
 ) {
-    val weekDailies: List<Daily> = monthDailies.filter {
-        isCurrentWeek(ZonedDateTime.parse(it.day), LocalDate.now())
-    }
+    val weekDailies: List<Daily> = monthDailies
+        .filter { isCurrentWeek(ZonedDateTime.parse(it.day), LocalDate.now()) }
+    val currentDaily: Daily? = monthDailies
+        .firstOrNull { isCurrentWeek(ZonedDateTime.parse(it.day), LocalDate.now()) }
 }
 
 data class DailyUiState(
