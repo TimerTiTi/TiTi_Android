@@ -22,7 +22,7 @@ internal class DailyRepositoryImpl @Inject constructor(
         )?.toRepositoryModel()
     }
 
-    override suspend fun getWeekDaily(
+    override suspend fun getDailies(
         startDateTime: String,
         endDateTime: String,
     ): List<DailyRepositoryModel>? {

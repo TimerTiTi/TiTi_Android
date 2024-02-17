@@ -19,7 +19,7 @@ class GetWeekDailyUseCase @Inject constructor(
         val endDateTime = pairMonDaySunDay.second
 
         return runCatching {
-            dailyRepository.getWeekDaily(
+            dailyRepository.getDailies(
                 startDateTime = startDateTime,
                 endDateTime = endDateTime,
             )?.map { it.toDomainModel() }

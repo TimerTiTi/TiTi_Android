@@ -19,10 +19,7 @@ interface DailyRepository {
             .substring(0, 10) + "T23:59:59Z",
     ): DailyRepositoryModel?
 
-    suspend fun getWeekDaily(
-        startDateTime: String,
-        endDateTime: String,
-    ): List<DailyRepositoryModel>?
+    suspend fun getDailies(startDateTime: String, endDateTime: String): List<DailyRepositoryModel>?
 
     fun getDateDailyFlow(
         startDateTime: String = LocalDate
