@@ -24,6 +24,7 @@ import com.titi.app.core.designsystem.component.TdsCard
 import com.titi.app.core.designsystem.component.TdsCircularProgressIndicator
 import com.titi.app.core.designsystem.component.TdsDayOfTheWeek
 import com.titi.app.core.designsystem.component.TdsFilledCard
+import com.titi.app.core.designsystem.component.TdsPieChart
 import com.titi.app.core.designsystem.component.TdsTaskResultList
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTimeLineChart
@@ -91,8 +92,8 @@ fun HomeScreen(
             }
         }
 
-        WeekCard(
-            homeWeekGraphData = homeWeekGraphData,
+        MonthCard(
+            homeMonthGraphData = homeMonthGraphData,
             tdsColors = tdsColors,
         )
 
@@ -154,11 +155,11 @@ private fun TotalCard(tdsColors: List<TdsColor>, taskData: List<TdsTaskData>) {
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            TdsCircularProgressIndicator(
-                modifier = Modifier.size(110.dp),
-                sumTime = 10,
-                maxTime = 100,
-                color = tdsColors.first().getColor(),
+            TdsPieChart(
+                modifier = Modifier.width(110.dp),
+                taskData = taskData,
+                colors = tdsColors.map { it.getColor() },
+                totalTimeString = "123",
             )
 
             Spacer(modifier = Modifier.width(15.dp))
@@ -232,6 +233,43 @@ private fun WeekSumCard(homeWeekPieData: HomeUiState.HomeWeekPieData, themeColor
         )
 
         Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+@Composable
+private fun MonthCard(
+    tdsColors: List<TdsColor>,
+    homeMonthGraphData: HomeUiState.HomeMonthGraphData,
+) {
+    TdsFilledCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(178.dp),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            TdsPieChart(
+                modifier = Modifier.width(110.dp),
+                taskData = homeMonthGraphData.taskData,
+                totalTimeString = homeMonthGraphData.totalTimeSeconds.toString(),
+                colors = tdsColors.map { it.getColor() },
+            )
+
+            Spacer(modifier = Modifier.width(15.dp))
+
+            TdsTaskResultList(
+                modifier = Modifier.weight(1f),
+                taskData = homeMonthGraphData.taskData,
+                colors = tdsColors.map { it.getColor() },
+                isSpacing = true,
+                height = 20.dp,
+                leftText = "Top",
+            )
+        }
     }
 }
 

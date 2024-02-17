@@ -4,6 +4,7 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -21,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.min
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable
@@ -29,6 +31,7 @@ fun TdsPieChart(
     taskData: List<TdsTaskData>,
     colors: List<Color>,
     containsDonut: Boolean = false,
+    totalTimeString: String? = null,
     animationSpec: AnimationSpec<Float> = TweenSpec(durationMillis = 500),
 ) {
     val transitionProgress = remember(taskData) {
@@ -48,6 +51,7 @@ fun TdsPieChart(
         colors = colors,
         progress = transitionProgress.value,
         containsDonut = containsDonut,
+        totalTimeString = totalTimeString,
     )
 }
 
@@ -57,7 +61,8 @@ private fun TdsPieChart(
     taskData: List<TdsTaskData>,
     colors: List<Color>,
     progress: Float,
-    containsDonut: Boolean = false,
+    containsDonut: Boolean,
+    totalTimeString: String?,
 ) {
     var startAngle = 270f
     val density = LocalDensity.current
@@ -69,7 +74,7 @@ private fun TdsPieChart(
         val radius = with(density) { (min(maxWidth, maxHeight) / 3).toPx() }
         val centerX = with(density) { (maxWidth / 2).toPx() }
         val centerY = with(density) { (maxHeight / 2).toPx() }
-        val holeRadiusPercent = if (containsDonut) {
+        val holeRadiusPercent = if (containsDonut || totalTimeString != null) {
             0.5f
         } else {
             0f
@@ -107,14 +112,28 @@ private fun TdsPieChart(
             }
         }
 
-        if (containsDonut) {
-            TdsTaskResultList(
-                modifier = Modifier.size(holeRadiusDp * 2),
-                taskData = taskData,
-                isSpacing = false,
-                height = holeRadiusDp * 2 / 5,
-                colors = colors,
-            )
+        if (containsDonut || totalTimeString != null) {
+            if (totalTimeString == null) {
+                TdsTaskResultList(
+                    modifier = Modifier.size(holeRadiusDp * 2),
+                    taskData = taskData,
+                    isSpacing = false,
+                    height = holeRadiusDp * 2 / 5,
+                    colors = colors,
+                )
+            } else {
+                Box(
+                    modifier = Modifier.size(holeRadiusDp * 2),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    TdsText(
+                        text = totalTimeString,
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                        fontSize = with(density) { (holeRadius).toSp() },
+                        color = TdsColor.TEXT,
+                    )
+                }
+            }
         }
     }
 }
@@ -125,7 +144,8 @@ private fun TdsPieChartPreview() {
     TiTiTheme {
         TdsPieChart(
             modifier = Modifier.fillMaxSize(),
-            containsDonut = true,
+            containsDonut = false,
+            totalTimeString = "300",
             taskData = listOf(
                 TdsTaskData(
                     key = "수업",
