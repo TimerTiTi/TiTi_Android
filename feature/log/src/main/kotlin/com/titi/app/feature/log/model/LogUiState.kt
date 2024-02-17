@@ -55,7 +55,7 @@ data class WeekUiState(
 data class WeekGraphData(
     val weekInformation: Triple<String, String, String> = LocalDate.now().getWeekInformation(),
     val totalWeekTime: String = "",
-    val maxWeekTime: String = "",
+    val averageWeekTime: String = "",
     val weekLineChartData: List<TdsWeekLineChartData> = emptyList(),
     val topLevelTaskTotal: String = "",
     val topLevelTdsTaskData: List<TdsTaskData> = emptyList(),

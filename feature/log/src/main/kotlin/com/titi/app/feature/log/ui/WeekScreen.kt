@@ -23,7 +23,7 @@ import java.time.LocalDate
 @Composable
 fun WeekScreen(
     totalTime: String,
-    maxTime: String,
+    averageTime: String,
     weekLineChardData: List<TdsWeekLineChartData>,
     weekInformation: Triple<String, String, String>,
     tdsColors: List<TdsColor>,
@@ -63,7 +63,7 @@ fun WeekScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp),
             totalTime = totalTime,
-            maxTime = maxTime,
+            averageTime = averageTime,
             weekInformation = weekInformation,
             weekLineChardData = weekLineChardData,
             tdsColors = tdsColors,
@@ -148,7 +148,7 @@ private fun WeekScreenPreview() {
         WeekScreen(
             weekInformation = Triple("2024.02", "Week 2", "02.12~02.19"),
             totalTime = "08:00:00",
-            maxTime = "03:00:00",
+            averageTime = "03:00:00",
             weekLineChardData = weekLineChardData,
             tdsColors = tdsColors,
             topLevelTaskData = taskData,

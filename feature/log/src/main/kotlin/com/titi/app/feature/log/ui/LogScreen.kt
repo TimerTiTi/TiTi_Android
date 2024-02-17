@@ -188,7 +188,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                 2 -> WeekScreen(
                     weekInformation = uiState.weekUiState.weekGraphData.weekInformation,
                     totalTime = uiState.weekUiState.weekGraphData.totalWeekTime,
-                    maxTime = uiState.weekUiState.weekGraphData.maxWeekTime,
+                    averageTime = uiState.weekUiState.weekGraphData.averageWeekTime,
                     weekLineChardData = uiState.weekUiState.weekGraphData.weekLineChartData,
                     tdsColors = uiState.graphColors.graphColors,
                     topLevelTaskTotal = uiState.weekUiState.weekGraphData.topLevelTaskTotal,

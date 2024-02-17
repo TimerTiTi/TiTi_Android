@@ -17,7 +17,6 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
-import kotlin.math.max
 
 internal fun GraphColor.toFeatureModel() = GraphColorUiState(
     selectedIndex = selectedIndex,
@@ -84,7 +83,7 @@ internal fun List<Daily>.toFeatureModel(currentDate: LocalDate): WeekGraphData {
         .toMutableList()
 
     var totalWeekTime = 0L
-    var maxWeekTime = 0L
+    var studyCount = 0
     val totalTaskMap = mutableMapOf<String, Long>()
 
     this.forEach { daily ->
@@ -100,7 +99,9 @@ internal fun List<Daily>.toFeatureModel(currentDate: LocalDate): WeekGraphData {
 
         defaultWeekLineChartData[dateTime.dayOfWeek.value] = updateWeekLineChartData
         totalWeekTime += sumTime
-        maxWeekTime = max(maxWeekTime, sumTime)
+        if (sumTime > 0) {
+            studyCount++
+        }
         daily.tasks?.let { taskMap -> totalTaskMap.putAll(taskMap) }
     }
 
@@ -120,7 +121,11 @@ internal fun List<Daily>.toFeatureModel(currentDate: LocalDate): WeekGraphData {
     return WeekGraphData(
         weekInformation = currentDate.getWeekInformation(),
         totalWeekTime = totalWeekTime.getTimeString(),
-        maxWeekTime = maxWeekTime.getTimeString(),
+        averageWeekTime = if (studyCount > 0) {
+            (totalWeekTime / studyCount).getTimeString()
+        } else {
+            0L.getTimeString()
+        },
         weekLineChartData = defaultWeekLineChartData.toList(),
         topLevelTaskTotal = topLevelTaskSum.getTimeString(),
         topLevelTdsTaskData = topLevelTdsTaskData,

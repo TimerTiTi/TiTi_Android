@@ -35,7 +35,7 @@ fun TdsStandardWeekGraph(
     modifier: Modifier = Modifier,
     weekInformation: Triple<String, String, String>,
     totalTime: String,
-    maxTime: String,
+    averageTime: String,
     weekLineChardData: List<TdsWeekLineChartData>,
     tdsColors: List<TdsColor>,
     topLevelTaskData: List<TdsTaskData>,
@@ -135,14 +135,14 @@ fun TdsStandardWeekGraph(
                         Spacer(modifier = Modifier.height(4.dp))
 
                         TdsText(
-                            text = "Max",
+                            text = "Average",
                             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                             fontSize = (size.value * 0.04).sp,
                             color = TdsColor.TEXT,
                         )
 
                         TdsText(
-                            text = maxTime,
+                            text = averageTime,
                             textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                             fontSize = (size.value * 0.06).sp,
                             color = tdsColors.first(),
@@ -244,7 +244,7 @@ private fun TdsStandardWeekGraphPreview() {
         TdsStandardWeekGraph(
             modifier = Modifier.fillMaxWidth(),
             totalTime = "08:00:00",
-            maxTime = "03:00:00",
+            averageTime = "03:00:00",
             weekInformation = Triple("2024.02", "Week 2", "02.12~02.19"),
             weekLineChardData = listOf(
                 TdsWeekLineChartData(
