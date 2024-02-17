@@ -99,6 +99,22 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(11.dp))
 
         TdsText(
+            text = "Month",
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+            color = TdsColor.TEXT,
+            fontSize = 11.sp,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        WeekCard(
+            homeWeekGraphData = homeWeekGraphData,
+            tdsColors = tdsColors,
+        )
+
+        Spacer(modifier = Modifier.height(11.dp))
+
+        TdsText(
             text = "Week",
             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             color = TdsColor.TEXT,
