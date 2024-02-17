@@ -6,9 +6,11 @@ import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.core.util.isCurrentWeek
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.GraphColor
 import java.time.LocalDate
+import java.time.ZonedDateTime
 
 data class LogUiState(
     val graphColors: GraphColorUiState = GraphColorUiState(),
@@ -38,8 +40,11 @@ data class GraphColorUiState(
 
 data class HomeUiState(
     val monthDailies: List<Daily> = emptyList(),
-    val weekDailies: List<Daily> = emptyList(),
-)
+) {
+    val weekDailies: List<Daily> = monthDailies.filter {
+        isCurrentWeek(ZonedDateTime.parse(it.day), LocalDate.now())
+    }
+}
 
 data class DailyUiState(
     val currentDate: LocalDate = LocalDate.now(),
