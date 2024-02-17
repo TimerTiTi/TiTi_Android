@@ -163,10 +163,9 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                 0 -> HomeScreen(
                     tdsColors = uiState.graphColors.graphColors,
                     taskData = taskData,
-                    weekLineChardData = weekLineChardData,
-                    todayDate = uiState.homeUiState.homeDailyGraphData.todayDate,
-                    todayDayOfTheWeek = uiState.homeUiState.homeDailyGraphData.todayDayOfTheWeek,
-                    timeLines = uiState.homeUiState.homeDailyGraphData.timeLines,
+                    homeWeekPieData = uiState.homeUiState.homeWeekPieData,
+                    homeWeekGraphData = uiState.homeUiState.homeWeekGraphData,
+                    homeDailyGraphData = uiState.homeUiState.homeDailyGraphData,
                 )
 
                 1 -> DailyScreen(
