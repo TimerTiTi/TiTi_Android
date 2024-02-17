@@ -6,6 +6,7 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
+import com.titi.app.doamin.daily.usecase.GetMonthDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetWeekDailyUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
@@ -13,6 +14,7 @@ import com.titi.app.feature.log.mapper.toDomainModel
 import com.titi.app.feature.log.mapper.toFeatureModel
 import com.titi.app.feature.log.model.DailyGraphData
 import com.titi.app.feature.log.model.GraphColorUiState
+import com.titi.app.feature.log.model.HomeUiState
 import com.titi.app.feature.log.model.LogUiState
 import com.titi.app.feature.log.model.WeekGraphData
 import dagger.assisted.Assisted
@@ -27,6 +29,7 @@ class LogViewModel @AssistedInject constructor(
     @Assisted initialState: LogUiState,
     getGraphColorsUseCase: GetGraphColorsUseCase,
     private val updateGraphColorsUseCase: UpdateGraphColorsUseCase,
+    private val getMonthDailyUseCase: GetMonthDailyUseCase,
     private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
     private val getWeekDailyUseCase: GetWeekDailyUseCase,
 ) : MavericksViewModel<LogUiState>(initialState) {
@@ -49,7 +52,29 @@ class LogViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateWeekCurrentDate(date: LocalDate) {
+    fun updateCurrentDateHome(date: LocalDate) {
+        viewModelScope.launch {
+            getMonthDailyUseCase(date)
+                .onSuccess {
+                    setState {
+                        copy(
+                            homeUiState = homeUiState.copy(
+                                monthDailies = it ?: emptyList(),
+                            ),
+                        )
+                    }
+                }
+                .onFailure {
+                    setState {
+                        copy(
+                            homeUiState = HomeUiState(),
+                        )
+                    }
+                }
+        }
+    }
+
+    fun updateCurrentDateWeek(date: LocalDate) {
         viewModelScope.launch {
             getWeekDailyUseCase(date)
                 .onSuccess {

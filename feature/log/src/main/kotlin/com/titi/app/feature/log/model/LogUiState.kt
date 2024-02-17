@@ -6,11 +6,13 @@ import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.GraphColor
 import java.time.LocalDate
 
 data class LogUiState(
     val graphColors: GraphColorUiState = GraphColorUiState(),
+    val homeUiState: HomeUiState = HomeUiState(),
     val dailyUiState: DailyUiState = DailyUiState(),
     val weekUiState: WeekUiState = WeekUiState(),
 ) : MavericksState
@@ -32,6 +34,11 @@ data class GraphColorUiState(
         TdsColor.D11,
         TdsColor.D12,
     ),
+)
+
+data class HomeUiState(
+    val monthDailies: List<Daily> = emptyList(),
+    val weekDailies: List<Daily> = emptyList(),
 )
 
 data class DailyUiState(

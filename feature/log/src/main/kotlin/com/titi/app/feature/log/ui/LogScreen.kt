@@ -127,8 +127,9 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
 
     LaunchedEffect(Unit) {
         val currentDate = LocalDate.now()
+        viewModel.updateCurrentDateHome(currentDate)
         viewModel.updateCurrentDateDaily(currentDate)
-        viewModel.updateWeekCurrentDate(currentDate)
+        viewModel.updateCurrentDateWeek(currentDate)
     }
 
     Column(
@@ -195,7 +196,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                     topLevelTaskData = uiState.weekUiState.weekGraphData.topLevelTdsTaskData,
                     currentDate = uiState.weekUiState.currentDate,
                     onClickDate = {
-                        viewModel.updateWeekCurrentDate(it)
+                        viewModel.updateCurrentDateWeek(it)
                     },
                     onClickGraphColor = {
                         viewModel.updateGraphColors(
