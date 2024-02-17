@@ -60,6 +60,3 @@ data class WeekGraphData(
     val topLevelTaskTotal: String = "",
     val topLevelTdsTaskData: List<TdsTaskData> = emptyList(),
 )
-
-
-

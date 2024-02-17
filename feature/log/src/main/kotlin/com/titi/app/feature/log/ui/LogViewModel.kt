@@ -18,10 +18,10 @@ import com.titi.app.feature.log.model.WeekGraphData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import java.time.LocalDate
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 
 class LogViewModel @AssistedInject constructor(
     @Assisted initialState: LogUiState,

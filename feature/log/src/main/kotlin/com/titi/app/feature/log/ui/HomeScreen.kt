@@ -216,10 +216,7 @@ private fun WeekSumCard(themeColor: TdsColor) {
 }
 
 @Composable
-private fun WeekCard(
-    weekLineChardData: List<TdsWeekLineChartData>,
-    tdsColors: List<TdsColor>,
-) {
+private fun WeekCard(weekLineChardData: List<TdsWeekLineChartData>, tdsColors: List<TdsColor>) {
     val weekInformation = LocalDate.now().getWeekInformation()
 
     TdsFilledCard(

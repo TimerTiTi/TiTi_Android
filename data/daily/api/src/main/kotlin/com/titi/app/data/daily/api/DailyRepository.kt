@@ -1,9 +1,9 @@
 package com.titi.app.data.daily.api
 
 import com.titi.app.data.daily.api.model.DailyRepositoryModel
-import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.time.ZoneOffset
+import kotlinx.coroutines.flow.Flow
 
 interface DailyRepository {
     suspend fun getDateDaily(
