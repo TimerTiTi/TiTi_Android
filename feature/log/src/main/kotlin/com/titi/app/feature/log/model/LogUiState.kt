@@ -39,6 +39,8 @@ data class GraphColorUiState(
 )
 
 data class HomeUiState(
+    val homeMonthPieData: HomeMonthPieData = HomeMonthPieData(),
+    val homeMonthGraphData: HomeMonthGraphData = HomeMonthGraphData(),
     val homeWeekPieData: HomeWeekPieData = HomeWeekPieData(),
     val homeWeekGraphData: HomeWeekGraphData = HomeWeekGraphData(),
     val homeDailyGraphData: HomeDailyGraphData = HomeDailyGraphData(),
@@ -48,6 +50,16 @@ data class HomeUiState(
         .filter { isCurrentWeek(ZonedDateTime.parse(it.day), LocalDate.now()) }
     val currentDaily: Daily? = monthDailies
         .firstOrNull { isCurrentWeek(ZonedDateTime.parse(it.day), LocalDate.now()) }
+
+    data class HomeMonthPieData(
+        val totalTimeSeconds: Long = 0,
+        val defaultTimeSeconds: Long = 360000,
+    )
+
+    data class HomeMonthGraphData(
+        val totalTimeSeconds: Long = 0,
+        val taskData: List<TdsTaskData> = emptyList(),
+    )
 
     data class HomeWeekPieData(
         val totalTimeSeconds: Long = 0,

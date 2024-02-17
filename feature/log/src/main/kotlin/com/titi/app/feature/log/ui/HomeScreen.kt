@@ -38,6 +38,8 @@ import com.titi.app.feature.log.model.HomeUiState
 fun HomeScreen(
     tdsColors: List<TdsColor>,
     taskData: List<TdsTaskData>,
+    homeMonthPieData: HomeUiState.HomeMonthPieData,
+    homeMonthGraphData: HomeUiState.HomeMonthGraphData,
     homeWeekPieData: HomeUiState.HomeWeekPieData,
     homeWeekGraphData: HomeUiState.HomeWeekGraphData,
     homeDailyGraphData: HomeUiState.HomeDailyGraphData,
@@ -77,7 +79,10 @@ fun HomeScreen(
                 modifier = Modifier.width(width),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                MonthSumCard(themeColor = tdsColors.first())
+                MonthSumCard(
+                    homeMonthPieData = homeMonthPieData,
+                    themeColor = tdsColors.first(),
+                )
 
                 WeekSumCard(
                     homeWeekPieData = homeWeekPieData,
@@ -155,7 +160,7 @@ private fun TotalCard(tdsColors: List<TdsColor>, taskData: List<TdsTaskData>) {
 }
 
 @Composable
-private fun MonthSumCard(themeColor: TdsColor) {
+private fun MonthSumCard(homeMonthPieData: HomeUiState.HomeMonthPieData, themeColor: TdsColor) {
     Column(
         modifier = Modifier.wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -165,8 +170,8 @@ private fun MonthSumCard(themeColor: TdsColor) {
         ) {
             TdsCircularProgressIndicator(
                 modifier = Modifier.size(110.dp),
-                sumTime = 10,
-                maxTime = 100,
+                sumTime = homeMonthPieData.totalTimeSeconds,
+                maxTime = homeMonthPieData.defaultTimeSeconds,
                 color = themeColor.getColor(),
             )
         }
@@ -409,6 +414,8 @@ private fun HomeScreenPreview() {
         HomeScreen(
             tdsColors = tdsColors,
             taskData = taskData,
+            homeMonthPieData = HomeUiState.HomeMonthPieData(),
+            homeMonthGraphData = HomeUiState.HomeMonthGraphData(),
             homeWeekPieData = HomeUiState.HomeWeekPieData(),
             homeWeekGraphData = HomeUiState.HomeWeekGraphData(),
             homeDailyGraphData = HomeUiState.HomeDailyGraphData(),
