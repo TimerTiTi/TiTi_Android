@@ -12,6 +12,8 @@ import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
 import com.titi.app.feature.log.mapper.toDomainModel
 import com.titi.app.feature.log.mapper.toFeatureModel
+import com.titi.app.feature.log.mapper.toHomeFeatureModel
+import com.titi.app.feature.log.mapper.toWeekFeatureModel
 import com.titi.app.feature.log.model.DailyGraphData
 import com.titi.app.feature.log.model.GraphColorUiState
 import com.titi.app.feature.log.model.HomeUiState
@@ -59,7 +61,8 @@ class LogViewModel @AssistedInject constructor(
                     setState {
                         copy(
                             homeUiState = homeUiState.copy(
-                                monthDailies = it ?: emptyList(),
+                                homeGraphData = it?.toHomeFeatureModel(date)
+                                    ?: HomeUiState.HomeGraphData(),
                             ),
                         )
                     }
@@ -82,7 +85,7 @@ class LogViewModel @AssistedInject constructor(
                         copy(
                             weekUiState = weekUiState.copy(
                                 currentDate = date,
-                                weekGraphData = it?.toFeatureModel(date) ?: WeekGraphData(),
+                                weekGraphData = it?.toWeekFeatureModel(date) ?: WeekGraphData(),
                             ),
                         )
                     }

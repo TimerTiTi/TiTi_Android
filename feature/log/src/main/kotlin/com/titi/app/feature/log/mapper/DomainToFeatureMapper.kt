@@ -7,10 +7,12 @@ import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.core.util.isCurrentWeek
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.GraphColor
 import com.titi.app.feature.log.model.DailyGraphData
 import com.titi.app.feature.log.model.GraphColorUiState
+import com.titi.app.feature.log.model.HomeUiState
 import com.titi.app.feature.log.model.WeekGraphData
 import java.time.LocalDate
 import java.time.ZoneId
@@ -77,7 +79,7 @@ internal fun makeTimeTableData(startDate: String, endDate: String): List<TdsTime
     return timeTableData.toList()
 }
 
-internal fun List<Daily>.toFeatureModel(currentDate: LocalDate): WeekGraphData {
+internal fun List<Daily>.toWeekFeatureModel(currentDate: LocalDate): WeekGraphData {
     val defaultWeekLineChartData = currentDate
         .makeDefaultWeekLineChardData()
         .toMutableList()
@@ -97,7 +99,7 @@ internal fun List<Daily>.toFeatureModel(currentDate: LocalDate): WeekGraphData {
             date = "${dateTime.month.value}/${dateTime.dayOfMonth}",
         )
 
-        defaultWeekLineChartData[dateTime.dayOfWeek.value] = updateWeekLineChartData
+        defaultWeekLineChartData[dateTime.dayOfWeek.value - 1] = updateWeekLineChartData
         totalWeekTime += sumTime
         if (sumTime > 0) {
             studyCount++
@@ -129,5 +131,79 @@ internal fun List<Daily>.toFeatureModel(currentDate: LocalDate): WeekGraphData {
         weekLineChartData = defaultWeekLineChartData.toList(),
         topLevelTaskTotal = topLevelTaskSum.getTimeString(),
         topLevelTdsTaskData = topLevelTdsTaskData,
+    )
+}
+
+internal fun List<Daily>.toHomeFeatureModel(currentDate: LocalDate): HomeUiState.HomeGraphData {
+    val monthDailies = this
+    val weekDailies =
+        monthDailies.filter { isCurrentWeek(ZonedDateTime.parse(it.day), currentDate) }
+    val todayDaily =
+        monthDailies.firstOrNull { isCurrentWeek(ZonedDateTime.parse(it.day), currentDate) }
+
+    val monthTaskMap = mutableMapOf<String, Long>()
+    var monthTotalTime = 0L
+    monthDailies.forEach { daily ->
+        daily.tasks?.let { task ->
+            monthTaskMap.putAll(task)
+            monthTotalTime += task.values.sum()
+        }
+    }
+    val monthTopTaskData = monthTaskMap
+        .toList()
+        .sortedByDescending { it.second }
+        .take(5)
+    val monthTopTaskSum = monthTopTaskData.sumOf { it.second }
+    val monthTopTdsTaskData = monthTopTaskData.map {
+        TdsTaskData(
+            key = it.first,
+            value = it.second.getTimeString(),
+            progress = if (monthTopTaskSum == 0L) 0f else it.second / monthTopTaskSum.toFloat(),
+        )
+    }
+
+    var weekTotalTime = 0L
+    var weekStudyCount = 9
+    val weekLineChartData = currentDate.makeDefaultWeekLineChardData().toMutableList()
+
+    weekDailies.forEach { daily ->
+        val dateTime = ZonedDateTime
+            .parse(daily.day)
+            .withZoneSameInstant(ZoneId.systemDefault())
+        val sumTime = daily.tasks?.values?.sum() ?: 0L
+
+        val updateWeekLineChartData = TdsWeekLineChartData(
+            time = sumTime,
+            date = "${dateTime.month.value}/${dateTime.dayOfMonth}",
+        )
+
+        weekLineChartData[dateTime.dayOfWeek.value - 1] = updateWeekLineChartData
+        weekTotalTime += sumTime
+        if (sumTime > 0) {
+            weekStudyCount++
+        }
+    }
+
+    return HomeUiState.HomeGraphData(
+        homeMonthPieData = HomeUiState.HomeMonthPieData(
+            totalTimeSeconds = monthTotalTime,
+        ),
+        homeMonthGraphData = HomeUiState.HomeMonthGraphData(
+            totalTimeSeconds = monthTotalTime,
+            taskData = monthTopTdsTaskData,
+        ),
+        homeWeekPieData = HomeUiState.HomeWeekPieData(
+            totalTimeSeconds = weekTotalTime,
+        ),
+        homeWeekGraphData = HomeUiState.HomeWeekGraphData(
+            weekInformation = currentDate.getWeekInformation(),
+            totalWeekTime = weekTotalTime.getTimeString(),
+            averageWeekTime = (weekTotalTime / weekStudyCount).getTimeString(),
+            weekLineChartData = weekLineChartData,
+        ),
+        homeDailyGraphData = HomeUiState.HomeDailyGraphData(
+            currentDate = currentDate,
+            timeLines = todayDaily?.timeLine ?: LongArray(24) { 0L }.toList(),
+        ),
     )
 }

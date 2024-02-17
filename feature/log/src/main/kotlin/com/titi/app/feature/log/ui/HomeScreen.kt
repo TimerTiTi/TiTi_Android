@@ -255,7 +255,7 @@ private fun MonthCard(
             TdsPieChart(
                 modifier = Modifier.width(110.dp),
                 taskData = homeMonthGraphData.taskData,
-                totalTimeString = homeMonthGraphData.totalTimeSeconds.toString(),
+                totalTimeString = (homeMonthGraphData.totalTimeSeconds / 3600).toString(),
                 colors = tdsColors.map { it.getColor() },
             )
 
