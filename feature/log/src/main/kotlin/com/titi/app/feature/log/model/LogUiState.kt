@@ -39,12 +39,21 @@ data class GraphColorUiState(
 )
 
 data class HomeUiState(
+    val homeDailyGraphData: HomeDailyGraphData = HomeDailyGraphData(),
     val monthDailies: List<Daily> = emptyList(),
 ) {
     val weekDailies: List<Daily> = monthDailies
         .filter { isCurrentWeek(ZonedDateTime.parse(it.day), LocalDate.now()) }
     val currentDaily: Daily? = monthDailies
         .firstOrNull { isCurrentWeek(ZonedDateTime.parse(it.day), LocalDate.now()) }
+
+    data class HomeDailyGraphData(
+        val currentDate: LocalDate = LocalDate.now(),
+        val timeLines: List<Long> = LongArray(24) { 0L }.toList(),
+    ) {
+        val todayDate = currentDate.toString().replace('-', '.')
+        val todayDayOfTheWeek = currentDate.dayOfWeek.value
+    }
 }
 
 data class DailyUiState(
