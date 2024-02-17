@@ -24,7 +24,6 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.component.TdsTabRow
 import com.titi.app.core.designsystem.model.TdsTaskData
-import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import java.time.LocalDate
 import kotlinx.coroutines.launch
@@ -62,64 +61,6 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
             key = "개발",
             value = "03:00:00",
             progress = 0.3f,
-        ),
-    )
-
-    val timeLines = listOf(
-        3600L,
-        1200,
-        300,
-        400,
-        100,
-        600,
-        800,
-        1200,
-        300,
-        400,
-        100,
-        600,
-        800,
-        1200,
-        300,
-        400,
-        100,
-        600,
-        800,
-        1200,
-        300,
-        400,
-        100,
-        600,
-    )
-
-    val weekLineChardData = listOf(
-        TdsWeekLineChartData(
-            time = 6200,
-            date = "1/12",
-        ),
-        TdsWeekLineChartData(
-            time = 3700,
-            date = "1/13",
-        ),
-        TdsWeekLineChartData(
-            time = 5200,
-            date = "1/14",
-        ),
-        TdsWeekLineChartData(
-            time = 1042,
-            date = "1/15",
-        ),
-        TdsWeekLineChartData(
-            time = 4536,
-            date = "1/16",
-        ),
-        TdsWeekLineChartData(
-            time = 3700,
-            date = "1/17",
-        ),
-        TdsWeekLineChartData(
-            time = 2455,
-            date = "1/18",
         ),
     )
 
