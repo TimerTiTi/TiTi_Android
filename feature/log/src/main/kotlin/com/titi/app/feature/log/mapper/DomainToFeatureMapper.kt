@@ -31,7 +31,7 @@ internal fun Daily.toFeatureModel(): DailyGraphData {
     val sumTime = tasks?.values?.sum()
 
     return DailyGraphData(
-        totalTime = sumTime?.getTimeString() ?: "",
+        totalTime = sumTime?.getTimeString() ?: "00:00:00",
         maxTime = maxTime.getTimeString(),
         timeLine = timeLine,
         taskData = tasks?.map {
