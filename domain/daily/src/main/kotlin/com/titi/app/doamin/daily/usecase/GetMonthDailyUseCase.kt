@@ -11,21 +11,20 @@ import javax.inject.Inject
 class GetMonthDailyUseCase @Inject constructor(
     private val dailyRepository: DailyRepository,
 ) {
-    suspend operator fun invoke(currentDate: LocalDate): Result<List<Daily>?> {
-        return runCatching {
-            dailyRepository.getDailies(
-                startDateTime = currentDate
-                    .withDayOfMonth(1)
-                    .atStartOfDay()
-                    .atZone(ZoneOffset.systemDefault())
-                    .withZoneSameInstant(ZoneOffset.UTC)
-                    .toString(),
-                endDateTime = currentDate
-                    .atTime(23, 59, 59)
-                    .atZone(ZoneId.systemDefault())
-                    .withZoneSameInstant(ZoneOffset.UTC)
-                    .toString(),
-            )?.map { it.toDomainModel() }
-        }
+    suspend operator fun invoke(currentDate: LocalDate): List<Daily> {
+        return dailyRepository.getDailies(
+            startDateTime = currentDate
+                .withDayOfMonth(1)
+                .atStartOfDay()
+                .atZone(ZoneOffset.systemDefault())
+                .withZoneSameInstant(ZoneOffset.UTC)
+                .toString(),
+            endDateTime = currentDate
+                .atTime(23, 59, 59)
+                .atZone(ZoneId.systemDefault())
+                .withZoneSameInstant(ZoneOffset.UTC)
+                .toString(),
+        )?.map { it.toDomainModel() }
+            ?: emptyList()
     }
 }

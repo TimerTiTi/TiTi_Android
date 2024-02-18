@@ -5,6 +5,7 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
+import com.titi.app.doamin.daily.usecase.GetAllDailiesTasksUseCase
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetMonthDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetWeekDailyUseCase
@@ -23,6 +24,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import java.time.LocalDate
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
@@ -31,6 +33,7 @@ class LogViewModel @AssistedInject constructor(
     @Assisted initialState: LogUiState,
     getGraphColorsUseCase: GetGraphColorsUseCase,
     private val updateGraphColorsUseCase: UpdateGraphColorsUseCase,
+    private val getAllDailiesTasksUseCase: GetAllDailiesTasksUseCase,
     private val getMonthDailyUseCase: GetMonthDailyUseCase,
     private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
     private val getWeekDailyUseCase: GetWeekDailyUseCase,
@@ -55,25 +58,30 @@ class LogViewModel @AssistedInject constructor(
     }
 
     fun updateCurrentDateHome(date: LocalDate) {
-        viewModelScope.launch {
+        val totalAsync = viewModelScope.async {
+            getAllDailiesTasksUseCase()
+        }
+
+        val graphData = viewModelScope.async {
             getMonthDailyUseCase(date)
-                .onSuccess {
-                    setState {
-                        copy(
-                            homeUiState = homeUiState.copy(
-                                homeGraphData = it?.toHomeFeatureModel(date)
-                                    ?: HomeUiState.HomeGraphData(),
-                            ),
-                        )
-                    }
+        }
+
+        viewModelScope.launch {
+            runCatching {
+                Pair(totalAsync.await(), graphData.await()).toHomeFeatureModel(date)
+            }.onSuccess {
+                setState {
+                    copy(
+                        homeUiState = it,
+                    )
                 }
-                .onFailure {
-                    setState {
-                        copy(
-                            homeUiState = HomeUiState(),
-                        )
-                    }
+            }.onFailure {
+                setState {
+                    copy(
+                        homeUiState = HomeUiState(),
+                    )
                 }
+            }
         }
     }
 

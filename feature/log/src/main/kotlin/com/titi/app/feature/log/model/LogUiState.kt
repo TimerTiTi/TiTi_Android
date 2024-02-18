@@ -37,8 +37,14 @@ data class GraphColorUiState(
 )
 
 data class HomeUiState(
+    val totalData: TotalData = TotalData(),
     val homeGraphData: HomeGraphData = HomeGraphData(),
 ) {
+    data class TotalData(
+        val totalTimeSeconds: Long = 0L,
+        val topTotalTdsTaskData: List<TdsTaskData> = emptyList(),
+    )
+
     data class HomeGraphData(
         val homeMonthPieData: HomeMonthPieData = HomeMonthPieData(),
         val homeMonthGraphData: HomeMonthGraphData = HomeMonthGraphData(),
