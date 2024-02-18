@@ -11,24 +11,27 @@ internal interface DailyDao {
 
     @Query(
         "SELECT * FROM dailies " +
-                " WHERE datetime(day) " +
-                "BETWEEN datetime(:startDateTime) AND datetime(:endDateTime)",
+            " WHERE datetime(day) " +
+            "BETWEEN datetime(:startDateTime) AND datetime(:endDateTime)",
     )
     suspend fun getDateDaily(startDateTime: String, endDateTime: String): DailyEntity?
 
     @Query(
         "SELECT * FROM dailies " +
-                " WHERE datetime(day) " +
-                "BETWEEN datetime(:startDateTime) AND datetime(:endDateTime)",
+            " WHERE datetime(day) " +
+            "BETWEEN datetime(:startDateTime) AND datetime(:endDateTime)",
     )
     suspend fun getWeekDaily(startDateTime: String, endDateTime: String): List<DailyEntity>?
 
     @Query(
         "SELECT * FROM dailies " +
-                " WHERE datetime(day) " +
-                "BETWEEN datetime(:startDateTime) AND datetime(:endDateTime)",
+            " WHERE datetime(day) " +
+            "BETWEEN datetime(:startDateTime) AND datetime(:endDateTime)",
     )
     fun getDateDailyFlow(startDateTime: String, endDateTime: String): Flow<DailyEntity?>
+
+    @Query("SELECT * FROM dailies")
+    suspend fun getAllDailies(): List<DailyEntity>?
 
     @Upsert
     suspend fun upsert(dailyEntity: DailyEntity)

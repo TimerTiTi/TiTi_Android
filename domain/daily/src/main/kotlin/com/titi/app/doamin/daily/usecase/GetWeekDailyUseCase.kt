@@ -19,13 +19,12 @@ class GetWeekDailyUseCase @Inject constructor(
         val endDateTime = pairMonDaySunDay.second
 
         return runCatching {
-            dailyRepository.getWeekDaily(
+            dailyRepository.getDailies(
                 startDateTime = startDateTime,
                 endDateTime = endDateTime,
             )?.map { it.toDomainModel() }
         }
     }
-
 }
 
 fun getMondaySunday(currentDate: LocalDate): Pair<String, String> {
@@ -41,7 +40,7 @@ fun getMondaySunday(currentDate: LocalDate): Pair<String, String> {
 
     val sunday = currentDate
         .plusDays(diffSunday.toLong())
-        .atTime(23,59,59)
+        .atTime(23, 59, 59)
         .atZone(ZoneOffset.systemDefault())
         .withZoneSameInstant(ZoneOffset.UTC)
         .toString()

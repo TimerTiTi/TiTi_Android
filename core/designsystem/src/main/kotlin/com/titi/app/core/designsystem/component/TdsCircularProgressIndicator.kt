@@ -26,8 +26,8 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 @Composable
 fun TdsCircularProgressIndicator(
     modifier: Modifier = Modifier,
-    sumTime: Int,
-    maxTime: Int,
+    sumTime: Long,
+    maxTime: Long,
     color: Color,
 ) {
     BoxWithConstraints(
@@ -53,7 +53,7 @@ fun TdsCircularProgressIndicator(
             modifier = Modifier
                 .width(insideSize)
                 .wrapContentHeight(),
-            text = sumTime.toString(),
+            text = (sumTime / 3600).toString(),
             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             fontSize = fontSize,
             color = TdsColor.TEXT,

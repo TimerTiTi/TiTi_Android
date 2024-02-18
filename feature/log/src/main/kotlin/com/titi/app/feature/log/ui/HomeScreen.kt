@@ -24,25 +24,25 @@ import com.titi.app.core.designsystem.component.TdsCard
 import com.titi.app.core.designsystem.component.TdsCircularProgressIndicator
 import com.titi.app.core.designsystem.component.TdsDayOfTheWeek
 import com.titi.app.core.designsystem.component.TdsFilledCard
+import com.titi.app.core.designsystem.component.TdsPieChart
 import com.titi.app.core.designsystem.component.TdsTaskResultList
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTimeLineChart
 import com.titi.app.core.designsystem.component.TdsWeekLineChart
-import com.titi.app.core.designsystem.extension.getTimeString
-import com.titi.app.core.designsystem.extension.getWeekInformation
-import com.titi.app.core.designsystem.model.TdsTaskData
-import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
-import java.time.LocalDate
+import com.titi.app.feature.log.model.HomeUiState
 
 @Composable
 fun HomeScreen(
     tdsColors: List<TdsColor>,
-    taskData: List<TdsTaskData>,
-    weekLineChardData: List<TdsWeekLineChartData>,
-    timeLines: List<Long>,
+    totalData: HomeUiState.TotalData,
+    homeMonthPieData: HomeUiState.HomeMonthPieData,
+    homeMonthGraphData: HomeUiState.HomeMonthGraphData,
+    homeWeekPieData: HomeUiState.HomeWeekPieData,
+    homeWeekGraphData: HomeUiState.HomeWeekGraphData,
+    homeDailyGraphData: HomeUiState.HomeDailyGraphData,
 ) {
     val scrollState = rememberScrollState()
 
@@ -53,8 +53,8 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TotalCard(
+            totalData = totalData,
             tdsColors = tdsColors,
-            taskData = taskData,
         )
 
         Spacer(modifier = Modifier.height(11.dp))
@@ -79,14 +79,36 @@ fun HomeScreen(
                 modifier = Modifier.width(width),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                MonthSumCard(themeColor = tdsColors.first())
+                MonthSumCard(
+                    homeMonthPieData = homeMonthPieData,
+                    themeColor = tdsColors.first(),
+                )
 
-                WeekSumCard(themeColor = tdsColors.first())
+                WeekSumCard(
+                    homeWeekPieData = homeWeekPieData,
+                    themeColor = tdsColors.first(),
+                )
             }
         }
 
+        MonthCard(
+            homeMonthGraphData = homeMonthGraphData,
+            tdsColors = tdsColors,
+        )
+
+        Spacer(modifier = Modifier.height(11.dp))
+
+        TdsText(
+            text = "Month",
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+            color = TdsColor.TEXT,
+            fontSize = 11.sp,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         WeekCard(
-            weekLineChardData = weekLineChardData,
+            homeWeekGraphData = homeWeekGraphData,
             tdsColors = tdsColors,
         )
 
@@ -102,10 +124,8 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         TimeLineCard(
-            todayDate = "2024.02.08",
-            todayDayOfTheWeek = 0,
+            homeDailyGraphData = homeDailyGraphData,
             tdsColors = tdsColors,
-            timeLines = timeLines,
         )
 
         Spacer(modifier = Modifier.height(11.dp))
@@ -122,7 +142,7 @@ fun HomeScreen(
 }
 
 @Composable
-private fun TotalCard(tdsColors: List<TdsColor>, taskData: List<TdsTaskData>) {
+private fun TotalCard(totalData: HomeUiState.TotalData, tdsColors: List<TdsColor>) {
     TdsFilledCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -134,18 +154,18 @@ private fun TotalCard(tdsColors: List<TdsColor>, taskData: List<TdsTaskData>) {
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            TdsCircularProgressIndicator(
-                modifier = Modifier.size(110.dp),
-                sumTime = 10,
-                maxTime = 100,
-                color = tdsColors.first().getColor(),
+            TdsPieChart(
+                modifier = Modifier.width(110.dp),
+                taskData = totalData.topTotalTdsTaskData,
+                colors = tdsColors.map { it.getColor() },
+                totalTimeString = (totalData.totalTimeSeconds / 3600).toString(),
             )
 
             Spacer(modifier = Modifier.width(15.dp))
 
             TdsTaskResultList(
                 modifier = Modifier.weight(1f),
-                taskData = taskData,
+                taskData = totalData.topTotalTdsTaskData,
                 colors = tdsColors.map { it.getColor() },
                 isSpacing = true,
                 height = 20.dp,
@@ -156,7 +176,7 @@ private fun TotalCard(tdsColors: List<TdsColor>, taskData: List<TdsTaskData>) {
 }
 
 @Composable
-private fun MonthSumCard(themeColor: TdsColor) {
+private fun MonthSumCard(homeMonthPieData: HomeUiState.HomeMonthPieData, themeColor: TdsColor) {
     Column(
         modifier = Modifier.wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -166,8 +186,8 @@ private fun MonthSumCard(themeColor: TdsColor) {
         ) {
             TdsCircularProgressIndicator(
                 modifier = Modifier.size(110.dp),
-                sumTime = 10,
-                maxTime = 100,
+                sumTime = homeMonthPieData.totalTimeSeconds,
+                maxTime = homeMonthPieData.defaultTimeSeconds,
                 color = themeColor.getColor(),
             )
         }
@@ -186,7 +206,7 @@ private fun MonthSumCard(themeColor: TdsColor) {
 }
 
 @Composable
-private fun WeekSumCard(themeColor: TdsColor) {
+private fun WeekSumCard(homeWeekPieData: HomeUiState.HomeWeekPieData, themeColor: TdsColor) {
     Column(
         modifier = Modifier.wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -196,8 +216,8 @@ private fun WeekSumCard(themeColor: TdsColor) {
         ) {
             TdsCircularProgressIndicator(
                 modifier = Modifier.size(110.dp),
-                sumTime = 20,
-                maxTime = 100,
+                sumTime = homeWeekPieData.totalTimeSeconds,
+                maxTime = homeWeekPieData.defaultTimeSeconds,
                 color = themeColor.getColor(),
             )
         }
@@ -216,12 +236,44 @@ private fun WeekSumCard(themeColor: TdsColor) {
 }
 
 @Composable
-private fun WeekCard(
-    weekLineChardData: List<TdsWeekLineChartData>,
+private fun MonthCard(
     tdsColors: List<TdsColor>,
+    homeMonthGraphData: HomeUiState.HomeMonthGraphData,
 ) {
-    val weekInformation = LocalDate.now().getWeekInformation()
+    TdsFilledCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(178.dp),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            TdsPieChart(
+                modifier = Modifier.width(110.dp),
+                taskData = homeMonthGraphData.taskData,
+                totalTimeString = (homeMonthGraphData.totalTimeSeconds / 3600).toString(),
+                colors = tdsColors.map { it.getColor() },
+            )
 
+            Spacer(modifier = Modifier.width(15.dp))
+
+            TdsTaskResultList(
+                modifier = Modifier.weight(1f),
+                taskData = homeMonthGraphData.taskData,
+                colors = tdsColors.map { it.getColor() },
+                isSpacing = true,
+                height = 20.dp,
+                leftText = "Top",
+            )
+        }
+    }
+}
+
+@Composable
+private fun WeekCard(homeWeekGraphData: HomeUiState.HomeWeekGraphData, tdsColors: List<TdsColor>) {
     TdsFilledCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -239,7 +291,7 @@ private fun WeekCard(
                 verticalAlignment = Alignment.Bottom,
             ) {
                 TdsText(
-                    text = weekInformation.first,
+                    text = homeWeekGraphData.weekInformation.first,
                     textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                     fontSize = 25.sp,
                     color = TdsColor.TEXT,
@@ -248,7 +300,7 @@ private fun WeekCard(
                 Spacer(modifier = Modifier.width(12.dp))
 
                 TdsText(
-                    text = weekInformation.second,
+                    text = homeWeekGraphData.weekInformation.second,
                     textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                     fontSize = 25.sp,
                     color = TdsColor.TEXT,
@@ -257,7 +309,7 @@ private fun WeekCard(
                 Spacer(modifier = Modifier.width(8.dp))
 
                 TdsText(
-                    text = weekInformation.third,
+                    text = homeWeekGraphData.weekInformation.third,
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 14.sp,
                     color = TdsColor.TEXT,
@@ -271,7 +323,7 @@ private fun WeekCard(
             ) {
                 TdsWeekLineChart(
                     modifier = Modifier.weight(3f),
-                    weekLineChardData = weekLineChardData,
+                    weekLineChardData = homeWeekGraphData.weekLineChartData,
                     startColor = tdsColors.first().getColor(),
                     endColor = tdsColors[2].getColor(),
                 )
@@ -289,7 +341,7 @@ private fun WeekCard(
                     )
 
                     TdsText(
-                        text = weekLineChardData.sumOf { it.time }.getTimeString(),
+                        text = homeWeekGraphData.totalWeekTime,
                         textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                         fontSize = 22.sp,
                         color = tdsColors.first(),
@@ -305,8 +357,7 @@ private fun WeekCard(
                     )
 
                     TdsText(
-                        text = (weekLineChardData.sumOf { it.time } / weekLineChardData.size)
-                            .getTimeString(),
+                        text = homeWeekGraphData.averageWeekTime,
                         textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                         fontSize = 22.sp,
                         color = tdsColors.first(),
@@ -321,10 +372,8 @@ private fun WeekCard(
 
 @Composable
 private fun TimeLineCard(
-    todayDate: String,
-    todayDayOfTheWeek: Int,
     tdsColors: List<TdsColor>,
-    timeLines: List<Long>,
+    homeDailyGraphData: HomeUiState.HomeDailyGraphData,
 ) {
     TdsFilledCard(
         modifier = Modifier
@@ -340,7 +389,7 @@ private fun TimeLineCard(
                 verticalAlignment = Alignment.Bottom,
             ) {
                 TdsText(
-                    text = todayDate,
+                    text = homeDailyGraphData.todayDate,
                     textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                     fontSize = 25.sp,
                     color = TdsColor.TEXT,
@@ -350,7 +399,7 @@ private fun TimeLineCard(
 
                 TdsDayOfTheWeek(
                     modifier = Modifier.padding(bottom = 2.dp),
-                    todayDayOfTheWeek = todayDayOfTheWeek,
+                    todayDayOfTheWeek = homeDailyGraphData.todayDayOfTheWeek,
                     color = tdsColors.first(),
                 )
             }
@@ -361,7 +410,7 @@ private fun TimeLineCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(100.dp),
-                times = timeLines,
+                times = homeDailyGraphData.timeLines,
                 startColor = tdsColors[0].getColor(),
                 endColor = tdsColors[1].getColor(),
             )
@@ -386,98 +435,15 @@ private fun HomeScreenPreview() {
         TdsColor.D12,
     )
 
-    val taskData = listOf(
-        TdsTaskData(
-            key = "수업",
-            value = "02:00:00",
-            progress = 0.2f,
-        ),
-        TdsTaskData(
-            key = "인공지능",
-            value = "03:00:00",
-            progress = 0.3f,
-        ),
-        TdsTaskData(
-            key = "알고리즘",
-            value = "02:00:00",
-            progress = 0.2f,
-        ),
-        TdsTaskData(
-            key = "개발",
-            value = "03:00:00",
-            progress = 0.3f,
-        ),
-        TdsTaskData(
-            key = "개발",
-            value = "03:00:00",
-            progress = 0.3f,
-        ),
-    )
-
-    val weekLineChardData = listOf(
-        TdsWeekLineChartData(
-            time = 6200,
-            date = "1/12",
-        ),
-        TdsWeekLineChartData(
-            time = 3700,
-            date = "1/13",
-        ),
-        TdsWeekLineChartData(
-            time = 5200,
-            date = "1/14",
-        ),
-        TdsWeekLineChartData(
-            time = 1042,
-            date = "1/15",
-        ),
-        TdsWeekLineChartData(
-            time = 4536,
-            date = "1/16",
-        ),
-        TdsWeekLineChartData(
-            time = 3700,
-            date = "1/17",
-        ),
-        TdsWeekLineChartData(
-            time = 2455,
-            date = "1/18",
-        ),
-    )
-
-    val timeLines = listOf(
-        3600L,
-        1200,
-        300,
-        400,
-        100,
-        600,
-        800,
-        1200,
-        300,
-        400,
-        100,
-        600,
-        800,
-        1200,
-        300,
-        400,
-        100,
-        600,
-        800,
-        1200,
-        300,
-        400,
-        100,
-        600,
-    )
-
     TiTiTheme {
         HomeScreen(
             tdsColors = tdsColors,
-            taskData = taskData,
-            weekLineChardData = weekLineChardData,
-            timeLines = timeLines,
+            totalData = HomeUiState.TotalData(),
+            homeMonthPieData = HomeUiState.HomeMonthPieData(),
+            homeMonthGraphData = HomeUiState.HomeMonthGraphData(),
+            homeWeekPieData = HomeUiState.HomeWeekPieData(),
+            homeWeekGraphData = HomeUiState.HomeWeekGraphData(),
+            homeDailyGraphData = HomeUiState.HomeDailyGraphData(),
         )
     }
 }

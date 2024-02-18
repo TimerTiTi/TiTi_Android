@@ -6,13 +6,12 @@ import com.squareup.moshi.Types
 
 internal class MapConverter {
     private val moshi = Moshi.Builder().build()
-    private val mapType =
-        Types
-            .newParameterizedType(
-                Map::class.java,
-                String::class.java,
-                Long::class.javaObjectType,
-            )
+    private val mapType = Types
+        .newParameterizedType(
+            Map::class.java,
+            String::class.java,
+            Long::class.javaObjectType,
+        )
 
     @TypeConverter
     fun fromJsonString(json: String): Map<String, Long>? {

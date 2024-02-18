@@ -23,11 +23,9 @@ import androidx.compose.ui.unit.dp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.component.TdsTabRow
-import com.titi.app.core.designsystem.model.TdsTaskData
-import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TiTiTheme
-import kotlinx.coroutines.launch
 import java.time.LocalDate
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -42,93 +40,13 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
         },
     )
 
-    val taskData = listOf(
-        TdsTaskData(
-            key = "수업",
-            value = "02:00:00",
-            progress = 0.2f,
-        ),
-        TdsTaskData(
-            key = "인공지능",
-            value = "03:00:00",
-            progress = 0.3f,
-        ),
-        TdsTaskData(
-            key = "알고리즘",
-            value = "02:00:00",
-            progress = 0.2f,
-        ),
-        TdsTaskData(
-            key = "개발",
-            value = "03:00:00",
-            progress = 0.3f,
-        ),
-    )
-
-    val timeLines = listOf(
-        3600L,
-        1200,
-        300,
-        400,
-        100,
-        600,
-        800,
-        1200,
-        300,
-        400,
-        100,
-        600,
-        800,
-        1200,
-        300,
-        400,
-        100,
-        600,
-        800,
-        1200,
-        300,
-        400,
-        100,
-        600,
-    )
-
-    val weekLineChardData = listOf(
-        TdsWeekLineChartData(
-            time = 6200,
-            date = "1/12",
-        ),
-        TdsWeekLineChartData(
-            time = 3700,
-            date = "1/13",
-        ),
-        TdsWeekLineChartData(
-            time = 5200,
-            date = "1/14",
-        ),
-        TdsWeekLineChartData(
-            time = 1042,
-            date = "1/15",
-        ),
-        TdsWeekLineChartData(
-            time = 4536,
-            date = "1/16",
-        ),
-        TdsWeekLineChartData(
-            time = 3700,
-            date = "1/17",
-        ),
-        TdsWeekLineChartData(
-            time = 2455,
-            date = "1/18",
-        ),
-    )
-
     val uiState by viewModel.collectAsState()
 
     LaunchedEffect(Unit) {
         val currentDate = LocalDate.now()
+        viewModel.updateCurrentDateHome(currentDate)
         viewModel.updateCurrentDateDaily(currentDate)
-        viewModel.updateWeekCurrentDate(currentDate)
+        viewModel.updateCurrentDateWeek(currentDate)
     }
 
     Column(
@@ -161,9 +79,12 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
             when (page % 3) {
                 0 -> HomeScreen(
                     tdsColors = uiState.graphColors.graphColors,
-                    taskData = taskData,
-                    weekLineChardData = weekLineChardData,
-                    timeLines = timeLines,
+                    totalData = uiState.homeUiState.totalData,
+                    homeMonthPieData = uiState.homeUiState.homeGraphData.homeMonthPieData,
+                    homeMonthGraphData = uiState.homeUiState.homeGraphData.homeMonthGraphData,
+                    homeWeekPieData = uiState.homeUiState.homeGraphData.homeWeekPieData,
+                    homeWeekGraphData = uiState.homeUiState.homeGraphData.homeWeekGraphData,
+                    homeDailyGraphData = uiState.homeUiState.homeGraphData.homeDailyGraphData,
                 )
 
                 1 -> DailyScreen(
@@ -188,14 +109,14 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                 2 -> WeekScreen(
                     weekInformation = uiState.weekUiState.weekGraphData.weekInformation,
                     totalTime = uiState.weekUiState.weekGraphData.totalWeekTime,
-                    maxTime = uiState.weekUiState.weekGraphData.maxWeekTime,
+                    averageTime = uiState.weekUiState.weekGraphData.averageWeekTime,
                     weekLineChardData = uiState.weekUiState.weekGraphData.weekLineChartData,
                     tdsColors = uiState.graphColors.graphColors,
                     topLevelTaskTotal = uiState.weekUiState.weekGraphData.topLevelTaskTotal,
                     topLevelTaskData = uiState.weekUiState.weekGraphData.topLevelTdsTaskData,
                     currentDate = uiState.weekUiState.currentDate,
                     onClickDate = {
-                        viewModel.updateWeekCurrentDate(it)
+                        viewModel.updateCurrentDateWeek(it)
                     },
                     onClickGraphColor = {
                         viewModel.updateGraphColors(

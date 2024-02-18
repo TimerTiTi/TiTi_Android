@@ -5,28 +5,36 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
+import com.titi.app.doamin.daily.usecase.GetAllDailiesTasksUseCase
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
+import com.titi.app.doamin.daily.usecase.GetMonthDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetWeekDailyUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
 import com.titi.app.feature.log.mapper.toDomainModel
 import com.titi.app.feature.log.mapper.toFeatureModel
+import com.titi.app.feature.log.mapper.toHomeFeatureModel
+import com.titi.app.feature.log.mapper.toWeekFeatureModel
 import com.titi.app.feature.log.model.DailyGraphData
 import com.titi.app.feature.log.model.GraphColorUiState
+import com.titi.app.feature.log.model.HomeUiState
 import com.titi.app.feature.log.model.LogUiState
 import com.titi.app.feature.log.model.WeekGraphData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import java.time.LocalDate
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 
 class LogViewModel @AssistedInject constructor(
     @Assisted initialState: LogUiState,
     getGraphColorsUseCase: GetGraphColorsUseCase,
     private val updateGraphColorsUseCase: UpdateGraphColorsUseCase,
+    private val getAllDailiesTasksUseCase: GetAllDailiesTasksUseCase,
+    private val getMonthDailyUseCase: GetMonthDailyUseCase,
     private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
     private val getWeekDailyUseCase: GetWeekDailyUseCase,
 ) : MavericksViewModel<LogUiState>(initialState) {
@@ -49,7 +57,35 @@ class LogViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateWeekCurrentDate(date: LocalDate) {
+    fun updateCurrentDateHome(date: LocalDate) {
+        val totalAsync = viewModelScope.async {
+            getAllDailiesTasksUseCase()
+        }
+
+        val graphData = viewModelScope.async {
+            getMonthDailyUseCase(date)
+        }
+
+        viewModelScope.launch {
+            runCatching {
+                Pair(totalAsync.await(), graphData.await()).toHomeFeatureModel(date)
+            }.onSuccess {
+                setState {
+                    copy(
+                        homeUiState = it,
+                    )
+                }
+            }.onFailure {
+                setState {
+                    copy(
+                        homeUiState = HomeUiState(),
+                    )
+                }
+            }
+        }
+    }
+
+    fun updateCurrentDateWeek(date: LocalDate) {
         viewModelScope.launch {
             getWeekDailyUseCase(date)
                 .onSuccess {
@@ -57,7 +93,7 @@ class LogViewModel @AssistedInject constructor(
                         copy(
                             weekUiState = weekUiState.copy(
                                 currentDate = date,
-                                weekGraphData = it?.toFeatureModel(date) ?: WeekGraphData(),
+                                weekGraphData = it?.toWeekFeatureModel(date) ?: WeekGraphData(),
                             ),
                         )
                     }

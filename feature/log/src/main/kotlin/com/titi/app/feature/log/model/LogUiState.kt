@@ -2,6 +2,7 @@ package com.titi.app.feature.log.model
 
 import com.airbnb.mvrx.MavericksState
 import com.titi.app.core.designsystem.extension.getWeekInformation
+import com.titi.app.core.designsystem.extension.makeDefaultWeekLineChardData
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
@@ -11,6 +12,7 @@ import java.time.LocalDate
 
 data class LogUiState(
     val graphColors: GraphColorUiState = GraphColorUiState(),
+    val homeUiState: HomeUiState = HomeUiState(),
     val dailyUiState: DailyUiState = DailyUiState(),
     val weekUiState: WeekUiState = WeekUiState(),
 ) : MavericksState
@@ -34,6 +36,55 @@ data class GraphColorUiState(
     ),
 )
 
+data class HomeUiState(
+    val totalData: TotalData = TotalData(),
+    val homeGraphData: HomeGraphData = HomeGraphData(),
+) {
+    data class TotalData(
+        val totalTimeSeconds: Long = 0L,
+        val topTotalTdsTaskData: List<TdsTaskData> = emptyList(),
+    )
+
+    data class HomeGraphData(
+        val homeMonthPieData: HomeMonthPieData = HomeMonthPieData(),
+        val homeMonthGraphData: HomeMonthGraphData = HomeMonthGraphData(),
+        val homeWeekPieData: HomeWeekPieData = HomeWeekPieData(),
+        val homeWeekGraphData: HomeWeekGraphData = HomeWeekGraphData(),
+        val homeDailyGraphData: HomeDailyGraphData = HomeDailyGraphData(),
+    )
+
+    data class HomeMonthPieData(
+        val totalTimeSeconds: Long = 0,
+        val defaultTimeSeconds: Long = 360000,
+    )
+
+    data class HomeMonthGraphData(
+        val totalTimeSeconds: Long = 0,
+        val taskData: List<TdsTaskData> = emptyList(),
+    )
+
+    data class HomeWeekPieData(
+        val totalTimeSeconds: Long = 0,
+        val defaultTimeSeconds: Long = 90000,
+    )
+
+    data class HomeWeekGraphData(
+        val weekInformation: Triple<String, String, String> = LocalDate.now().getWeekInformation(),
+        val totalWeekTime: String = "",
+        val averageWeekTime: String = "",
+        val weekLineChartData: List<TdsWeekLineChartData> =
+            LocalDate.now().makeDefaultWeekLineChardData(),
+    )
+
+    data class HomeDailyGraphData(
+        val currentDate: LocalDate = LocalDate.now(),
+        val timeLines: List<Long> = LongArray(24) { 0L }.toList(),
+    ) {
+        val todayDate = currentDate.toString().replace('-', '.')
+        val todayDayOfTheWeek = currentDate.dayOfWeek.value
+    }
+}
+
 data class DailyUiState(
     val currentDate: LocalDate = LocalDate.now(),
     val dailyGraphData: DailyGraphData = DailyGraphData(),
@@ -55,11 +106,9 @@ data class WeekUiState(
 data class WeekGraphData(
     val weekInformation: Triple<String, String, String> = LocalDate.now().getWeekInformation(),
     val totalWeekTime: String = "",
-    val maxWeekTime: String = "",
-    val weekLineChartData: List<TdsWeekLineChartData> = emptyList(),
+    val averageWeekTime: String = "",
+    val weekLineChartData: List<TdsWeekLineChartData> =
+        LocalDate.now().makeDefaultWeekLineChardData(),
     val topLevelTaskTotal: String = "",
     val topLevelTdsTaskData: List<TdsTaskData> = emptyList(),
 )
-
-
-
