@@ -29,7 +29,6 @@ import com.titi.app.core.designsystem.component.TdsTaskResultList
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTimeLineChart
 import com.titi.app.core.designsystem.component.TdsWeekLineChart
-import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
@@ -38,7 +37,7 @@ import com.titi.app.feature.log.model.HomeUiState
 @Composable
 fun HomeScreen(
     tdsColors: List<TdsColor>,
-    taskData: List<TdsTaskData>,
+    totalData: HomeUiState.TotalData,
     homeMonthPieData: HomeUiState.HomeMonthPieData,
     homeMonthGraphData: HomeUiState.HomeMonthGraphData,
     homeWeekPieData: HomeUiState.HomeWeekPieData,
@@ -54,8 +53,8 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TotalCard(
+            totalData = totalData,
             tdsColors = tdsColors,
-            taskData = taskData,
         )
 
         Spacer(modifier = Modifier.height(11.dp))
@@ -143,7 +142,7 @@ fun HomeScreen(
 }
 
 @Composable
-private fun TotalCard(tdsColors: List<TdsColor>, taskData: List<TdsTaskData>) {
+private fun TotalCard(totalData: HomeUiState.TotalData, tdsColors: List<TdsColor>) {
     TdsFilledCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -157,16 +156,16 @@ private fun TotalCard(tdsColors: List<TdsColor>, taskData: List<TdsTaskData>) {
         ) {
             TdsPieChart(
                 modifier = Modifier.width(110.dp),
-                taskData = taskData,
+                taskData = totalData.topTotalTdsTaskData,
                 colors = tdsColors.map { it.getColor() },
-                totalTimeString = "123",
+                totalTimeString = (totalData.totalTimeSeconds / 3600).toString(),
             )
 
             Spacer(modifier = Modifier.width(15.dp))
 
             TdsTaskResultList(
                 modifier = Modifier.weight(1f),
-                taskData = taskData,
+                taskData = totalData.topTotalTdsTaskData,
                 colors = tdsColors.map { it.getColor() },
                 isSpacing = true,
                 height = 20.dp,
@@ -436,38 +435,10 @@ private fun HomeScreenPreview() {
         TdsColor.D12,
     )
 
-    val taskData = listOf(
-        TdsTaskData(
-            key = "수업",
-            value = "02:00:00",
-            progress = 0.2f,
-        ),
-        TdsTaskData(
-            key = "인공지능",
-            value = "03:00:00",
-            progress = 0.3f,
-        ),
-        TdsTaskData(
-            key = "알고리즘",
-            value = "02:00:00",
-            progress = 0.2f,
-        ),
-        TdsTaskData(
-            key = "개발",
-            value = "03:00:00",
-            progress = 0.3f,
-        ),
-        TdsTaskData(
-            key = "개발",
-            value = "03:00:00",
-            progress = 0.3f,
-        ),
-    )
-
     TiTiTheme {
         HomeScreen(
             tdsColors = tdsColors,
-            taskData = taskData,
+            totalData = HomeUiState.TotalData(),
             homeMonthPieData = HomeUiState.HomeMonthPieData(),
             homeMonthGraphData = HomeUiState.HomeMonthGraphData(),
             homeWeekPieData = HomeUiState.HomeWeekPieData(),

@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.component.TdsTabRow
-import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import java.time.LocalDate
 import kotlinx.coroutines.launch
@@ -39,29 +38,6 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
         pageCount = {
             3
         },
-    )
-
-    val taskData = listOf(
-        TdsTaskData(
-            key = "수업",
-            value = "02:00:00",
-            progress = 0.2f,
-        ),
-        TdsTaskData(
-            key = "인공지능",
-            value = "03:00:00",
-            progress = 0.3f,
-        ),
-        TdsTaskData(
-            key = "알고리즘",
-            value = "02:00:00",
-            progress = 0.2f,
-        ),
-        TdsTaskData(
-            key = "개발",
-            value = "03:00:00",
-            progress = 0.3f,
-        ),
     )
 
     val uiState by viewModel.collectAsState()
@@ -103,7 +79,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
             when (page % 3) {
                 0 -> HomeScreen(
                     tdsColors = uiState.graphColors.graphColors,
-                    taskData = taskData,
+                    totalData = uiState.homeUiState.totalData,
                     homeMonthPieData = uiState.homeUiState.homeGraphData.homeMonthPieData,
                     homeMonthGraphData = uiState.homeUiState.homeGraphData.homeMonthGraphData,
                     homeWeekPieData = uiState.homeUiState.homeGraphData.homeWeekPieData,
