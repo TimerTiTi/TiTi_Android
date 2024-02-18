@@ -30,6 +30,9 @@ internal interface DailyDao {
     )
     fun getDateDailyFlow(startDateTime: String, endDateTime: String): Flow<DailyEntity?>
 
+    @Query("SELECT * FROM dailies")
+    suspend fun getAllDailies(): List<DailyEntity>?
+
     @Upsert
     suspend fun upsert(dailyEntity: DailyEntity)
 }
