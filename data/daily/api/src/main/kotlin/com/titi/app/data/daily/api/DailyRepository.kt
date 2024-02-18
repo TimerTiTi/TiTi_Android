@@ -34,5 +34,7 @@ interface DailyRepository {
             .substring(0, 10) + "T23:59:59Z",
     ): Flow<DailyRepositoryModel?>
 
+    suspend fun getAllDailies(): List<DailyRepositoryModel>?
+
     suspend fun upsert(dailyRepositoryModel: DailyRepositoryModel)
 }
