@@ -9,6 +9,7 @@ import com.titi.app.doamin.daily.usecase.GetAllDailiesTasksUseCase
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetMonthDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetWeekDailyUseCase
+import com.titi.app.doamin.daily.usecase.HasDailyForCurrentMonthUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
 import com.titi.app.feature.log.mapper.toDomainModel
@@ -37,6 +38,7 @@ class LogViewModel @AssistedInject constructor(
     private val getMonthDailyUseCase: GetMonthDailyUseCase,
     private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
     private val getWeekDailyUseCase: GetWeekDailyUseCase,
+    private val hasDailyForCurrentMonthUseCase: HasDailyForCurrentMonthUseCase,
 ) : MavericksViewModel<LogUiState>(initialState) {
 
     init {
@@ -87,6 +89,8 @@ class LogViewModel @AssistedInject constructor(
 
     fun updateCurrentDateWeek(date: LocalDate) {
         viewModelScope.launch {
+            val abc = hasDailyForCurrentMonthUseCase(date)
+            Log.e("ABC", abc.toList().toString())
             getWeekDailyUseCase(date)
                 .onSuccess {
                     setState {
