@@ -30,6 +30,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -73,12 +74,14 @@ fun DailyScreen(
     currentDate: LocalDate,
     totalTime: String,
     maxTime: String,
+    hasDailies: List<LocalDate>,
     taskData: List<TdsTaskData>,
     tdsColors: List<TdsColor>,
     timeLines: List<Long>,
     timeTableData: List<TdsTimeTableData>,
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
+    onCalendarLocalDateChanged: (LocalDate) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -91,7 +94,9 @@ fun DailyScreen(
             modifier = Modifier.fillMaxWidth(),
             themeColor = tdsColors.first(),
             currentDate = currentDate,
+            hasDailies = hasDailies,
             onClickDate = onClickDate,
+            onCalendarLocalDateChanged = onCalendarLocalDateChanged,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -124,7 +129,9 @@ fun CalendarContent(
     modifier: Modifier = Modifier,
     themeColor: TdsColor,
     currentDate: LocalDate,
+    hasDailies: List<LocalDate>,
     onClickDate: (LocalDate) -> Unit,
+    onCalendarLocalDateChanged: (LocalDate) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -141,6 +148,9 @@ fun CalendarContent(
         outDateStyle = OutDateStyle.EndOfGrid,
     )
 
+    LaunchedEffect(state.firstVisibleMonth.yearMonth.atDay(1)) {
+        onCalendarLocalDateChanged(state.firstVisibleMonth.yearMonth.atDay(1))
+    }
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -214,6 +224,7 @@ fun CalendarContent(
                             Day(
                                 day = day,
                                 isSelected = currentDate == day.date,
+                                hasDaily = hasDailies.contains(day.date),
                                 themeColor = themeColor,
                             ) { selectedDay ->
                                 if (currentDate != selectedDay.date) {
@@ -248,6 +259,7 @@ fun CalendarContent(
 fun Day(
     day: CalendarDay,
     isSelected: Boolean,
+    hasDaily: Boolean,
     themeColor: TdsColor,
     onClickDate: (CalendarDay) -> Unit,
 ) {
@@ -255,29 +267,50 @@ fun Day(
         modifier = Modifier
             .padding(horizontal = 5.dp)
             .aspectRatio(1f)
-            .clip(CircleShape)
-            .background(
-                color = if (isSelected) {
-                    themeColor.getColor()
-                } else {
-                    Color.Transparent
-                },
-            )
             .clickable(
                 enabled = day.position == DayPosition.MonthDate,
                 onClick = { onClickDate(day) },
             ),
-        contentAlignment = Alignment.Center,
     ) {
-        Text(
-            text = day.date.dayOfMonth.toString(),
-            color = if (day.position == DayPosition.MonthDate) {
-                TdsColor.TEXT.getColor()
-            } else {
-                Color.Gray
-            },
-            style = TdsTextStyle.SEMI_BOLD_TEXT_STYLE.getTextStyle(fontSize = 18.sp),
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize(0.75f)
+                .clip(CircleShape)
+                .background(
+                    color = if (isSelected) {
+                        themeColor.getColor()
+                    } else {
+                        Color.Transparent
+                    },
+                ).align(Alignment.Center),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = day.date.dayOfMonth.toString(),
+                color = if (day.position == DayPosition.MonthDate) {
+                    TdsColor.TEXT.getColor()
+                } else {
+                    Color.Gray
+                },
+                style = TdsTextStyle.SEMI_BOLD_TEXT_STYLE.getTextStyle(fontSize = 18.sp),
+            )
+        }
+
+        if (hasDaily) {
+            Box(
+                modifier = Modifier
+                    .size(3.dp)
+                    .clip(CircleShape)
+                    .background(
+                        color = if (isSelected) {
+                            themeColor.getColor()
+                        } else {
+                            Color.Red
+                        },
+                    )
+                    .align(Alignment.BottomCenter),
+            )
+        }
     }
 }
 
@@ -504,11 +537,13 @@ private fun DailyScreenPreview() {
             tdsColors = tdsColors,
             totalTime = "08:00:00",
             maxTime = "03:00:00",
+            hasDailies = emptyList(),
             timeLines = timeLines,
             timeTableData = timeTableData,
             currentDate = LocalDate.now(),
             onClickDate = {},
             onClickGraphColor = {},
+            onCalendarLocalDateChanged = {},
         )
     }
 }

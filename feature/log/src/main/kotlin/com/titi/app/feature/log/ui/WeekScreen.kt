@@ -24,6 +24,7 @@ import java.time.LocalDate
 fun WeekScreen(
     totalTime: String,
     averageTime: String,
+    hasDailies: List<LocalDate>,
     weekLineChardData: List<TdsWeekLineChartData>,
     weekInformation: Triple<String, String, String>,
     tdsColors: List<TdsColor>,
@@ -32,6 +33,7 @@ fun WeekScreen(
     currentDate: LocalDate,
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
+    onCalendarLocalDateChanged: (LocalDate) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -44,7 +46,9 @@ fun WeekScreen(
             modifier = Modifier.fillMaxWidth(),
             themeColor = tdsColors.first(),
             currentDate = currentDate,
+            hasDailies = hasDailies,
             onClickDate = onClickDate,
+            onCalendarLocalDateChanged = onCalendarLocalDateChanged,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -151,11 +155,13 @@ private fun WeekScreenPreview() {
             averageTime = "03:00:00",
             weekLineChardData = weekLineChardData,
             tdsColors = tdsColors,
+            hasDailies = emptyList(),
             topLevelTaskData = taskData,
             topLevelTaskTotal = "08:00:00",
             currentDate = LocalDate.now(),
             onClickDate = {},
             onClickGraphColor = {},
+            onCalendarLocalDateChanged = {},
         )
     }
 }

@@ -9,6 +9,7 @@ import com.titi.app.doamin.daily.usecase.GetAllDailiesTasksUseCase
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetMonthDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetWeekDailyUseCase
+import com.titi.app.doamin.daily.usecase.HasDailyForCurrentMonthUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
 import com.titi.app.feature.log.mapper.toDomainModel
@@ -37,6 +38,7 @@ class LogViewModel @AssistedInject constructor(
     private val getMonthDailyUseCase: GetMonthDailyUseCase,
     private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
     private val getWeekDailyUseCase: GetWeekDailyUseCase,
+    private val hasDailyForCurrentMonthUseCase: HasDailyForCurrentMonthUseCase,
 ) : MavericksViewModel<LogUiState>(initialState) {
 
     init {
@@ -111,6 +113,33 @@ class LogViewModel @AssistedInject constructor(
         }
     }
 
+    fun updateHasDailyAtDailyTab(date: LocalDate) {
+        viewModelScope.launch {
+            val state = awaitState()
+            if (
+                state.weekUiState.currentDate.month == date.month &&
+                state.weekUiState.hasDailies.isNotEmpty()
+            ) {
+                setState {
+                    copy(
+                        dailyUiState = dailyUiState.copy(
+                            hasDailies = state.weekUiState.hasDailies,
+                        ),
+                    )
+                }
+            } else {
+                val hasDailies = hasDailyForCurrentMonthUseCase(date)
+                setState {
+                    copy(
+                        dailyUiState = dailyUiState.copy(
+                            hasDailies = hasDailies,
+                        ),
+                    )
+                }
+            }
+        }
+    }
+
     fun updateCurrentDateDaily(date: LocalDate) {
         viewModelScope.launch {
             getCurrentDateDailyUseCase(date)
@@ -133,6 +162,33 @@ class LogViewModel @AssistedInject constructor(
                         )
                     }
                 }
+        }
+    }
+
+    fun updateHasDailyAtWeekTab(date: LocalDate) {
+        viewModelScope.launch {
+            val state = awaitState()
+            if (
+                state.dailyUiState.currentDate.month == date.month &&
+                state.dailyUiState.hasDailies.isNotEmpty()
+            ) {
+                setState {
+                    copy(
+                        weekUiState = weekUiState.copy(
+                            hasDailies = state.dailyUiState.hasDailies,
+                        ),
+                    )
+                }
+            } else {
+                val hasDailies = hasDailyForCurrentMonthUseCase(date)
+                setState {
+                    copy(
+                        weekUiState = weekUiState.copy(
+                            hasDailies = hasDailies,
+                        ),
+                    )
+                }
+            }
         }
     }
 
