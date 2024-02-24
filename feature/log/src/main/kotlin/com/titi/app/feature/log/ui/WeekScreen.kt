@@ -32,6 +32,7 @@ fun WeekScreen(
     currentDate: LocalDate,
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
+    onCalendarLocalDateChanged: (LocalDate) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -45,6 +46,7 @@ fun WeekScreen(
             themeColor = tdsColors.first(),
             currentDate = currentDate,
             onClickDate = onClickDate,
+            onCalendarLocalDateChanged = onCalendarLocalDateChanged,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -156,6 +158,7 @@ private fun WeekScreenPreview() {
             currentDate = LocalDate.now(),
             onClickDate = {},
             onClickGraphColor = {},
+            onCalendarLocalDateChanged = {},
         )
     }
 }

@@ -10,7 +10,7 @@ import javax.inject.Inject
 class HasDailyForCurrentMonthUseCase @Inject constructor(
     private val dailyRepository: DailyRepository,
 ) {
-    suspend operator fun invoke(currentDate: LocalDate): BooleanArray {
+    suspend operator fun invoke(currentDate: LocalDate): List<Boolean> {
         val startDay = 1
         val lastDay = currentDate.lengthOfMonth()
         val hasDaily = BooleanArray(lastDay) { false }
@@ -36,6 +36,6 @@ class HasDailyForCurrentMonthUseCase @Inject constructor(
             hasDaily[zonedDateTime.dayOfMonth - 1] = true
         }
 
-        return hasDaily
+        return hasDaily.toList()
     }
 }

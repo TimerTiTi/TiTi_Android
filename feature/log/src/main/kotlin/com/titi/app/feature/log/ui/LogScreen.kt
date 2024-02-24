@@ -104,6 +104,9 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                             graphColorUiState = uiState.graphColors,
                         )
                     },
+                    onCalendarLocalDateChanged = {
+                        viewModel.updateHasDailyAtDailyTab(it)
+                    },
                 )
 
                 2 -> WeekScreen(
@@ -123,6 +126,9 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                             selectedIndex = it,
                             graphColorUiState = uiState.graphColors,
                         )
+                    },
+                    onCalendarLocalDateChanged = {
+                        viewModel.updateHasDailyAtWeekTab(it)
                     },
                 )
             }

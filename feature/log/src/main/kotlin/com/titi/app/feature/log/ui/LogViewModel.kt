@@ -89,8 +89,6 @@ class LogViewModel @AssistedInject constructor(
 
     fun updateCurrentDateWeek(date: LocalDate) {
         viewModelScope.launch {
-            val abc = hasDailyForCurrentMonthUseCase(date)
-            Log.e("ABC", abc.toList().toString())
             getWeekDailyUseCase(date)
                 .onSuccess {
                     setState {
@@ -112,6 +110,33 @@ class LogViewModel @AssistedInject constructor(
                         )
                     }
                 }
+        }
+    }
+
+    fun updateHasDailyAtDailyTab(date: LocalDate) {
+        viewModelScope.launch {
+            val state = awaitState()
+            if (
+                state.weekUiState.currentDate.month == date.month &&
+                state.weekUiState.hasDaily.isNotEmpty()
+            ) {
+                setState {
+                    copy(
+                        dailyUiState = dailyUiState.copy(
+                            hasDaily = state.weekUiState.hasDaily,
+                        ),
+                    )
+                }
+            } else {
+                val hasDaily = hasDailyForCurrentMonthUseCase(date)
+                setState {
+                    copy(
+                        dailyUiState = dailyUiState.copy(
+                            hasDaily = hasDaily,
+                        ),
+                    )
+                }
+            }
         }
     }
 
@@ -137,6 +162,33 @@ class LogViewModel @AssistedInject constructor(
                         )
                     }
                 }
+        }
+    }
+
+    fun updateHasDailyAtWeekTab(date: LocalDate) {
+        viewModelScope.launch {
+            val state = awaitState()
+            if (
+                state.dailyUiState.currentDate.month == date.month &&
+                state.dailyUiState.hasDaily.isNotEmpty()
+            ) {
+                setState {
+                    copy(
+                        weekUiState = weekUiState.copy(
+                            hasDaily = state.dailyUiState.hasDaily,
+                        ),
+                    )
+                }
+            } else {
+                val hasDaily = hasDailyForCurrentMonthUseCase(date)
+                setState {
+                    copy(
+                        weekUiState = weekUiState.copy(
+                            hasDaily = hasDaily,
+                        ),
+                    )
+                }
+            }
         }
     }
 

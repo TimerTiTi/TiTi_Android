@@ -30,6 +30,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -79,6 +80,7 @@ fun DailyScreen(
     timeTableData: List<TdsTimeTableData>,
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
+    onCalendarLocalDateChanged: (LocalDate) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -92,6 +94,7 @@ fun DailyScreen(
             themeColor = tdsColors.first(),
             currentDate = currentDate,
             onClickDate = onClickDate,
+            onCalendarLocalDateChanged = onCalendarLocalDateChanged,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -125,6 +128,7 @@ fun CalendarContent(
     themeColor: TdsColor,
     currentDate: LocalDate,
     onClickDate: (LocalDate) -> Unit,
+    onCalendarLocalDateChanged: (LocalDate) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -141,6 +145,9 @@ fun CalendarContent(
         outDateStyle = OutDateStyle.EndOfGrid,
     )
 
+    LaunchedEffect(state.firstVisibleMonth.yearMonth.atDay(1)) {
+        onCalendarLocalDateChanged(state.firstVisibleMonth.yearMonth.atDay(1))
+    }
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -509,6 +516,7 @@ private fun DailyScreenPreview() {
             currentDate = LocalDate.now(),
             onClickDate = {},
             onClickGraphColor = {},
+            onCalendarLocalDateChanged = {},
         )
     }
 }
