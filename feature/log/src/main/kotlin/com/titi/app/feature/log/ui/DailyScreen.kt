@@ -110,6 +110,16 @@ fun DailyScreen(
 
         Spacer(modifier = Modifier.height(15.dp))
 
+        DailyButtonRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 50.dp),
+            onSaveClick = { },
+            onShareClick = {},
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
         GraphContent(
             modifier = Modifier.fillMaxWidth(),
             todayDate = currentDate.toString().replace('-', '.'),
@@ -329,6 +339,65 @@ fun DaysOfWeekTitle(daysOfWeek: List<DayOfWeek>, themeColor: TdsColor) {
                 text = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault()),
                 color = themeColor.getColor(),
             )
+        }
+    }
+}
+
+@Composable
+private fun DailyButtonRow(
+    modifier: Modifier = Modifier,
+    onSaveClick: () -> Unit,
+    onShareClick: () -> Unit,
+) {
+    BoxWithConstraints(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
+        val width = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+
+        Row(
+            modifier = Modifier.width(width),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Row(
+                modifier = Modifier.clickable { onSaveClick() },
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.save_photo_icon),
+                    contentDescription = "save",
+                    tint = TdsColor.TEXT.getColor(),
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                TdsText(
+                    text = "Save",
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    fontSize = 16.sp,
+                    color = TdsColor.TEXT,
+                )
+            }
+
+            Row(
+                modifier = Modifier.clickable { onShareClick() },
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.share_icon),
+                    contentDescription = "save",
+                    tint = TdsColor.TEXT.getColor(),
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                TdsText(
+                    text = "Share",
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    fontSize = 16.sp,
+                    color = TdsColor.TEXT,
+                )
+            }
         }
     }
 }
