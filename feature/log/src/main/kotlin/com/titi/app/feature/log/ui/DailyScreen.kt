@@ -282,13 +282,18 @@ fun Day(
                     } else {
                         Color.Transparent
                     },
-                ).align(Alignment.Center),
+                )
+                .align(Alignment.Center),
             contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = day.date.dayOfMonth.toString(),
                 color = if (day.position == DayPosition.MonthDate) {
-                    TdsColor.TEXT.getColor()
+                    if (isSelected) {
+                        TdsColor.BACKGROUND.getColor()
+                    } else {
+                        TdsColor.TEXT.getColor()
+                    }
                 } else {
                     Color.Gray
                 },
