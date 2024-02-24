@@ -89,6 +89,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
 
                 1 -> DailyScreen(
                     currentDate = uiState.dailyUiState.currentDate,
+                    hasDailies = uiState.dailyUiState.hasDailies,
                     totalTime = uiState.dailyUiState.dailyGraphData.totalTime,
                     maxTime = uiState.dailyUiState.dailyGraphData.maxTime,
                     taskData = uiState.dailyUiState.dailyGraphData.taskData,
@@ -111,6 +112,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
 
                 2 -> WeekScreen(
                     weekInformation = uiState.weekUiState.weekGraphData.weekInformation,
+                    hasDailies = uiState.weekUiState.hasDailies,
                     totalTime = uiState.weekUiState.weekGraphData.totalWeekTime,
                     averageTime = uiState.weekUiState.weekGraphData.averageWeekTime,
                     weekLineChardData = uiState.weekUiState.weekGraphData.weekLineChartData,

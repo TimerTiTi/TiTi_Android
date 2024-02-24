@@ -118,21 +118,21 @@ class LogViewModel @AssistedInject constructor(
             val state = awaitState()
             if (
                 state.weekUiState.currentDate.month == date.month &&
-                state.weekUiState.hasDaily.isNotEmpty()
+                state.weekUiState.hasDailies.isNotEmpty()
             ) {
                 setState {
                     copy(
                         dailyUiState = dailyUiState.copy(
-                            hasDaily = state.weekUiState.hasDaily,
+                            hasDailies = state.weekUiState.hasDailies,
                         ),
                     )
                 }
             } else {
-                val hasDaily = hasDailyForCurrentMonthUseCase(date)
+                val hasDailies = hasDailyForCurrentMonthUseCase(date)
                 setState {
                     copy(
                         dailyUiState = dailyUiState.copy(
-                            hasDaily = hasDaily,
+                            hasDailies = hasDailies,
                         ),
                     )
                 }
@@ -170,21 +170,21 @@ class LogViewModel @AssistedInject constructor(
             val state = awaitState()
             if (
                 state.dailyUiState.currentDate.month == date.month &&
-                state.dailyUiState.hasDaily.isNotEmpty()
+                state.dailyUiState.hasDailies.isNotEmpty()
             ) {
                 setState {
                     copy(
                         weekUiState = weekUiState.copy(
-                            hasDaily = state.dailyUiState.hasDaily,
+                            hasDailies = state.dailyUiState.hasDailies,
                         ),
                     )
                 }
             } else {
-                val hasDaily = hasDailyForCurrentMonthUseCase(date)
+                val hasDailies = hasDailyForCurrentMonthUseCase(date)
                 setState {
                     copy(
                         weekUiState = weekUiState.copy(
-                            hasDaily = hasDaily,
+                            hasDailies = hasDailies,
                         ),
                     )
                 }

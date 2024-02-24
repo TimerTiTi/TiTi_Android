@@ -87,7 +87,7 @@ data class HomeUiState(
 
 data class DailyUiState(
     val currentDate: LocalDate = LocalDate.now(),
-    val hasDaily: List<LocalDate> = emptyList(),
+    val hasDailies: List<LocalDate> = emptyList(),
     val dailyGraphData: DailyGraphData = DailyGraphData(),
 )
 
@@ -101,7 +101,7 @@ data class DailyGraphData(
 
 data class WeekUiState(
     val currentDate: LocalDate = LocalDate.now(),
-    val hasDaily: List<LocalDate> = emptyList(),
+    val hasDailies: List<LocalDate> = emptyList(),
     val weekGraphData: WeekGraphData = WeekGraphData(),
 )
 
