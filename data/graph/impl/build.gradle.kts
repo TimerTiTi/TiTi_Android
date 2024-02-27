@@ -7,4 +7,5 @@ android {
 }
 
 dependencies {
+    implementation(project(":data:graph:api"))
 }
