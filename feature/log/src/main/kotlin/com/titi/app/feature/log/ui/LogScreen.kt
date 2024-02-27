@@ -96,6 +96,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                     tdsColors = uiState.graphColors.graphColors,
                     timeLines = uiState.dailyUiState.dailyGraphData.timeLine,
                     timeTableData = uiState.dailyUiState.dailyGraphData.tdsTimeTableData,
+                    checkedButtonState = uiState.dailyUiState.checkedButtonState,
                     onClickDate = {
                         viewModel.updateCurrentDateDaily(it)
                     },
@@ -107,6 +108,12 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                     },
                     onCalendarLocalDateChanged = {
                         viewModel.updateHasDailyAtDailyTab(it)
+                    },
+                    onCheckedChange = { graph, checked ->
+                        viewModel.updateCheckedState(
+                            page = graph,
+                            checked = checked,
+                        )
                     },
                 )
 

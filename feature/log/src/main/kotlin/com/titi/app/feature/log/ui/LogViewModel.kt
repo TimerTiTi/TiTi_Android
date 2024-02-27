@@ -192,6 +192,20 @@ class LogViewModel @AssistedInject constructor(
         }
     }
 
+    fun updateCheckedState(page: Int, checked: Boolean) {
+        setState {
+            val checkedButtonState = when (page) {
+                0 -> dailyUiState.checkedButtonState.copy(firstChecked = checked)
+                1 -> dailyUiState.checkedButtonState.copy(secondChecked = checked)
+                2 -> dailyUiState.checkedButtonState.copy(thirdChecked = checked)
+                else -> dailyUiState.checkedButtonState.copy(fourthChecked = checked)
+            }
+            copy(
+                dailyUiState = dailyUiState.copy(checkedButtonState = checkedButtonState),
+            )
+        }
+    }
+
     @AssistedFactory
     interface Factory : AssistedViewModelFactory<LogViewModel, LogUiState> {
         override fun create(state: LogUiState): LogViewModel

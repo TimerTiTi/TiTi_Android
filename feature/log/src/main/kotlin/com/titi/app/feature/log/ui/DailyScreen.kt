@@ -62,6 +62,7 @@ import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.feature.log.model.CheckedButtonState
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -79,9 +80,11 @@ fun DailyScreen(
     tdsColors: List<TdsColor>,
     timeLines: List<Long>,
     timeTableData: List<TdsTimeTableData>,
+    checkedButtonState: CheckedButtonState,
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
     onCalendarLocalDateChanged: (LocalDate) -> Unit,
+    onCheckedChange: (page: Int, checked: Boolean) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -130,6 +133,8 @@ fun DailyScreen(
             tdsColors = tdsColors,
             timeLines = timeLines,
             timeTableData = timeTableData,
+            checkedButtonState = checkedButtonState,
+            onCheckedChange = onCheckedChange,
         )
     }
 }
@@ -414,6 +419,8 @@ private fun GraphContent(
     tdsColors: List<TdsColor>,
     timeLines: List<Long>,
     timeTableData: List<TdsTimeTableData>,
+    checkedButtonState: CheckedButtonState,
+    onCheckedChange: (page: Int, checked: Boolean) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         pageCount = {
@@ -461,8 +468,10 @@ private fun GraphContent(
                     taskData = taskData,
                     totalTime = totalTime,
                     maxTime = maxTime,
-                    checked = false,
-                    onCheckedChange = {},
+                    checked = checkedButtonState.firstChecked,
+                    onCheckedChange = {
+                        onCheckedChange(0, it)
+                    },
                 )
 
                 1 -> TdsTimeTableDailyGraph(
@@ -474,8 +483,10 @@ private fun GraphContent(
                     timeTableData = timeTableData,
                     totalTime = totalTime,
                     maxTime = maxTime,
-                    checked = false,
-                    onCheckedChange = {},
+                    checked = checkedButtonState.secondChecked,
+                    onCheckedChange = {
+                        onCheckedChange(1, it)
+                    },
                 )
 
                 2 -> TdsTimeLineDailyGraph(
@@ -486,8 +497,10 @@ private fun GraphContent(
                     timeLines = timeLines,
                     totalTime = totalTime,
                     maxTime = maxTime,
-                    checked = false,
-                    onCheckedChange = {},
+                    checked = checkedButtonState.thirdChecked,
+                    onCheckedChange = {
+                        onCheckedChange(2, it)
+                    },
                 )
 
                 3 -> TdsTaskProgressDailyGraph(
@@ -495,8 +508,10 @@ private fun GraphContent(
                     todayDate = todayDate,
                     taskData = taskData,
                     tdsColors = tdsColors,
-                    checked = false,
-                    onCheckedChange = {},
+                    checked = checkedButtonState.fourthChecked,
+                    onCheckedChange = {
+                        onCheckedChange(3, it)
+                    },
                 )
             }
         }
@@ -623,9 +638,11 @@ private fun DailyScreenPreview() {
             timeLines = timeLines,
             timeTableData = timeTableData,
             currentDate = LocalDate.now(),
+            checkedButtonState = CheckedButtonState(),
             onClickDate = {},
             onClickGraphColor = {},
             onCalendarLocalDateChanged = {},
+            onCheckedChange = { _, _ -> },
         )
     }
 }
