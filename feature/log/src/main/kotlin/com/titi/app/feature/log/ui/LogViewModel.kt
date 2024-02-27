@@ -5,6 +5,7 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
+import com.titi.app.data.graph.api.GraphCheckedRepository
 import com.titi.app.doamin.daily.usecase.GetAllDailiesTasksUseCase
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetMonthDailyUseCase
@@ -15,7 +16,9 @@ import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
 import com.titi.app.feature.log.mapper.toDomainModel
 import com.titi.app.feature.log.mapper.toFeatureModel
 import com.titi.app.feature.log.mapper.toHomeFeatureModel
+import com.titi.app.feature.log.mapper.toRepositoryModel
 import com.titi.app.feature.log.mapper.toWeekFeatureModel
+import com.titi.app.feature.log.model.CheckedButtonState
 import com.titi.app.feature.log.model.DailyGraphData
 import com.titi.app.feature.log.model.GraphColorUiState
 import com.titi.app.feature.log.model.HomeUiState
@@ -39,6 +42,7 @@ class LogViewModel @AssistedInject constructor(
     private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
     private val getWeekDailyUseCase: GetWeekDailyUseCase,
     private val hasDailyForCurrentMonthUseCase: HasDailyForCurrentMonthUseCase,
+    private val graphCheckedRepository: GraphCheckedRepository,
 ) : MavericksViewModel<LogUiState>(initialState) {
 
     init {
@@ -48,6 +52,12 @@ class LogViewModel @AssistedInject constructor(
             .setOnEach {
                 copy(graphColors = it.toFeatureModel())
             }
+
+        graphCheckedRepository.getGraphCheckedFlow().catch {
+            Log.e("LogViewModel", it.message.toString())
+        }.setOnEach {
+            copy(dailyUiState = dailyUiState.copy(checkedButtonState = it.toFeatureModel()))
+        }
     }
 
     fun updateGraphColors(selectedIndex: Int, graphColorUiState: GraphColorUiState) {
@@ -192,17 +202,16 @@ class LogViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateCheckedState(page: Int, checked: Boolean) {
-        setState {
-            val checkedButtonState = when (page) {
-                0 -> dailyUiState.checkedButtonState.copy(firstChecked = checked)
-                1 -> dailyUiState.checkedButtonState.copy(secondChecked = checked)
-                2 -> dailyUiState.checkedButtonState.copy(thirdChecked = checked)
-                else -> dailyUiState.checkedButtonState.copy(fourthChecked = checked)
+    fun updateCheckedState(page: Int, checked: Boolean, checkedButtonState: CheckedButtonState) {
+        viewModelScope.launch {
+            val updateCheckedButtonState = when (page) {
+                0 -> checkedButtonState.copy(firstChecked = checked)
+                1 -> checkedButtonState.copy(secondChecked = checked)
+                2 -> checkedButtonState.copy(thirdChecked = checked)
+                else -> checkedButtonState.copy(fourthChecked = checked)
             }
-            copy(
-                dailyUiState = dailyUiState.copy(checkedButtonState = checkedButtonState),
-            )
+
+            graphCheckedRepository.setGraphChecked(updateCheckedButtonState.toRepositoryModel())
         }
     }
 

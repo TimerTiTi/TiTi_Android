@@ -113,6 +113,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                         viewModel.updateCheckedState(
                             page = graph,
                             checked = checked,
+                            checkedButtonState = uiState.dailyUiState.checkedButtonState,
                         )
                     },
                 )
