@@ -2,6 +2,7 @@ package com.titi.app.core.designsystem.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.extension.times
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
@@ -35,6 +37,8 @@ fun TdsTimeLineDailyGraph(
     timeLines: List<Long>,
     totalTime: String,
     maxTime: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
 ) {
     BoxWithConstraints(
         modifier = modifier.padding(vertical = 10.dp),
@@ -59,12 +63,23 @@ fun TdsTimeLineDailyGraph(
             ) {
                 Spacer(modifier = Modifier.height(5.dp))
 
-                TdsText(
-                    text = todayDate,
-                    textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                    fontSize = (size.value * 0.07).sp,
-                    color = TdsColor.TEXT,
-                )
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    TdsToggleIconButton(
+                        modifier = Modifier.padding(2.dp).align(Alignment.CenterStart),
+                        checkedIcon = R.drawable.checked_icon,
+                        uncheckedIcon = R.drawable.unchecked_icon,
+                        checked = checked,
+                        onCheckedChange = onCheckedChange,
+                    )
+
+                    TdsText(
+                        modifier = Modifier.padding(2.dp).align(Alignment.Center),
+                        text = todayDate,
+                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                        fontSize = (size.value * 0.07).sp,
+                        color = TdsColor.TEXT,
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(5.dp))
 
@@ -183,6 +198,8 @@ private fun TdsTimeLineDailyGraphPreview() {
             ),
             totalTime = "10:00:00",
             maxTime = "03:00:00",
+            checked = false,
+            onCheckedChange = {},
         )
     }
 }

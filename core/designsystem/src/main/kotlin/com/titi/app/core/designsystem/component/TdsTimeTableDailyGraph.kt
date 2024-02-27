@@ -2,6 +2,7 @@ package com.titi.app.core.designsystem.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.extension.times
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
@@ -40,6 +42,8 @@ fun TdsTimeTableDailyGraph(
     tdsColors: List<TdsColor>,
     taskData: List<TdsTaskData>,
     timeTableData: List<TdsTimeTableData>,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
 ) {
     BoxWithConstraints(
         modifier = modifier.padding(vertical = 10.dp),
@@ -98,7 +102,7 @@ fun TdsTimeTableDailyGraph(
                             color = TdsColor.TEXT,
                         )
 
-                        Row(
+                        Box(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(size * 0.3)
@@ -107,50 +111,62 @@ fun TdsTimeTableDailyGraph(
                                     color = TdsColor.GRAPH_BORDER.getColor(),
                                 )
                                 .padding(2.dp),
-                            verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            TdsPieChart(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(vertical = 10.dp),
-                                taskData = taskData,
-                                colors = tdsColors.map { it.getColor() },
-                            )
-
-                            Column(
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .padding(end = 24.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally,
+                            Row(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalAlignment = Alignment.CenterVertically,
                             ) {
-                                TdsText(
-                                    text = "Total",
-                                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                                    fontSize = (size.value * 0.04).sp,
-                                    color = TdsColor.TEXT,
+                                TdsPieChart(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(vertical = 10.dp),
+                                    taskData = taskData,
+                                    colors = tdsColors.map { it.getColor() },
                                 )
 
-                                TdsText(
-                                    text = totalTime,
-                                    textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                                    fontSize = (size.value * 0.06).sp,
-                                    color = tdsColors.first(),
-                                )
+                                Column(
+                                    modifier = Modifier
+                                        .wrapContentSize()
+                                        .padding(end = 24.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    TdsText(
+                                        text = "Total",
+                                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                                        fontSize = (size.value * 0.04).sp,
+                                        color = TdsColor.TEXT,
+                                    )
 
-                                TdsText(
-                                    text = "Max",
-                                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                                    fontSize = (size.value * 0.04).sp,
-                                    color = TdsColor.TEXT,
-                                )
+                                    TdsText(
+                                        text = totalTime,
+                                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                                        fontSize = (size.value * 0.06).sp,
+                                        color = tdsColors.first(),
+                                    )
 
-                                TdsText(
-                                    text = maxTime,
-                                    textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                                    fontSize = (size.value * 0.06).sp,
-                                    color = tdsColors.first(),
-                                )
+                                    TdsText(
+                                        text = "Max",
+                                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                                        fontSize = (size.value * 0.04).sp,
+                                        color = TdsColor.TEXT,
+                                    )
+
+                                    TdsText(
+                                        text = maxTime,
+                                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                                        fontSize = (size.value * 0.06).sp,
+                                        color = tdsColors.first(),
+                                    )
+                                }
                             }
+
+                            TdsToggleIconButton(
+                                modifier = Modifier.padding(2.dp),
+                                checkedIcon = R.drawable.checked_icon,
+                                uncheckedIcon = R.drawable.unchecked_icon,
+                                checked = checked,
+                                onCheckedChange = onCheckedChange,
+                            )
                         }
 
                         Spacer(modifier = Modifier.height(5.dp))
@@ -270,6 +286,8 @@ private fun TdsTimeTableDailyGraphPreview() {
                     end = 3333,
                 ),
             ),
+            checked = false,
+            onCheckedChange = {},
         )
     }
 }

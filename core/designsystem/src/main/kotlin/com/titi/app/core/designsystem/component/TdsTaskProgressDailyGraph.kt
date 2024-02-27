@@ -1,6 +1,7 @@
 package com.titi.app.core.designsystem.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.extension.times
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
@@ -30,6 +32,8 @@ fun TdsTaskProgressDailyGraph(
     todayDate: String,
     taskData: List<TdsTaskData>,
     tdsColors: List<TdsColor>,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
 ) {
     BoxWithConstraints(
         modifier = modifier.padding(vertical = 10.dp),
@@ -54,12 +58,25 @@ fun TdsTaskProgressDailyGraph(
             ) {
                 Spacer(modifier = Modifier.height(15.dp))
 
-                TdsText(
-                    text = todayDate,
-                    textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                    fontSize = (size.value * 0.07).sp,
-                    color = TdsColor.TEXT,
-                )
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    TdsToggleIconButton(
+                        modifier = Modifier
+                            .padding(2.dp)
+                            .align(Alignment.CenterStart),
+                        checkedIcon = R.drawable.checked_icon,
+                        uncheckedIcon = R.drawable.unchecked_icon,
+                        checked = checked,
+                        onCheckedChange = onCheckedChange,
+                    )
+
+                    TdsText(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = todayDate,
+                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                        fontSize = (size.value * 0.07).sp,
+                        color = TdsColor.TEXT,
+                    )
+                }
 
                 TdsPieChart(
                     modifier = Modifier.fillMaxSize(),
@@ -112,6 +129,8 @@ private fun TdsTaskProgressDailyGraphPreview() {
                 TdsColor.D6,
                 TdsColor.D7,
             ),
+            checked = false,
+            onCheckedChange = {},
         )
     }
 }

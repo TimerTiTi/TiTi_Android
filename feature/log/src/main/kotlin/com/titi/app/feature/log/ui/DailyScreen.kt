@@ -461,6 +461,8 @@ private fun GraphContent(
                     taskData = taskData,
                     totalTime = totalTime,
                     maxTime = maxTime,
+                    checked = false,
+                    onCheckedChange = {},
                 )
 
                 1 -> TdsTimeTableDailyGraph(
@@ -472,6 +474,8 @@ private fun GraphContent(
                     timeTableData = timeTableData,
                     totalTime = totalTime,
                     maxTime = maxTime,
+                    checked = false,
+                    onCheckedChange = {},
                 )
 
                 2 -> TdsTimeLineDailyGraph(
@@ -482,6 +486,8 @@ private fun GraphContent(
                     timeLines = timeLines,
                     totalTime = totalTime,
                     maxTime = maxTime,
+                    checked = false,
+                    onCheckedChange = {},
                 )
 
                 3 -> TdsTaskProgressDailyGraph(
@@ -489,6 +495,8 @@ private fun GraphContent(
                     todayDate = todayDate,
                     taskData = taskData,
                     tdsColors = tdsColors,
+                    checked = false,
+                    onCheckedChange = {},
                 )
             }
         }

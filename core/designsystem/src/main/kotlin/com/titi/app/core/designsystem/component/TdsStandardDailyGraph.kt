@@ -2,6 +2,7 @@ package com.titi.app.core.designsystem.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.extension.times
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
@@ -38,6 +40,8 @@ fun TdsStandardDailyGraph(
     tdsColors: List<TdsColor>,
     timeLines: List<Long>,
     taskData: List<TdsTaskData>,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
 ) {
     BoxWithConstraints(
         modifier = modifier.padding(vertical = 10.dp),
@@ -89,7 +93,7 @@ fun TdsStandardDailyGraph(
                     color = TdsColor.TEXT,
                 )
 
-                TdsTimeLineChart(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(size * 0.3)
@@ -98,10 +102,22 @@ fun TdsStandardDailyGraph(
                             color = TdsColor.GRAPH_BORDER.getColor(),
                         )
                         .padding(2.dp),
-                    times = timeLines,
-                    startColor = tdsColors[0].getColor(),
-                    endColor = tdsColors[1].getColor(),
-                )
+                ) {
+                    TdsTimeLineChart(
+                        modifier = Modifier.fillMaxSize(),
+                        times = timeLines,
+                        startColor = tdsColors[0].getColor(),
+                        endColor = tdsColors[1].getColor(),
+                    )
+
+                    TdsToggleIconButton(
+                        modifier = Modifier.padding(2.dp),
+                        checkedIcon = R.drawable.checked_icon,
+                        uncheckedIcon = R.drawable.unchecked_icon,
+                        checked = checked,
+                        onCheckedChange = onCheckedChange,
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(5.dp))
 
@@ -251,6 +267,8 @@ private fun TdsStandardDailyGraphPreview() {
                 600,
             ),
             taskData = taskData,
+            checked = false,
+            onCheckedChange = {},
         )
     }
 }
