@@ -1,6 +1,11 @@
 package com.titi.app.feature.log.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Picture
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -32,18 +37,24 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.CalendarDay
@@ -52,23 +63,27 @@ import com.kizitonwose.calendar.core.OutDateStyle
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsColorRow
+import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsStandardDailyGraph
 import com.titi.app.core.designsystem.component.TdsTaskProgressDailyGraph
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTimeLineDailyGraph
 import com.titi.app.core.designsystem.component.TdsTimeTableDailyGraph
+import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.designsystem.util.saveBitmapFromComposable
 import com.titi.app.feature.log.model.CheckedButtonState
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
@@ -87,9 +102,67 @@ fun DailyScreen(
     onCalendarLocalDateChanged: (LocalDate) -> Unit,
     onCheckedChange: (page: Int, checked: Boolean) -> Unit,
 ) {
+    val context = LocalContext.current
     val scrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
     val pictureList = remember {
         List(4) { Picture() }
+    }
+    var showPermissionDialog by remember {
+        mutableStateOf(false)
+    }
+
+    val requestWritePermissionLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                coroutineScope.launch(Dispatchers.IO) {
+                    saveBitmapFromComposable(pictureList[0], context)
+                }
+            } else {
+                showPermissionDialog = true
+            }
+        }
+
+    fun saveBitmapFromComposableWithPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            coroutineScope.launch(Dispatchers.IO) {
+                saveBitmapFromComposable(pictureList[0], context)
+            }
+        } else {
+            if (
+                ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                coroutineScope.launch(Dispatchers.IO) {
+                    saveBitmapFromComposable(pictureList[0], context)
+                }
+            } else {
+                requestWritePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+        }
+    }
+
+    if (showPermissionDialog) {
+        TdsDialog(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
+                title = "사진을 저장하기 위해서 권한이 필요로 합니다.",
+                message = "허용하시겠습니까?",
+                positiveText = stringResource(id = R.string.Ok),
+                negativeText = stringResource(id = R.string.Cancel),
+                onPositive = {
+                    requestWritePermissionLauncher.launch(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    )
+                },
+            ),
+            onShowDialog = { showPermissionDialog = it },
+        ) {
+            Spacer(modifier = Modifier.height(15.dp))
+        }
     }
 
     Column(
@@ -121,7 +194,9 @@ fun DailyScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 50.dp),
-            onSaveClick = { },
+            onSaveClick = {
+                saveBitmapFromComposableWithPermission()
+            },
             onShareClick = {},
         )
 
