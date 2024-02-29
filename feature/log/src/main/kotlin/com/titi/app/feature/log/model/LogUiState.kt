@@ -90,7 +90,7 @@ data class DailyUiState(
     val currentDate: LocalDate = LocalDate.now(),
     val hasDailies: List<LocalDate> = emptyList(),
     val dailyGraphData: DailyGraphData = DailyGraphData(),
-    val checkedButtonState: CheckedButtonState = CheckedButtonState(),
+    val checkedButtonStates: List<Boolean> = List(4) { false },
 )
 
 data class DailyGraphData(
@@ -99,13 +99,6 @@ data class DailyGraphData(
     val timeLine: List<Long> = LongArray(24) { 0L }.toList(),
     val taskData: List<TdsTaskData> = emptyList(),
     val tdsTimeTableData: List<TdsTimeTableData> = emptyList(),
-)
-
-data class CheckedButtonState(
-    val firstChecked: Boolean = false,
-    val secondChecked: Boolean = false,
-    val thirdChecked: Boolean = false,
-    val fourthChecked: Boolean = false,
 )
 
 data class WeekUiState(

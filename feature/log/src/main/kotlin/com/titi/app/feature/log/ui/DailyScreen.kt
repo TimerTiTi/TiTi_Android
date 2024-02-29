@@ -77,7 +77,6 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.core.designsystem.util.saveBitmapFromComposable
-import com.titi.app.feature.log.model.CheckedButtonState
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -96,7 +95,7 @@ fun DailyScreen(
     tdsColors: List<TdsColor>,
     timeLines: List<Long>,
     timeTableData: List<TdsTimeTableData>,
-    checkedButtonState: CheckedButtonState,
+    checkedButtonStates: List<Boolean>,
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
     onCalendarLocalDateChanged: (LocalDate) -> Unit,
@@ -212,7 +211,7 @@ fun DailyScreen(
             tdsColors = tdsColors,
             timeLines = timeLines,
             timeTableData = timeTableData,
-            checkedButtonState = checkedButtonState,
+            checkedButtonStates = checkedButtonStates,
             pictureList = pictureList,
             onCheckedChange = onCheckedChange,
         )
@@ -499,7 +498,7 @@ private fun GraphContent(
     tdsColors: List<TdsColor>,
     timeLines: List<Long>,
     timeTableData: List<TdsTimeTableData>,
-    checkedButtonState: CheckedButtonState,
+    checkedButtonStates: List<Boolean>,
     pictureList: List<Picture>,
     onCheckedChange: (page: Int, checked: Boolean) -> Unit,
 ) {
@@ -550,7 +549,7 @@ private fun GraphContent(
                     totalTime = totalTime,
                     maxTime = maxTime,
                     picture = pictureList[0],
-                    checked = checkedButtonState.firstChecked,
+                    checked = checkedButtonStates[0],
                     onCheckedChange = {
                         onCheckedChange(0, it)
                     },
@@ -566,7 +565,7 @@ private fun GraphContent(
                     totalTime = totalTime,
                     maxTime = maxTime,
                     picture = pictureList[1],
-                    checked = checkedButtonState.secondChecked,
+                    checked = checkedButtonStates[1],
                     onCheckedChange = {
                         onCheckedChange(1, it)
                     },
@@ -581,7 +580,7 @@ private fun GraphContent(
                     totalTime = totalTime,
                     maxTime = maxTime,
                     picture = pictureList[2],
-                    checked = checkedButtonState.thirdChecked,
+                    checked = checkedButtonStates[2],
                     onCheckedChange = {
                         onCheckedChange(2, it)
                     },
@@ -593,7 +592,7 @@ private fun GraphContent(
                     taskData = taskData,
                     tdsColors = tdsColors,
                     picture = pictureList[3],
-                    checked = checkedButtonState.fourthChecked,
+                    checked = checkedButtonStates[3],
                     onCheckedChange = {
                         onCheckedChange(3, it)
                     },
@@ -723,7 +722,7 @@ private fun DailyScreenPreview() {
             timeLines = timeLines,
             timeTableData = timeTableData,
             currentDate = LocalDate.now(),
-            checkedButtonState = CheckedButtonState(),
+            checkedButtonStates = List(4) { false },
             onClickDate = {},
             onClickGraphColor = {},
             onCalendarLocalDateChanged = {},
