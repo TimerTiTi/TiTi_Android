@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
@@ -47,16 +47,17 @@ fun TdsStandardDailyGraph(
     onCheckedChange: (Boolean) -> Unit,
 ) {
     BoxWithConstraints(
-        modifier = modifier
-            .padding(vertical = 10.dp)
-            .createCaptureImageModifier(picture = picture),
+        modifier = modifier,
         contentAlignment = Alignment.Center,
     ) {
         val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
 
         OutlinedCard(
             modifier = Modifier
-                .size(size),
+                .createCaptureImageModifier(picture = picture)
+                .height(size)
+                .width(size + 20.dp)
+                .padding(horizontal = 10.dp),
             shape = RoundedCornerShape(size * 0.07),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
@@ -113,14 +114,6 @@ fun TdsStandardDailyGraph(
                         times = timeLines,
                         startColor = tdsColors[0].getColor(),
                         endColor = tdsColors[1].getColor(),
-                    )
-
-                    TdsToggleIconButton(
-                        modifier = Modifier.padding(2.dp),
-                        checkedIcon = R.drawable.checked_icon,
-                        uncheckedIcon = R.drawable.unchecked_icon,
-                        checked = checked,
-                        onCheckedChange = onCheckedChange,
                     )
                 }
 
@@ -200,10 +193,25 @@ fun TdsStandardDailyGraph(
                 }
             }
         }
+
+        Box(
+            modifier = Modifier
+                .offset(
+                    x = -size / 2 + 26.dp,
+                    y = -size * 0.38 + 33.dp,
+                ),
+        ) {
+            TdsToggleIconButton(
+                checkedIcon = R.drawable.checked_icon,
+                uncheckedIcon = R.drawable.unchecked_icon,
+                checked = checked,
+                onCheckedChange = onCheckedChange,
+            )
+        }
     }
 }
 
-@Preview(widthDp = 300, heightDp = 300)
+@Preview
 @Composable
 private fun TdsStandardDailyGraphPreview() {
     val taskData = listOf(
