@@ -1,5 +1,6 @@
 package com.titi.app.feature.log.ui
 
+import android.graphics.Picture
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -87,6 +88,9 @@ fun DailyScreen(
     onCheckedChange: (page: Int, checked: Boolean) -> Unit,
 ) {
     val scrollState = rememberScrollState()
+    val pictureList = remember {
+        List(4) { Picture() }
+    }
 
     Column(
         modifier = Modifier
@@ -134,6 +138,7 @@ fun DailyScreen(
             timeLines = timeLines,
             timeTableData = timeTableData,
             checkedButtonState = checkedButtonState,
+            pictureList = pictureList,
             onCheckedChange = onCheckedChange,
         )
     }
@@ -420,6 +425,7 @@ private fun GraphContent(
     timeLines: List<Long>,
     timeTableData: List<TdsTimeTableData>,
     checkedButtonState: CheckedButtonState,
+    pictureList: List<Picture>,
     onCheckedChange: (page: Int, checked: Boolean) -> Unit,
 ) {
     val pagerState = rememberPagerState(
@@ -468,6 +474,7 @@ private fun GraphContent(
                     taskData = taskData,
                     totalTime = totalTime,
                     maxTime = maxTime,
+                    picture = pictureList[0],
                     checked = checkedButtonState.firstChecked,
                     onCheckedChange = {
                         onCheckedChange(0, it)
@@ -483,6 +490,7 @@ private fun GraphContent(
                     timeTableData = timeTableData,
                     totalTime = totalTime,
                     maxTime = maxTime,
+                    picture = pictureList[1],
                     checked = checkedButtonState.secondChecked,
                     onCheckedChange = {
                         onCheckedChange(1, it)
@@ -497,6 +505,7 @@ private fun GraphContent(
                     timeLines = timeLines,
                     totalTime = totalTime,
                     maxTime = maxTime,
+                    picture = pictureList[2],
                     checked = checkedButtonState.thirdChecked,
                     onCheckedChange = {
                         onCheckedChange(2, it)
@@ -508,6 +517,7 @@ private fun GraphContent(
                     todayDate = todayDate,
                     taskData = taskData,
                     tdsColors = tdsColors,
+                    picture = pictureList[3],
                     checked = checkedButtonState.fourthChecked,
                     onCheckedChange = {
                         onCheckedChange(3, it)

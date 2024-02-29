@@ -1,5 +1,6 @@
 package com.titi.app.core.designsystem.component
 
+import android.graphics.Picture
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -25,6 +26,7 @@ import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.designsystem.util.createCaptureImageModifier
 
 @Composable
 fun TdsTaskProgressDailyGraph(
@@ -33,10 +35,13 @@ fun TdsTaskProgressDailyGraph(
     taskData: List<TdsTaskData>,
     tdsColors: List<TdsColor>,
     checked: Boolean,
+    picture: Picture,
     onCheckedChange: (Boolean) -> Unit,
 ) {
     BoxWithConstraints(
-        modifier = modifier.padding(vertical = 10.dp),
+        modifier = modifier
+            .padding(vertical = 10.dp)
+            .createCaptureImageModifier(picture = picture),
         contentAlignment = Alignment.Center,
     ) {
         val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
@@ -130,6 +135,7 @@ private fun TdsTaskProgressDailyGraphPreview() {
                 TdsColor.D7,
             ),
             checked = false,
+            picture = Picture(),
             onCheckedChange = {},
         )
     }
