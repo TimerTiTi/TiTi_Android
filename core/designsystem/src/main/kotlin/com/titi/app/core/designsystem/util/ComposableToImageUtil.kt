@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.drawscope.draw
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import java.io.File
+import java.util.UUID
 import kotlin.coroutines.resume
 import kotlinx.coroutines.suspendCancellableCoroutine
 
@@ -39,9 +40,11 @@ fun Modifier.createCaptureImageModifier(picture: Picture): Modifier = this.drawW
     }
 }
 
-suspend fun saveBitmapFromComposable(picture: Picture, context: Context): Uri {
-    val bitmap = createBitmapFromPicture(picture)
-    return bitmap.saveToDisk(context)
+suspend fun saveBitmapFromComposable(picture: Picture, context: Context): Result<Uri> {
+    return runCatching {
+        val bitmap = createBitmapFromPicture(picture)
+        bitmap.saveToDisk(context)
+    }
 }
 
 private fun createBitmapFromPicture(picture: Picture): Bitmap {
@@ -60,7 +63,7 @@ private fun createBitmapFromPicture(picture: Picture): Bitmap {
 private suspend fun Bitmap.saveToDisk(context: Context): Uri {
     val file = File(
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-        "screenshot-${System.currentTimeMillis()}.png",
+        "screenshot-${UUID.randomUUID()}.png",
     )
 
     file.writeBitmap(this, Bitmap.CompressFormat.PNG, 100)

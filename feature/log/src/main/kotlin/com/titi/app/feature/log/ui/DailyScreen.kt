@@ -1,9 +1,12 @@
 package com.titi.app.feature.log.ui
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Picture
+import android.net.Uri
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -82,7 +85,10 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -116,8 +122,13 @@ fun DailyScreen(
             ActivityResultContracts.RequestPermission(),
         ) { isGranted: Boolean ->
             if (isGranted) {
-                coroutineScope.launch(Dispatchers.IO) {
-                    saveBitmapFromComposable(pictureList[0], context)
+                coroutineScope.launch {
+                    val message = saveDailyGraph(
+                        context = context,
+                        pictureList = pictureList,
+                        checkedButtonStates = checkedButtonStates,
+                    )
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 }
             } else {
                 showPermissionDialog = true
@@ -126,8 +137,13 @@ fun DailyScreen(
 
     fun saveBitmapFromComposableWithPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            coroutineScope.launch(Dispatchers.IO) {
-                saveBitmapFromComposable(pictureList[0], context)
+            coroutineScope.launch {
+                val message = saveDailyGraph(
+                    context = context,
+                    pictureList = pictureList,
+                    checkedButtonStates = checkedButtonStates,
+                )
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
         } else {
             if (
@@ -136,8 +152,13 @@ fun DailyScreen(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                coroutineScope.launch(Dispatchers.IO) {
-                    saveBitmapFromComposable(pictureList[0], context)
+                coroutineScope.launch {
+                    val message = saveDailyGraph(
+                        context = context,
+                        pictureList = pictureList,
+                        checkedButtonStates = checkedButtonStates,
+                    )
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 }
             } else {
                 requestWritePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -537,6 +558,7 @@ private fun GraphContent(
             modifier = Modifier.weight(1f),
             userScrollEnabled = true,
             state = pagerState,
+            beyondBoundsPageCount = 2,
         ) { page ->
             when (page % 4) {
                 0 -> TdsStandardDailyGraph(
@@ -620,6 +642,26 @@ private fun GraphContent(
             }
         }
     }
+}
+
+private suspend fun saveDailyGraph(
+    context: Context,
+    pictureList: List<Picture>,
+    checkedButtonStates: List<Boolean>,
+): String = coroutineScope {
+    val jobs = mutableListOf<Deferred<Result<Uri>>>()
+
+    checkedButtonStates.forEachIndexed { index, isChecked ->
+        if (isChecked) {
+            val job = async {
+                saveBitmapFromComposable(pictureList[index], context)
+            }
+            jobs.add(job)
+        }
+    }
+
+    val isCompleted = jobs.awaitAll().all { it.isSuccess }
+    if (isCompleted) "모든 사진이 갤러리에 저장되었습니다." else "갤러리에 저장이 실패하였습니다."
 }
 
 @Composable
