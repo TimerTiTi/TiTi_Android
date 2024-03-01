@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
@@ -44,16 +44,17 @@ fun TdsTimeLineDailyGraph(
     onCheckedChange: (Boolean) -> Unit,
 ) {
     BoxWithConstraints(
-        modifier = modifier
-            .padding(vertical = 10.dp)
-            .createCaptureImageModifier(picture = picture),
+        modifier = modifier,
         contentAlignment = Alignment.Center,
     ) {
         val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
 
         OutlinedCard(
             modifier = Modifier
-                .size(size),
+                .createCaptureImageModifier(picture = picture)
+                .height(size)
+                .width(size + 20.dp)
+                .padding(horizontal = 10.dp),
             shape = RoundedCornerShape(size * 0.07),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
@@ -68,23 +69,12 @@ fun TdsTimeLineDailyGraph(
             ) {
                 Spacer(modifier = Modifier.height(5.dp))
 
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    TdsToggleIconButton(
-                        modifier = Modifier.padding(2.dp).align(Alignment.CenterStart),
-                        checkedIcon = R.drawable.checked_icon,
-                        uncheckedIcon = R.drawable.unchecked_icon,
-                        checked = checked,
-                        onCheckedChange = onCheckedChange,
-                    )
-
-                    TdsText(
-                        modifier = Modifier.padding(2.dp).align(Alignment.Center),
-                        text = todayDate,
-                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                        fontSize = (size.value * 0.07).sp,
-                        color = TdsColor.TEXT,
-                    )
-                }
+                TdsText(
+                    text = todayDate,
+                    textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                    fontSize = (size.value * 0.07).sp,
+                    color = TdsColor.TEXT,
+                )
 
                 Spacer(modifier = Modifier.height(5.dp))
 
@@ -154,6 +144,21 @@ fun TdsTimeLineDailyGraph(
                     }
                 }
             }
+        }
+
+        Box(
+            modifier = Modifier
+                .offset(
+                    x = -size / 2 + 26.dp,
+                    y = -size * 0.49 + 26.dp,
+                ),
+        ) {
+            TdsToggleIconButton(
+                checkedIcon = R.drawable.checked_icon,
+                uncheckedIcon = R.drawable.unchecked_icon,
+                checked = checked,
+                onCheckedChange = onCheckedChange,
+            )
         }
     }
 }
