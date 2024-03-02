@@ -21,33 +21,29 @@ class AddMeasureTimeAtDailyUseCase @Inject constructor(
         val recentDaily = dailyRepository.getDateDaily()?.toDomainModel()
 
         recentDaily?.let { daily ->
-            val taskHistory =
-                TaskHistory(
-                    startDate = startTime,
-                    endDate = endTime,
-                )
+            val taskHistory = TaskHistory(
+                startDate = startTime,
+                endDate = endTime,
+            )
 
-            val updateTimeLine =
-                addTimeLine(
-                    startTime = ZonedDateTime.parse(startTime),
-                    endTime = ZonedDateTime.parse(endTime),
-                    timeLine = daily.timeLine,
-                )
+            val updateTimeLine = addTimeLine(
+                startTime = ZonedDateTime.parse(startTime),
+                endTime = ZonedDateTime.parse(endTime),
+                timeLine = daily.timeLine,
+            )
 
             val updateMaxTime = max(daily.maxTime, measureTime)
 
-            val updateTasks =
-                daily.tasks?.toMutableMap()?.apply {
-                    this[taskName] = this[taskName]?.plus(measureTime) ?: measureTime
-                }?.toMap() ?: mapOf(taskName to measureTime)
+            val updateTasks = daily.tasks?.toMutableMap()?.apply {
+                this[taskName] = this[taskName]?.plus(measureTime) ?: measureTime
+            }?.toMap() ?: mapOf(taskName to measureTime)
 
-            val updateTaskHistories =
-                daily.taskHistories?.toMutableMap()?.apply {
-                    this[taskName] =
-                        this[taskName]?.toMutableList()?.apply { add(taskHistory) } ?: listOf(
-                            taskHistory,
-                        )
-                }?.toMap() ?: mapOf(taskName to listOf(taskHistory))
+            val updateTaskHistories = daily.taskHistories?.toMutableMap()?.apply {
+                this[taskName] =
+                    this[taskName]?.toMutableList()?.apply { add(taskHistory) } ?: listOf(
+                        taskHistory,
+                    )
+            }?.toMap() ?: mapOf(taskName to listOf(taskHistory))
 
             dailyRepository.upsert(
                 daily.copy(

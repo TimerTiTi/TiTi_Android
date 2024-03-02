@@ -31,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -57,7 +56,6 @@ import org.threeten.bp.ZonedDateTime
 
 @Composable
 fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> Unit) {
-    val lifecycleOwner = LocalLifecycleOwner.current
     val splashResultState = splashResultState.fromJson<SplashResultState>() ?: SplashResultState()
 
     val viewModel: MeasuringViewModel =

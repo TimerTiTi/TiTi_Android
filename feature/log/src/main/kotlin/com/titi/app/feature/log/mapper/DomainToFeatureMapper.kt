@@ -33,7 +33,7 @@ internal fun Daily.toFeatureModel(): DailyGraphData {
     return DailyGraphData(
         totalTime = sumTime?.getTimeString() ?: "00:00:00",
         maxTime = maxTime.getTimeString(),
-        timeLine = timeLine,
+        timeLine = timeLine.toSystemDefaultTimeLine(),
         taskData = tasks?.map {
             TdsTaskData(
                 key = it.key,
@@ -230,8 +230,15 @@ internal fun Pair<Map<String, Long>, List<Daily>>.toHomeFeatureModel(
             ),
             homeDailyGraphData = HomeUiState.HomeDailyGraphData(
                 currentDate = currentDate,
-                timeLines = todayDaily?.timeLine ?: LongArray(24) { 0L }.toList(),
+                timeLines = todayDaily?.timeLine?.toSystemDefaultTimeLine()
+                    ?: LongArray(24) { 0L }.toList(),
             ),
         ),
     )
+}
+
+fun List<Long>.toSystemDefaultTimeLine(): List<Long> {
+    val diffTime = 24 - (ZonedDateTime.now().offset.totalSeconds / 3600 + 24 + 18) % 24
+
+    return this.subList(diffTime, 24) + this.subList(0, diffTime)
 }
