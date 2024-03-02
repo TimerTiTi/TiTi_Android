@@ -80,12 +80,15 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.core.designsystem.util.saveBitmapFromComposable
+import com.titi.app.core.designsystem.util.shareBitmap
+import com.titi.app.core.designsystem.util.shareBitmapFromComposable
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -217,7 +220,15 @@ fun DailyScreen(
             onSaveClick = {
                 saveBitmapFromComposableWithPermission()
             },
-            onShareClick = {},
+            onShareClick = {
+                coroutineScope.launch {
+                    shareDailyGraph(
+                        context = context,
+                        pictureList = pictureList,
+                        checkedButtonStates = checkedButtonStates,
+                    )
+                }
+            },
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -653,7 +664,7 @@ private suspend fun saveDailyGraph(
 
     checkedButtonStates.forEachIndexed { index, isChecked ->
         if (isChecked) {
-            val job = async {
+            val job = async(Dispatchers.IO) {
                 saveBitmapFromComposable(pictureList[index], context)
             }
             jobs.add(job)
@@ -662,6 +673,26 @@ private suspend fun saveDailyGraph(
 
     val isCompleted = jobs.awaitAll().all { it.isSuccess }
     if (isCompleted) "모든 사진이 갤러리에 저장되었습니다." else "갤러리에 저장이 실패하였습니다."
+}
+
+private suspend fun shareDailyGraph(
+    context: Context,
+    pictureList: List<Picture>,
+    checkedButtonStates: List<Boolean>,
+) = coroutineScope {
+    val jobs = mutableListOf<Deferred<Uri>>()
+
+    checkedButtonStates.forEachIndexed { index, isChecked ->
+        if (isChecked) {
+            val job = async(Dispatchers.IO) {
+                shareBitmapFromComposable(pictureList[index], context)
+            }
+            jobs.add(job)
+        }
+    }
+
+    val results = jobs.awaitAll()
+    shareBitmap(context, ArrayList(results))
 }
 
 @Composable

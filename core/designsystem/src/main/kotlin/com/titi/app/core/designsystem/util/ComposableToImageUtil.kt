@@ -1,6 +1,8 @@
 package com.titi.app.core.designsystem.util
 
 import android.content.Context
+import android.content.Intent
+import android.content.Intent.createChooser
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Picture
@@ -13,6 +15,8 @@ import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.drawscope.draw
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.FileProvider
 import java.io.File
 import java.util.UUID
 import kotlin.coroutines.resume
@@ -47,6 +51,11 @@ suspend fun saveBitmapFromComposable(picture: Picture, context: Context): Result
     }
 }
 
+fun shareBitmapFromComposable(picture: Picture, context: Context): Uri {
+    val bitmap = createBitmapFromPicture(picture)
+    return bitmap.getUri(context)
+}
+
 private fun createBitmapFromPicture(picture: Picture): Bitmap {
     val bitmap = Bitmap.createBitmap(
         picture.width,
@@ -71,6 +80,16 @@ private suspend fun Bitmap.saveToDisk(context: Context): Uri {
     return scanFilePath(context, file.path) ?: throw Exception("File could not be saved")
 }
 
+private fun Bitmap.getUri(context: Context): Uri {
+    val cachePath = File(context.cacheDir, "images")
+    cachePath.mkdirs()
+
+    val file = File(cachePath, "screenshot-${UUID.randomUUID()}.png")
+    file.writeBitmap(this, Bitmap.CompressFormat.PNG, 100)
+
+    return FileProvider.getUriForFile(context, context.packageName + ".provider", file)
+}
+
 private suspend fun scanFilePath(context: Context, filePath: String): Uri? {
     return suspendCancellableCoroutine { continuation ->
         MediaScannerConnection.scanFile(
@@ -92,4 +111,13 @@ private fun File.writeBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat, qual
         bitmap.compress(format, quality, out)
         out.flush()
     }
+}
+
+fun shareBitmap(context: Context, uris: ArrayList<Uri>) {
+    val intent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+        type = "image/png"
+        putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+    startActivity(context, createChooser(intent, "Share your image"), null)
 }
