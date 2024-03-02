@@ -1,5 +1,8 @@
 package com.titi.app.feature.measure.ui
 
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
@@ -28,10 +31,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.NotificationCompat
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
@@ -52,6 +57,7 @@ import org.threeten.bp.ZonedDateTime
 
 @Composable
 fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> Unit) {
+    val lifecycleOwner = LocalLifecycleOwner.current
     val splashResultState = splashResultState.fromJson<SplashResultState>() ?: SplashResultState()
 
     val viewModel: MeasuringViewModel =
@@ -97,6 +103,8 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     }
 
     LaunchedEffect(Unit) {
+        makeInProgressNotification(context)
+
         viewModel.setAlarm(
             title = alarmTitle,
             finishMessage = alarmFinishMessage,
@@ -113,6 +121,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
 
     BackHandler {
         stopMeasuring()
+        removeInProgressNotification(context)
         onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
     }
 
@@ -129,6 +138,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     LaunchedEffect(isFinishState) {
         if (isFinishState) {
             stopMeasuring()
+            removeInProgressNotification(context)
             onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
         }
     }
@@ -166,6 +176,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
         },
         onFinishClick = {
             stopMeasuring()
+            removeInProgressNotification(context)
             onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
         },
     )
@@ -289,4 +300,39 @@ private fun MeasuringScreen(
             }
         }
     }
+}
+
+private fun makeInProgressNotification(context: Context) {
+    val title = "TiTi"
+    val message = "측정이 진행 중입니다."
+    val channelId = "InProgressId"
+
+    val deepLink = "titi://"
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(deepLink)).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
+    val pendingIntent: PendingIntent = PendingIntent.getActivity(
+        context,
+        0,
+        intent,
+        PendingIntent.FLAG_IMMUTABLE,
+    )
+
+    val notificationManager =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    val builder = NotificationCompat.Builder(context, channelId)
+        .setSmallIcon(R.drawable.ic_stat_name)
+        .setContentTitle(title)
+        .setContentText(message)
+        .setContentIntent(pendingIntent)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+    notificationManager.notify(1, builder.build())
+}
+
+private fun removeInProgressNotification(context: Context) {
+    val notificationManager = context.getSystemService(
+        Context.NOTIFICATION_SERVICE,
+    ) as NotificationManager
+    notificationManager.cancel(1)
 }

@@ -28,7 +28,7 @@ internal class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val title = intent.getStringExtra("ALARM_TITLE") ?: return
         val message = intent.getStringExtra("ALARM_MESSAGE")
-        val channelId = "titiChannelId"
+        val channelId = "AlarmId"
         val entryPoint = EntryPointAccessors.fromApplication(
             context,
             AlarmReceiverEntryPoint::class.java,

@@ -15,17 +15,30 @@ class TiTiApplication : Application() {
 
         Mavericks.initialize(this)
         AndroidThreeTen.init(this)
-        createNotificationChannel()
+        createAlarmNotificationChannel()
+        createInProgressNotificationChannel()
     }
 
-    private fun createNotificationChannel() {
-        val channelId = "titiChannelId"
-        val channelName = "TiTi Notifications"
+    private fun createAlarmNotificationChannel() {
+        val channelId = "AlarmId"
+        val channelName = "TiTi Alarm"
         val channelImportance = NotificationManager.IMPORTANCE_DEFAULT
 
         val channel = NotificationChannel(channelId, channelName, channelImportance).apply {
             setShowBadge(false)
         }
+
+        val notificationManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun createInProgressNotificationChannel() {
+        val channelId = "InProgressId"
+        val channelName = "TiTi In Progress"
+        val channelImportance = NotificationManager.IMPORTANCE_DEFAULT
+
+        val channel = NotificationChannel(channelId, channelName, channelImportance)
 
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
