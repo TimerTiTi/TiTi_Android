@@ -185,7 +185,7 @@ internal fun Pair<Map<String, Long>, List<Daily>>.toHomeFeatureModel(
     }
 
     var weekTotalTime = 0L
-    var weekStudyCount = 9
+    var weekStudyCount = 0
     val weekLineChartData = currentDate.makeDefaultWeekLineChardData().toMutableList()
 
     weekDailies.forEach { daily ->
