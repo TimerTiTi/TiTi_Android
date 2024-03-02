@@ -33,8 +33,7 @@ fun getMondaySunday(currentDate: LocalDate): Pair<String, String> {
 
     val monday = currentDate
         .minusDays(diffMonday.toLong())
-        .atStartOfDay()
-        .atZone(ZoneOffset.systemDefault())
+        .atStartOfDay(ZoneOffset.systemDefault())
         .withZoneSameInstant(ZoneOffset.UTC)
         .toString()
 
