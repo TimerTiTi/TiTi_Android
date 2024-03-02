@@ -1,7 +1,6 @@
 package com.titi.app.feature.time.ui.stopwatch
 
 import android.content.res.Configuration
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -209,9 +208,6 @@ private fun StopWatchScreen(
 
                 with(uiState.stopWatchRecordTimes) {
                     TdsTimer(
-                        modifier = Modifier.clickable {
-                            onClickStartRecord()
-                        },
                         outCircularLineColor = textColor.getColor(),
                         outCircularProgress = outCircularProgress,
                         inCircularLineTrackColor = if (textColor == TdsColor.WHITE) {
@@ -227,6 +223,9 @@ private fun StopWatchScreen(
                         savedGoalTime = savedGoalTime,
                         finishGoalTime = finishGoalTime,
                         isTaskTargetTimeOn = isTaskTargetTimeOn,
+                        onClickStopStart = {
+                            onClickStartRecord()
+                        },
                     )
                 }
 
@@ -253,9 +252,6 @@ private fun StopWatchScreen(
             ) {
                 with(uiState.stopWatchRecordTimes) {
                     TdsTimer(
-                        modifier = Modifier.clickable {
-                            onClickStartRecord()
-                        },
                         outCircularLineColor = textColor.getColor(),
                         outCircularProgress = outCircularProgress,
                         inCircularLineTrackColor = if (textColor == TdsColor.WHITE) {
@@ -271,6 +267,9 @@ private fun StopWatchScreen(
                         savedGoalTime = savedGoalTime,
                         finishGoalTime = finishGoalTime,
                         isTaskTargetTimeOn = isTaskTargetTimeOn,
+                        onClickStopStart = {
+                            onClickStartRecord()
+                        },
                     )
                 }
             }

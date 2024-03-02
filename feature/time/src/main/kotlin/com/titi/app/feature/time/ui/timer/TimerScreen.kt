@@ -1,7 +1,6 @@
 package com.titi.app.feature.time.ui.timer
 
 import android.content.res.Configuration
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -247,9 +246,6 @@ private fun TimerScreen(
 
                 with(uiState.timerRecordTimes) {
                     TdsTimer(
-                        modifier = Modifier.clickable {
-                            onClickStartRecord()
-                        },
                         isFinish = isFinish,
                         outCircularLineColor = textColor.getColor(),
                         outCircularProgress = outCircularProgress,
@@ -266,6 +262,9 @@ private fun TimerScreen(
                         savedGoalTime = savedGoalTime,
                         finishGoalTime = finishGoalTime,
                         isTaskTargetTimeOn = isTaskTargetTimeOn,
+                        onClickStopStart = {
+                            onClickStartRecord()
+                        },
                     )
                 }
 
@@ -292,10 +291,6 @@ private fun TimerScreen(
             ) {
                 with(uiState.timerRecordTimes) {
                     TdsTimer(
-                        modifier = Modifier
-                            .clickable {
-                                onClickStartRecord()
-                            },
                         isFinish = isFinish,
                         outCircularLineColor = textColor.getColor(),
                         outCircularProgress = outCircularProgress,
@@ -312,6 +307,9 @@ private fun TimerScreen(
                         savedGoalTime = savedGoalTime,
                         finishGoalTime = finishGoalTime,
                         isTaskTargetTimeOn = isTaskTargetTimeOn,
+                        onClickStopStart = {
+                            onClickStartRecord()
+                        },
                     )
                 }
             }

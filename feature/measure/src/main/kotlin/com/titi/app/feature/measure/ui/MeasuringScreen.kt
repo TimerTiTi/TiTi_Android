@@ -7,7 +7,6 @@ import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -223,9 +222,6 @@ private fun MeasuringScreen(
 
                 with(uiState.measuringRecordTimes) {
                     TdsTimer(
-                        modifier = Modifier.clickable {
-                            onFinishClick()
-                        },
                         outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
                         outCircularProgress = outCircularProgress,
                         inCircularLineTrackColor = TdsColor.WHITE,
@@ -238,6 +234,9 @@ private fun MeasuringScreen(
                         savedGoalTime = savedGoalTime,
                         finishGoalTime = finishGoalTime,
                         isTaskTargetTimeOn = isTaskTargetTimeOn,
+                        onClickStopStart = {
+                            onFinishClick()
+                        },
                     )
                 }
 
@@ -270,9 +269,6 @@ private fun MeasuringScreen(
             ) {
                 with(uiState.measuringRecordTimes) {
                     TdsTimer(
-                        modifier = Modifier.clickable {
-                            onFinishClick()
-                        },
                         outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
                         outCircularProgress = outCircularProgress,
                         inCircularLineTrackColor = TdsColor.WHITE,
@@ -285,6 +281,9 @@ private fun MeasuringScreen(
                         savedGoalTime = savedGoalTime,
                         finishGoalTime = finishGoalTime,
                         isTaskTargetTimeOn = isTaskTargetTimeOn,
+                        onClickStopStart = {
+                            onFinishClick()
+                        },
                     )
                 }
             }

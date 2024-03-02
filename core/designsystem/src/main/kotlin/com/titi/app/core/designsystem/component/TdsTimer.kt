@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,11 +49,13 @@ fun TdsTimer(
     savedGoalTime: Long,
     finishGoalTime: String,
     isTaskTargetTimeOn: Boolean,
+    onClickStopStart: () -> Unit,
 ) {
     val activity = LocalContext.current as? Activity ?: return
     val metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(activity)
     val widthDp = metrics.bounds.width() / activity.resources.displayMetrics.density
     val heightDp = metrics.bounds.height() / activity.resources.displayMetrics.density
+    val clickStopStartModifier = Modifier.clickable { onClickStopStart() }
 
     BoxWithConstraints(
         modifier = modifier.width(min(widthDp, heightDp).dp),
@@ -150,6 +153,7 @@ fun TdsTimer(
 
             if (isFinish) {
                 TdsText(
+                    modifier = clickStopStartModifier,
                     text = stringResource(id = R.string.finish_text),
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = mainTimerTextSize.sp,
@@ -157,7 +161,7 @@ fun TdsTimer(
                 )
             } else {
                 Row(
-                    modifier = Modifier.width(contentSize * 0.9),
+                    modifier = clickStopStartModifier.width(contentSize * 0.9),
                 ) {
                     if (savedTime < 0) {
                         TdsText(
@@ -243,6 +247,7 @@ private fun TdsTimerPreview() {
             savedGoalTime = -1000,
             finishGoalTime = "11:57",
             isTaskTargetTimeOn = false,
+            onClickStopStart = {},
         )
     }
 }
@@ -267,6 +272,7 @@ private fun TdsTimerPreview1() {
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
             isTaskTargetTimeOn = false,
+            onClickStopStart = {},
         )
     }
 }
@@ -291,6 +297,7 @@ private fun TdsTimerPreview2() {
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
             isTaskTargetTimeOn = false,
+            onClickStopStart = {},
         )
     }
 }
@@ -315,6 +322,7 @@ private fun TdsTimerPreview3() {
             savedGoalTime = 2462,
             finishGoalTime = "11:57",
             isTaskTargetTimeOn = false,
+            onClickStopStart = {},
         )
     }
 }
