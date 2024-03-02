@@ -43,19 +43,19 @@ internal class AlarmReceiver : BroadcastReceiver() {
             context,
             0,
             intent,
-            PendingIntent.FLAG_MUTABLE,
+            PendingIntent.FLAG_IMMUTABLE,
         )
 
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val builder =
-            NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_stat_name)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+        val builder = NotificationCompat.Builder(context, channelId)
+            .setSmallIcon(R.drawable.ic_stat_name)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+
         notificationManager.notify(0, builder.build())
 
         goAsync(CoroutineScope(Dispatchers.IO)) {
