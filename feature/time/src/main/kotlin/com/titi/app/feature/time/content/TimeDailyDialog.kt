@@ -13,17 +13,19 @@ import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsInputTimeTextField
 import com.titi.app.core.designsystem.model.TdsDialogInfo
+import com.titi.app.core.designsystem.model.TdsTime
 import com.titi.app.core.util.getTimeToLong
 
 @Composable
 fun TimeDailyDialog(
     todayDate: String,
+    currentTime: TdsTime,
     onPositive: (Long) -> Unit,
     onShowDialog: (Boolean) -> Unit,
 ) {
-    var hour by remember { mutableStateOf("") }
-    var minutes by remember { mutableStateOf("") }
-    var seconds by remember { mutableStateOf("") }
+    var hour by remember { mutableStateOf(currentTime.hour.toString()) }
+    var minutes by remember { mutableStateOf(currentTime.minutes.toString()) }
+    var seconds by remember { mutableStateOf(currentTime.seconds.toString()) }
 
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Confirm(

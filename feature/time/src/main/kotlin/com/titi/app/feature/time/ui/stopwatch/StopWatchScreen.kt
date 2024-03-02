@@ -25,6 +25,7 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsTimer
+import com.titi.app.core.designsystem.extension.getTdsTime
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.util.toJson
 import com.titi.app.feature.time.content.TimeButtonContent
@@ -93,6 +94,7 @@ fun StopWatchScreen(
     if (showAddDailyDialog) {
         TimeDailyDialog(
             todayDate = uiState.todayDate,
+            currentTime = uiState.recordTimes.setGoalTime.getTdsTime(),
             onPositive = {
                 if (it > 0) {
                     viewModel.updateSetGoalTime(
