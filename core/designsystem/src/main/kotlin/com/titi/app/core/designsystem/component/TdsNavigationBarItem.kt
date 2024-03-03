@@ -34,12 +34,12 @@ fun RowScope.TdsNavigationBarItem(
                 indication = null,
             )
             .weight(1f)
-            .padding(vertical = 8.dp),
+            .padding(vertical = 4.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         icon()
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         label()
     }
