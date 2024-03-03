@@ -62,7 +62,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     val viewModel: MeasuringViewModel =
         mavericksViewModel(
             argsFactory = {
-                splashResultState.asMavericksArgs()
+                splashResultStateModel.asMavericksArgs()
             },
         )
 
