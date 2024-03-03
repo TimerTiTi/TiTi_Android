@@ -1,3 +1,2 @@
-TiTi android dev 0.2.2(8)
-- 로그 화면 color 로직 연결
-- 타임 테이블 격자 수정
+TiTi android dev 0.2.4(10)
+- QA 0.2.3 반영
