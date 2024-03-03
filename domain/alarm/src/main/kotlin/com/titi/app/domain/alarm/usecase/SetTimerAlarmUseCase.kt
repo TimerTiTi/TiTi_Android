@@ -5,7 +5,6 @@ import com.titi.app.domain.alarm.mapper.toRepositoryModel
 import com.titi.app.domain.alarm.model.Alarm
 import com.titi.app.domain.alarm.model.Alarms
 import javax.inject.Inject
-import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
 class SetTimerAlarmUseCase @Inject constructor(
@@ -17,7 +16,9 @@ class SetTimerAlarmUseCase @Inject constructor(
         fiveMinutesBeforeFinish: String,
         measureTime: Long,
     ) {
-        val now = ZonedDateTime.now(ZoneOffset.UTC)
+        alarmRepository.cancelAlarms()
+
+        val now = ZonedDateTime.now()
         val finishTime = now.plusSeconds(measureTime).toString()
         val fiveMinutesBeforeFinishTime: String? = if (measureTime > FIVE_MINUTES) {
             now.plusSeconds(measureTime - FIVE_MINUTES).toString()

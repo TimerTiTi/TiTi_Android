@@ -57,13 +57,12 @@ fun addTimeLine(
     val updateTimeLine = timeLine.toMutableList()
 
     while (current.isBefore(endTime)) {
-        val diffSeconds =
-            if (current.hour == endTime.hour) {
-                Duration.between(current, endTime).seconds
-            } else {
-                val nextTime = current.plusHours(1).withMinute(0).withSecond(0)
-                Duration.between(current, nextTime).seconds
-            }
+        val diffSeconds = if (current.hour == endTime.hour) {
+            Duration.between(current, endTime).seconds
+        } else {
+            val nextTime = current.plusHours(1).withMinute(0).withSecond(0)
+            Duration.between(current, nextTime).seconds
+        }
 
         updateTimeLine[current.hour] += diffSeconds
         current = current.plusHours(1).withMinute(0).withSecond(0)

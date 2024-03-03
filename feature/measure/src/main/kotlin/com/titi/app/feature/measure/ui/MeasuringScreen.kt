@@ -1,5 +1,8 @@
 package com.titi.app.feature.measure.ui
 
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
@@ -7,7 +10,6 @@ import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.NotificationCompat
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
@@ -53,7 +56,8 @@ import org.threeten.bp.ZonedDateTime
 
 @Composable
 fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> Unit) {
-    val splashResultState = splashResultState.fromJson<SplashResultState>() ?: SplashResultState()
+    val splashResultStateModel =
+        splashResultState.fromJson<SplashResultState>() ?: SplashResultState()
 
     val viewModel: MeasuringViewModel =
         mavericksViewModel(
@@ -67,7 +71,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     var showSetExactAlarmPermissionDialog by remember { mutableStateOf(false) }
 
     val (alarmTitle, alarmFinishMessage, alarmFiveMinutesBeforeFinish) =
-        if (splashResultState.recordTimes.recordingMode == 1) {
+        if (splashResultStateModel.recordTimes.recordingMode == 1) {
             Triple(
                 stringResource(id = R.string.timer),
                 stringResource(id = R.string.timer_finish_alarm_message),
@@ -84,7 +88,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     val isFinishState by remember {
         derivedStateOf {
             val savedTime = uiState.measuringRecordTimes.savedTime
-            val recordingMode = splashResultState.recordTimes.recordingMode
+            val recordingMode = splashResultStateModel.recordTimes.recordingMode
             savedTime <= 0 && recordingMode == 1
         }
     }
@@ -98,14 +102,16 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     }
 
     LaunchedEffect(Unit) {
+        makeInProgressNotification(context)
+
         viewModel.setAlarm(
             title = alarmTitle,
             finishMessage = alarmFinishMessage,
             fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
-            measureTime = if (splashResultState.recordTimes.recordingMode == 1) {
-                splashResultState.recordTimes.savedTimerTime
+            measureTime = if (splashResultStateModel.recordTimes.recordingMode == 1) {
+                splashResultStateModel.recordTimes.savedTimerTime - uiState.measureTime
             } else {
-                splashResultState.recordTimes.savedStopWatchTime
+                splashResultStateModel.recordTimes.savedStopWatchTime + uiState.measureTime
             },
         )
 
@@ -114,6 +120,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
 
     BackHandler {
         stopMeasuring()
+        removeNotification(context)
         onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
     }
 
@@ -130,6 +137,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     LaunchedEffect(isFinishState) {
         if (isFinishState) {
             stopMeasuring()
+            removeNotification(context)
             onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
         }
     }
@@ -167,6 +175,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
         },
         onFinishClick = {
             stopMeasuring()
+            removeNotification(context)
             onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
         },
     )
@@ -223,9 +232,6 @@ private fun MeasuringScreen(
 
                 with(uiState.measuringRecordTimes) {
                     TdsTimer(
-                        modifier = Modifier.clickable {
-                            onFinishClick()
-                        },
                         outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
                         outCircularProgress = outCircularProgress,
                         inCircularLineTrackColor = TdsColor.WHITE,
@@ -238,6 +244,9 @@ private fun MeasuringScreen(
                         savedGoalTime = savedGoalTime,
                         finishGoalTime = finishGoalTime,
                         isTaskTargetTimeOn = isTaskTargetTimeOn,
+                        onClickStopStart = {
+                            onFinishClick()
+                        },
                     )
                 }
 
@@ -270,9 +279,6 @@ private fun MeasuringScreen(
             ) {
                 with(uiState.measuringRecordTimes) {
                     TdsTimer(
-                        modifier = Modifier.clickable {
-                            onFinishClick()
-                        },
                         outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
                         outCircularProgress = outCircularProgress,
                         inCircularLineTrackColor = TdsColor.WHITE,
@@ -285,9 +291,48 @@ private fun MeasuringScreen(
                         savedGoalTime = savedGoalTime,
                         finishGoalTime = finishGoalTime,
                         isTaskTargetTimeOn = isTaskTargetTimeOn,
+                        onClickStopStart = {
+                            onFinishClick()
+                        },
                     )
                 }
             }
         }
     }
+}
+
+private fun makeInProgressNotification(context: Context) {
+    val title = "TiTi"
+    val message = "측정이 진행 중입니다."
+    val channelId = "InProgressId"
+
+    val deepLink = "titi://"
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(deepLink)).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
+    val pendingIntent: PendingIntent = PendingIntent.getActivity(
+        context,
+        0,
+        intent,
+        PendingIntent.FLAG_IMMUTABLE,
+    )
+
+    val notificationManager =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    val builder = NotificationCompat.Builder(context, channelId)
+        .setSmallIcon(R.drawable.ic_stat_name)
+        .setContentTitle(title)
+        .setContentText(message)
+        .setContentIntent(pendingIntent)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+    notificationManager.notify(1, builder.build())
+}
+
+private fun removeNotification(context: Context) {
+    val notificationManager = context.getSystemService(
+        Context.NOTIFICATION_SERVICE,
+    ) as NotificationManager
+    notificationManager.cancel(0)
+    notificationManager.cancel(1)
 }

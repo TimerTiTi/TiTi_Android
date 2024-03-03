@@ -8,7 +8,7 @@ data class RecordTimes(
     val recordingMode: Int = 1,
     val recording: Boolean = false,
     val recordStartAt: String? = null,
-    val setGoalTime: Long = 7200,
+    val setGoalTime: Long = 21600,
     val setTimerTime: Long = 3600,
     val savedSumTime: Long = 0,
     val savedTimerTime: Long = 3600,

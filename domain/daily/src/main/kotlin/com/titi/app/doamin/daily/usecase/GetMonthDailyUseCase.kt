@@ -15,8 +15,7 @@ class GetMonthDailyUseCase @Inject constructor(
         return dailyRepository.getDailies(
             startDateTime = currentDate
                 .withDayOfMonth(1)
-                .atStartOfDay()
-                .atZone(ZoneOffset.systemDefault())
+                .atStartOfDay(ZoneOffset.systemDefault())
                 .withZoneSameInstant(ZoneOffset.UTC)
                 .toString(),
             endDateTime = currentDate

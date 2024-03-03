@@ -82,7 +82,7 @@ data class HomeUiState(
         val timeLines: List<Long> = LongArray(24) { 0L }.toList(),
     ) {
         val todayDate = currentDate.toString().replace('-', '.')
-        val todayDayOfTheWeek = currentDate.dayOfWeek.value
+        val todayDayOfTheWeek = currentDate.dayOfWeek.value - 1
     }
 }
 

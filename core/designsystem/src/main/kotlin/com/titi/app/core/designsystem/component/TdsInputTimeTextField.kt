@@ -17,8 +17,10 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,14 +61,14 @@ fun TdsInputTimeTextField(
                 .weight(1f)
                 .focusRequester(hourFocus)
                 .focusProperties { next = minutesFocus },
-            text = hour,
+            text = TextFieldValue(hour, selection = TextRange(hour.length)),
             onValueChange = {
-                if (it.isDigitsOnly()) {
-                    if (it.isBlank()) {
-                        onHourChange(it)
+                if (it.text.isDigitsOnly()) {
+                    if (it.text.isBlank()) {
+                        onHourChange(it.text)
                     } else {
-                        if (it.toInt() < 24) {
-                            onHourChange(it)
+                        if (it.text.toInt() < 24) {
+                            onHourChange(it.text)
                         }
                     }
                 }
@@ -109,14 +111,14 @@ fun TdsInputTimeTextField(
                     previous = hourFocus
                     next = secondsFocus
                 },
-            text = minutes,
+            text = TextFieldValue(minutes, selection = TextRange(minutes.length)),
             onValueChange = {
-                if (it.isDigitsOnly()) {
-                    if (it.isBlank()) {
-                        onMinutesChange(it)
+                if (it.text.isDigitsOnly()) {
+                    if (it.text.isBlank()) {
+                        onMinutesChange(it.text)
                     } else {
-                        if (it.toInt() < 60) {
-                            onMinutesChange(it)
+                        if (it.text.toInt() < 60) {
+                            onMinutesChange(it.text)
                         }
                     }
                 }
@@ -155,14 +157,14 @@ fun TdsInputTimeTextField(
                 .weight(1f)
                 .focusRequester(secondsFocus)
                 .focusProperties { previous = minutesFocus },
-            text = seconds,
+            text = TextFieldValue(seconds, selection = TextRange(seconds.length)),
             onValueChange = {
-                if (it.isDigitsOnly()) {
-                    if (it.isBlank()) {
-                        onSecondsChange(it)
+                if (it.text.isDigitsOnly()) {
+                    if (it.text.isBlank()) {
+                        onSecondsChange(it.text)
                     } else {
-                        if (it.toInt() < 60) {
-                            onSecondsChange(it)
+                        if (it.text.toInt() < 60) {
+                            onSecondsChange(it.text)
                         }
                     }
                 }

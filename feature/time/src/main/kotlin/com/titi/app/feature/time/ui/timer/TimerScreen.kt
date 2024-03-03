@@ -1,7 +1,6 @@
 package com.titi.app.feature.time.ui.timer
 
 import android.content.res.Configuration
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +26,7 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsTimer
+import com.titi.app.core.designsystem.extension.getTdsTime
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.util.toJson
 import com.titi.app.feature.time.content.TimeButtonContent
@@ -101,6 +101,7 @@ fun TimerScreen(
     if (showAddDailyDialog) {
         TimeDailyDialog(
             todayDate = uiState.todayDate,
+            currentTime = uiState.recordTimes.setGoalTime.getTdsTime(),
             onPositive = {
                 if (it > 0) {
                     viewModel.updateSetGoalTime(
@@ -247,9 +248,6 @@ private fun TimerScreen(
 
                 with(uiState.timerRecordTimes) {
                     TdsTimer(
-                        modifier = Modifier.clickable {
-                            onClickStartRecord()
-                        },
                         isFinish = isFinish,
                         outCircularLineColor = textColor.getColor(),
                         outCircularProgress = outCircularProgress,
@@ -266,6 +264,9 @@ private fun TimerScreen(
                         savedGoalTime = savedGoalTime,
                         finishGoalTime = finishGoalTime,
                         isTaskTargetTimeOn = isTaskTargetTimeOn,
+                        onClickStopStart = {
+                            onClickStartRecord()
+                        },
                     )
                 }
 
@@ -292,10 +293,6 @@ private fun TimerScreen(
             ) {
                 with(uiState.timerRecordTimes) {
                     TdsTimer(
-                        modifier = Modifier
-                            .clickable {
-                                onClickStartRecord()
-                            },
                         isFinish = isFinish,
                         outCircularLineColor = textColor.getColor(),
                         outCircularProgress = outCircularProgress,
@@ -312,6 +309,9 @@ private fun TimerScreen(
                         savedGoalTime = savedGoalTime,
                         finishGoalTime = finishGoalTime,
                         isTaskTargetTimeOn = isTaskTargetTimeOn,
+                        onClickStopStart = {
+                            onClickStartRecord()
+                        },
                     )
                 }
             }

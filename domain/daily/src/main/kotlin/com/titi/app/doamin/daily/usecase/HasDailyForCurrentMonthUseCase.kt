@@ -18,8 +18,7 @@ class HasDailyForCurrentMonthUseCase @Inject constructor(
         val dailies = dailyRepository.getDailies(
             startDateTime = currentDate
                 .withDayOfMonth(startDay)
-                .atStartOfDay()
-                .atZone(ZoneOffset.systemDefault())
+                .atStartOfDay(ZoneOffset.systemDefault())
                 .withZoneSameInstant(ZoneOffset.UTC)
                 .toString(),
             endDateTime = currentDate
