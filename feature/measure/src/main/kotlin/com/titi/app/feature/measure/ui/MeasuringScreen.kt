@@ -108,9 +108,9 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
             finishMessage = alarmFinishMessage,
             fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
             measureTime = if (splashResultState.recordTimes.recordingMode == 1) {
-                splashResultState.recordTimes.savedTimerTime
+                splashResultState.recordTimes.savedTimerTime - uiState.measureTime
             } else {
-                splashResultState.recordTimes.savedStopWatchTime
+                splashResultState.recordTimes.savedStopWatchTime + uiState.measureTime
             },
         )
 

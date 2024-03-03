@@ -5,14 +5,15 @@ import com.titi.app.domain.alarm.mapper.toRepositoryModel
 import com.titi.app.domain.alarm.model.Alarm
 import com.titi.app.domain.alarm.model.Alarms
 import javax.inject.Inject
-import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
 class SetStopWatchAlarmUseCase @Inject constructor(
     private val alarmRepository: AlarmRepository,
 ) {
     suspend operator fun invoke(title: String, finishMessage: String, measureTime: Long) {
-        val now = ZonedDateTime.now(ZoneOffset.UTC)
+        alarmRepository.cancelAlarms()
+
+        val now = ZonedDateTime.now()
         val finishTimeRange = (measureTime / ONE_HOUR_SECONDS) + 1..TWENTY_FOUR_HOURS
         val alarms =
             Alarms(
