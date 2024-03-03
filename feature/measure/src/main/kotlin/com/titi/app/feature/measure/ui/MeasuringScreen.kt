@@ -119,7 +119,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
 
     BackHandler {
         stopMeasuring()
-        removeInProgressNotification(context)
+        removeNotification(context)
         onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
     }
 
@@ -136,7 +136,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     LaunchedEffect(isFinishState) {
         if (isFinishState) {
             stopMeasuring()
-            removeInProgressNotification(context)
+            removeNotification(context)
             onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
         }
     }
@@ -174,7 +174,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
         },
         onFinishClick = {
             stopMeasuring()
-            removeInProgressNotification(context)
+            removeNotification(context)
             onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
         },
     )
@@ -328,9 +328,10 @@ private fun makeInProgressNotification(context: Context) {
     notificationManager.notify(1, builder.build())
 }
 
-private fun removeInProgressNotification(context: Context) {
+private fun removeNotification(context: Context) {
     val notificationManager = context.getSystemService(
         Context.NOTIFICATION_SERVICE,
     ) as NotificationManager
+    notificationManager.cancel(0)
     notificationManager.cancel(1)
 }
