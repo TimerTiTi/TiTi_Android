@@ -56,7 +56,8 @@ import org.threeten.bp.ZonedDateTime
 
 @Composable
 fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> Unit) {
-    val splashResultState = splashResultState.fromJson<SplashResultState>() ?: SplashResultState()
+    val splashResultStateModel =
+        splashResultState.fromJson<SplashResultState>() ?: SplashResultState()
 
     val viewModel: MeasuringViewModel =
         mavericksViewModel(
@@ -70,7 +71,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     var showSetExactAlarmPermissionDialog by remember { mutableStateOf(false) }
 
     val (alarmTitle, alarmFinishMessage, alarmFiveMinutesBeforeFinish) =
-        if (splashResultState.recordTimes.recordingMode == 1) {
+        if (splashResultStateModel.recordTimes.recordingMode == 1) {
             Triple(
                 stringResource(id = R.string.timer),
                 stringResource(id = R.string.timer_finish_alarm_message),
@@ -87,7 +88,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     val isFinishState by remember {
         derivedStateOf {
             val savedTime = uiState.measuringRecordTimes.savedTime
-            val recordingMode = splashResultState.recordTimes.recordingMode
+            val recordingMode = splashResultStateModel.recordTimes.recordingMode
             savedTime <= 0 && recordingMode == 1
         }
     }
@@ -107,10 +108,10 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
             title = alarmTitle,
             finishMessage = alarmFinishMessage,
             fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
-            measureTime = if (splashResultState.recordTimes.recordingMode == 1) {
-                splashResultState.recordTimes.savedTimerTime - uiState.measureTime
+            measureTime = if (splashResultStateModel.recordTimes.recordingMode == 1) {
+                splashResultStateModel.recordTimes.savedTimerTime - uiState.measureTime
             } else {
-                splashResultState.recordTimes.savedStopWatchTime + uiState.measureTime
+                splashResultStateModel.recordTimes.savedStopWatchTime + uiState.measureTime
             },
         )
 
