@@ -25,7 +25,9 @@ android {
             isDebuggable = true
         }
         getByName(BuildType.RELEASE) {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isDebuggable = false
+            isShrinkResources = true
             manifestPlaceholders["appName"] = AppConfig.APP_NAME
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
