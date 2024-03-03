@@ -4,6 +4,7 @@ object BuildType {
     const val RELEASE = "release"
     const val DEBUG = "debug"
     const val DEV = "dev"
+    const val INHOUSE = "inhouse"
 }
 
 object AppConfig {

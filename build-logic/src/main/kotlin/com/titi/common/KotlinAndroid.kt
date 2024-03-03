@@ -33,6 +33,9 @@ internal fun Project.configureKotlinAndroid() {
         buildTypes {
             getByName(BuildType.DEBUG)
             getByName(BuildType.RELEASE)
+            create(BuildType.INHOUSE){
+                initWith(getByName("release"))
+            }
             create(BuildType.DEV) {
                 initWith(getByName("debug"))
             }
