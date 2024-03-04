@@ -66,7 +66,7 @@ fun TdsTaskResultListItem(
             text = taskName,
             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             fontSize = fontSize,
-            color = TdsColor.BACKGROUND,
+            color = TdsColor.TEXT,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
         )
