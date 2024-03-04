@@ -19,3 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class com.titi.app.feature.main.model.** {*;}
+-keep class com.titi.app.feature.measure.model.** {*;}
+-keep class com.titi.app.feature.time.model.** {*;}
