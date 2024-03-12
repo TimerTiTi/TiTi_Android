@@ -57,9 +57,9 @@ fun TdsTimeTableDailyGraph(
         OutlinedCard(
             modifier = Modifier
                 .createCaptureImageModifier(picture = picture)
-                .height(size)
+                .height(size + 20.dp)
                 .width(size + 20.dp)
-                .padding(horizontal = 10.dp),
+                .padding(10.dp),
             shape = RoundedCornerShape(size * 0.07),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
