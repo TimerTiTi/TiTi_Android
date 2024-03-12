@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,6 +20,7 @@ import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import java.time.LocalDate
+import kotlinx.coroutines.launch
 
 @Composable
 fun WeekScreen(
@@ -36,6 +38,7 @@ fun WeekScreen(
     onCalendarLocalDateChanged: (LocalDate) -> Unit,
 ) {
     val scrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -49,6 +52,26 @@ fun WeekScreen(
             hasDailies = hasDailies,
             onClickDate = onClickDate,
             onCalendarLocalDateChanged = onCalendarLocalDateChanged,
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        ButtonRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 50.dp),
+            onSaveClick = {
+                // saveBitmapFromComposableWithPermission()
+            },
+            onShareClick = {
+                coroutineScope.launch {
+//                    shareDailyGraph(
+//                        context = context,
+//                        pictureList = pictureList,
+//                        checkedButtonStates = checkedButtonStates,
+//                    )
+                }
+            },
         )
 
         Spacer(modifier = Modifier.height(15.dp))
