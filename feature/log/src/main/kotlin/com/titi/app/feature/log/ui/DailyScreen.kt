@@ -1,5 +1,14 @@
 package com.titi.app.feature.log.ui
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.graphics.Picture
+import android.net.Uri
+import android.os.Build
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -31,18 +40,24 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.CalendarDay
@@ -51,22 +66,32 @@ import com.kizitonwose.calendar.core.OutDateStyle
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsColorRow
+import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsStandardDailyGraph
 import com.titi.app.core.designsystem.component.TdsTaskProgressDailyGraph
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTimeLineDailyGraph
 import com.titi.app.core.designsystem.component.TdsTimeTableDailyGraph
+import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.designsystem.util.saveBitmapFromComposable
+import com.titi.app.core.designsystem.util.shareBitmap
+import com.titi.app.core.designsystem.util.shareBitmapFromComposable
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -79,11 +104,89 @@ fun DailyScreen(
     tdsColors: List<TdsColor>,
     timeLines: List<Long>,
     timeTableData: List<TdsTimeTableData>,
+    checkedButtonStates: List<Boolean>,
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
     onCalendarLocalDateChanged: (LocalDate) -> Unit,
+    onCheckedChange: (page: Int, checked: Boolean) -> Unit,
 ) {
+    val context = LocalContext.current
     val scrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
+    val pictureList = remember {
+        List(4) { Picture() }
+    }
+    var showPermissionDialog by remember {
+        mutableStateOf(false)
+    }
+
+    val requestWritePermissionLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                coroutineScope.launch {
+                    val message = saveDailyGraph(
+                        context = context,
+                        pictureList = pictureList,
+                        checkedButtonStates = checkedButtonStates,
+                    )
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                showPermissionDialog = true
+            }
+        }
+
+    fun saveBitmapFromComposableWithPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            coroutineScope.launch {
+                val message = saveDailyGraph(
+                    context = context,
+                    pictureList = pictureList,
+                    checkedButtonStates = checkedButtonStates,
+                )
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            if (
+                ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                coroutineScope.launch {
+                    val message = saveDailyGraph(
+                        context = context,
+                        pictureList = pictureList,
+                        checkedButtonStates = checkedButtonStates,
+                    )
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                requestWritePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+        }
+    }
+
+    if (showPermissionDialog) {
+        TdsDialog(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
+                title = "사진을 저장하기 위해서 권한이 필요로 합니다.",
+                message = "허용하시겠습니까?",
+                positiveText = stringResource(id = R.string.Ok),
+                negativeText = stringResource(id = R.string.Cancel),
+                onPositive = {
+                    requestWritePermissionLauncher.launch(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    )
+                },
+            ),
+            onShowDialog = { showPermissionDialog = it },
+        ) {
+            Spacer(modifier = Modifier.height(15.dp))
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -110,6 +213,26 @@ fun DailyScreen(
 
         Spacer(modifier = Modifier.height(15.dp))
 
+        DailyButtonRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 50.dp),
+            onSaveClick = {
+                saveBitmapFromComposableWithPermission()
+            },
+            onShareClick = {
+                coroutineScope.launch {
+                    shareDailyGraph(
+                        context = context,
+                        pictureList = pictureList,
+                        checkedButtonStates = checkedButtonStates,
+                    )
+                }
+            },
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
         GraphContent(
             modifier = Modifier.fillMaxWidth(),
             todayDate = currentDate.toString().replace('-', '.'),
@@ -120,6 +243,9 @@ fun DailyScreen(
             tdsColors = tdsColors,
             timeLines = timeLines,
             timeTableData = timeTableData,
+            checkedButtonStates = checkedButtonStates,
+            pictureList = pictureList,
+            onCheckedChange = onCheckedChange,
         )
     }
 }
@@ -333,6 +459,65 @@ fun DaysOfWeekTitle(daysOfWeek: List<DayOfWeek>, themeColor: TdsColor) {
     }
 }
 
+@Composable
+private fun DailyButtonRow(
+    modifier: Modifier = Modifier,
+    onSaveClick: () -> Unit,
+    onShareClick: () -> Unit,
+) {
+    BoxWithConstraints(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
+        val width = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+
+        Row(
+            modifier = Modifier.width(width),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Row(
+                modifier = Modifier.clickable { onSaveClick() },
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.save_photo_icon),
+                    contentDescription = "save",
+                    tint = TdsColor.TEXT.getColor(),
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                TdsText(
+                    text = "Save",
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    fontSize = 16.sp,
+                    color = TdsColor.TEXT,
+                )
+            }
+
+            Row(
+                modifier = Modifier.clickable { onShareClick() },
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.share_icon),
+                    contentDescription = "save",
+                    tint = TdsColor.TEXT.getColor(),
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                TdsText(
+                    text = "Share",
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    fontSize = 16.sp,
+                    color = TdsColor.TEXT,
+                )
+            }
+        }
+    }
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun GraphContent(
@@ -345,6 +530,9 @@ private fun GraphContent(
     tdsColors: List<TdsColor>,
     timeLines: List<Long>,
     timeTableData: List<TdsTimeTableData>,
+    checkedButtonStates: List<Boolean>,
+    pictureList: List<Picture>,
+    onCheckedChange: (page: Int, checked: Boolean) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         pageCount = {
@@ -381,6 +569,7 @@ private fun GraphContent(
             modifier = Modifier.weight(1f),
             userScrollEnabled = true,
             state = pagerState,
+            beyondBoundsPageCount = 2,
         ) { page ->
             when (page % 4) {
                 0 -> TdsStandardDailyGraph(
@@ -392,6 +581,11 @@ private fun GraphContent(
                     taskData = taskData,
                     totalTime = totalTime,
                     maxTime = maxTime,
+                    picture = pictureList[0],
+                    checked = checkedButtonStates[0],
+                    onCheckedChange = {
+                        onCheckedChange(0, it)
+                    },
                 )
 
                 1 -> TdsTimeTableDailyGraph(
@@ -403,6 +597,11 @@ private fun GraphContent(
                     timeTableData = timeTableData,
                     totalTime = totalTime,
                     maxTime = maxTime,
+                    picture = pictureList[1],
+                    checked = checkedButtonStates[1],
+                    onCheckedChange = {
+                        onCheckedChange(1, it)
+                    },
                 )
 
                 2 -> TdsTimeLineDailyGraph(
@@ -413,6 +612,11 @@ private fun GraphContent(
                     timeLines = timeLines,
                     totalTime = totalTime,
                     maxTime = maxTime,
+                    picture = pictureList[2],
+                    checked = checkedButtonStates[2],
+                    onCheckedChange = {
+                        onCheckedChange(2, it)
+                    },
                 )
 
                 3 -> TdsTaskProgressDailyGraph(
@@ -420,6 +624,11 @@ private fun GraphContent(
                     todayDate = todayDate,
                     taskData = taskData,
                     tdsColors = tdsColors,
+                    picture = pictureList[3],
+                    checked = checkedButtonStates[3],
+                    onCheckedChange = {
+                        onCheckedChange(3, it)
+                    },
                 )
             }
         }
@@ -444,6 +653,46 @@ private fun GraphContent(
             }
         }
     }
+}
+
+private suspend fun saveDailyGraph(
+    context: Context,
+    pictureList: List<Picture>,
+    checkedButtonStates: List<Boolean>,
+): String = coroutineScope {
+    val jobs = mutableListOf<Deferred<Result<Uri>>>()
+
+    checkedButtonStates.forEachIndexed { index, isChecked ->
+        if (isChecked) {
+            val job = async(Dispatchers.IO) {
+                saveBitmapFromComposable(pictureList[index], context)
+            }
+            jobs.add(job)
+        }
+    }
+
+    val isCompleted = jobs.awaitAll().all { it.isSuccess }
+    if (isCompleted) "모든 사진이 갤러리에 저장되었습니다." else "갤러리에 저장이 실패하였습니다."
+}
+
+private suspend fun shareDailyGraph(
+    context: Context,
+    pictureList: List<Picture>,
+    checkedButtonStates: List<Boolean>,
+) = coroutineScope {
+    val jobs = mutableListOf<Deferred<Uri>>()
+
+    checkedButtonStates.forEachIndexed { index, isChecked ->
+        if (isChecked) {
+            val job = async(Dispatchers.IO) {
+                shareBitmapFromComposable(pictureList[index], context)
+            }
+            jobs.add(job)
+        }
+    }
+
+    val results = jobs.awaitAll()
+    shareBitmap(context, ArrayList(results))
 }
 
 @Composable
@@ -546,9 +795,11 @@ private fun DailyScreenPreview() {
             timeLines = timeLines,
             timeTableData = timeTableData,
             currentDate = LocalDate.now(),
+            checkedButtonStates = List(4) { false },
             onClickDate = {},
             onClickGraphColor = {},
             onCalendarLocalDateChanged = {},
+            onCheckedChange = { _, _ -> },
         )
     }
 }

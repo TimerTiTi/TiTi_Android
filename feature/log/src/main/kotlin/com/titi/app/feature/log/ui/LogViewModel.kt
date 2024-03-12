@@ -5,6 +5,8 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
+import com.titi.app.data.graph.api.GraphCheckedRepository
+import com.titi.app.data.graph.api.model.GraphCheckedRepositoryModel
 import com.titi.app.doamin.daily.usecase.GetAllDailiesTasksUseCase
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetMonthDailyUseCase
@@ -39,6 +41,7 @@ class LogViewModel @AssistedInject constructor(
     private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
     private val getWeekDailyUseCase: GetWeekDailyUseCase,
     private val hasDailyForCurrentMonthUseCase: HasDailyForCurrentMonthUseCase,
+    private val graphCheckedRepository: GraphCheckedRepository,
 ) : MavericksViewModel<LogUiState>(initialState) {
 
     init {
@@ -48,6 +51,12 @@ class LogViewModel @AssistedInject constructor(
             .setOnEach {
                 copy(graphColors = it.toFeatureModel())
             }
+
+        graphCheckedRepository.getGraphCheckedFlow().catch {
+            Log.e("LogViewModel", it.message.toString())
+        }.setOnEach {
+            copy(dailyUiState = dailyUiState.copy(checkedButtonStates = it.checkedButtonStates))
+        }
     }
 
     fun updateGraphColors(selectedIndex: Int, graphColorUiState: GraphColorUiState) {
@@ -189,6 +198,20 @@ class LogViewModel @AssistedInject constructor(
                     )
                 }
             }
+        }
+    }
+
+    fun updateCheckedState(page: Int, checked: Boolean, checkedButtonStates: List<Boolean>) {
+        viewModelScope.launch {
+            val updateCheckedButtonStates = checkedButtonStates.toMutableList().apply {
+                set(page, checked)
+            }
+
+            graphCheckedRepository.setGraphChecked(
+                GraphCheckedRepositoryModel(
+                    updateCheckedButtonStates,
+                ),
+            )
         }
     }
 
