@@ -21,6 +21,7 @@ internal fun Project.configureComposeAndroid() {
             add("implementation", platform(bom))
             add("androidTestImplementation", platform(bom))
 
+            add("implementation", libs.findLibrary("androidx-activity-compose").get())
             add("implementation", libs.findLibrary("androidx-lifecycle-runtime-ktx").get())
             add("implementation", libs.findLibrary("androidx-window").get())
             add("implementation", libs.findLibrary("androidx-compose-ui").get())
