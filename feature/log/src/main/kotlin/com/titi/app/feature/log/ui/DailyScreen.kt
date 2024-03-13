@@ -147,20 +147,28 @@ fun DailyScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 50.dp),
             onSaveClick = {
-                saveDailyGraphWithPermission(
-                    coroutineScope = coroutineScope,
-                    context = context,
-                    pictureList = pictureList,
-                    checkedButtonStates = checkedButtonStates,
-                    permissionLauncher = requestWritePermissionLauncher,
-                )
+                if (checkedButtonStates.any { it }) {
+                    saveDailyGraphWithPermission(
+                        coroutineScope = coroutineScope,
+                        context = context,
+                        pictureList = pictureList,
+                        checkedButtonStates = checkedButtonStates,
+                        permissionLauncher = requestWritePermissionLauncher,
+                    )
+                } else {
+                    Toast.makeText(context, "선택된 그래프가 없습니다.", Toast.LENGTH_SHORT).show()
+                }
             },
             onShareClick = {
-                shareDailyGraph(
-                    context = context,
-                    pictureList = pictureList,
-                    checkedButtonStates = checkedButtonStates,
-                )
+                if (checkedButtonStates.any { it }) {
+                    shareDailyGraph(
+                        context = context,
+                        pictureList = pictureList,
+                        checkedButtonStates = checkedButtonStates,
+                    )
+                } else {
+                    Toast.makeText(context, "선택된 그래프가 없습니다.", Toast.LENGTH_SHORT).show()
+                }
             },
         )
 
