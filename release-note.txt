@@ -1,5 +1,2 @@
-TiTi android dev 0.2.6(12)
-- Home 그래프 설정 피쳐
-- Daily 그래프 저장 및 공유 피쳐
-- Week 그래프 저장 및 공유 피쳐
-- Task Map 합산 로직 수정
+TiTi android dev 0.3.0(13)
+- QA 0.2.6 반영
