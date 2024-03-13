@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -206,7 +208,10 @@ fun SettingBottomSheet(
     ModalBottomSheet(
         sheetState = bottomSheetState,
         onDismissRequest = onDismissRequest,
-        shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
+        shape = RoundedCornerShape(
+            topStart = 12.dp,
+            topEnd = 12.dp,
+        ),
         tonalElevation = 0.dp,
         containerColor = TdsColor.BACKGROUND.getColor(),
         contentColor = TdsColor.BACKGROUND.getColor(),
@@ -260,9 +265,12 @@ private fun SettingBottomSheetContent(
             .padding(vertical = 20.dp),
     ) {
         val width = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+        val scrollState = rememberScrollState()
 
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(state = scrollState),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Column(
