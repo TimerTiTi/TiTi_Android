@@ -1,2 +1,2 @@
-TiTi android dev 0.3.0(13)
-- QA 0.2.6 반영
+TiTi android dev 0.3.1(14)
+- Log 화면 버그 수정
