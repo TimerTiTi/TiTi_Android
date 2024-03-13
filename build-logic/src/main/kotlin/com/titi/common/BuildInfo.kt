@@ -8,7 +8,7 @@ object BuildType {
 
 object AppConfig {
     const val APP_ID = "com.titi.app"
-    const val APP_VERSION_NAME = "0.2.6"
-    const val APP_VERSION_CODE = 12
+    const val APP_VERSION_NAME = "0.3.0"
+    const val APP_VERSION_CODE = 13
     const val APP_NAME = "TiTi"
 }
