@@ -35,6 +35,7 @@ import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.domain.color.model.GraphColor
 import com.titi.app.feature.log.model.GraphColorUiState
+import com.titi.app.feature.log.model.GraphGoalTimeUiState
 import com.titi.app.feature.log.ui.LogViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,6 +43,7 @@ import com.titi.app.feature.log.ui.LogViewModel
 fun SettingBottomSheet(
     viewModel: LogViewModel,
     graphColorUiState: GraphColorUiState,
+    graphGoalTimeUiState: GraphGoalTimeUiState,
     onDismissRequest: () -> Unit,
 ) {
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -61,8 +63,8 @@ fun SettingBottomSheet(
                 GraphColor.GraphDirection.Left -> 1
             },
             graphColors = graphColorUiState.graphColors,
-            monthGoalTime = "100 H",
-            weekGoalTime = "30 H",
+            monthGoalTime = "${graphGoalTimeUiState.monthGoalTime} H",
+            weekGoalTime = "${graphGoalTimeUiState.weekGoalTime} H",
             onClickColor = {
                 viewModel.updateGraphColors(
                     selectedIndex = it,

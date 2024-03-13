@@ -58,6 +58,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
         SettingBottomSheet(
             viewModel = viewModel,
             graphColorUiState = uiState.graphColorUiState,
+            graphGoalTimeUiState = uiState.graphGoalTimeUiState,
             onDismissRequest = {
                 showSettingBottomSheet = false
             },
