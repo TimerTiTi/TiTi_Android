@@ -53,16 +53,9 @@ data class HomeUiState(
     )
 
     data class HomeGraphData(
-        val homeMonthPieData: HomeMonthPieData = HomeMonthPieData(),
         val homeMonthGraphData: HomeMonthGraphData = HomeMonthGraphData(),
-        val homeWeekPieData: HomeWeekPieData = HomeWeekPieData(),
         val homeWeekGraphData: HomeWeekGraphData = HomeWeekGraphData(),
         val homeDailyGraphData: HomeDailyGraphData = HomeDailyGraphData(),
-    )
-
-    data class HomeMonthPieData(
-        val totalTimeSeconds: Long = 0,
-        val defaultTimeSeconds: Long = 360000,
     )
 
     data class HomeMonthGraphData(
@@ -70,13 +63,9 @@ data class HomeUiState(
         val taskData: List<TdsTaskData> = emptyList(),
     )
 
-    data class HomeWeekPieData(
-        val totalTimeSeconds: Long = 0,
-        val defaultTimeSeconds: Long = 90000,
-    )
-
     data class HomeWeekGraphData(
         val weekInformation: Triple<String, String, String> = LocalDate.now().getWeekInformation(),
+        val totalTimeSeconds: Long = 0L,
         val totalWeekTime: String = 0L.getTimeString(),
         val averageWeekTime: String = 0L.getTimeString(),
         val weekLineChartData: List<TdsWeekLineChartData> =

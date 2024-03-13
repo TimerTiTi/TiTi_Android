@@ -32,15 +32,15 @@ import com.titi.app.core.designsystem.component.TdsWeekLineChart
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.feature.log.model.GraphGoalTimeUiState
 import com.titi.app.feature.log.model.HomeUiState
 
 @Composable
 fun HomeScreen(
     tdsColors: List<TdsColor>,
     totalData: HomeUiState.TotalData,
-    homeMonthPieData: HomeUiState.HomeMonthPieData,
+    graphGoalTimeUiState: GraphGoalTimeUiState,
     homeMonthGraphData: HomeUiState.HomeMonthGraphData,
-    homeWeekPieData: HomeUiState.HomeWeekPieData,
     homeWeekGraphData: HomeUiState.HomeWeekGraphData,
     homeDailyGraphData: HomeUiState.HomeDailyGraphData,
 ) {
@@ -80,12 +80,14 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 MonthSumCard(
-                    homeMonthPieData = homeMonthPieData,
+                    totalTimeSeconds = homeMonthGraphData.totalTimeSeconds,
+                    goalTimeSeconds = graphGoalTimeUiState.monthGoalTime * 3600L,
                     themeColor = tdsColors.first(),
                 )
 
                 WeekSumCard(
-                    homeWeekPieData = homeWeekPieData,
+                    totalTimeSeconds = homeWeekGraphData.totalTimeSeconds,
+                    goalTimeSeconds = graphGoalTimeUiState.weekGoalTime * 3600L,
                     themeColor = tdsColors.first(),
                 )
             }
@@ -176,7 +178,7 @@ private fun TotalCard(totalData: HomeUiState.TotalData, tdsColors: List<TdsColor
 }
 
 @Composable
-private fun MonthSumCard(homeMonthPieData: HomeUiState.HomeMonthPieData, themeColor: TdsColor) {
+private fun MonthSumCard(totalTimeSeconds: Long, goalTimeSeconds: Long, themeColor: TdsColor) {
     Column(
         modifier = Modifier.wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -186,8 +188,8 @@ private fun MonthSumCard(homeMonthPieData: HomeUiState.HomeMonthPieData, themeCo
         ) {
             TdsCircularProgressIndicator(
                 modifier = Modifier.size(110.dp),
-                sumTime = homeMonthPieData.totalTimeSeconds,
-                maxTime = homeMonthPieData.defaultTimeSeconds,
+                sumTime = totalTimeSeconds,
+                maxTime = goalTimeSeconds,
                 color = themeColor.getColor(),
             )
         }
@@ -206,7 +208,7 @@ private fun MonthSumCard(homeMonthPieData: HomeUiState.HomeMonthPieData, themeCo
 }
 
 @Composable
-private fun WeekSumCard(homeWeekPieData: HomeUiState.HomeWeekPieData, themeColor: TdsColor) {
+private fun WeekSumCard(totalTimeSeconds: Long, goalTimeSeconds: Long, themeColor: TdsColor) {
     Column(
         modifier = Modifier.wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -216,8 +218,8 @@ private fun WeekSumCard(homeWeekPieData: HomeUiState.HomeWeekPieData, themeColor
         ) {
             TdsCircularProgressIndicator(
                 modifier = Modifier.size(110.dp),
-                sumTime = homeWeekPieData.totalTimeSeconds,
-                maxTime = homeWeekPieData.defaultTimeSeconds,
+                sumTime = totalTimeSeconds,
+                maxTime = goalTimeSeconds,
                 color = themeColor.getColor(),
             )
         }
@@ -439,9 +441,8 @@ private fun HomeScreenPreview() {
         HomeScreen(
             tdsColors = tdsColors,
             totalData = HomeUiState.TotalData(),
-            homeMonthPieData = HomeUiState.HomeMonthPieData(),
+            graphGoalTimeUiState = GraphGoalTimeUiState(),
             homeMonthGraphData = HomeUiState.HomeMonthGraphData(),
-            homeWeekPieData = HomeUiState.HomeWeekPieData(),
             homeWeekGraphData = HomeUiState.HomeWeekGraphData(),
             homeDailyGraphData = HomeUiState.HomeDailyGraphData(),
         )
