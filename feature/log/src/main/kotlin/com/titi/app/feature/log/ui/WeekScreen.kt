@@ -35,11 +35,10 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.feature.log.ui.component.ButtonRow
 import com.titi.app.feature.log.ui.component.CalendarContent
-import com.titi.app.feature.log.util.saveBitmapFromComposableWithPermission
-import com.titi.app.feature.log.util.saveDailyGraph
-import com.titi.app.feature.log.util.shareDailyGraph
+import com.titi.app.feature.log.util.saveWeekGraph
+import com.titi.app.feature.log.util.saveWeekGraphWithPermission
+import com.titi.app.feature.log.util.shareWeekGraph
 import java.time.LocalDate
-import kotlinx.coroutines.launch
 
 @Composable
 fun WeekScreen(
@@ -59,8 +58,8 @@ fun WeekScreen(
     val context = LocalContext.current
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
-    val pictureList = remember {
-        List(1) { Picture() }
+    val picture = remember {
+        Picture()
     }
     var showPermissionDialog by remember {
         mutableStateOf(false)
@@ -71,14 +70,12 @@ fun WeekScreen(
             ActivityResultContracts.RequestPermission(),
         ) { isGranted: Boolean ->
             if (isGranted) {
-                coroutineScope.launch {
-                    val message = saveDailyGraph(
-                        context = context,
-                        pictureList = pictureList,
-                        checkedButtonStates = listOf(true),
-                    )
-                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                }
+                val message = saveWeekGraph(
+                    context = context,
+                    coroutineScope = coroutineScope,
+                    picture = picture,
+                )
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             } else {
                 showPermissionDialog = true
             }
@@ -124,22 +121,18 @@ fun WeekScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 50.dp),
             onSaveClick = {
-                saveBitmapFromComposableWithPermission(
+                saveWeekGraphWithPermission(
                     coroutineScope = coroutineScope,
                     context = context,
-                    pictureList = pictureList,
-                    checkedButtonStates = listOf(true),
+                    picture = picture,
                     permissionLauncher = requestWritePermissionLauncher,
                 )
             },
             onShareClick = {
-                coroutineScope.launch {
-                    shareDailyGraph(
-                        context = context,
-                        pictureList = pictureList,
-                        checkedButtonStates = listOf(true),
-                    )
-                }
+                shareWeekGraph(
+                    context = context,
+                    picture = picture,
+                )
             },
         )
 
@@ -165,7 +158,7 @@ fun WeekScreen(
             tdsColors = tdsColors,
             topLevelTaskData = topLevelTaskData,
             topLevelTaskTotal = topLevelTaskTotal,
-            picture = pictureList[0],
+            picture = picture,
         )
     }
 }

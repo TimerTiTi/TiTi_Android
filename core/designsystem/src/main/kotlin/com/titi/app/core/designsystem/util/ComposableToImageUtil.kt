@@ -26,13 +26,12 @@ fun Modifier.createCaptureImageModifier(picture: Picture): Modifier = this.drawW
     val width = this.size.width.toInt()
     val height = this.size.height.toInt()
     onDrawWithContent {
-        val pictureCanvas =
-            Canvas(
-                picture.beginRecording(
-                    width,
-                    height,
-                ),
-            )
+        val pictureCanvas = Canvas(
+            picture.beginRecording(
+                width,
+                height,
+            ),
+        )
         draw(this, this.layoutDirection, pictureCanvas, this.size) {
             this@onDrawWithContent.drawContent()
         }
@@ -44,11 +43,9 @@ fun Modifier.createCaptureImageModifier(picture: Picture): Modifier = this.drawW
     }
 }
 
-suspend fun saveBitmapFromComposable(picture: Picture, context: Context): Result<Uri> {
-    return runCatching {
-        val bitmap = createBitmapFromPicture(picture)
-        bitmap.saveToDisk(context)
-    }
+suspend fun saveBitmapFromComposable(picture: Picture, context: Context): Uri {
+    val bitmap = createBitmapFromPicture(picture)
+    return bitmap.saveToDisk(context)
 }
 
 fun shareBitmapFromComposable(picture: Picture, context: Context): Uri {
@@ -113,10 +110,19 @@ private fun File.writeBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat, qual
     }
 }
 
-fun shareBitmap(context: Context, uris: ArrayList<Uri>) {
+fun shareBitmaps(context: Context, uris: ArrayList<Uri>) {
     val intent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
         type = "image/png"
         putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+    startActivity(context, createChooser(intent, "Share your image"), null)
+}
+
+fun shareBitmap(context: Context, uri: Uri) {
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "image/png"
+        putExtra(Intent.EXTRA_STREAM, uri)
         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
     startActivity(context, createChooser(intent, "Share your image"), null)
