@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -32,6 +33,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -81,6 +83,10 @@ fun SettingBottomSheet(
                 cancelable = false,
                 positiveText = stringResource(id = R.string.Ok),
                 onPositive = {
+                    viewModel.updateGraphGoalTime(
+                        monthGoalTime = goalTime.toIntOrNull(),
+                        graphGoalTimeUiState = graphGoalTimeUiState,
+                    )
                 },
                 negativeText = stringResource(id = R.string.Cancel),
             ),
@@ -103,7 +109,19 @@ fun SettingBottomSheet(
                     .height(26.dp)
                     .padding(horizontal = 15.dp)
                     .focusRequester(monthGoalTimeFocusRequester),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done,
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        showMonthGoalTimeDialog = false
+                        viewModel.updateGraphGoalTime(
+                            monthGoalTime = goalTime.toIntOrNull(),
+                            graphGoalTimeUiState = graphGoalTimeUiState,
+                        )
+                    },
+                ),
                 fontSize = 17.sp,
                 text = goalTime,
                 placeHolder = {
@@ -129,6 +147,10 @@ fun SettingBottomSheet(
                 cancelable = false,
                 positiveText = stringResource(id = R.string.Ok),
                 onPositive = {
+                    viewModel.updateGraphGoalTime(
+                        weekGoalTime = goalTime.toIntOrNull(),
+                        graphGoalTimeUiState = graphGoalTimeUiState,
+                    )
                 },
                 negativeText = stringResource(id = R.string.Cancel),
             ),
@@ -151,7 +173,19 @@ fun SettingBottomSheet(
                     .height(26.dp)
                     .padding(horizontal = 15.dp)
                     .focusRequester(weekGoalTimeFocusRequester),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done,
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        showWeekGoalTimeDialog = false
+                        viewModel.updateGraphGoalTime(
+                            weekGoalTime = goalTime.toIntOrNull(),
+                            graphGoalTimeUiState = graphGoalTimeUiState,
+                        )
+                    },
+                ),
                 fontSize = 17.sp,
                 text = goalTime,
                 placeHolder = {

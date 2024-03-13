@@ -17,9 +17,11 @@ import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
 import com.titi.app.feature.log.mapper.toDomainModel
 import com.titi.app.feature.log.mapper.toFeatureModel
 import com.titi.app.feature.log.mapper.toHomeFeatureModel
+import com.titi.app.feature.log.mapper.toRepositoryModel
 import com.titi.app.feature.log.mapper.toWeekFeatureModel
 import com.titi.app.feature.log.model.DailyGraphData
 import com.titi.app.feature.log.model.GraphColorUiState
+import com.titi.app.feature.log.model.GraphGoalTimeUiState
 import com.titi.app.feature.log.model.HomeUiState
 import com.titi.app.feature.log.model.LogUiState
 import com.titi.app.feature.log.model.WeekGraphData
@@ -71,6 +73,27 @@ class LogViewModel @AssistedInject constructor(
                 selectedIndex = selectedIndex,
                 graphColor = graphColorUiState.toDomainModel(),
             )
+        }
+    }
+
+    fun updateGraphGoalTime(
+        monthGoalTime: Int? = null,
+        weekGoalTime: Int? = null,
+        graphGoalTimeUiState: GraphGoalTimeUiState,
+    ) {
+        viewModelScope.launch {
+            val updateGraphGoalTimeUiState = when {
+                monthGoalTime != null && monthGoalTime > 0 -> graphGoalTimeUiState.copy(
+                    monthGoalTime = monthGoalTime,
+                )
+
+                weekGoalTime != null && weekGoalTime > 0 -> graphGoalTimeUiState.copy(
+                    weekGoalTime = weekGoalTime,
+                )
+                else -> graphGoalTimeUiState
+            }
+
+            graphRepository.setGraphGoalTime(updateGraphGoalTimeUiState.toRepositoryModel())
         }
     }
 

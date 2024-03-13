@@ -14,6 +14,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -40,17 +41,26 @@ import kotlinx.coroutines.launch
 @Composable
 fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
     val scope = rememberCoroutineScope()
-    var showSettingBottomSheet by remember {
-        mutableStateOf(false)
-    }
-    var tabSelectedIndex by remember {
-        mutableIntStateOf(0)
-    }
+
     val pagerState = rememberPagerState(
         pageCount = {
             3
         },
     )
+
+    val showSettingButton by remember {
+        derivedStateOf {
+            pagerState.currentPage == 0
+        }
+    }
+
+    var showSettingBottomSheet by remember {
+        mutableStateOf(false)
+    }
+
+    var tabSelectedIndex by remember {
+        mutableIntStateOf(0)
+    }
 
     val uiState by viewModel.collectAsState()
 
@@ -98,17 +108,19 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                 },
             )
 
-            TdsIconButton(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                onClick = {
-                    showSettingBottomSheet = true
-                },
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.setting_icon),
-                    contentDescription = "setting",
-                    tint = TdsColor.TEXT.getColor(),
-                )
+            if (showSettingButton) {
+                TdsIconButton(
+                    modifier = Modifier.align(Alignment.CenterEnd),
+                    onClick = {
+                        showSettingBottomSheet = true
+                    },
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.setting_icon),
+                        contentDescription = "setting",
+                        tint = TdsColor.TEXT.getColor(),
+                    )
+                }
             }
         }
 
