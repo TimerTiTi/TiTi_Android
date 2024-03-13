@@ -5,7 +5,7 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
-import com.titi.app.data.graph.api.GraphCheckedRepository
+import com.titi.app.data.graph.api.GraphRepository
 import com.titi.app.data.graph.api.model.GraphCheckedRepositoryModel
 import com.titi.app.doamin.daily.usecase.GetAllDailiesTasksUseCase
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
@@ -41,7 +41,7 @@ class LogViewModel @AssistedInject constructor(
     private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
     private val getWeekDailyUseCase: GetWeekDailyUseCase,
     private val hasDailyForCurrentMonthUseCase: HasDailyForCurrentMonthUseCase,
-    private val graphCheckedRepository: GraphCheckedRepository,
+    private val graphRepository: GraphRepository,
 ) : MavericksViewModel<LogUiState>(initialState) {
 
     init {
@@ -52,7 +52,7 @@ class LogViewModel @AssistedInject constructor(
                 copy(graphColorUiState = it.toFeatureModel())
             }
 
-        graphCheckedRepository.getGraphCheckedFlow().catch {
+        graphRepository.getGraphCheckedFlow().catch {
             Log.e("LogViewModel", it.message.toString())
         }.setOnEach {
             copy(dailyUiState = dailyUiState.copy(checkedButtonStates = it.checkedButtonStates))
@@ -207,7 +207,7 @@ class LogViewModel @AssistedInject constructor(
                 set(page, checked)
             }
 
-            graphCheckedRepository.setGraphChecked(
+            graphRepository.setGraphChecked(
                 GraphCheckedRepositoryModel(
                     updateCheckedButtonStates,
                 ),
