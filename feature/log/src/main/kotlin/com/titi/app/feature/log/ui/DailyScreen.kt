@@ -49,8 +49,8 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.feature.log.ui.component.ButtonRow
 import com.titi.app.feature.log.ui.component.CalendarContent
-import com.titi.app.feature.log.util.saveBitmapFromComposableWithPermission
 import com.titi.app.feature.log.util.saveDailyGraph
+import com.titi.app.feature.log.util.saveDailyGraphWithPermission
 import com.titi.app.feature.log.util.shareDailyGraph
 import java.time.LocalDate
 import kotlinx.coroutines.launch
@@ -86,14 +86,13 @@ fun DailyScreen(
             ActivityResultContracts.RequestPermission(),
         ) { isGranted: Boolean ->
             if (isGranted) {
-                coroutineScope.launch {
-                    val message = saveDailyGraph(
-                        context = context,
-                        pictureList = pictureList,
-                        checkedButtonStates = checkedButtonStates,
-                    )
-                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                }
+                val message = saveDailyGraph(
+                    coroutineScope = coroutineScope,
+                    context = context,
+                    pictureList = pictureList,
+                    checkedButtonStates = checkedButtonStates,
+                )
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             } else {
                 showPermissionDialog = true
             }
@@ -148,7 +147,7 @@ fun DailyScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 50.dp),
             onSaveClick = {
-                saveBitmapFromComposableWithPermission(
+                saveDailyGraphWithPermission(
                     coroutineScope = coroutineScope,
                     context = context,
                     pictureList = pictureList,
@@ -157,13 +156,11 @@ fun DailyScreen(
                 )
             },
             onShareClick = {
-                coroutineScope.launch {
-                    shareDailyGraph(
-                        context = context,
-                        pictureList = pictureList,
-                        checkedButtonStates = checkedButtonStates,
-                    )
-                }
+                shareDailyGraph(
+                    context = context,
+                    pictureList = pictureList,
+                    checkedButtonStates = checkedButtonStates,
+                )
             },
         )
 

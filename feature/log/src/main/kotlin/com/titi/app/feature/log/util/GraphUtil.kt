@@ -12,15 +12,13 @@ import androidx.core.content.ContextCompat
 import com.titi.app.core.designsystem.util.saveBitmapFromComposable
 import com.titi.app.core.designsystem.util.shareBitmap
 import com.titi.app.core.designsystem.util.shareBitmapFromComposable
+import com.titi.app.core.designsystem.util.shareBitmaps
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
-fun saveBitmapFromComposableWithPermission(
+fun saveDailyGraphWithPermission(
     coroutineScope: CoroutineScope,
     context: Context,
     pictureList: List<Picture>,
@@ -28,14 +26,13 @@ fun saveBitmapFromComposableWithPermission(
     permissionLauncher: ManagedActivityResultLauncher<String, Boolean>,
 ) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        coroutineScope.launch {
-            val message = saveDailyGraph(
-                context = context,
-                pictureList = pictureList,
-                checkedButtonStates = checkedButtonStates,
-            )
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-        }
+        val message = saveDailyGraph(
+            coroutineScope = coroutineScope,
+            context = context,
+            pictureList = pictureList,
+            checkedButtonStates = checkedButtonStates,
+        )
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     } else {
         if (
             ContextCompat.checkSelfPermission(
@@ -43,56 +40,103 @@ fun saveBitmapFromComposableWithPermission(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            coroutineScope.launch {
-                val message = saveDailyGraph(
-                    context = context,
-                    pictureList = pictureList,
-                    checkedButtonStates = checkedButtonStates,
-                )
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-            }
+            val message = saveDailyGraph(
+                coroutineScope = coroutineScope,
+                context = context,
+                pictureList = pictureList,
+                checkedButtonStates = checkedButtonStates,
+            )
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         } else {
             permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     }
 }
 
-suspend fun saveDailyGraph(
+fun saveWeekGraphWithPermission(
+    coroutineScope: CoroutineScope,
     context: Context,
-    pictureList: List<Picture>,
-    checkedButtonStates: List<Boolean>,
-): String = coroutineScope {
-    val jobs = mutableListOf<Deferred<Result<Uri>>>()
-
-    checkedButtonStates.forEachIndexed { index, isChecked ->
-        if (isChecked) {
-            val job = async(Dispatchers.IO) {
-                saveBitmapFromComposable(pictureList[index], context)
-            }
-            jobs.add(job)
+    picture: Picture,
+    permissionLauncher: ManagedActivityResultLauncher<String, Boolean>,
+) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val message = saveWeekGraph(
+            coroutineScope = coroutineScope,
+            context = context,
+            picture = picture,
+        )
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    } else {
+        if (
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            val message = saveWeekGraph(
+                coroutineScope = coroutineScope,
+                context = context,
+                picture = picture,
+            )
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        } else {
+            permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     }
-
-    val isCompleted = jobs.awaitAll().all { it.isSuccess }
-    if (isCompleted) "모든 사진이 갤러리에 저장되었습니다." else "갤러리에 저장이 실패하였습니다."
 }
 
-suspend fun shareDailyGraph(
+fun saveDailyGraph(
     context: Context,
+    coroutineScope: CoroutineScope,
     pictureList: List<Picture>,
     checkedButtonStates: List<Boolean>,
-) = coroutineScope {
-    val jobs = mutableListOf<Deferred<Uri>>()
-
-    checkedButtonStates.forEachIndexed { index, isChecked ->
-        if (isChecked) {
-            val job = async(Dispatchers.IO) {
-                shareBitmapFromComposable(pictureList[index], context)
+): String {
+    var message = "모든 사진이 갤러리에 저장되었습니다."
+    val coroutineExceptionHandler = CoroutineExceptionHandler { _, _ ->
+        message = "갤러리에 저장이 실패하였습니다."
+    }
+    coroutineScope.launch(Dispatchers.Default + coroutineExceptionHandler) {
+        checkedButtonStates.forEachIndexed { index, isChecked ->
+            if (isChecked) {
+                saveBitmapFromComposable(pictureList[index], context)
             }
-            jobs.add(job)
         }
     }
 
-    val results = jobs.awaitAll()
-    shareBitmap(context, ArrayList(results))
+    return message
+}
+
+fun saveWeekGraph(context: Context, coroutineScope: CoroutineScope, picture: Picture): String {
+    var message = "모든 사진이 갤러리에 저장되었습니다."
+    val coroutineExceptionHandler = CoroutineExceptionHandler { _, _ ->
+        message = "갤러리에 저장이 실패하였습니다."
+    }
+
+    coroutineScope.launch(Dispatchers.Default + coroutineExceptionHandler) {
+        saveBitmapFromComposable(picture, context)
+    }
+
+    return message
+}
+
+fun shareDailyGraph(
+    context: Context,
+    pictureList: List<Picture>,
+    checkedButtonStates: List<Boolean>,
+) {
+    val uris = arrayListOf<Uri>()
+    checkedButtonStates.forEachIndexed { index, isChecked ->
+        if (isChecked) {
+            val uri = shareBitmapFromComposable(pictureList[index], context)
+            uris.add(uri)
+        }
+    }
+
+    shareBitmaps(context, uris)
+}
+
+fun shareWeekGraph(context: Context, picture: Picture) {
+    val uri = shareBitmapFromComposable(picture, context)
+
+    shareBitmap(context, uri)
 }
