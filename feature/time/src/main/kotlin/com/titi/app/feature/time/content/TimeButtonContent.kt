@@ -66,8 +66,7 @@ fun TimeButtonContent(
                 size = 50.dp,
             ) {
                 Icon(
-                    painter =
-                    painterResource(
+                    painter = painterResource(
                         R.drawable.setting_timer_time_icon,
                     ),
                     contentDescription = "",
@@ -80,8 +79,7 @@ fun TimeButtonContent(
                 size = 50.dp,
             ) {
                 Icon(
-                    painter =
-                    painterResource(
+                    painter = painterResource(
                         R.drawable.setting_stopwatch_time_icon,
                     ),
                     contentDescription = "",

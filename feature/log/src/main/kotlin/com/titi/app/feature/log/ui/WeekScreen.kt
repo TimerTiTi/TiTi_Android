@@ -1,5 +1,10 @@
 package com.titi.app.feature.log.ui
 
+import android.Manifest
+import android.graphics.Picture
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,16 +14,32 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsColorRow
+import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsStandardWeekGraph
+import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.feature.log.ui.component.ButtonRow
+import com.titi.app.feature.log.ui.component.CalendarContent
+import com.titi.app.feature.log.util.saveBitmapFromComposableWithPermission
+import com.titi.app.feature.log.util.saveDailyGraph
+import com.titi.app.feature.log.util.shareDailyGraph
 import java.time.LocalDate
+import kotlinx.coroutines.launch
 
 @Composable
 fun WeekScreen(
@@ -35,7 +56,52 @@ fun WeekScreen(
     onClickGraphColor: (Int) -> Unit,
     onCalendarLocalDateChanged: (LocalDate) -> Unit,
 ) {
+    val context = LocalContext.current
     val scrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
+    val pictureList = remember {
+        List(1) { Picture() }
+    }
+    var showPermissionDialog by remember {
+        mutableStateOf(false)
+    }
+
+    val requestWritePermissionLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                coroutineScope.launch {
+                    val message = saveDailyGraph(
+                        context = context,
+                        pictureList = pictureList,
+                        checkedButtonStates = listOf(true),
+                    )
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                showPermissionDialog = true
+            }
+        }
+
+    if (showPermissionDialog) {
+        TdsDialog(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
+                title = "사진을 저장하기 위해서 권한이 필요로 합니다.",
+                message = "허용하시겠습니까?",
+                positiveText = stringResource(id = R.string.Ok),
+                negativeText = stringResource(id = R.string.Cancel),
+                onPositive = {
+                    requestWritePermissionLauncher.launch(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    )
+                },
+            ),
+            onShowDialog = { showPermissionDialog = it },
+        ) {
+            Spacer(modifier = Modifier.height(15.dp))
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -49,6 +115,32 @@ fun WeekScreen(
             hasDailies = hasDailies,
             onClickDate = onClickDate,
             onCalendarLocalDateChanged = onCalendarLocalDateChanged,
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        ButtonRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 50.dp),
+            onSaveClick = {
+                saveBitmapFromComposableWithPermission(
+                    coroutineScope = coroutineScope,
+                    context = context,
+                    pictureList = pictureList,
+                    checkedButtonStates = listOf(true),
+                    permissionLauncher = requestWritePermissionLauncher,
+                )
+            },
+            onShareClick = {
+                coroutineScope.launch {
+                    shareDailyGraph(
+                        context = context,
+                        pictureList = pictureList,
+                        checkedButtonStates = listOf(true),
+                    )
+                }
+            },
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -73,6 +165,7 @@ fun WeekScreen(
             tdsColors = tdsColors,
             topLevelTaskData = topLevelTaskData,
             topLevelTaskTotal = topLevelTaskTotal,
+            picture = pictureList[0],
         )
     }
 }

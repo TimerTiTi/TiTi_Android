@@ -1,5 +1,6 @@
 package com.titi.app.core.designsystem.component
 
+import android.graphics.Picture
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
@@ -29,6 +29,7 @@ import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.designsystem.util.createCaptureImageModifier
 
 @Composable
 fun TdsStandardWeekGraph(
@@ -40,16 +41,20 @@ fun TdsStandardWeekGraph(
     tdsColors: List<TdsColor>,
     topLevelTaskData: List<TdsTaskData>,
     topLevelTaskTotal: String,
+    picture: Picture,
 ) {
     BoxWithConstraints(
-        modifier = modifier.padding(vertical = 10.dp),
+        modifier = modifier,
         contentAlignment = Alignment.Center,
     ) {
         val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
 
         OutlinedCard(
             modifier = Modifier
-                .size(size),
+                .createCaptureImageModifier(picture = picture)
+                .height(size + 20.dp)
+                .width(size + 20.dp)
+                .padding(10.dp),
             shape = RoundedCornerShape(size * 0.07),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
@@ -287,6 +292,7 @@ private fun TdsStandardWeekGraphPreview() {
             ),
             topLevelTaskData = taskData,
             topLevelTaskTotal = "08:00:00",
+            picture = Picture(),
         )
     }
 }

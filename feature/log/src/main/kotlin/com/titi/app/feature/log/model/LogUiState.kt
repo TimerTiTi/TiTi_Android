@@ -90,6 +90,7 @@ data class DailyUiState(
     val currentDate: LocalDate = LocalDate.now(),
     val hasDailies: List<LocalDate> = emptyList(),
     val dailyGraphData: DailyGraphData = DailyGraphData(),
+    val checkedButtonStates: List<Boolean> = List(4) { false },
 )
 
 data class DailyGraphData(
