@@ -2,6 +2,7 @@ package com.titi.app.data.graph.impl.di
 
 import android.content.Context
 import com.titi.app.data.graph.impl.local.GraphCheckedDataStore
+import com.titi.app.data.graph.impl.local.GraphGoalTimeDataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,4 +17,9 @@ internal object DataStoreModule {
     @Provides
     fun provideGraphCheckedDataStore(@ApplicationContext context: Context) =
         GraphCheckedDataStore(context)
+
+    @Singleton
+    @Provides
+    fun provideGraphGoalTimeDataStore(@ApplicationContext context: Context) =
+        GraphGoalTimeDataStore(context)
 }
