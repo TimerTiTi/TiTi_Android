@@ -1,2 +1,5 @@
-TiTi android dev 0.2.5(11)
-- Fix Timer Stopwatch
+TiTi android dev 0.2.6(12)
+- Home 그래프 설정 피쳐
+- Daily 그래프 저장 및 공유 피쳐
+- Week 그래프 저장 및 공유 피쳐
+- Task Map 합산 로직 수정
