@@ -69,7 +69,12 @@ fun SettingBottomSheet(
                     graphColorUiState = graphColorUiState,
                 )
             },
-            onClickColorDirection = {},
+            onClickColorDirection = {
+                viewModel.updateGraphColors(
+                    selectedIndex = graphColorUiState.selectedIndex,
+                    graphColorUiState = graphColorUiState,
+                )
+            },
             onClickMonthGoalTime = { },
             onClickWeekGoalTime = {},
         )
