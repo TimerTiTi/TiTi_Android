@@ -16,7 +16,6 @@ import com.titi.app.feature.popup.PopUpActivity.Companion.COLOR_RECORDING_MODE_K
 import com.titi.app.feature.popup.PopUpActivity.Companion.MEASURE_SPLASH_RESULT_KEY
 import com.titi.app.feature.time.navigation.STOPWATCH_SCREEN
 import com.titi.app.feature.time.navigation.TIMER_SCREEN
-import com.titi.app.feature.time.navigation.TIME_GRAPH_ROUTE
 import com.titi.app.feature.time.navigation.timeGraph
 
 @Composable
@@ -32,14 +31,13 @@ fun TiTiNavHost(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = TIME_GRAPH_ROUTE,
+        startDestination = if (splashResultState.recordTimes.recordingMode == 1) {
+            TIMER_SCREEN
+        } else {
+            STOPWATCH_SCREEN
+        },
     ) {
         timeGraph(
-            startDestination = if (splashResultState.recordTimes.recordingMode == 1) {
-                TIMER_SCREEN
-            } else {
-                STOPWATCH_SCREEN
-            },
             splashResultState = splashResultState.toFeatureTimeModel(),
             onNavigateToColor = {
                 val intent = Intent(context, PopUpActivity::class.java).apply {
