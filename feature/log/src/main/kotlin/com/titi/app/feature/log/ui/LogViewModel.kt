@@ -46,7 +46,7 @@ class LogViewModel @AssistedInject constructor(
             Log.e("LogViewModel", it.message.toString())
         }.filterNotNull()
             .setOnEach {
-                copy(graphColors = it.toFeatureModel())
+                copy(graphColorUiState = it.toFeatureModel())
             }
     }
 

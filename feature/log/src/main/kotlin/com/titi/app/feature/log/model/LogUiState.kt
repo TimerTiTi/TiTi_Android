@@ -12,7 +12,7 @@ import com.titi.app.domain.color.model.GraphColor
 import java.time.LocalDate
 
 data class LogUiState(
-    val graphColors: GraphColorUiState = GraphColorUiState(),
+    val graphColorUiState: GraphColorUiState = GraphColorUiState(),
     val homeUiState: HomeUiState = HomeUiState(),
     val dailyUiState: DailyUiState = DailyUiState(),
     val weekUiState: WeekUiState = WeekUiState(),

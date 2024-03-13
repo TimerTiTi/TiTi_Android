@@ -1,6 +1,7 @@
 package com.titi.app.feature.log.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -11,7 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,14 +33,66 @@ import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.domain.color.model.GraphColor
+import com.titi.app.feature.log.model.GraphColorUiState
+import com.titi.app.feature.log.ui.LogViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingBottomSheet() {
+fun SettingBottomSheet(
+    viewModel: LogViewModel,
+    graphColorUiState: GraphColorUiState,
+    onDismissRequest: () -> Unit,
+) {
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    ModalBottomSheet(
+        sheetState = bottomSheetState,
+        onDismissRequest = onDismissRequest,
+        shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
+        tonalElevation = 0.dp,
+        containerColor = TdsColor.BACKGROUND.getColor(),
+        contentColor = TdsColor.BACKGROUND.getColor(),
+        dragHandle = null,
+    ) {
+        SettingBottomSheetContent(
+            colorDirection = when (graphColorUiState.direction) {
+                GraphColor.GraphDirection.Right -> 0
+                GraphColor.GraphDirection.Left -> 1
+            },
+            graphColors = graphColorUiState.graphColors,
+            monthGoalTime = "100 H",
+            weekGoalTime = "30 H",
+            onClickColor = {
+                viewModel.updateGraphColors(
+                    selectedIndex = it,
+                    graphColorUiState = graphColorUiState,
+                )
+            },
+            onClickColorDirection = {},
+            onClickMonthGoalTime = { },
+            onClickWeekGoalTime = {},
+        )
+    }
 }
 
 @Composable
-private fun SettingBottomSheetContent() {
-    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+private fun SettingBottomSheetContent(
+    colorDirection: Int,
+    graphColors: List<TdsColor>,
+    monthGoalTime: String,
+    weekGoalTime: String,
+    onClickColor: (Int) -> Unit,
+    onClickColorDirection: (Int) -> Unit,
+    onClickMonthGoalTime: () -> Unit,
+    onClickWeekGoalTime: () -> Unit,
+) {
+    BoxWithConstraints(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(vertical = 20.dp),
+    ) {
         val width = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
 
         Column(
@@ -66,7 +123,7 @@ private fun SettingBottomSheetContent() {
 
             TdsColorRow(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { },
+                onClick = onClickColor,
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -101,25 +158,32 @@ private fun SettingBottomSheetContent() {
                     TdsTabRow(
                         modifier = Modifier
                             .width(60.dp)
-                            .height(24.dp),
-                        selectedItemIndex = 0,
+                            .height(30.dp),
+                        selectedItemIndex = colorDirection,
                         items = listOf(
                             "→",
                             "←",
                         ),
-                        onClick = {},
+                        onClick = onClickColorDirection,
+                        indicatorColor = graphColors.first().getColor(),
                     )
 
                     Box(
                         modifier = Modifier
                             .width(60.dp)
-                            .height(24.dp)
+                            .height(30.dp)
                             .clip(RoundedCornerShape(6.dp))
                             .background(
                                 brush = Brush.horizontalGradient(
                                     colors = listOf(
-                                        TdsColor.D1.getColor(),
-                                        TdsColor.D2.getColor(),
+                                        graphColors
+                                            .firstOrNull()
+                                            ?.getColor()
+                                            ?: TdsColor.D1.getColor(),
+                                        graphColors
+                                            .getOrNull(2)
+                                            ?.getColor()
+                                            ?: TdsColor.D2.getColor(),
                                     ),
                                 ),
                             ),
@@ -157,7 +221,10 @@ private fun SettingBottomSheetContent() {
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp))
                         .background(color = TdsColor.SEGMENT_BACKGROUND.getColor())
-                        .padding(12.dp),
+                        .padding(12.dp)
+                        .clickable {
+                            onClickMonthGoalTime()
+                        },
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -169,7 +236,7 @@ private fun SettingBottomSheetContent() {
                     )
 
                     TdsText(
-                        text = "100 H",
+                        text = monthGoalTime,
                         textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                         fontSize = 14.sp,
                         color = TdsColor.TEXT,
@@ -183,7 +250,10 @@ private fun SettingBottomSheetContent() {
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp))
                         .background(color = TdsColor.SEGMENT_BACKGROUND.getColor())
-                        .padding(12.dp),
+                        .padding(12.dp)
+                        .clickable {
+                            onClickWeekGoalTime()
+                        },
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -195,15 +265,13 @@ private fun SettingBottomSheetContent() {
                     )
 
                     TdsText(
-                        text = "100 H",
+                        text = weekGoalTime,
                         textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                         fontSize = 14.sp,
                         color = TdsColor.TEXT,
                     )
                 }
             }
-
-            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }
@@ -212,6 +280,18 @@ private fun SettingBottomSheetContent() {
 @Composable
 private fun SettingBottomSheetContentPreview() {
     TiTiTheme {
-        SettingBottomSheetContent()
+        SettingBottomSheetContent(
+            colorDirection = 0,
+            graphColors = listOf(
+                TdsColor.D1,
+                TdsColor.D2,
+            ),
+            monthGoalTime = "100 H",
+            weekGoalTime = "30 H",
+            onClickColor = {},
+            onClickColorDirection = {},
+            onClickMonthGoalTime = {},
+            onClickWeekGoalTime = {},
+        )
     }
 }
