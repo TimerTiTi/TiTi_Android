@@ -9,6 +9,7 @@ android {
 dependencies {
     implementation(project(":domain:color"))
     implementation(project(":domain:daily"))
+    implementation(project(":data:graph:api"))
 
     implementation(libs.threetenabp)
     implementation(libs.calendar)
