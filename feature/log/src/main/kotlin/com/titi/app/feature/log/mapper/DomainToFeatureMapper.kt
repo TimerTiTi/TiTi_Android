@@ -105,7 +105,11 @@ internal fun List<Daily>.toWeekFeatureModel(currentDate: LocalDate): WeekGraphDa
         if (sumTime > 0) {
             studyCount++
         }
-        daily.tasks?.let { taskMap -> totalTaskMap.putAll(taskMap) }
+        daily.tasks?.let { taskMap ->
+            taskMap.forEach { (taskName, taskTime) ->
+                totalTaskMap[taskName] = totalTaskMap.getOrDefault(taskName, 0L) + taskTime
+            }
+        }
     }
 
     val topLevelTask = totalTaskMap
@@ -167,7 +171,9 @@ internal fun Pair<Map<String, Long>, List<Daily>>.toHomeFeatureModel(
     var monthTotalTime = 0L
     monthDailies.forEach { daily ->
         daily.tasks?.let { task ->
-            monthTaskMap.putAll(task)
+            task.forEach { (taskName, taskTime) ->
+                monthTaskMap[taskName] = monthTaskMap.getOrDefault(taskName, 0L) + taskTime
+            }
             monthTotalTime += task.values.sum()
         }
     }
