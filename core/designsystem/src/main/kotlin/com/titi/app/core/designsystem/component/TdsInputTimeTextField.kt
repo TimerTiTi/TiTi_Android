@@ -74,8 +74,7 @@ fun TdsInputTimeTextField(
                 }
             },
             fontSize = 22.sp,
-            keyboardOptions =
-            KeyboardOptions(
+            keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = ImeAction.Done,
             ),

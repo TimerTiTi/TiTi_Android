@@ -144,19 +144,17 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
 
     if (showSetExactAlarmPermissionDialog) {
         TdsDialog(
-            tdsDialogInfo =
-            TdsDialogInfo.Confirm(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
                 title = stringResource(id = R.string.alarm_permission_title),
                 message = stringResource(id = R.string.alarm_permission_message),
                 positiveText = stringResource(id = R.string.Ok),
                 negativeText = stringResource(id = R.string.Cancel),
                 onPositive = {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        val intent =
-                            Intent(
-                                Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
-                                Uri.parse("package:" + context.packageName),
-                            )
+                        val intent = Intent(
+                            Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
+                            Uri.parse("package:" + context.packageName),
+                        )
                         intent.addCategory(Intent.CATEGORY_DEFAULT)
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         context.startActivity(intent)

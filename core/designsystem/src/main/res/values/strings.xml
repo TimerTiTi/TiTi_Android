@@ -44,4 +44,7 @@
     <string name="log_setting_color_direction_message">컬러 조합의 방향을 설정 합니다</string>
     <string name="log_setting_goal_time_title">목표 시간</string>
     <string name="log_setting_goal_time_message">원형 프로그래스바의 목표 시간을 설정 합니다</string>
+
+    <string name="month_goal_time_dialog_message">Month의 목표 시간을 입력해 주세요\n(시간 단위)</string>
+    <string name="week_goal_time_dialog_message">Week의 목표 시간을 입력해 주세요\n(시간 단위)</string>
 </resources>
