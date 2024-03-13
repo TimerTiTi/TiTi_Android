@@ -12,7 +12,9 @@ class GetAllDailiesTasksUseCase @Inject constructor(
         dailyRepository.getAllDailies()?.let { dailies ->
             dailies.forEach { daily ->
                 daily.tasks?.let { task ->
-                    taskMap.putAll(task)
+                    task.forEach { (taskName, taskTime) ->
+                        taskMap[taskName] = taskMap.getOrDefault(taskName, 0L) + taskTime
+                    }
                 }
             }
         }
