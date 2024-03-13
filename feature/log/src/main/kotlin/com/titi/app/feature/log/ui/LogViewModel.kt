@@ -57,6 +57,12 @@ class LogViewModel @AssistedInject constructor(
         }.setOnEach {
             copy(dailyUiState = dailyUiState.copy(checkedButtonStates = it.checkedButtonStates))
         }
+
+        graphRepository.getGraphGoalTimeFlow().catch {
+            Log.e("LogViewModel", it.message.toString())
+        }.setOnEach {
+            copy(graphGoalTimeUiState = it.toFeatureModel())
+        }
     }
 
     fun updateGraphColors(selectedIndex: Int, graphColorUiState: GraphColorUiState) {
