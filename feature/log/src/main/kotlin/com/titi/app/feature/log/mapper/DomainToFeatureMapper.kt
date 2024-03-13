@@ -218,18 +218,13 @@ internal fun Pair<Map<String, Long>, List<Daily>>.toHomeFeatureModel(
             topTotalTdsTaskData = totalTopLevelTdsTaskData,
         ),
         homeGraphData = HomeUiState.HomeGraphData(
-            homeMonthPieData = HomeUiState.HomeMonthPieData(
-                totalTimeSeconds = monthTotalTime,
-            ),
             homeMonthGraphData = HomeUiState.HomeMonthGraphData(
                 totalTimeSeconds = monthTotalTime,
                 taskData = monthTopTdsTaskData,
             ),
-            homeWeekPieData = HomeUiState.HomeWeekPieData(
-                totalTimeSeconds = weekTotalTime,
-            ),
             homeWeekGraphData = HomeUiState.HomeWeekGraphData(
                 weekInformation = currentDate.getWeekInformation(),
+                totalTimeSeconds = weekTotalTime,
                 totalWeekTime = weekTotalTime.getTimeString(),
                 averageWeekTime = (weekTotalTime / weekStudyCount).getTimeString(),
                 weekLineChartData = weekLineChartData,

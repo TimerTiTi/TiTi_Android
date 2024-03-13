@@ -1,7 +1,7 @@
 package com.titi.app.data.graph.impl.di
 
-import com.titi.app.data.graph.api.GraphCheckedRepository
-import com.titi.app.data.graph.impl.repository.GraphCheckedRepositoryImpl
+import com.titi.app.data.graph.api.GraphRepository
+import com.titi.app.data.graph.impl.repository.GraphRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,7 +13,5 @@ import javax.inject.Singleton
 internal interface RepositoryModule {
     @Binds
     @Singleton
-    fun provideGraphCheckedRepository(
-        graphCheckedRepositoryImpl: GraphCheckedRepositoryImpl,
-    ): GraphCheckedRepository
+    fun provideGraphRepository(graphRepositoryImpl: GraphRepositoryImpl): GraphRepository
 }

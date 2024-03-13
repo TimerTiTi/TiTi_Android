@@ -5,7 +5,7 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
-import com.titi.app.data.graph.api.GraphCheckedRepository
+import com.titi.app.data.graph.api.GraphRepository
 import com.titi.app.data.graph.api.model.GraphCheckedRepositoryModel
 import com.titi.app.doamin.daily.usecase.GetAllDailiesTasksUseCase
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
@@ -17,9 +17,11 @@ import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
 import com.titi.app.feature.log.mapper.toDomainModel
 import com.titi.app.feature.log.mapper.toFeatureModel
 import com.titi.app.feature.log.mapper.toHomeFeatureModel
+import com.titi.app.feature.log.mapper.toRepositoryModel
 import com.titi.app.feature.log.mapper.toWeekFeatureModel
 import com.titi.app.feature.log.model.DailyGraphData
 import com.titi.app.feature.log.model.GraphColorUiState
+import com.titi.app.feature.log.model.GraphGoalTimeUiState
 import com.titi.app.feature.log.model.HomeUiState
 import com.titi.app.feature.log.model.LogUiState
 import com.titi.app.feature.log.model.WeekGraphData
@@ -41,7 +43,7 @@ class LogViewModel @AssistedInject constructor(
     private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
     private val getWeekDailyUseCase: GetWeekDailyUseCase,
     private val hasDailyForCurrentMonthUseCase: HasDailyForCurrentMonthUseCase,
-    private val graphCheckedRepository: GraphCheckedRepository,
+    private val graphRepository: GraphRepository,
 ) : MavericksViewModel<LogUiState>(initialState) {
 
     init {
@@ -49,13 +51,19 @@ class LogViewModel @AssistedInject constructor(
             Log.e("LogViewModel", it.message.toString())
         }.filterNotNull()
             .setOnEach {
-                copy(graphColors = it.toFeatureModel())
+                copy(graphColorUiState = it.toFeatureModel())
             }
 
-        graphCheckedRepository.getGraphCheckedFlow().catch {
+        graphRepository.getGraphCheckedFlow().catch {
             Log.e("LogViewModel", it.message.toString())
         }.setOnEach {
             copy(dailyUiState = dailyUiState.copy(checkedButtonStates = it.checkedButtonStates))
+        }
+
+        graphRepository.getGraphGoalTimeFlow().catch {
+            Log.e("LogViewModel", it.message.toString())
+        }.setOnEach {
+            copy(graphGoalTimeUiState = it.toFeatureModel())
         }
     }
 
@@ -65,6 +73,27 @@ class LogViewModel @AssistedInject constructor(
                 selectedIndex = selectedIndex,
                 graphColor = graphColorUiState.toDomainModel(),
             )
+        }
+    }
+
+    fun updateGraphGoalTime(
+        monthGoalTime: Int? = null,
+        weekGoalTime: Int? = null,
+        graphGoalTimeUiState: GraphGoalTimeUiState,
+    ) {
+        viewModelScope.launch {
+            val updateGraphGoalTimeUiState = when {
+                monthGoalTime != null && monthGoalTime > 0 -> graphGoalTimeUiState.copy(
+                    monthGoalTime = monthGoalTime,
+                )
+
+                weekGoalTime != null && weekGoalTime > 0 -> graphGoalTimeUiState.copy(
+                    weekGoalTime = weekGoalTime,
+                )
+                else -> graphGoalTimeUiState
+            }
+
+            graphRepository.setGraphGoalTime(updateGraphGoalTimeUiState.toRepositoryModel())
         }
     }
 
@@ -207,7 +236,7 @@ class LogViewModel @AssistedInject constructor(
                 set(page, checked)
             }
 
-            graphCheckedRepository.setGraphChecked(
+            graphRepository.setGraphChecked(
                 GraphCheckedRepositoryModel(
                     updateCheckedButtonStates,
                 ),
