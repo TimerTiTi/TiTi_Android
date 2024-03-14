@@ -5,6 +5,7 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
+import com.titi.app.core.util.getMeasureTime
 import com.titi.app.doamin.daily.usecase.AddMeasureTimeAtDailyUseCase
 import com.titi.app.domain.alarm.usecase.CanSetAlarmUseCase
 import com.titi.app.domain.alarm.usecase.CancelAlarmsUseCase
@@ -59,13 +60,18 @@ class MeasuringViewModel @AssistedInject constructor(
                 delay(1000)
                 setState {
                     copy(
-                        measuringRecordTimes =
-                        recordTimes.toMeasuringRecordTimes(
+                        measuringRecordTimes = recordTimes.toMeasuringRecordTimes(
                             isSleepMode = isSleepMode,
                             daily = daily,
-                            measureTime = measureTime + 1,
+                            measureTime = getMeasureTime(
+                                recordTimes.recordStartAt
+                                    ?: ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                            ),
                         ),
-                        measureTime = measureTime + 1,
+                        measureTime = getMeasureTime(
+                            recordTimes.recordStartAt
+                                ?: ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                        ),
                     )
                 }
             }
