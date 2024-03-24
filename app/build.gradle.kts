@@ -3,8 +3,8 @@ import com.titi.common.BuildType
 
 plugins {
     id("titi.android.application")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    alias(libs.plugins.googleServices)
+    alias(libs.plugins.firebaseCrashlytics)
 }
 
 android {
@@ -23,10 +23,25 @@ android {
         getByName(BuildType.DEBUG) {
             isMinifyEnabled = false
             isDebuggable = true
+            manifestPlaceholders["enableCrashReporting"] = false
+        }
+        getByName(BuildType.INHOUSE) {
+            isMinifyEnabled = true
+            isDebuggable = true
+            isShrinkResources = true
+            manifestPlaceholders["appName"] = "${AppConfig.APP_NAME} - ${BuildType.INHOUSE}"
+            manifestPlaceholders["enableCrashReporting"] = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
         getByName(BuildType.RELEASE) {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isDebuggable = false
+            isShrinkResources = false
             manifestPlaceholders["appName"] = AppConfig.APP_NAME
+            manifestPlaceholders["enableCrashReporting"] = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",

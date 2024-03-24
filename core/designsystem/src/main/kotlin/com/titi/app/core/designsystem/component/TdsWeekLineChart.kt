@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -34,21 +36,24 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 @Composable
 fun TdsWeekLineChart(
     modifier: Modifier = Modifier,
-    weekLineChardData: List<TdsWeekLineChartData>,
+    weekLineChartData: List<TdsWeekLineChartData>,
     startColor: Color,
     endColor: Color,
 ) {
-    require(weekLineChardData.size == 7) {
+    require(weekLineChartData.size == 7) {
         "The TdsWeekLineChartDataList must be 7 in size"
     }
 
-    val maxTime = weekLineChardData.maxBy { it.time }.time.toFloat()
+    val currentWeekLineChartData by rememberUpdatedState(newValue = weekLineChartData)
+    val currentStartColor by rememberUpdatedState(newValue = startColor)
+    val currentEndColor by rememberUpdatedState(newValue = endColor)
+    val maxTime = currentWeekLineChartData.maxBy { it.time }.time.toFloat()
 
     BoxWithConstraints(modifier = modifier) {
-        val itemWidth = maxWidth / weekLineChardData.size
+        val itemWidth = maxWidth / currentWeekLineChartData.size
 
         Row(modifier = Modifier.fillMaxSize()) {
-            weekLineChardData.forEach {
+            currentWeekLineChartData.forEach {
                 TdsWeekLineBar(
                     modifier = Modifier
                         .width(itemWidth)
@@ -62,8 +67,8 @@ fun TdsWeekLineChart(
                     date = it.date,
                     brush = Brush.verticalGradient(
                         listOf(
-                            startColor,
-                            endColor,
+                            currentStartColor,
+                            currentEndColor,
                         ),
                     ),
                 )
@@ -179,7 +184,7 @@ private fun TdsWeekLineChartPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White),
-            weekLineChardData = listOf(
+            weekLineChartData = listOf(
                 TdsWeekLineChartData(
                     time = 6200,
                     date = "1/12",

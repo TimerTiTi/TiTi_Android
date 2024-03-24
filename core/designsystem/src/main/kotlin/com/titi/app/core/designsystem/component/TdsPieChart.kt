@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -67,6 +69,9 @@ private fun TdsPieChart(
     var startAngle = 270f
     val density = LocalDensity.current
 
+    val currentColors by rememberUpdatedState(newValue = colors)
+    val currentTaskData by rememberUpdatedState(newValue = taskData)
+
     BoxWithConstraints(
         modifier = modifier,
         contentAlignment = Alignment.Center,
@@ -83,11 +88,11 @@ private fun TdsPieChart(
         val holeRadiusDp = with(density) { holeRadius.toDp() }
 
         Canvas(modifier = Modifier.fillMaxSize()) {
-            taskData.forEachIndexed { index, pie ->
+            currentTaskData.forEachIndexed { index, pie ->
                 val sweepAngle = (pie.progress * 360 - 1) * progress
 
                 drawArc(
-                    color = colors[index % colors.size],
+                    color = currentColors[index % currentColors.size],
                     startAngle = startAngle,
                     sweepAngle = sweepAngle,
                     useCenter = false,
@@ -116,10 +121,10 @@ private fun TdsPieChart(
             if (totalTimeString == null) {
                 TdsTaskResultList(
                     modifier = Modifier.size(holeRadiusDp * 2),
-                    taskData = taskData,
+                    taskData = currentTaskData,
                     isSpacing = false,
                     height = holeRadiusDp * 2 / 5,
-                    colors = colors,
+                    colors = currentColors,
                 )
             } else {
                 Box(

@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -39,11 +41,15 @@ fun TdsTimeLineChart(
         "The times list must be 24 in size"
     }
 
+    val currentTimes by rememberUpdatedState(newValue = times)
+    val currentStartColor by rememberUpdatedState(newValue = startColor)
+    val currentEndColor by rememberUpdatedState(newValue = endColor)
+
     BoxWithConstraints(modifier = modifier) {
         val itemWidth = maxWidth / times.size
 
         Row(modifier = Modifier.fillMaxSize()) {
-            times.forEachIndexed { index, time ->
+            currentTimes.forEachIndexed { index, time ->
                 TdsTimeLineBar(
                     modifier = Modifier
                         .width(itemWidth)
@@ -52,8 +58,8 @@ fun TdsTimeLineChart(
                     hour = (index + 6).let { if (it >= 24) it - 24 else it }.toString(),
                     brush = Brush.verticalGradient(
                         listOf(
-                            startColor,
-                            endColor,
+                            currentStartColor,
+                            currentEndColor,
                         ),
                     ),
                 )
