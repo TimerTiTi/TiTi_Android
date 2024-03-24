@@ -24,6 +24,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -63,8 +64,11 @@ import org.threeten.bp.ZonedDateTime
 
 @Composable
 fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> Unit) {
-    val splashResultStateModel =
-        splashResultState.fromJson<SplashResultState>() ?: SplashResultState()
+    val splashResultStateModel by rememberUpdatedState(
+        newValue = splashResultState
+            .fromJson<SplashResultState>()
+            ?: SplashResultState(),
+    )
 
     val viewModel: MeasuringViewModel =
         mavericksViewModel(
