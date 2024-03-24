@@ -58,6 +58,8 @@ import com.titi.app.feature.measure.model.MeasuringUiState
 import com.titi.app.feature.measure.model.SplashResultState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
@@ -106,6 +108,38 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     }
 
     LaunchedEffect(Unit) {
+        val timerTime = splashResultStateModel.recordTimes.savedTimerTime
+        val stopWatchTime = splashResultStateModel.recordTimes.savedStopWatchTime
+        val recordingMode = splashResultStateModel.recordTimes.recordingMode
+
+        lifecycleOwner.lifecycleScope.launch {
+            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                snapshotFlow {
+                    uiState.measuringRecordTimes.savedTime
+                }.map { it <= 0 && recordingMode == 1 }
+                    .distinctUntilChanged()
+                    .filter { it }
+                    .collectLatest {
+                        stopMeasuring()
+                        removeNotification(context)
+                        onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
+                    }
+            }
+        }
+
+        makeInProgressNotification(context)
+
+        viewModel.setAlarm(
+            title = alarmTitle,
+            finishMessage = alarmFinishMessage,
+            fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
+            measureTime = if (recordingMode == 1) {
+                timerTime - uiState.measureTime
+            } else {
+                stopWatchTime + uiState.measureTime
+            },
+        )
+
         showSetExactAlarmPermissionDialog = !viewModel.canSetAlarm()
     }
 
@@ -113,40 +147,6 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
         stopMeasuring()
         removeNotification(context)
         onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
-    }
-
-    lifecycleOwner.lifecycleScope.launch {
-        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-            val recordingMode = splashResultStateModel.recordTimes.recordingMode
-            val timerTime = splashResultStateModel.recordTimes.savedTimerTime
-            val stopWatchTime = splashResultStateModel.recordTimes.savedStopWatchTime
-
-            snapshotFlow {
-                val savedTime = uiState.measuringRecordTimes.savedTime
-                savedTime <= 0 && recordingMode == 1
-            }
-                .distinctUntilChanged()
-                .collectLatest {
-                    if (it) {
-                        stopMeasuring()
-                        removeNotification(context)
-                        onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
-                    } else {
-                        makeInProgressNotification(context)
-
-                        viewModel.setAlarm(
-                            title = alarmTitle,
-                            finishMessage = alarmFinishMessage,
-                            fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
-                            measureTime = if (recordingMode == 1) {
-                                timerTime - uiState.measureTime
-                            } else {
-                                stopWatchTime + uiState.measureTime
-                            },
-                        )
-                    }
-                }
-        }
     }
 
     DisposableEffect(Unit) {
