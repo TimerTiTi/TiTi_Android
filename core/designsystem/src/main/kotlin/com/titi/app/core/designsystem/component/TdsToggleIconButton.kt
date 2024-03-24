@@ -13,10 +13,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.titi.app.core.designsystem.theme.TdsColor
 
 @Composable
 fun TdsToggleIconButton(
@@ -25,6 +27,7 @@ fun TdsToggleIconButton(
     @DrawableRes uncheckedIcon: Int,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
+    tint: TdsColor,
 ) {
     var isChecked by remember { mutableStateOf(checked) }
 
@@ -46,6 +49,7 @@ fun TdsToggleIconButton(
         Image(
             imageVector = ImageVector.vectorResource(if (isChecked) checkedIcon else uncheckedIcon),
             contentDescription = "toggle_icon_button",
+            colorFilter = ColorFilter.tint(tint.getColor()),
         )
     }
 }
