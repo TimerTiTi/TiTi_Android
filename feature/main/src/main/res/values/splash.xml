@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.TiTi.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#FFA4BFCD</item>
+        <item name="postSplashScreenTheme">@style/Theme.TiTi</item>
+    </style>
+</resources>
