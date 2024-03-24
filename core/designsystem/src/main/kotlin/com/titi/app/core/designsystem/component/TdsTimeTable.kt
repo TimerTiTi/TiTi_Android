@@ -132,7 +132,7 @@ private fun TdsTimeTablePreview() {
                 TdsTimeTableData(
                     hour = 3,
                     start = 1800,
-                    end = 2400,
+                    end = 3600,
                 ),
                 TdsTimeTableData(
                     hour = 5,

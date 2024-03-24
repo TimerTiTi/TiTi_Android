@@ -206,6 +206,7 @@ fun TdsStandardDailyGraph(
                 uncheckedIcon = R.drawable.unchecked_icon,
                 checked = checked,
                 onCheckedChange = onCheckedChange,
+                tint = TdsColor.TEXT,
             )
         }
     }

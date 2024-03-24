@@ -12,6 +12,7 @@ import com.titi.app.domain.color.model.GraphColor
 import java.time.LocalDate
 
 data class LogUiState(
+    val tabSelectedIndex: Int = 0,
     val graphGoalTimeUiState: GraphGoalTimeUiState = GraphGoalTimeUiState(),
     val graphColorUiState: GraphColorUiState = GraphColorUiState(),
     val homeUiState: HomeUiState = HomeUiState(),
