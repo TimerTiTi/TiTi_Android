@@ -21,21 +21,25 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
@@ -51,6 +55,9 @@ import com.titi.app.core.ui.setBrightness
 import com.titi.app.core.util.fromJson
 import com.titi.app.feature.measure.model.MeasuringUiState
 import com.titi.app.feature.measure.model.SplashResultState
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
@@ -68,6 +75,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
 
     val uiState by viewModel.collectAsState()
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     var showSetExactAlarmPermissionDialog by remember { mutableStateOf(false) }
 
     val (alarmTitle, alarmFinishMessage, alarmFiveMinutesBeforeFinish) =
@@ -85,14 +93,6 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
             )
         }
 
-    val isFinishState by remember {
-        derivedStateOf {
-            val savedTime = uiState.measuringRecordTimes.savedTime
-            val recordingMode = splashResultStateModel.recordTimes.recordingMode
-            savedTime <= 0 && recordingMode == 1
-        }
-    }
-
     val stopMeasuring = {
         viewModel.stopMeasuring(
             recordTimes = uiState.recordTimes,
@@ -102,19 +102,6 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     }
 
     LaunchedEffect(Unit) {
-        makeInProgressNotification(context)
-
-        viewModel.setAlarm(
-            title = alarmTitle,
-            finishMessage = alarmFinishMessage,
-            fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
-            measureTime = if (splashResultStateModel.recordTimes.recordingMode == 1) {
-                splashResultStateModel.recordTimes.savedTimerTime - uiState.measureTime
-            } else {
-                splashResultStateModel.recordTimes.savedStopWatchTime + uiState.measureTime
-            },
-        )
-
         showSetExactAlarmPermissionDialog = !viewModel.canSetAlarm()
     }
 
@@ -122,6 +109,40 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
         stopMeasuring()
         removeNotification(context)
         onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
+    }
+
+    lifecycleOwner.lifecycleScope.launch {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            val recordingMode = splashResultStateModel.recordTimes.recordingMode
+            val timerTime = splashResultStateModel.recordTimes.savedTimerTime
+            val stopWatchTime = splashResultStateModel.recordTimes.savedStopWatchTime
+
+            snapshotFlow {
+                val savedTime = uiState.measuringRecordTimes.savedTime
+                savedTime <= 0 && recordingMode == 1
+            }
+                .distinctUntilChanged()
+                .collectLatest {
+                    if (it) {
+                        stopMeasuring()
+                        removeNotification(context)
+                        onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
+                    } else {
+                        makeInProgressNotification(context)
+
+                        viewModel.setAlarm(
+                            title = alarmTitle,
+                            finishMessage = alarmFinishMessage,
+                            fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
+                            measureTime = if (recordingMode == 1) {
+                                timerTime - uiState.measureTime
+                            } else {
+                                stopWatchTime + uiState.measureTime
+                            },
+                        )
+                    }
+                }
+        }
     }
 
     DisposableEffect(Unit) {
@@ -132,14 +153,6 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
 
     LaunchedEffect(uiState.isSleepMode) {
         context.setBrightness(uiState.isSleepMode)
-    }
-
-    LaunchedEffect(isFinishState) {
-        if (isFinishState) {
-            stopMeasuring()
-            removeNotification(context)
-            onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
-        }
     }
 
     if (showSetExactAlarmPermissionDialog) {
