@@ -1,2 +1,2 @@
-TiTi android dev 0.3.2(15)
-- 타이머, 스탑워치 백그라운드 동기화 이슈 수정
+TiTi android dev 0.3.3(16)
+- QA 0.3.2 버전 반영
