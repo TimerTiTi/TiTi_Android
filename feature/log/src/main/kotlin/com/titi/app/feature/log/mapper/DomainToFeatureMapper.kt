@@ -71,7 +71,7 @@ internal fun makeTimeTableData(startDate: String, endDate: String): List<TdsTime
             TdsTimeTableData(
                 hour = startZonedDateTime.hour,
                 start = startZonedDateTime.minute * 60 + startZonedDateTime.second,
-                end = nextHour.minute * 60 + nextHour.second,
+                end = if (nextHour.minute == 0) 3600 else nextHour.minute * 60 + nextHour.second,
             ),
         )
         startZonedDateTime = nextHour
