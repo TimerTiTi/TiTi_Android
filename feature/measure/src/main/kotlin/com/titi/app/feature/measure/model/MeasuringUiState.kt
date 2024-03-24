@@ -19,20 +19,17 @@ data class MeasuringUiState(
     val isSleepMode: Boolean = false,
 ) : MavericksState {
     constructor(args: Bundle) : this(
-        measuringRecordTimes =
-        getSplashResultStateFromArgs(args).run {
+        measuringRecordTimes = getSplashResultStateFromArgs(args).run {
             recordTimes.toMeasuringRecordTimes(
                 isSleepMode = false,
-                measureTime =
-                getMeasureTime(
+                measureTime = getMeasureTime(
                     recordTimes.recordStartAt ?: ZonedDateTime.now(ZoneOffset.UTC).toString(),
                 ),
                 daily = daily,
             )
         },
         splashResultState = getSplashResultStateFromArgs(args),
-        measureTime =
-        getMeasureTime(
+        measureTime = getMeasureTime(
             getSplashResultStateFromArgs(args).recordTimes.recordStartAt
                 ?: ZonedDateTime.now(ZoneOffset.UTC).toString(),
         ),

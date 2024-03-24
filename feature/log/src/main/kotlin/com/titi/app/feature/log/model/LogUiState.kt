@@ -12,11 +12,18 @@ import com.titi.app.domain.color.model.GraphColor
 import java.time.LocalDate
 
 data class LogUiState(
-    val graphColors: GraphColorUiState = GraphColorUiState(),
+    val tabSelectedIndex: Int = 0,
+    val graphGoalTimeUiState: GraphGoalTimeUiState = GraphGoalTimeUiState(),
+    val graphColorUiState: GraphColorUiState = GraphColorUiState(),
     val homeUiState: HomeUiState = HomeUiState(),
     val dailyUiState: DailyUiState = DailyUiState(),
     val weekUiState: WeekUiState = WeekUiState(),
 ) : MavericksState
+
+data class GraphGoalTimeUiState(
+    val monthGoalTime: Int = 100,
+    val weekGoalTime: Int = 30,
+)
 
 data class GraphColorUiState(
     val selectedIndex: Int = 0,
@@ -47,16 +54,9 @@ data class HomeUiState(
     )
 
     data class HomeGraphData(
-        val homeMonthPieData: HomeMonthPieData = HomeMonthPieData(),
         val homeMonthGraphData: HomeMonthGraphData = HomeMonthGraphData(),
-        val homeWeekPieData: HomeWeekPieData = HomeWeekPieData(),
         val homeWeekGraphData: HomeWeekGraphData = HomeWeekGraphData(),
         val homeDailyGraphData: HomeDailyGraphData = HomeDailyGraphData(),
-    )
-
-    data class HomeMonthPieData(
-        val totalTimeSeconds: Long = 0,
-        val defaultTimeSeconds: Long = 360000,
     )
 
     data class HomeMonthGraphData(
@@ -64,13 +64,9 @@ data class HomeUiState(
         val taskData: List<TdsTaskData> = emptyList(),
     )
 
-    data class HomeWeekPieData(
-        val totalTimeSeconds: Long = 0,
-        val defaultTimeSeconds: Long = 90000,
-    )
-
     data class HomeWeekGraphData(
         val weekInformation: Triple<String, String, String> = LocalDate.now().getWeekInformation(),
+        val totalTimeSeconds: Long = 0L,
         val totalWeekTime: String = 0L.getTimeString(),
         val averageWeekTime: String = 0L.getTimeString(),
         val weekLineChartData: List<TdsWeekLineChartData> =
@@ -90,6 +86,7 @@ data class DailyUiState(
     val currentDate: LocalDate = LocalDate.now(),
     val hasDailies: List<LocalDate> = emptyList(),
     val dailyGraphData: DailyGraphData = DailyGraphData(),
+    val checkedButtonStates: List<Boolean> = List(4) { false },
 )
 
 data class DailyGraphData(

@@ -71,6 +71,7 @@ dependencies {
     implementation(project(":data:daily:impl"))
     implementation(project(":data:sleep:impl"))
     implementation(project(":data:alarm:impl"))
+    implementation(project(":data:graph:impl"))
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)

@@ -25,8 +25,7 @@ fun TimeTimerDialog(onPositive: (Long) -> Unit, onShowDialog: (Boolean) -> Unit)
     var setTimerTime by remember { mutableLongStateOf(0) }
 
     TdsDialog(
-        tdsDialogInfo =
-        TdsDialogInfo.Confirm(
+        tdsDialogInfo = TdsDialogInfo.Confirm(
             title = stringResource(R.string.set_timer_time_title),
             message = stringResource(
                 R.string.set_timer_time_message,

@@ -71,7 +71,7 @@ internal fun makeTimeTableData(startDate: String, endDate: String): List<TdsTime
             TdsTimeTableData(
                 hour = startZonedDateTime.hour,
                 start = startZonedDateTime.minute * 60 + startZonedDateTime.second,
-                end = nextHour.minute * 60 + nextHour.second,
+                end = if (nextHour.minute == 0) 3600 else nextHour.minute * 60 + nextHour.second,
             ),
         )
         startZonedDateTime = nextHour
@@ -105,7 +105,11 @@ internal fun List<Daily>.toWeekFeatureModel(currentDate: LocalDate): WeekGraphDa
         if (sumTime > 0) {
             studyCount++
         }
-        daily.tasks?.let { taskMap -> totalTaskMap.putAll(taskMap) }
+        daily.tasks?.let { taskMap ->
+            taskMap.forEach { (taskName, taskTime) ->
+                totalTaskMap[taskName] = totalTaskMap.getOrDefault(taskName, 0L) + taskTime
+            }
+        }
     }
 
     val topLevelTask = totalTaskMap
@@ -167,7 +171,9 @@ internal fun Pair<Map<String, Long>, List<Daily>>.toHomeFeatureModel(
     var monthTotalTime = 0L
     monthDailies.forEach { daily ->
         daily.tasks?.let { task ->
-            monthTaskMap.putAll(task)
+            task.forEach { (taskName, taskTime) ->
+                monthTaskMap[taskName] = monthTaskMap.getOrDefault(taskName, 0L) + taskTime
+            }
             monthTotalTime += task.values.sum()
         }
     }
@@ -212,18 +218,13 @@ internal fun Pair<Map<String, Long>, List<Daily>>.toHomeFeatureModel(
             topTotalTdsTaskData = totalTopLevelTdsTaskData,
         ),
         homeGraphData = HomeUiState.HomeGraphData(
-            homeMonthPieData = HomeUiState.HomeMonthPieData(
-                totalTimeSeconds = monthTotalTime,
-            ),
             homeMonthGraphData = HomeUiState.HomeMonthGraphData(
                 totalTimeSeconds = monthTotalTime,
                 taskData = monthTopTdsTaskData,
             ),
-            homeWeekPieData = HomeUiState.HomeWeekPieData(
-                totalTimeSeconds = weekTotalTime,
-            ),
             homeWeekGraphData = HomeUiState.HomeWeekGraphData(
                 weekInformation = currentDate.getWeekInformation(),
+                totalTimeSeconds = weekTotalTime,
                 totalWeekTime = weekTotalTime.getTimeString(),
                 averageWeekTime = (weekTotalTime / weekStudyCount).getTimeString(),
                 weekLineChartData = weekLineChartData,
