@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -58,10 +57,6 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
         mutableStateOf(false)
     }
 
-    var tabSelectedIndex by remember {
-        mutableIntStateOf(0)
-    }
-
     val uiState by viewModel.collectAsState()
 
     if (showSettingBottomSheet) {
@@ -82,6 +77,12 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
         viewModel.updateCurrentDateWeek(currentDate)
     }
 
+    LaunchedEffect(uiState.tabSelectedIndex) {
+        scope.launch {
+            pagerState.animateScrollToPage(uiState.tabSelectedIndex)
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -98,13 +99,10 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                     .width(150.dp)
                     .height(30.dp)
                     .align(Alignment.Center),
-                selectedItemIndex = tabSelectedIndex,
+                selectedItemIndex = uiState.tabSelectedIndex,
                 items = listOf("Home", "Daily", "Week"),
                 onClick = {
-                    tabSelectedIndex = it
-                    scope.launch {
-                        pagerState.animateScrollToPage(it)
-                    }
+                    viewModel.updateTabSelectedIndex(it)
                 },
             )
 

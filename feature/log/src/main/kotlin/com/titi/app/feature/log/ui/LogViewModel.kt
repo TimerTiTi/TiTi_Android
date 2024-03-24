@@ -244,6 +244,14 @@ class LogViewModel @AssistedInject constructor(
         }
     }
 
+    fun updateTabSelectedIndex(index: Int) {
+        setState {
+            copy(
+                tabSelectedIndex = index,
+            )
+        }
+    }
+
     @AssistedFactory
     interface Factory : AssistedViewModelFactory<LogViewModel, LogUiState> {
         override fun create(state: LogUiState): LogViewModel
