@@ -45,7 +45,7 @@ fun WeekScreen(
     totalTime: String,
     averageTime: String,
     hasDailies: List<LocalDate>,
-    weekLineChardData: List<TdsWeekLineChartData>,
+    weekLineChartData: List<TdsWeekLineChartData>,
     weekInformation: Triple<String, String, String>,
     tdsColors: List<TdsColor>,
     topLevelTaskData: List<TdsTaskData>,
@@ -154,7 +154,7 @@ fun WeekScreen(
             totalTime = totalTime,
             averageTime = averageTime,
             weekInformation = weekInformation,
-            weekLineChardData = weekLineChardData,
+            weekLineChartData = weekLineChartData,
             tdsColors = tdsColors,
             topLevelTaskData = topLevelTaskData,
             topLevelTaskTotal = topLevelTaskTotal,
@@ -166,7 +166,7 @@ fun WeekScreen(
 @Preview
 @Composable
 private fun WeekScreenPreview() {
-    val weekLineChardData = listOf(
+    val weekLineChartData = listOf(
         TdsWeekLineChartData(
             time = 6200,
             date = "1/12",
@@ -239,7 +239,7 @@ private fun WeekScreenPreview() {
             weekInformation = Triple("2024.02", "Week 2", "02.12~02.19"),
             totalTime = "08:00:00",
             averageTime = "03:00:00",
-            weekLineChardData = weekLineChardData,
+            weekLineChartData = weekLineChartData,
             tdsColors = tdsColors,
             hasDailies = emptyList(),
             topLevelTaskData = taskData,

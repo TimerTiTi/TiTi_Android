@@ -37,7 +37,7 @@ fun TdsStandardWeekGraph(
     weekInformation: Triple<String, String, String>,
     totalTime: String,
     averageTime: String,
-    weekLineChardData: List<TdsWeekLineChartData>,
+    weekLineChartData: List<TdsWeekLineChartData>,
     tdsColors: List<TdsColor>,
     topLevelTaskData: List<TdsTaskData>,
     topLevelTaskTotal: String,
@@ -113,7 +113,7 @@ fun TdsStandardWeekGraph(
                         modifier = Modifier
                             .width(size * 0.6)
                             .fillMaxHeight(),
-                        weekLineChardData = weekLineChardData,
+                        weekLineChartData = weekLineChartData,
                         startColor = tdsColors.first().getColor(),
                         endColor = tdsColors[2].getColor(),
                     )
@@ -251,7 +251,7 @@ private fun TdsStandardWeekGraphPreview() {
             totalTime = "08:00:00",
             averageTime = "03:00:00",
             weekInformation = Triple("2024.02", "Week 2", "02.12~02.19"),
-            weekLineChardData = listOf(
+            weekLineChartData = listOf(
                 TdsWeekLineChartData(
                     time = 6200,
                     date = "1/12",

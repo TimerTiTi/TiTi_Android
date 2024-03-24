@@ -325,7 +325,7 @@ private fun WeekCard(homeWeekGraphData: HomeUiState.HomeWeekGraphData, tdsColors
             ) {
                 TdsWeekLineChart(
                     modifier = Modifier.weight(3f),
-                    weekLineChardData = homeWeekGraphData.weekLineChartData,
+                    weekLineChartData = homeWeekGraphData.weekLineChartData,
                     startColor = tdsColors.first().getColor(),
                     endColor = tdsColors[2].getColor(),
                 )
