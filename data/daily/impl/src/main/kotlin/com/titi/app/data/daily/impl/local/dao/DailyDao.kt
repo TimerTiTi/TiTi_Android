@@ -26,7 +26,7 @@ internal interface DailyDao {
     @Query(
         "SELECT * FROM dailies " +
             " WHERE datetime(day) " +
-            "BETWEEN datetime(:startDateTime) AND datetime(:endDateTime)",
+            "BETWEEN datetime(:startDateTime) AND datetime(:endDateTime) ORDER BY id desc LIMIT 1",
     )
     fun getDateDailyFlow(startDateTime: String, endDateTime: String): Flow<DailyEntity?>
 
