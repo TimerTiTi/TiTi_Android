@@ -8,6 +8,7 @@
 # Features
 <img width="969" alt="스크린샷 2024-03-31 오후 2 01 34" src="https://github.com/TimerTiTi/TiTi_Android/assets/61337202/3482344a-7c09-47af-a54c-4b03fd91d5eb">
 
+### [요구사항 명세서](https://docs.google.com/spreadsheets/d/1tVOiMd1-MYbk3dLCwa5GBPjIDEpp2Jq_xJRfrKCzQPo/edit#gid=1705278728)
 - 기록 측정 - Timer 모드 (앱 종료시에도 기록 진행)
 - 기록 측정 - Stopwatch 모드 (앱 종료시에도 기록 진행)
 - 기록 설정 - 목표시간, 타이머시간 설정
