@@ -21,7 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
+import com.titi.app.core.designsystem.extension.times
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
@@ -76,7 +78,7 @@ private fun TdsPieChart(
         modifier = modifier,
         contentAlignment = Alignment.Center,
     ) {
-        val radius = with(density) { (min(maxWidth, maxHeight) / 3).toPx() }
+        val radius = with(density) { (min(maxWidth, maxHeight) * 0.4).toPx() }
         val centerX = with(density) { (maxWidth / 2).toPx() }
         val centerY = with(density) { (maxHeight / 2).toPx() }
         val holeRadiusPercent = if (containsDonut || totalTimeString != null) {
@@ -148,9 +150,9 @@ private fun TdsPieChart(
 private fun TdsPieChartPreview() {
     TiTiTheme {
         TdsPieChart(
-            modifier = Modifier.fillMaxSize(),
-            containsDonut = false,
-            totalTimeString = "300",
+            modifier = Modifier.size(109.dp),
+            containsDonut = true,
+            totalTimeString = null,
             taskData = listOf(
                 TdsTaskData(
                     key = "수업",

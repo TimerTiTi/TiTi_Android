@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -46,7 +47,7 @@ fun TdsTimeLineChart(
     val currentEndColor by rememberUpdatedState(newValue = endColor)
 
     BoxWithConstraints(modifier = modifier) {
-        val itemWidth = maxWidth / times.size
+        val itemWidth = (maxWidth - 48.dp) / times.size
 
         Row(modifier = Modifier.fillMaxSize()) {
             currentTimes.forEachIndexed { index, time ->
@@ -63,6 +64,10 @@ fun TdsTimeLineChart(
                         ),
                     ),
                 )
+
+                if (index != 23) {
+                    Spacer(modifier = Modifier.width(2.dp))
+                }
             }
         }
     }
@@ -82,19 +87,17 @@ private fun TdsTimeLineBar(modifier: Modifier = Modifier, time: Long, hour: Stri
     Canvas(modifier = modifier) {
         val spacing = 4.dp.toPx()
 
-        val radius = size.width * 0.5f
-        val barWidth = size.width * 0.9f
+        val barWidth = size.width
         val barMaxHeight = size.height - spacing - textLayoutResult.size.height
         val barHeight = barMaxHeight * time / 3600
-        val barSpacing = size.width * 0.05f
         val startY = size.height - barHeight - spacing - textLayoutResult.size.height
-        val cornerRadius = CornerRadius(radius, radius)
+        val cornerRadius = CornerRadius(5.dp.toPx(), 5.dp.toPx())
         val path = Path().apply {
             addRoundRect(
                 RoundRect(
                     rect = Rect(
                         offset = Offset(
-                            x = barSpacing,
+                            x = 0f,
                             y = startY,
                         ),
                         size = Size(barWidth, barHeight),

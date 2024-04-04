@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -50,21 +51,21 @@ fun TdsWeekLineChart(
     val maxTime = currentWeekLineChartData.maxBy { it.time }.time.toFloat()
 
     BoxWithConstraints(modifier = modifier) {
-        val itemWidth = maxWidth / currentWeekLineChartData.size
+        val itemWidth = (maxWidth - 36.dp) / currentWeekLineChartData.size
 
         Row(modifier = Modifier.fillMaxSize()) {
-            currentWeekLineChartData.forEach {
+            currentWeekLineChartData.forEachIndexed { index, item ->
                 TdsWeekLineBar(
                     modifier = Modifier
                         .width(itemWidth)
                         .fillMaxHeight(),
-                    time = if (it.time == 0L) "" else it.time.toTimeString(),
+                    time = if (item.time == 0L) "" else item.time.toTimeString(),
                     progress = if (maxTime == 0f) {
                         0f
                     } else {
-                        it.time / maxTime
+                        item.time / maxTime
                     },
-                    date = it.date,
+                    date = item.date,
                     brush = Brush.verticalGradient(
                         listOf(
                             currentStartColor,
@@ -72,6 +73,10 @@ fun TdsWeekLineChart(
                         ),
                     ),
                 )
+
+                if (index != 6) {
+                    Spacer(modifier = Modifier.width(6.dp))
+                }
             }
         }
     }
@@ -101,15 +106,14 @@ private fun TdsWeekLineBar(
     Canvas(modifier = modifier) {
         val spacing = 4.dp.toPx()
 
-        val radius = size.width * 0.2f
-        val barWidth = size.width * 0.9f
+        val barWidth = size.width
         val allTextHeight = timeTextLayoutResult.size.height + dateTextLayoutResult.size.height
         val barMaxHeight = size.height - 2 * spacing - allTextHeight
         val barHeight = barMaxHeight * progress
 
         val startX = center.x - barWidth / 2
         val startY = size.height - barHeight - spacing - dateTextLayoutResult.size.height
-        val cornerRadius = CornerRadius(radius, radius)
+        val cornerRadius = CornerRadius(6.dp.toPx(), 6.dp.toPx())
 
         val path = Path().apply {
             addRoundRect(

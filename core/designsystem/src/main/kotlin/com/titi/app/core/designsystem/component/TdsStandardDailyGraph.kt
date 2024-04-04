@@ -136,7 +136,7 @@ fun TdsStandardDailyGraph(
                         taskData = taskData,
                         isSpacing = true,
                         leftText = "✔",
-                        height = 20.dp,
+                        height = 25.dp,
                         colors = tdsColors.map { it.getColor() },
                     )
 

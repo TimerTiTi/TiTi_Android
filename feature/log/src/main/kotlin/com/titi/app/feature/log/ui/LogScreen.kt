@@ -122,7 +122,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
             }
         }
 
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         HorizontalPager(
             modifier = Modifier.fillMaxSize(),
