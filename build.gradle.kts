@@ -15,3 +15,7 @@ allprojects {
         plugin("org.jlleitschuh.gradle.ktlint")
     }
 }
+
+apply {
+    from("./gradle/projectDependencyGraph.gradle")
+}
