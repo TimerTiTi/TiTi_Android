@@ -86,18 +86,18 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 15.dp),
+            .padding(vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp),
+                .padding(horizontal = 16.dp),
         ) {
             TdsTabRow(
                 modifier = Modifier
-                    .width(150.dp)
-                    .height(30.dp)
+                    .width(174.dp)
+                    .height(32.dp)
                     .align(Alignment.Center),
                 selectedItemIndex = uiState.tabSelectedIndex,
                 items = listOf("Home", "Daily", "Week"),
