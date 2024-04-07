@@ -79,7 +79,7 @@ fun TdsTimeLineDailyGraph(
                 Spacer(modifier = Modifier.height(5.dp))
 
                 TdsDayOfTheWeek(
-                    modifier = Modifier.padding(horizontal = 24.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
                     todayDayOfTheWeek = todayDayOfTheWeek,
                     color = tdsColors.first(),
                 )
