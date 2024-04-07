@@ -397,16 +397,17 @@ private fun TimeLineCard(
                 Spacer(modifier = Modifier.width(8.dp))
 
                 TdsDayOfTheWeek(
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 2.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 2.dp),
                     todayDayOfTheWeek = homeDailyGraphData.todayDayOfTheWeek,
                     color = tdsColors.first(),
                 )
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
-
             TdsTimeLineChart(
                 modifier = Modifier.fillMaxSize(),
+                isCircleDraw = true,
                 times = homeDailyGraphData.timeLines,
                 startColor = tdsColors[0].getColor(),
                 endColor = tdsColors[1].getColor(),
