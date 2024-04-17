@@ -323,6 +323,8 @@ private fun WeekCard(homeWeekGraphData: HomeUiState.HomeWeekGraphData, tdsColors
                     endColor = tdsColors.first().getColor(),
                 )
 
+                Spacer(modifier = Modifier.width(6.dp))
+
                 Column(
                     modifier = Modifier.wrapContentWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
