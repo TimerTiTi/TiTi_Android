@@ -1,4 +1,5 @@
 # ⏰ 내가 공부한 소중한 시간들을 아름다운 기록으로 남길 수 있는 TimerTiTi 📸
+### [Play Store](https://play.google.com/store/apps/details?id=com.titi.app)
 ![cover2](https://github.com/TimerTiTi/TiTi_Android/assets/61337202/ea2126a7-ce8e-4106-9924-fe266ba354a2)
 
 - 사용자들은 다른 사람들과의 경쟁 없이, 나만의 기록을 남기는 것에만 집중할 수 있어요. 🖊️
