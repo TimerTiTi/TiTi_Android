@@ -110,7 +110,13 @@ fun TdsStandardDailyGraph(
                         .padding(2.dp),
                 ) {
                     TdsTimeLineChart(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(
+                                top = 4.dp,
+                                start = 4.dp,
+                                end = 4.dp,
+                            ),
                         times = timeLines,
                         startColor = tdsColors[0].getColor(),
                         endColor = tdsColors[1].getColor(),
