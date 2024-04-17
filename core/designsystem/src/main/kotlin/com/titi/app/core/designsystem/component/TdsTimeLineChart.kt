@@ -56,7 +56,7 @@ fun TdsTimeLineChart(
 
         Row(
             modifier = Modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             currentTimes.forEachIndexed { index, time ->
                 Column(

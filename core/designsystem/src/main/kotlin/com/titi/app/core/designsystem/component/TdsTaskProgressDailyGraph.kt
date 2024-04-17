@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -72,12 +71,16 @@ fun TdsTaskProgressDailyGraph(
                     color = TdsColor.TEXT,
                 )
 
+                Spacer(modifier = Modifier.height(15.dp))
+
                 TdsPieChart(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.weight(1f),
                     taskData = taskData,
                     colors = tdsColors.map { it.getColor() },
                     containsDonut = true,
                 )
+
+                Spacer(modifier = Modifier.height(15.dp))
             }
         }
 
