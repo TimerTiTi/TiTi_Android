@@ -86,7 +86,7 @@ fun TdsTimeTableDailyGraph(
                     Spacer(modifier = Modifier.width(4.dp))
 
                     TdsDayOfTheWeek(
-                        modifier = Modifier.padding(bottom = 2.dp),
+                        modifier = Modifier.weight(1f).padding(bottom = 2.dp),
                         todayDayOfTheWeek = todayDayOfTheWeek,
                         color = tdsColors.first(),
                     )
@@ -178,7 +178,7 @@ fun TdsTimeTableDailyGraph(
                             colors = tdsColors.map { it.getColor() },
                             isSpacing = true,
                             leftText = "✔",
-                            height = 20.dp,
+                            height = 25.dp,
                         )
                     }
 

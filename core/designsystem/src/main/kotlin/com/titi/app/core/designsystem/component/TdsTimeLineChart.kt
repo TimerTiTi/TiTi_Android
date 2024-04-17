@@ -2,11 +2,15 @@ package com.titi.app.core.designsystem.component
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,10 +33,12 @@ import androidx.compose.ui.unit.sp
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import kotlin.math.floor
 
 @Composable
 fun TdsTimeLineChart(
     modifier: Modifier = Modifier,
+    isCircleDraw: Boolean = false,
     times: List<Long>,
     startColor: Color,
     endColor: Color,
@@ -46,23 +52,41 @@ fun TdsTimeLineChart(
     val currentEndColor by rememberUpdatedState(newValue = endColor)
 
     BoxWithConstraints(modifier = modifier) {
-        val itemWidth = maxWidth / times.size
+        val itemWidth = floor(maxWidth.value / times.size).dp
 
-        Row(modifier = Modifier.fillMaxSize()) {
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
             currentTimes.forEachIndexed { index, time ->
-                TdsTimeLineBar(
+                Column(
                     modifier = Modifier
                         .width(itemWidth)
                         .fillMaxHeight(),
-                    time = time,
-                    hour = (index + 6).let { if (it >= 24) it - 24 else it }.toString(),
-                    brush = Brush.verticalGradient(
-                        listOf(
-                            currentStartColor,
-                            currentEndColor,
+                ) {
+                    if (isCircleDraw) {
+                        Canvas(modifier = Modifier.size(itemWidth)) {
+                            drawCircle(
+                                color = currentStartColor.copy(alpha = time / 3600f),
+                                radius = itemWidth.toPx() * 0.45f,
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
+
+                    TdsTimeLineBar(
+                        modifier = Modifier.fillMaxSize(),
+                        time = time,
+                        hour = (index + 6).let { if (it >= 24) it - 24 else it }.toString(),
+                        brush = Brush.verticalGradient(
+                            listOf(
+                                currentStartColor,
+                                currentEndColor,
+                            ),
                         ),
-                    ),
-                )
+                    )
+                }
             }
         }
     }
@@ -124,34 +148,13 @@ private fun TdsTimeLineBar(modifier: Modifier = Modifier, time: Long, hour: Stri
 
 @Preview
 @Composable
-private fun TdsTimeLineBarPreview() {
-    TiTiTheme {
-        TdsTimeLineBar(
-            modifier = Modifier
-                .width(30.dp)
-                .height(100.dp)
-                .background(Color.White),
-            time = 3600,
-            hour = "24",
-            brush = Brush
-                .verticalGradient(
-                    listOf(
-                        TdsColor.D1.getColor(),
-                        TdsColor.D2.getColor(),
-                    ),
-                ),
-        )
-    }
-}
-
-@Preview
-@Composable
 private fun TdsTimeLineChartPreview() {
     TiTiTheme {
         TdsTimeLineChart(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White),
+            isCircleDraw = true,
             times = listOf(
                 3600,
                 1200,

@@ -84,7 +84,7 @@ fun TdsStandardDailyGraph(
                     Spacer(modifier = Modifier.width(4.dp))
 
                     TdsDayOfTheWeek(
-                        modifier = Modifier.padding(bottom = 2.dp),
+                        modifier = Modifier.weight(1f).padding(bottom = 2.dp),
                         todayDayOfTheWeek = todayDayOfTheWeek,
                         color = tdsColors.first(),
                     )
@@ -110,7 +110,13 @@ fun TdsStandardDailyGraph(
                         .padding(2.dp),
                 ) {
                     TdsTimeLineChart(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(
+                                top = 4.dp,
+                                start = 4.dp,
+                                end = 4.dp,
+                            ),
                         times = timeLines,
                         startColor = tdsColors[0].getColor(),
                         endColor = tdsColors[1].getColor(),
@@ -136,7 +142,7 @@ fun TdsStandardDailyGraph(
                         taskData = taskData,
                         isSpacing = true,
                         leftText = "✔",
-                        height = 20.dp,
+                        height = 25.dp,
                         colors = tdsColors.map { it.getColor() },
                     )
 

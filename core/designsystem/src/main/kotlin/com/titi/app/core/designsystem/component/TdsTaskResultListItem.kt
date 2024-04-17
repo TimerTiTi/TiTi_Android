@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +31,6 @@ fun TdsTaskResultListItem(
     isSpacing: Boolean,
     leftText: String? = null,
 ) {
-    val radius = if (leftText == null) 0.dp else height / 10
     val padding = height / 10
     val fontSize = (height.value / 2).sp
 
@@ -58,10 +56,7 @@ fun TdsTaskResultListItem(
         TdsText(
             modifier = Modifier
                 .widthIn(max = 100.dp)
-                .background(
-                    color = color.copy(alpha = 0.5f),
-                    shape = RoundedCornerShape(radius),
-                )
+                .background(color = color.copy(alpha = 0.5f))
                 .padding(padding),
             text = taskName,
             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
