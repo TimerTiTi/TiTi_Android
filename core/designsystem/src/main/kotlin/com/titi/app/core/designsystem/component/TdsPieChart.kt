@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
+import com.titi.app.core.designsystem.extension.times
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
@@ -77,7 +78,12 @@ private fun TdsPieChart(
         modifier = modifier,
         contentAlignment = Alignment.Center,
     ) {
-        val radius = with(density) { (min(maxWidth, maxHeight) / 3).toPx() }
+        val magnification = if (containsDonut || totalTimeString != null) {
+            0.4
+        } else {
+            0.33
+        }
+        val radius = with(density) { (min(maxWidth, maxHeight) * magnification).toPx() }
         val centerX = with(density) { (maxWidth / 2).toPx() }
         val centerY = with(density) { (maxHeight / 2).toPx() }
         val holeRadiusPercent = if (containsDonut || totalTimeString != null) {
