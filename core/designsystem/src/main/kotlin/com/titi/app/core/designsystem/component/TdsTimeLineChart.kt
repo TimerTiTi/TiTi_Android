@@ -2,6 +2,7 @@ package com.titi.app.core.designsystem.component
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import kotlin.math.floor
 
 @Composable
 fun TdsTimeLineChart(
@@ -50,9 +52,12 @@ fun TdsTimeLineChart(
     val currentEndColor by rememberUpdatedState(newValue = endColor)
 
     BoxWithConstraints(modifier = modifier) {
-        val itemWidth = maxWidth / times.size
+        val itemWidth = floor(maxWidth.value / times.size).dp
 
-        Row(modifier = Modifier.fillMaxSize()) {
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.Center,
+        ) {
             currentTimes.forEachIndexed { index, time ->
                 Column(
                     modifier = Modifier

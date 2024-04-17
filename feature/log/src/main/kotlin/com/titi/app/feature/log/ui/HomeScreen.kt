@@ -379,7 +379,7 @@ private fun TimeLineCard(
             modifier = Modifier
                 .padding(
                     vertical = 10.dp,
-                    horizontal = 16.dp,
+                    horizontal = 14.dp,
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
