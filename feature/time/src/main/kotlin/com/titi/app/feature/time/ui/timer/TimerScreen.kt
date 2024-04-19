@@ -27,7 +27,6 @@ import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.extension.getTdsTime
-import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.util.toJson
 import com.titi.app.feature.time.content.TimeButtonContent
 import com.titi.app.feature.time.content.TimeCheckDailyDialog
@@ -154,9 +153,9 @@ fun TimerScreen(
         uiState = uiState,
         isFinish = isFinish,
         textColor = if (uiState.timerColor.isTextColorBlack) {
-            TdsColor.BLACK
+            Color(0x8C000000)
         } else {
-            TdsColor.WHITE
+            Color.White
         },
         onClickColor = {
             viewModel.savePrevTimerColor(uiState.timerColor)
@@ -210,7 +209,7 @@ fun TimerScreen(
 private fun TimerScreen(
     uiState: TimerUiState,
     isFinish: Boolean,
-    textColor: TdsColor,
+    textColor: Color,
     onClickColor: () -> Unit,
     onClickTask: () -> Unit,
     onClickAddDaily: () -> Unit,
@@ -249,12 +248,12 @@ private fun TimerScreen(
                 with(uiState.timerRecordTimes) {
                     TdsTimer(
                         isFinish = isFinish,
-                        outCircularLineColor = textColor.getColor(),
+                        outCircularLineColor = textColor,
                         outCircularProgress = outCircularProgress,
-                        inCircularLineTrackColor = if (textColor == TdsColor.WHITE) {
-                            TdsColor.BLACK
+                        inCircularLineTrackColor = if (uiState.timerColor.isTextColorBlack) {
+                            Color.White
                         } else {
-                            TdsColor.WHITE
+                            Color(0x8C000000)
                         },
                         inCircularProgress = inCircularProgress,
                         fontColor = textColor,
@@ -275,6 +274,7 @@ private fun TimerScreen(
                 TimeButtonContent(
                     recordingMode = 1,
                     isDailyAfter6AM = uiState.isDailyAfter6AM,
+                    tintColor = textColor,
                     onClickAddDaily = onClickAddDaily,
                     onClickStartRecord = onClickStartRecord,
                     onClickSettingTimer = onClickSettingTimer,
@@ -294,12 +294,12 @@ private fun TimerScreen(
                 with(uiState.timerRecordTimes) {
                     TdsTimer(
                         isFinish = isFinish,
-                        outCircularLineColor = textColor.getColor(),
+                        outCircularLineColor = textColor,
                         outCircularProgress = outCircularProgress,
-                        inCircularLineTrackColor = if (textColor == TdsColor.WHITE) {
-                            TdsColor.BLACK
+                        inCircularLineTrackColor = if (uiState.timerColor.isTextColorBlack) {
+                            Color.White
                         } else {
-                            TdsColor.WHITE
+                            Color(0x8C000000)
                         },
                         inCircularProgress = inCircularProgress,
                         fontColor = textColor,

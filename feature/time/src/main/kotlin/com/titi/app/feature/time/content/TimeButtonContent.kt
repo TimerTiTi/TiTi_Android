@@ -20,6 +20,7 @@ import com.titi.app.core.designsystem.theme.TdsColor
 fun TimeButtonContent(
     recordingMode: Int,
     isDailyAfter6AM: Boolean,
+    tintColor: Color,
     onClickAddDaily: () -> Unit,
     onClickStartRecord: () -> Unit,
     onClickSettingTimer: (() -> Unit)? = null,
@@ -38,7 +39,7 @@ fun TimeButtonContent(
                 painter = painterResource(id = R.drawable.add_record_icon),
                 contentDescription = "addRecord",
                 tint = if (isDailyAfter6AM) {
-                    Color.Unspecified
+                    tintColor
                 } else {
                     TdsColor.RED.getColor()
                 },
@@ -70,7 +71,7 @@ fun TimeButtonContent(
                         R.drawable.setting_timer_time_icon,
                     ),
                     contentDescription = "",
-                    tint = Color.Unspecified,
+                    tint = tintColor,
                 )
             }
         } else {
@@ -83,7 +84,7 @@ fun TimeButtonContent(
                         R.drawable.setting_stopwatch_time_icon,
                     ),
                     contentDescription = "",
-                    tint = Color.Unspecified,
+                    tint = tintColor,
                 )
             }
         }
