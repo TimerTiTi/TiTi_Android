@@ -147,7 +147,7 @@ private fun TiTiBottomBar(
                 label = {
                     TdsText(
                         text = stringResource(id = destination.titleTextId),
-                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 16.sp,
                         color = if (selected) {
                             TdsColor.TEXT.getColor()

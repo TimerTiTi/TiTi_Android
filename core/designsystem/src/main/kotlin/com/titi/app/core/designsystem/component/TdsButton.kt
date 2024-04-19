@@ -33,7 +33,7 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 fun TdsTextButton(
     modifier: Modifier = Modifier,
     text: String,
-    textStyle: TdsTextStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+    textStyle: TdsTextStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
     textColor: TdsColor,
     fontSize: TextUnit,
     onClick: () -> Unit,
@@ -65,7 +65,7 @@ fun TdsTextButton(
 fun TdsTextButton(
     modifier: Modifier = Modifier,
     text: String,
-    textStyle: TdsTextStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+    textStyle: TdsTextStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
     textColor: Color,
     fontSize: TextUnit,
     onClick: () -> Unit,
