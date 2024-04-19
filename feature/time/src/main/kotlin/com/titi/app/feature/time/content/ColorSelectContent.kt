@@ -55,7 +55,7 @@ fun ColorSelectContent(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             TdsText(
                 text = stringResource(R.string.background),
-                textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = 14.sp,
                 color = TdsColor.TEXT,
             )
@@ -107,7 +107,7 @@ fun ColorSelectContent(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 TdsText(
                     text = stringResource(R.string.text),
-                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 14.sp,
                     color = TdsColor.TEXT,
                 )

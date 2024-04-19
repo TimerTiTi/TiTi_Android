@@ -39,7 +39,7 @@ fun TdsOutlinedInputTextField(
         value = text,
         onValueChange = onValueChange,
         textStyle = TdsTextStyle
-            .NORMAL_TEXT_STYLE
+            .SEMI_BOLD_TEXT_STYLE
             .getTextStyle(fontSize = fontSize)
             .copy(
                 color = TdsColor.TEXT.getColor(),
@@ -82,7 +82,9 @@ fun TdsOutlinedInputTextField(
         modifier = modifier,
         value = text,
         onValueChange = onValueChange,
-        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE.getTextStyle(fontSize = fontSize)
+        textStyle = TdsTextStyle
+            .SEMI_BOLD_TEXT_STYLE
+            .getTextStyle(fontSize = fontSize)
             .copy(textAlign = TextAlign.Center),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
