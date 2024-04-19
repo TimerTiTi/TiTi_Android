@@ -95,7 +95,7 @@ fun TdsTimer(
             } else {
                 outCircularLineColor
             },
-            trackColor = TdsColor.LIGHT_GRAY.getColor(),
+            trackColor = Color(0x66555555),
             strokeWidth = outCircularTrackWidth,
             strokeCap = StrokeCap.Round,
         )
