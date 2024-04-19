@@ -24,9 +24,6 @@ fun TdsFilledCard(modifier: Modifier = Modifier, content: @Composable () -> Unit
         colors = CardDefaults.cardColors(
             containerColor = TdsColor.BACKGROUND.getColor(),
         ),
-        elevation = CardDefaults.outlinedCardElevation(
-            defaultElevation = 5.dp,
-        ),
         border = BorderStroke(
             width = 3.dp,
             TdsColor.SHADOW.getColor(),
@@ -43,9 +40,6 @@ fun TdsCard(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
         shape = RoundedCornerShape(25.dp),
         colors = CardDefaults.cardColors(
             containerColor = TdsColor.BACKGROUND.getColor(),
-        ),
-        elevation = CardDefaults.outlinedCardElevation(
-            defaultElevation = 5.dp,
         ),
         border = BorderStroke(
             width = 3.dp,

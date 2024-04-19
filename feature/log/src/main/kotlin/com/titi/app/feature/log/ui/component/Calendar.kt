@@ -20,19 +20,15 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,8 +38,6 @@ import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.OutDateStyle
 import com.kizitonwose.calendar.core.daysOfWeek
-import com.titi.app.core.designsystem.R
-import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
@@ -52,7 +46,6 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
-import kotlinx.coroutines.launch
 
 @Composable
 fun CalendarContent(
@@ -63,8 +56,6 @@ fun CalendarContent(
     onClickDate: (LocalDate) -> Unit,
     onCalendarLocalDateChanged: (LocalDate) -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
-
     val currentMonth = remember { YearMonth.now() }
     val startMonth = remember { currentMonth.minusMonths(100) }
     val endMonth = remember { currentMonth.plusMonths(100) }
@@ -81,106 +72,67 @@ fun CalendarContent(
     LaunchedEffect(state.firstVisibleMonth.yearMonth.atDay(1)) {
         onCalendarLocalDateChanged(state.firstVisibleMonth.yearMonth.atDay(1))
     }
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
+
+    val visibleYear = state.firstVisibleMonth.yearMonth.year
+    val visibleMonth = state.firstVisibleMonth.yearMonth.monthValue
+
+    BoxWithConstraints(
+        modifier = modifier.padding(vertical = 10.dp),
+        contentAlignment = Alignment.Center,
     ) {
-        val visibleYear = state.firstVisibleMonth.yearMonth.year
-        val visibleMonth = state.firstVisibleMonth.yearMonth.monthValue
+        val size = maxWidth.coerceAtMost(345.dp)
 
-        TdsIconButton(
-            onClick = {
-                val previousYearMonth = state.firstVisibleMonth.yearMonth.minusMonths(1)
-
-                scope.launch {
-                    state.animateScrollToMonth(previousYearMonth)
-                }
-            },
+        OutlinedCard(
+            modifier = Modifier
+                .width(size)
+                .wrapContentHeight(),
+            shape = RoundedCornerShape(25.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = TdsColor.BACKGROUND.getColor(),
+            ),
+            border = BorderStroke(3.dp, TdsColor.SHADOW.getColor()),
         ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.arrow_left_icon),
-                contentDescription = "arrowLeft",
-                tint = TdsColor.TEXT.getColor(),
-            )
-        }
-
-        BoxWithConstraints(
-            modifier = modifier
-                .weight(1f)
-                .padding(vertical = 10.dp),
-            contentAlignment = Alignment.Center,
-        ) {
-            val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
-
-            OutlinedCard(
+            Column(
                 modifier = Modifier
-                    .width(size)
-                    .wrapContentHeight(),
-                shape = RoundedCornerShape(25.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = TdsColor.BACKGROUND.getColor(),
-                ),
-                elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
-                border = BorderStroke(3.dp, TdsColor.SHADOW.getColor()),
+                    .fillMaxSize()
+                    .padding(3.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(3.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
-                    TdsText(
-                        text = "$visibleYear ${
-                            visibleMonth.toString().padStart(2, '0')
-                        }",
-                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                        fontSize = 24.sp,
-                        color = themeColor,
-                    )
+                TdsText(
+                    text = "$visibleYear ${
+                        visibleMonth.toString().padStart(2, '0')
+                    }",
+                    textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                    fontSize = 24.sp,
+                    color = themeColor,
+                )
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
-                    DaysOfWeekTitle(
-                        daysOfWeek,
-                        themeColor,
-                    )
+                DaysOfWeekTitle(
+                    daysOfWeek,
+                    themeColor,
+                )
 
-                    HorizontalCalendar(
-                        state = state,
-                        dayContent = { day ->
-                            Day(
-                                day = day,
-                                isSelected = currentDate == day.date,
-                                hasDaily = hasDailies.contains(day.date),
-                                themeColor = themeColor,
-                            ) { selectedDay ->
-                                if (currentDate != selectedDay.date) {
-                                    onClickDate(selectedDay.date)
-                                }
+                HorizontalCalendar(
+                    state = state,
+                    dayContent = { day ->
+                        Day(
+                            day = day,
+                            isSelected = currentDate == day.date,
+                            hasDaily = hasDailies.contains(day.date),
+                            themeColor = themeColor,
+                        ) { selectedDay ->
+                            if (currentDate != selectedDay.date) {
+                                onClickDate(selectedDay.date)
                             }
-                        },
-                    )
-                }
+                        }
+                    },
+                )
             }
-        }
-
-        TdsIconButton(
-            onClick = {
-                val nextYearMonth = state.firstVisibleMonth.yearMonth.plusMonths(1)
-
-                scope.launch {
-                    state.animateScrollToMonth(nextYearMonth)
-                }
-            },
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.arrow_right_icon),
-                contentDescription = "arrowRight",
-                tint = TdsColor.TEXT.getColor(),
-            )
         }
     }
 }
