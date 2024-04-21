@@ -110,7 +110,8 @@ fun TdsStandardWeekGraph(
                     TdsWeekLineChart(
                         modifier = Modifier
                             .width(size * 0.6)
-                            .fillMaxHeight(),
+                            .fillMaxHeight()
+                            .padding(horizontal = 4.dp),
                         weekLineChartData = weekLineChartData,
                         startColor = tdsColors.first().getColor(),
                         endColor = tdsColors[2].getColor(),
