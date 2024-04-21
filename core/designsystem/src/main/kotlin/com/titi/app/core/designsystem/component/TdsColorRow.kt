@@ -40,7 +40,7 @@ fun TdsColorRow(modifier: Modifier = Modifier, onClick: (Int) -> Unit) {
         modifier = modifier,
         contentAlignment = Alignment.Center,
     ) {
-        val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+        val size = maxWidth.coerceAtMost(345.dp)
         val width = size / 16
 
         Row(

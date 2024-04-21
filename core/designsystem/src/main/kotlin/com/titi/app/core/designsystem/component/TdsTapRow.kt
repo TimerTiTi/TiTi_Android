@@ -50,7 +50,7 @@ fun TdsTabRow(
 
         Box(
             modifier = Modifier
-                .clip(RoundedCornerShape(4.dp))
+                .clip(RoundedCornerShape(9.dp))
                 .background(color = TdsColor.SEGMENT_BACKGROUND.getColor()),
         ) {
             TdsTabRowIndicator(
@@ -63,7 +63,6 @@ fun TdsTabRow(
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.clip(RoundedCornerShape(4.dp)),
             ) {
                 items.forEachIndexed { index, text ->
                     TdsTabRowItem(
@@ -93,7 +92,7 @@ private fun TdsTabRowItem(
 ) {
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(4.dp))
+            .clip(RoundedCornerShape(7.dp))
             .clickable {
                 onClick()
             }
@@ -133,7 +132,7 @@ private fun TdsTabRowIndicator(
             .height(indicatorHeight)
             .width(indicatorWidth)
             .padding(1.dp)
-            .clip(RoundedCornerShape(4.dp))
+            .clip(RoundedCornerShape(9.dp))
             .background(indicatorColor),
     )
 }
@@ -145,8 +144,8 @@ private fun TdsTabRowPreview() {
     TiTiTheme {
         TdsTabRow(
             modifier = Modifier
-                .width(150.dp)
-                .height(30.dp),
+                .width(174.dp)
+                .height(32.dp),
             selectedItemIndex = 0,
             items = listOf("Home", "Daily", "Week"),
             onClick = {},

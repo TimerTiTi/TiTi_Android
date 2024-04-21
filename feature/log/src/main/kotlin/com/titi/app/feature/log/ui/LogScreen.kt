@@ -1,5 +1,6 @@
 package com.titi.app.feature.log.ui
 
+import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +42,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
     val scope = rememberCoroutineScope()
+    val orientation = LocalConfiguration.current.orientation
 
     val pagerState = rememberPagerState(
         pageCount = {
@@ -86,18 +89,18 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 15.dp),
+            .padding(vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp),
+                .padding(horizontal = 16.dp),
         ) {
             TdsTabRow(
                 modifier = Modifier
-                    .width(150.dp)
-                    .height(30.dp)
+                    .width(174.dp)
+                    .height(32.dp)
                     .align(Alignment.Center),
                 selectedItemIndex = uiState.tabSelectedIndex,
                 items = listOf("Home", "Daily", "Week"),
@@ -106,7 +109,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                 },
             )
 
-            if (showSettingButton) {
+            if (showSettingButton && orientation == Configuration.ORIENTATION_PORTRAIT) {
                 TdsIconButton(
                     modifier = Modifier.align(Alignment.CenterEnd),
                     onClick = {
@@ -122,7 +125,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
             }
         }
 
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         HorizontalPager(
             modifier = Modifier.fillMaxSize(),

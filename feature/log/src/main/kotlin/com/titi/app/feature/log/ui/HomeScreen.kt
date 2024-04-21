@@ -1,7 +1,6 @@
 package com.titi.app.feature.log.ui
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -29,6 +29,7 @@ import com.titi.app.core.designsystem.component.TdsTaskResultList
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTimeLineChart
 import com.titi.app.core.designsystem.component.TdsWeekLineChart
+import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
@@ -57,40 +58,32 @@ fun HomeScreen(
             tdsColors = tdsColors,
         )
 
-        Spacer(modifier = Modifier.height(11.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TdsText(
             text = "Total",
             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             color = TdsColor.TEXT,
-            fontSize = 11.sp,
+            fontSize = 12.sp,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        BoxWithConstraints(
-            modifier = Modifier
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center,
+        Row(
+            modifier = Modifier.width(339.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            val width = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+            MonthSumCard(
+                totalTimeSeconds = homeMonthGraphData.totalTimeSeconds,
+                goalTimeSeconds = graphGoalTimeUiState.monthGoalTime * 3600L,
+                themeColor = tdsColors.first(),
+            )
 
-            Row(
-                modifier = Modifier.width(width),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                MonthSumCard(
-                    totalTimeSeconds = homeMonthGraphData.totalTimeSeconds,
-                    goalTimeSeconds = graphGoalTimeUiState.monthGoalTime * 3600L,
-                    themeColor = tdsColors.first(),
-                )
-
-                WeekSumCard(
-                    totalTimeSeconds = homeWeekGraphData.totalTimeSeconds,
-                    goalTimeSeconds = graphGoalTimeUiState.weekGoalTime * 3600L,
-                    themeColor = tdsColors.first(),
-                )
-            }
+            WeekSumCard(
+                totalTimeSeconds = homeWeekGraphData.totalTimeSeconds,
+                goalTimeSeconds = graphGoalTimeUiState.weekGoalTime * 3600L,
+                themeColor = tdsColors.first(),
+            )
         }
 
         MonthCard(
@@ -98,7 +91,7 @@ fun HomeScreen(
             tdsColors = tdsColors,
         )
 
-        Spacer(modifier = Modifier.height(11.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TdsText(
             text = "Month",
@@ -114,7 +107,7 @@ fun HomeScreen(
             tdsColors = tdsColors,
         )
 
-        Spacer(modifier = Modifier.height(11.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TdsText(
             text = "Week",
@@ -130,7 +123,7 @@ fun HomeScreen(
             tdsColors = tdsColors,
         )
 
-        Spacer(modifier = Modifier.height(11.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TdsText(
             text = "Daily",
@@ -139,7 +132,7 @@ fun HomeScreen(
             fontSize = 11.sp,
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
     }
 }
 
@@ -147,8 +140,8 @@ fun HomeScreen(
 private fun TotalCard(totalData: HomeUiState.TotalData, tdsColors: List<TdsColor>) {
     TdsFilledCard(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(178.dp),
+            .width(339.dp)
+            .height(158.dp),
     ) {
         Row(
             modifier = Modifier
@@ -157,20 +150,20 @@ private fun TotalCard(totalData: HomeUiState.TotalData, tdsColors: List<TdsColor
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TdsPieChart(
-                modifier = Modifier.width(110.dp),
+                modifier = Modifier.size(109.dp),
                 taskData = totalData.topTotalTdsTaskData,
                 colors = tdsColors.map { it.getColor() },
                 totalTimeString = (totalData.totalTimeSeconds / 3600).toString(),
             )
 
-            Spacer(modifier = Modifier.width(15.dp))
+            Spacer(modifier = Modifier.width(10.dp))
 
             TdsTaskResultList(
                 modifier = Modifier.weight(1f),
                 taskData = totalData.topTotalTdsTaskData,
                 colors = tdsColors.map { it.getColor() },
                 isSpacing = true,
-                height = 20.dp,
+                height = 25.dp,
                 leftText = "Top",
             )
         }
@@ -183,18 +176,16 @@ private fun MonthSumCard(totalTimeSeconds: Long, goalTimeSeconds: Long, themeCol
         modifier = Modifier.wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        TdsCard(
-            modifier = Modifier.size(158.dp),
-        ) {
+        TdsCard(modifier = Modifier.size(158.dp)) {
             TdsCircularProgressIndicator(
-                modifier = Modifier.size(110.dp),
+                modifier = Modifier.size(109.dp),
                 sumTime = totalTimeSeconds,
                 maxTime = goalTimeSeconds,
                 color = themeColor.getColor(),
             )
         }
 
-        Spacer(modifier = Modifier.height(11.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TdsText(
             text = "Month",
@@ -217,14 +208,14 @@ private fun WeekSumCard(totalTimeSeconds: Long, goalTimeSeconds: Long, themeColo
             modifier = Modifier.size(158.dp),
         ) {
             TdsCircularProgressIndicator(
-                modifier = Modifier.size(110.dp),
+                modifier = Modifier.size(109.dp),
                 sumTime = totalTimeSeconds,
                 maxTime = goalTimeSeconds,
                 color = themeColor.getColor(),
             )
         }
 
-        Spacer(modifier = Modifier.height(11.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TdsText(
             text = "Week",
@@ -244,8 +235,8 @@ private fun MonthCard(
 ) {
     TdsFilledCard(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(178.dp),
+            .width(339.dp)
+            .height(158.dp),
     ) {
         Row(
             modifier = Modifier
@@ -254,21 +245,21 @@ private fun MonthCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TdsPieChart(
-                modifier = Modifier.width(110.dp),
+                modifier = Modifier.width(109.dp),
                 taskData = homeMonthGraphData.taskData,
                 totalTimeString = (homeMonthGraphData.totalTimeSeconds / 3600).toString(),
                 colors = tdsColors.map { it.getColor() },
             )
 
-            Spacer(modifier = Modifier.width(15.dp))
+            Spacer(modifier = Modifier.width(10.dp))
 
             TdsTaskResultList(
                 modifier = Modifier.weight(1f),
                 taskData = homeMonthGraphData.taskData,
                 colors = tdsColors.map { it.getColor() },
                 isSpacing = true,
-                height = 20.dp,
                 leftText = "Top",
+                height = 25.dp,
             )
         }
     }
@@ -278,19 +269,16 @@ private fun MonthCard(
 private fun WeekCard(homeWeekGraphData: HomeUiState.HomeWeekGraphData, tdsColors: List<TdsColor>) {
     TdsFilledCard(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(178.dp),
+            .width(339.dp)
+            .height(158.dp),
     ) {
         Column {
+            Spacer(modifier = Modifier.height(4.dp))
+
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 10.dp,
-                        start = 10.dp,
-                        end = 10.dp,
-                    ),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.Center,
             ) {
                 TdsText(
                     text = homeWeekGraphData.weekInformation.first,
@@ -321,17 +309,24 @@ private fun WeekCard(homeWeekGraphData: HomeUiState.HomeWeekGraphData, tdsColors
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(10.dp),
+                    .padding(
+                        start = 12.dp,
+                        end = 12.dp,
+                        bottom = 6.dp,
+                    ),
+                verticalAlignment = Alignment.Bottom,
             ) {
                 TdsWeekLineChart(
-                    modifier = Modifier.weight(3f),
+                    modifier = Modifier.weight(1f),
                     weekLineChartData = homeWeekGraphData.weekLineChartData,
-                    startColor = tdsColors.first().getColor(),
-                    endColor = tdsColors[2].getColor(),
+                    startColor = tdsColors[1].getColor(),
+                    endColor = tdsColors.first().getColor(),
                 )
 
+                Spacer(modifier = Modifier.width(6.dp))
+
                 Column(
-                    modifier = Modifier.weight(2f),
+                    modifier = Modifier.wrapContentWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom,
                 ) {
@@ -365,7 +360,7 @@ private fun WeekCard(homeWeekGraphData: HomeUiState.HomeWeekGraphData, tdsColors
                         color = tdsColors.first(),
                     )
 
-                    Spacer(modifier = Modifier.height(18.dp))
+                    Spacer(modifier = Modifier.height(15.dp))
                 }
             }
         }
@@ -379,11 +374,15 @@ private fun TimeLineCard(
 ) {
     TdsFilledCard(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(178.dp),
+            .width(339.dp)
+            .height(158.dp),
     ) {
         Column(
-            modifier = Modifier.padding(10.dp),
+            modifier = Modifier
+                .padding(
+                    vertical = 10.dp,
+                    horizontal = 14.dp,
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Row(
@@ -393,25 +392,24 @@ private fun TimeLineCard(
                 TdsText(
                     text = homeDailyGraphData.todayDate,
                     textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                    fontSize = 25.sp,
+                    fontSize = 24.sp,
                     color = TdsColor.TEXT,
                 )
 
-                Spacer(modifier = Modifier.width(4.dp))
+                Spacer(modifier = Modifier.width(8.dp))
 
                 TdsDayOfTheWeek(
-                    modifier = Modifier.padding(bottom = 2.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 2.dp),
                     todayDayOfTheWeek = homeDailyGraphData.todayDayOfTheWeek,
                     color = tdsColors.first(),
                 )
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
-
             TdsTimeLineChart(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp),
+                modifier = Modifier.fillMaxSize(),
+                isCircleDraw = true,
                 times = homeDailyGraphData.timeLines,
                 startColor = tdsColors[0].getColor(),
                 endColor = tdsColors[1].getColor(),
@@ -440,7 +438,14 @@ private fun HomeScreenPreview() {
     TiTiTheme {
         HomeScreen(
             tdsColors = tdsColors,
-            totalData = HomeUiState.TotalData(),
+            totalData = HomeUiState.TotalData(
+                totalTimeSeconds = 6368,
+                topTotalTdsTaskData = listOf(
+                    TdsTaskData(key = "definitiones", value = "360H", progress = 0.3f),
+                    TdsTaskData(key = "231445", value = "detraxit", progress = 0.2f),
+                    TdsTaskData(key = "sadfsd", value = "detraxit", progress = 0.5f),
+                ),
+            ),
             graphGoalTimeUiState = GraphGoalTimeUiState(),
             homeMonthGraphData = HomeUiState.HomeMonthGraphData(),
             homeWeekGraphData = HomeUiState.HomeWeekGraphData(),

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -117,9 +116,7 @@ fun WeekScreen(
         Spacer(modifier = Modifier.height(15.dp))
 
         ButtonRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 50.dp),
+            modifier = Modifier.fillMaxWidth(),
             onSaveClick = {
                 saveWeekGraphWithPermission(
                     coroutineScope = coroutineScope,
@@ -139,18 +136,14 @@ fun WeekScreen(
         Spacer(modifier = Modifier.height(15.dp))
 
         TdsColorRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 42.dp),
+            modifier = Modifier.fillMaxWidth(),
             onClick = onClickGraphColor,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
 
         TdsStandardWeekGraph(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp),
+            modifier = Modifier.fillMaxWidth(),
             totalTime = totalTime,
             averageTime = averageTime,
             weekInformation = weekInformation,

@@ -5,21 +5,19 @@ import android.graphics.Picture
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,16 +26,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsColorRow
 import com.titi.app.core.designsystem.component.TdsDialog
-import com.titi.app.core.designsystem.component.TdsIconButton
+import com.titi.app.core.designsystem.component.TdsPagerIndicator
 import com.titi.app.core.designsystem.component.TdsStandardDailyGraph
 import com.titi.app.core.designsystem.component.TdsTaskProgressDailyGraph
 import com.titi.app.core.designsystem.component.TdsTimeLineDailyGraph
@@ -53,7 +49,6 @@ import com.titi.app.feature.log.util.saveDailyGraph
 import com.titi.app.feature.log.util.saveDailyGraphWithPermission
 import com.titi.app.feature.log.util.shareDailyGraph
 import java.time.LocalDate
-import kotlinx.coroutines.launch
 
 @Composable
 fun DailyScreen(
@@ -134,18 +129,14 @@ fun DailyScreen(
         Spacer(modifier = Modifier.height(15.dp))
 
         TdsColorRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 42.dp),
+            modifier = Modifier.fillMaxWidth(),
             onClick = onClickGraphColor,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
 
         ButtonRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 50.dp),
+            modifier = Modifier.fillMaxWidth(),
             onSaveClick = {
                 if (checkedButtonStates.any { it }) {
                     saveDailyGraphWithPermission(
@@ -212,34 +203,13 @@ private fun GraphContent(
             4
         },
     )
-    val scope = rememberCoroutineScope()
 
-    Row(
+    Box(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
+        contentAlignment = Alignment.BottomCenter,
     ) {
-        Column(modifier = Modifier.size(32.dp)) {
-            AnimatedVisibility(visible = pagerState.currentPage != 0) {
-                TdsIconButton(
-                    onClick = {
-                        scope.launch {
-                            if (pagerState.currentPage - 1 >= 0) {
-                                pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                            }
-                        }
-                    },
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.arrow_left_icon),
-                        contentDescription = "arrowLeft",
-                        tint = TdsColor.TEXT.getColor(),
-                    )
-                }
-            }
-        }
-
         HorizontalPager(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.wrapContentSize(),
             userScrollEnabled = true,
             state = pagerState,
             beyondBoundsPageCount = 2,
@@ -306,25 +276,13 @@ private fun GraphContent(
             }
         }
 
-        Column(modifier = Modifier.size(32.dp)) {
-            AnimatedVisibility(visible = pagerState.currentPage != 3) {
-                TdsIconButton(
-                    onClick = {
-                        scope.launch {
-                            if (pagerState.currentPage + 1 < 4) {
-                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                            }
-                        }
-                    },
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.arrow_right_icon),
-                        contentDescription = "arrowRight",
-                        tint = TdsColor.TEXT.getColor(),
-                    )
-                }
-            }
-        }
+        TdsPagerIndicator(
+            modifier = Modifier.padding(bottom = 8.dp),
+            pagerState = pagerState,
+            indicatorCount = 4,
+            indicatorSize = 8.dp,
+            activeColor = TdsColor.TEXT.getColor(),
+        )
     }
 }
 

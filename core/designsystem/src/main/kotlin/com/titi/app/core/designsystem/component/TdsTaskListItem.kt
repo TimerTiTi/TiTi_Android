@@ -70,7 +70,7 @@ fun TdsTaskListItem(
                 Column {
                     TdsText(
                         text = tdsTask.taskName,
-                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 20.sp,
                         color = TdsColor.TEXT,
                         maxLines = 1,
@@ -124,7 +124,7 @@ fun TdsTaskListItem(
                     modifier = Modifier.padding(start = 12.dp),
                     painter = painterResource(id = R.drawable.menu_icon),
                     contentDescription = "menu",
-                    tint = TdsColor.LIGHT_GRAY.getColor(),
+                    tint = TdsColor.SHADOW.getColor(),
                 )
             }
         }

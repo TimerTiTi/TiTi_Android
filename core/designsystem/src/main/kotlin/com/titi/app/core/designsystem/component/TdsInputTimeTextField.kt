@@ -86,7 +86,7 @@ fun TdsInputTimeTextField(
             placeHolder = {
                 TdsText(
                     text = "H",
-                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 22.sp,
                     color = TdsColor.DIVIDER,
                 )
@@ -97,7 +97,7 @@ fun TdsInputTimeTextField(
             modifier = Modifier.padding(horizontal = 3.dp),
             text = ":",
             color = TdsColor.TEXT,
-            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             fontSize = 22.sp,
         )
 
@@ -135,7 +135,7 @@ fun TdsInputTimeTextField(
             placeHolder = {
                 TdsText(
                     text = "M",
-                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 22.sp,
                     color = TdsColor.DIVIDER,
                 )
@@ -146,7 +146,7 @@ fun TdsInputTimeTextField(
             modifier = Modifier.padding(horizontal = 3.dp),
             text = ":",
             color = TdsColor.TEXT,
-            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             fontSize = 22.sp,
         )
 
@@ -181,7 +181,7 @@ fun TdsInputTimeTextField(
             placeHolder = {
                 TdsText(
                     text = "S",
-                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 22.sp,
                     color = TdsColor.DIVIDER,
                 )

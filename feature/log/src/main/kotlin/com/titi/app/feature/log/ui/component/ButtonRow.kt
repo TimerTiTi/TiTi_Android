@@ -25,7 +25,7 @@ fun ButtonRow(modifier: Modifier = Modifier, onSaveClick: () -> Unit, onShareCli
         modifier = modifier,
         contentAlignment = Alignment.Center,
     ) {
-        val width = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+        val width = maxWidth.coerceAtMost(345.dp)
 
         Row(
             modifier = Modifier.width(width),

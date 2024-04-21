@@ -249,9 +249,9 @@ private fun MeasuringScreen(
                     TdsTimer(
                         outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
                         outCircularProgress = outCircularProgress,
-                        inCircularLineTrackColor = TdsColor.WHITE,
+                        inCircularLineTrackColor = Color.White,
                         inCircularProgress = inCircularProgress,
-                        fontColor = TdsColor.WHITE,
+                        fontColor = Color.White,
                         themeColor = Color(uiState.measuringTimeColor.backgroundColor),
                         recordingMode = uiState.recordTimes.recordingMode,
                         savedSumTime = savedSumTime,
@@ -296,9 +296,9 @@ private fun MeasuringScreen(
                     TdsTimer(
                         outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
                         outCircularProgress = outCircularProgress,
-                        inCircularLineTrackColor = TdsColor.WHITE,
+                        inCircularLineTrackColor = Color.White,
                         inCircularProgress = inCircularProgress,
-                        fontColor = TdsColor.WHITE,
+                        fontColor = Color.White,
                         themeColor = Color(uiState.measuringTimeColor.backgroundColor),
                         recordingMode = uiState.recordTimes.recordingMode,
                         savedSumTime = savedSumTime,

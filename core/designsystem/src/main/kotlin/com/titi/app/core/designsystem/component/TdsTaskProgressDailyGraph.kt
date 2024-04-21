@@ -6,12 +6,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.OutlinedCard
@@ -43,17 +42,14 @@ fun TdsTaskProgressDailyGraph(
         modifier = modifier,
         contentAlignment = Alignment.Center,
     ) {
-        val size = if (maxWidth >= 365.dp) 345.dp else maxWidth - 20.dp
+        val size = maxWidth.coerceAtMost(345.dp)
 
         OutlinedCard(
             modifier = Modifier
                 .createCaptureImageModifier(picture = picture)
-                .height(size + 20.dp)
-                .width(size + 20.dp)
-                .padding(10.dp),
+                .size(size),
             shape = RoundedCornerShape(size * 0.07),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
-            elevation = CardDefaults.outlinedCardElevation(defaultElevation = 5.dp),
             border = BorderStroke(
                 width = 3.dp,
                 TdsColor.SHADOW.getColor(),
@@ -72,12 +68,16 @@ fun TdsTaskProgressDailyGraph(
                     color = TdsColor.TEXT,
                 )
 
+                Spacer(modifier = Modifier.height(15.dp))
+
                 TdsPieChart(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.weight(1f),
                     taskData = taskData,
                     colors = tdsColors.map { it.getColor() },
                     containsDonut = true,
                 )
+
+                Spacer(modifier = Modifier.height(15.dp))
             }
         }
 
