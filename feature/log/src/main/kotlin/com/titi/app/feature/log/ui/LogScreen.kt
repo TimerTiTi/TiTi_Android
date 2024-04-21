@@ -1,5 +1,6 @@
 package com.titi.app.feature.log.ui
 
+import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +42,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
     val scope = rememberCoroutineScope()
+    val orientation = LocalConfiguration.current.orientation
 
     val pagerState = rememberPagerState(
         pageCount = {
@@ -106,7 +109,7 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
                 },
             )
 
-            if (showSettingButton) {
+            if (showSettingButton && orientation == Configuration.ORIENTATION_PORTRAIT) {
                 TdsIconButton(
                     modifier = Modifier.align(Alignment.CenterEnd),
                     onClick = {

@@ -26,7 +26,6 @@ import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.extension.getTdsTime
-import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.util.toJson
 import com.titi.app.feature.time.content.TimeButtonContent
 import com.titi.app.feature.time.content.TimeCheckDailyDialog
@@ -128,9 +127,9 @@ fun StopWatchScreen(
     StopWatchScreen(
         uiState = uiState,
         textColor = if (uiState.stopWatchColor.isTextColorBlack) {
-            TdsColor.BLACK
+            Color(0x8C000000)
         } else {
-            TdsColor.WHITE
+            Color.White
         },
         onClickColor = {
             viewModel.savePrevTimerColor(uiState.stopWatchColor)
@@ -173,7 +172,7 @@ fun StopWatchScreen(
 @Composable
 private fun StopWatchScreen(
     uiState: StopWatchUiState,
-    textColor: TdsColor,
+    textColor: Color,
     onClickColor: () -> Unit,
     onClickTask: () -> Unit,
     onClickAddDaily: () -> Unit,
@@ -210,12 +209,12 @@ private fun StopWatchScreen(
 
                 with(uiState.stopWatchRecordTimes) {
                     TdsTimer(
-                        outCircularLineColor = textColor.getColor(),
+                        outCircularLineColor = textColor,
                         outCircularProgress = outCircularProgress,
-                        inCircularLineTrackColor = if (textColor == TdsColor.WHITE) {
-                            TdsColor.BLACK
+                        inCircularLineTrackColor = if (uiState.stopWatchColor.isTextColorBlack) {
+                            Color.White
                         } else {
-                            TdsColor.WHITE
+                            Color(0x8C000000)
                         },
                         inCircularProgress = inCircularProgress,
                         fontColor = textColor,
@@ -236,6 +235,7 @@ private fun StopWatchScreen(
                 TimeButtonContent(
                     recordingMode = 2,
                     isDailyAfter6AM = uiState.isDailyAfter6AM,
+                    tintColor = textColor,
                     onClickAddDaily = onClickAddDaily,
                     onClickStartRecord = onClickStartRecord,
                     onClickResetStopwatch = onClickResetStopWatch,
@@ -254,12 +254,12 @@ private fun StopWatchScreen(
             ) {
                 with(uiState.stopWatchRecordTimes) {
                     TdsTimer(
-                        outCircularLineColor = textColor.getColor(),
+                        outCircularLineColor = textColor,
                         outCircularProgress = outCircularProgress,
-                        inCircularLineTrackColor = if (textColor == TdsColor.WHITE) {
-                            TdsColor.BLACK
+                        inCircularLineTrackColor = if (uiState.stopWatchColor.isTextColorBlack) {
+                            Color.White
                         } else {
-                            TdsColor.WHITE
+                            Color(0x8C000000)
                         },
                         inCircularProgress = inCircularProgress,
                         fontColor = textColor,

@@ -54,7 +54,7 @@ fun TdsDialog(
 
                 TdsText(
                     text = tdsDialogInfo.title,
-                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                     fontSize = 17.sp,
                     color = TdsColor.TEXT,
                 )
@@ -64,7 +64,7 @@ fun TdsDialog(
 
                     TdsText(
                         text = message,
-                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 13.sp,
                         color = TdsColor.TEXT,
                         textAlign = TextAlign.Center,
@@ -118,7 +118,7 @@ private fun TdsConfirmDialogButtons(
                 onShowDialog(false)
             },
             text = tdsDialogInfo.negativeText,
-            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             fontSize = 17.sp,
             textColor = TdsColor.RED,
         )
@@ -132,7 +132,7 @@ private fun TdsConfirmDialogButtons(
                 onShowDialog(false)
             },
             text = tdsDialogInfo.positiveText,
-            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             fontSize = 16.sp,
             textColor = TdsColor.BLUE,
         )
@@ -153,7 +153,7 @@ private fun TdsAlertDialogButton(
             onShowDialog(false)
         },
         text = tdsDialogInfo.confirmText,
-        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
         fontSize = 17.sp,
         textColor = TdsColor.BLUE,
     )

@@ -39,9 +39,9 @@ fun TdsTimer(
     isFinish: Boolean = false,
     outCircularLineColor: Color,
     outCircularProgress: Float,
-    inCircularLineTrackColor: TdsColor,
+    inCircularLineTrackColor: Color,
     inCircularProgress: Float,
-    fontColor: TdsColor,
+    fontColor: Color,
     themeColor: Color? = null,
     recordingMode: Int,
     savedSumTime: Long,
@@ -95,7 +95,7 @@ fun TdsTimer(
             } else {
                 outCircularLineColor
             },
-            trackColor = TdsColor.LIGHT_GRAY.getColor(),
+            trackColor = Color(0x66555555),
             strokeWidth = outCircularTrackWidth,
             strokeCap = StrokeCap.Round,
         )
@@ -105,7 +105,7 @@ fun TdsTimer(
                 .size(inCircularSize)
                 .align(Alignment.Center),
             progress = inCircularAnimateProgress.value,
-            color = inCircularLineTrackColor.getColor(),
+            color = inCircularLineTrackColor,
             trackColor = Color.Transparent,
             strokeWidth = inCircularTrackWidth,
             strokeCap = StrokeCap.Round,
@@ -121,7 +121,7 @@ fun TdsTimer(
 
             TdsText(
                 text = stringResource(R.string.sum_time),
-                textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = subTextSize.sp,
                 color = fontColor,
             )
@@ -131,8 +131,8 @@ fun TdsTimer(
             TdsTimeCounter(
                 modifier = Modifier.width(contentSize * 0.45),
                 tdsTime = savedSumTime.getTdsTime(),
-                color = fontColor.getColor(),
-                textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                color = fontColor,
+                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = subTimerTextSize.sp,
             )
 
@@ -144,7 +144,7 @@ fun TdsTimer(
                 } else {
                     stringResource(R.string.stopwatch)
                 },
-                textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = mainTextSize.sp,
                 color = fontColor,
             )
@@ -155,9 +155,9 @@ fun TdsTimer(
                 TdsText(
                     modifier = clickStopStartModifier,
                     text = stringResource(id = R.string.finish_text),
-                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = mainTimerTextSize.sp,
-                    color = fontColor.getColor(),
+                    color = fontColor,
                 )
             } else {
                 Row(
@@ -166,16 +166,16 @@ fun TdsTimer(
                     if (savedTime < 0) {
                         TdsText(
                             text = "+",
-                            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                             fontSize = mainTimerTextSize.sp,
-                            color = themeColor ?: fontColor.getColor(),
+                            color = themeColor ?: fontColor,
                         )
                     }
 
                     TdsTimeCounter(
                         tdsTime = savedTime.getTdsTime(),
-                        color = themeColor ?: fontColor.getColor(),
-                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                        color = themeColor ?: fontColor,
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = mainTimerTextSize.sp,
                     )
                 }
@@ -189,7 +189,7 @@ fun TdsTimer(
                 } else {
                     stringResource(id = R.string.goal_time)
                 },
-                textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = subTextSize.sp,
                 color = fontColor,
             )
@@ -200,15 +200,15 @@ fun TdsTimer(
                 if (savedGoalTime < 0) {
                     TdsText(
                         text = "+",
-                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = subTimerTextSize.sp,
-                        color = fontColor.getColor(),
+                        color = fontColor,
                     )
                 }
                 TdsTimeCounter(
                     tdsTime = savedGoalTime.getTdsTime(),
-                    color = fontColor.getColor(),
-                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                    color = fontColor,
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = subTimerTextSize.sp,
                 )
             }
@@ -217,7 +217,7 @@ fun TdsTimer(
 
             TdsText(
                 text = "To $finishGoalTime",
-                textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = subTextSize.sp,
                 color = fontColor,
             )
@@ -238,9 +238,9 @@ private fun TdsTimerPreview() {
             isFinish = true,
             outCircularLineColor = TdsColor.BLUE.getColor(),
             outCircularProgress = 0.3f,
-            inCircularLineTrackColor = TdsColor.D3,
+            inCircularLineTrackColor = TdsColor.D3.getColor(),
             inCircularProgress = 0.3f,
-            fontColor = TdsColor.TEXT,
+            fontColor = TdsColor.TEXT.getColor(),
             recordingMode = 1,
             savedSumTime = 11938,
             savedTime = -50,
@@ -263,9 +263,9 @@ private fun TdsTimerPreview1() {
             isFinish = false,
             outCircularLineColor = TdsColor.BLUE.getColor(),
             outCircularProgress = 0.3f,
-            inCircularLineTrackColor = TdsColor.D3,
+            inCircularLineTrackColor = TdsColor.D3.getColor(),
             inCircularProgress = 0.3f,
-            fontColor = TdsColor.TEXT,
+            fontColor = TdsColor.TEXT.getColor(),
             recordingMode = 1,
             savedSumTime = 11938,
             savedTime = 590,
@@ -288,9 +288,9 @@ private fun TdsTimerPreview2() {
             isFinish = false,
             outCircularLineColor = TdsColor.BLUE.getColor(),
             outCircularProgress = 0.3f,
-            inCircularLineTrackColor = TdsColor.D3,
+            inCircularLineTrackColor = TdsColor.D3.getColor(),
             inCircularProgress = 0.3f,
-            fontColor = TdsColor.TEXT,
+            fontColor = TdsColor.TEXT.getColor(),
             recordingMode = 2,
             savedSumTime = 11938,
             savedTime = 590,
@@ -313,9 +313,9 @@ private fun TdsTimerPreview3() {
             isFinish = false,
             outCircularLineColor = TdsColor.BLUE.getColor(),
             outCircularProgress = 0.3f,
-            inCircularLineTrackColor = TdsColor.D3,
+            inCircularLineTrackColor = TdsColor.D3.getColor(),
             inCircularProgress = 0.3f,
-            fontColor = TdsColor.TEXT,
+            fontColor = TdsColor.TEXT.getColor(),
             recordingMode = 2,
             savedSumTime = 11938,
             savedTime = 690,

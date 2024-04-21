@@ -21,7 +21,7 @@ import com.titi.app.core.designsystem.theme.TdsTextStyle
 fun TimeHeaderContent(
     todayDate: String,
     isDailyAfter6AM: Boolean,
-    textColor: TdsColor,
+    textColor: Color,
     onClickColor: () -> Unit,
 ) {
     Box(
@@ -32,9 +32,9 @@ fun TimeHeaderContent(
         TdsText(
             modifier = Modifier.align(Alignment.Center),
             text = todayDate,
-            textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             fontSize = 16.sp,
-            color = if (isDailyAfter6AM) textColor else TdsColor.RED,
+            color = if (isDailyAfter6AM) textColor else TdsColor.RED.getColor(),
         )
 
         TdsIconButton(
