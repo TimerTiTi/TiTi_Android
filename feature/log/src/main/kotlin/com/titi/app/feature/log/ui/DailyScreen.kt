@@ -6,12 +6,14 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -31,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsColorRow
 import com.titi.app.core.designsystem.component.TdsDialog
+import com.titi.app.core.designsystem.component.TdsPagerIndicator
 import com.titi.app.core.designsystem.component.TdsStandardDailyGraph
 import com.titi.app.core.designsystem.component.TdsTaskProgressDailyGraph
 import com.titi.app.core.designsystem.component.TdsTimeLineDailyGraph
@@ -200,14 +203,13 @@ private fun GraphContent(
             4
         },
     )
-    val scope = rememberCoroutineScope()
 
-    Row(
+    Box(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
+        contentAlignment = Alignment.BottomCenter,
     ) {
         HorizontalPager(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.wrapContentSize(),
             userScrollEnabled = true,
             state = pagerState,
             beyondBoundsPageCount = 2,
@@ -273,6 +275,14 @@ private fun GraphContent(
                 )
             }
         }
+
+        TdsPagerIndicator(
+            modifier = Modifier.padding(bottom = 8.dp),
+            pagerState = pagerState,
+            indicatorCount = 4,
+            indicatorSize = 8.dp,
+            activeColor = TdsColor.TEXT.getColor(),
+        )
     }
 }
 
