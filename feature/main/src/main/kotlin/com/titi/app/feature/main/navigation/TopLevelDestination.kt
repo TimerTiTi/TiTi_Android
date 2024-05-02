@@ -20,4 +20,8 @@ enum class TopLevelDestination(
         titleTextId = R.string.bottom_log_text,
         iconResourceId = R.drawable.log_icon,
     ),
+    SETTING(
+        titleTextId = R.string.bottom_setting_text,
+        iconResourceId = R.drawable.setting_icon,
+    ),
 }

@@ -14,6 +14,7 @@ import com.titi.app.feature.main.ui.TiTiAppState
 import com.titi.app.feature.popup.PopUpActivity
 import com.titi.app.feature.popup.PopUpActivity.Companion.COLOR_RECORDING_MODE_KEY
 import com.titi.app.feature.popup.PopUpActivity.Companion.MEASURE_SPLASH_RESULT_KEY
+import com.titi.app.feature.setting.navigation.settingGraph
 import com.titi.app.feature.time.navigation.STOPWATCH_SCREEN
 import com.titi.app.feature.time.navigation.TIMER_SCREEN
 import com.titi.app.feature.time.navigation.timeGraph
@@ -61,5 +62,7 @@ fun TiTiNavHost(
         )
 
         logGraph()
+
+        settingGraph()
     }
 }

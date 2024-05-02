@@ -3,6 +3,7 @@
     <string name="bottom_timer_text">Timer</string>
     <string name="bottom_stopwatch_text">Stopwatch</string>
     <string name="bottom_log_text">Log</string>
+    <string name="bottom_setting_text">Setting</string>
 
     <string name="sum_time" translatable="false">누적 시간</string>
     <string name="timer" translatable="false">타이머</string>

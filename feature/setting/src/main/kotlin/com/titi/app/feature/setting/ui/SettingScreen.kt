@@ -1,4 +1,4 @@
-package com.titi.app.feature.setting
+package com.titi.app.feature.setting.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,8 +39,6 @@ fun SettingScreen() {
                 .padding(it)
                 .verticalScroll(scrollState),
         ) {
-            Spacer(modifier = Modifier.height(64.dp))
-
             TdsText(
                 modifier = Modifier.padding(start = 16.dp),
                 text = "Setting",
