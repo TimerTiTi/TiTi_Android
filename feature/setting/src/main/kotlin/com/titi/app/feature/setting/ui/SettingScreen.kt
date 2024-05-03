@@ -1,5 +1,6 @@
 package com.titi.app.feature.setting.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.feature.setting.model.SettingActions
 import com.titi.app.feature.setting.model.SettingUiState
 
 @Composable
@@ -40,12 +42,38 @@ fun SettingScreen(viewModel: SettingViewModel = mavericksViewModel()) {
         SettingScreen(
             modifier = Modifier.padding(it),
             uiState = uiState,
+            onSettingActions = { settingActions ->
+                when (settingActions) {
+                    is SettingActions.Navigates -> {
+                        when (settingActions) {
+                            is SettingActions.Navigates.FeaturesList -> {
+                                Log.e("ABC", settingActions.toString())
+                            }
+
+                            is SettingActions.Navigates.UpdatesList -> {
+                                Log.e("ABC", settingActions.toString())
+                            }
+
+                            is SettingActions.Navigates.PlayStore -> {
+                                Log.e("ABC", settingActions.toString())
+                            }
+                        }
+                    }
+
+                    is SettingActions.Updates -> {
+                    }
+                }
+            },
         )
     }
 }
 
 @Composable
-private fun SettingScreen(modifier: Modifier, uiState: SettingUiState) {
+private fun SettingScreen(
+    modifier: Modifier,
+    uiState: SettingUiState,
+    onSettingActions: (SettingActions) -> Unit,
+) {
     val scrollState = rememberScrollState()
 
     Column(
@@ -65,18 +93,20 @@ private fun SettingScreen(modifier: Modifier, uiState: SettingUiState) {
 
         Spacer(modifier = Modifier.height(35.dp))
 
-        SettingServiceSection()
+        SettingServiceSection(onSettingActions = onSettingActions)
 
         Spacer(modifier = Modifier.height(35.dp))
 
         SettingNotificationSection(
             switchState = uiState.switchState,
+            onSettingActions = onSettingActions,
         )
 
         Spacer(modifier = Modifier.height(35.dp))
 
         SettingVersionSection(
             versionState = uiState.versionState,
+            onSettingActions = onSettingActions,
         )
 
         Spacer(modifier = Modifier.height(35.dp))
@@ -84,7 +114,7 @@ private fun SettingScreen(modifier: Modifier, uiState: SettingUiState) {
 }
 
 @Composable
-private fun SettingServiceSection() {
+private fun SettingServiceSection(onSettingActions: (SettingActions) -> Unit) {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
         text = "서비스",
@@ -104,12 +134,17 @@ private fun SettingServiceSection() {
                 tint = TdsColor.LIGHT_GRAY.getColor(),
             )
         },
-        onClick = {},
+        onClick = {
+            onSettingActions(SettingActions.Navigates.FeaturesList)
+        },
     )
 }
 
 @Composable
-private fun SettingNotificationSection(switchState: SettingUiState.SwitchState) {
+private fun SettingNotificationSection(
+    switchState: SettingUiState.SwitchState,
+    onSettingActions: (SettingActions) -> Unit,
+) {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
         text = "알림",
@@ -126,7 +161,16 @@ private fun SettingNotificationSection(switchState: SettingUiState.SwitchState) 
         rightAreaContent = {
             Switch(
                 checked = switchState.timerFiveMinutesBeforeTheEnd,
-                onCheckedChange = {},
+                onCheckedChange = {
+                    onSettingActions(
+                        SettingActions.Updates.Switch(
+                            switchState = switchState.copy(
+                                timerFiveMinutesBeforeTheEnd =
+                                !switchState.timerFiveMinutesBeforeTheEnd,
+                            ),
+                        ),
+                    )
+                },
             )
         },
     )
@@ -139,7 +183,15 @@ private fun SettingNotificationSection(switchState: SettingUiState.SwitchState) 
         rightAreaContent = {
             Switch(
                 checked = switchState.timerBeforeTheEnd,
-                onCheckedChange = {},
+                onCheckedChange = {
+                    onSettingActions(
+                        SettingActions.Updates.Switch(
+                            switchState = switchState.copy(
+                                timerBeforeTheEnd = !switchState.timerBeforeTheEnd,
+                            ),
+                        ),
+                    )
+                },
             )
         },
     )
@@ -152,14 +204,25 @@ private fun SettingNotificationSection(switchState: SettingUiState.SwitchState) 
         rightAreaContent = {
             Switch(
                 checked = switchState.stopwatch,
-                onCheckedChange = {},
+                onCheckedChange = {
+                    onSettingActions(
+                        SettingActions.Updates.Switch(
+                            switchState = switchState.copy(
+                                stopwatch = !switchState.stopwatch,
+                            ),
+                        ),
+                    )
+                },
             )
         },
     )
 }
 
 @Composable
-private fun SettingVersionSection(versionState: SettingUiState.VersionState) {
+private fun SettingVersionSection(
+    versionState: SettingUiState.VersionState,
+    onSettingActions: (SettingActions) -> Unit,
+) {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
         text = "버전 및 업데이트 내역",
@@ -180,7 +243,9 @@ private fun SettingVersionSection(versionState: SettingUiState.VersionState) {
                 tint = TdsColor.LIGHT_GRAY.getColor(),
             )
         },
-        onClick = {},
+        onClick = {
+            onSettingActions(SettingActions.Navigates.PlayStore)
+        },
     )
 
     Spacer(modifier = Modifier.height(1.dp))
@@ -205,7 +270,9 @@ private fun SettingVersionSection(versionState: SettingUiState.VersionState) {
                 )
             }
         },
-        onClick = {},
+        onClick = {
+            onSettingActions(SettingActions.Navigates.UpdatesList)
+        },
     )
 }
 
@@ -258,6 +325,7 @@ private fun SettingScreenPreview() {
         SettingScreen(
             modifier = Modifier,
             uiState = SettingUiState(),
+            onSettingActions = {},
         )
     }
 }
