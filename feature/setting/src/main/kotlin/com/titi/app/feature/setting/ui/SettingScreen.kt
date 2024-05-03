@@ -60,8 +60,7 @@ fun SettingScreen(viewModel: SettingViewModel = mavericksViewModel()) {
                         }
                     }
 
-                    is SettingActions.Updates -> {
-                    }
+                    is SettingActions.Updates -> viewModel.handleUpdateActions(settingActions)
                 }
             },
         )
