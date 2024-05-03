@@ -1,6 +1,5 @@
 package com.titi.app.feature.setting.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -35,7 +34,10 @@ import com.titi.app.feature.setting.model.SettingActions
 import com.titi.app.feature.setting.model.SettingUiState
 
 @Composable
-fun SettingScreen(viewModel: SettingViewModel = mavericksViewModel()) {
+fun SettingScreen(
+    viewModel: SettingViewModel = mavericksViewModel(),
+    handleNavigateActions: (SettingActions.Navigates) -> Unit,
+) {
     val uiState by viewModel.collectAsState()
 
     Scaffold(containerColor = Color.Transparent) {
@@ -44,21 +46,7 @@ fun SettingScreen(viewModel: SettingViewModel = mavericksViewModel()) {
             uiState = uiState,
             onSettingActions = { settingActions ->
                 when (settingActions) {
-                    is SettingActions.Navigates -> {
-                        when (settingActions) {
-                            is SettingActions.Navigates.FeaturesList -> {
-                                Log.e("ABC", settingActions.toString())
-                            }
-
-                            is SettingActions.Navigates.UpdatesList -> {
-                                Log.e("ABC", settingActions.toString())
-                            }
-
-                            is SettingActions.Navigates.PlayStore -> {
-                                Log.e("ABC", settingActions.toString())
-                            }
-                        }
-                    }
+                    is SettingActions.Navigates -> handleNavigateActions(settingActions)
 
                     is SettingActions.Updates -> viewModel.handleUpdateActions(settingActions)
                 }
