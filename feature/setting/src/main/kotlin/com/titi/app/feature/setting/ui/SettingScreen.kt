@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,46 +23,63 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.airbnb.mvrx.compose.collectAsState
+import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.feature.setting.model.SettingUiState
 
 @Composable
-fun SettingScreen() {
-    val scrollState = rememberScrollState()
+fun SettingScreen(viewModel: SettingViewModel = mavericksViewModel()) {
+    val uiState by viewModel.collectAsState()
 
     Scaffold(containerColor = Color.Transparent) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = TdsColor.GROUPED_BACKGROUND.getColor())
-                .padding(it)
-                .verticalScroll(scrollState),
-        ) {
-            TdsText(
-                modifier = Modifier.padding(start = 16.dp),
-                text = "Setting",
-                textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                fontSize = 34.sp,
-                color = TdsColor.TEXT,
-            )
+        SettingScreen(
+            modifier = Modifier.padding(it),
+            uiState = uiState,
+        )
+    }
+}
 
-            Spacer(modifier = Modifier.height(35.dp))
+@Composable
+private fun SettingScreen(modifier: Modifier, uiState: SettingUiState) {
+    val scrollState = rememberScrollState()
 
-            SettingServiceSection()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = TdsColor.GROUPED_BACKGROUND.getColor())
+            .then(modifier)
+            .verticalScroll(scrollState),
+    ) {
+        TdsText(
+            modifier = Modifier.padding(start = 16.dp),
+            text = "Setting",
+            textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+            fontSize = 34.sp,
+            color = TdsColor.TEXT,
+        )
 
-            Spacer(modifier = Modifier.height(35.dp))
+        Spacer(modifier = Modifier.height(35.dp))
 
-            SettingNotificationSection()
+        SettingServiceSection()
 
-            Spacer(modifier = Modifier.height(35.dp))
+        Spacer(modifier = Modifier.height(35.dp))
 
-            SettingVersionSection()
+        SettingNotificationSection(
+            switchState = uiState.switchState,
+        )
 
-            Spacer(modifier = Modifier.height(35.dp))
-        }
+        Spacer(modifier = Modifier.height(35.dp))
+
+        SettingVersionSection(
+            versionState = uiState.versionState,
+        )
+
+        Spacer(modifier = Modifier.height(35.dp))
     }
 }
 
@@ -90,7 +109,7 @@ private fun SettingServiceSection() {
 }
 
 @Composable
-private fun SettingNotificationSection() {
+private fun SettingNotificationSection(switchState: SettingUiState.SwitchState) {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
         text = "알림",
@@ -106,11 +125,10 @@ private fun SettingNotificationSection() {
         description = "종료 5분전 알림",
         rightAreaContent = {
             Switch(
-                checked = true,
+                checked = switchState.timerFiveMinutesBeforeTheEnd,
                 onCheckedChange = {},
             )
         },
-        onClick = {},
     )
 
     Spacer(modifier = Modifier.height(1.dp))
@@ -120,11 +138,10 @@ private fun SettingNotificationSection() {
         description = "종료 알림",
         rightAreaContent = {
             Switch(
-                checked = true,
+                checked = switchState.timerBeforeTheEnd,
                 onCheckedChange = {},
             )
         },
-        onClick = {},
     )
 
     Spacer(modifier = Modifier.height(1.dp))
@@ -134,16 +151,15 @@ private fun SettingNotificationSection() {
         description = "1시간단위 경과시 알림",
         rightAreaContent = {
             Switch(
-                checked = true,
+                checked = switchState.stopwatch,
                 onCheckedChange = {},
             )
         },
-        onClick = {},
     )
 }
 
 @Composable
-private fun SettingVersionSection() {
+private fun SettingVersionSection(versionState: SettingUiState.VersionState) {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
         text = "버전 및 업데이트 내역",
@@ -156,7 +172,7 @@ private fun SettingVersionSection() {
 
     SettingRowContent(
         title = "버전 정보",
-        description = "최신버전: 7.17.1",
+        description = "최신버전: ${versionState.newVersion}",
         rightAreaContent = {
             Icon(
                 painter = painterResource(id = R.drawable.arrow_right_icon),
@@ -172,11 +188,22 @@ private fun SettingVersionSection() {
     SettingRowContent(
         title = "업데이트 내역",
         rightAreaContent = {
-            Icon(
-                painter = painterResource(id = R.drawable.arrow_right_icon),
-                contentDescription = "",
-                tint = TdsColor.LIGHT_GRAY.getColor(),
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                TdsText(
+                    text = versionState.currentVersion,
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    color = TdsColor.LIGHT_GRAY,
+                    fontSize = 14.sp,
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                Icon(
+                    painter = painterResource(id = R.drawable.arrow_right_icon),
+                    contentDescription = "",
+                    tint = TdsColor.LIGHT_GRAY.getColor(),
+                )
+            }
         },
         onClick = {},
     )
@@ -187,13 +214,13 @@ private fun SettingRowContent(
     title: String,
     description: String? = null,
     rightAreaContent: @Composable () -> Unit,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier
             .fillMaxSize()
             .background(TdsColor.SECONDARY_BACKGROUND.getColor())
-            .clickable { onClick() }
+            .clickable { onClick?.invoke() }
             .padding(
                 horizontal = 16.dp,
                 vertical = 14.dp,
@@ -228,6 +255,9 @@ private fun SettingRowContent(
 @Composable
 private fun SettingScreenPreview() {
     TiTiTheme {
-        SettingScreen()
+        SettingScreen(
+            modifier = Modifier,
+            uiState = SettingUiState(),
+        )
     }
 }
