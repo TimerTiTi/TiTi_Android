@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -55,6 +56,8 @@ fun SettingScreen(
     val firebaseDatabase = FirebaseDatabase.getInstance()
     val databaseReference = firebaseDatabase.getReference("versions")
 
+    val context = LocalContext.current
+
     databaseReference.addValueEventListener(
         object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -64,9 +67,19 @@ fun SettingScreen(
                     ?.getValue<Versions.Version>()
                     ?.currentVersion
 
-                latestVersion?.let {
+                val currentVersion = context
+                    .packageManager
+                    .getPackageInfo(context.packageName, 0)
+                    .versionName
+
+                latestVersion?.let { safeLatestVersion ->
                     viewModel.handleUpdateActions(
-                        SettingActions.Updates.Version(uiState.versionState.copy(newVersion = it)),
+                        SettingActions.Updates.Version(
+                            uiState.versionState.copy(
+                                newVersion = safeLatestVersion,
+                                currentVersion = currentVersion,
+                            ),
+                        ),
                     )
                 }
             }
@@ -268,6 +281,15 @@ private fun SettingVersionSection(
         title = "버전 정보",
         description = "최신버전: ${versionState.newVersion}",
         rightAreaContent = {
+            TdsText(
+                text = versionState.currentVersion,
+                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                color = TdsColor.LIGHT_GRAY,
+                fontSize = 14.sp,
+            )
+
+            Spacer(modifier = Modifier.width(4.dp))
+
             Icon(
                 painter = painterResource(id = R.drawable.arrow_right_icon),
                 contentDescription = "",
@@ -285,15 +307,6 @@ private fun SettingVersionSection(
         title = "업데이트 내역",
         rightAreaContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                TdsText(
-                    text = versionState.currentVersion,
-                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                    color = TdsColor.LIGHT_GRAY,
-                    fontSize = 14.sp,
-                )
-
-                Spacer(modifier = Modifier.width(4.dp))
-
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_right_icon),
                     contentDescription = "",
