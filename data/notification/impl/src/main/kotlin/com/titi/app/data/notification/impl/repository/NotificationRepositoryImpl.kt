@@ -19,4 +19,9 @@ internal class NotificationRepositoryImpl @Inject constructor(
     override fun getNotificationFlow(): Flow<NotificationRepositoryModel> =
         notificationDataStore.getNotificationFlow()
             .map { it?.toRepositoryModel() ?: NotificationRepositoryModel() }
+
+    override suspend fun getNotification(): NotificationRepositoryModel {
+        return notificationDataStore.getNotification()?.toRepositoryModel()
+            ?: NotificationRepositoryModel()
+    }
 }
