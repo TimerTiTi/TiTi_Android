@@ -1,7 +1,7 @@
 package com.titi.app.data.notification.api.model
 
 data class NotificationRepositoryModel(
-    val timerFiveMinutesBeforeTheEnd: Boolean,
-    val timerBeforeTheEnd: Boolean,
-    val stopwatch: Boolean,
+    val timerFiveMinutesBeforeTheEnd: Boolean = true,
+    val timerBeforeTheEnd: Boolean = true,
+    val stopwatch: Boolean = true,
 )
