@@ -77,6 +77,10 @@ fun TiTiNavHost(
 
                 context.startActivity(intent)
             },
+            onNavigateUp = { navController.navigateUp() },
+            onNavigateToWebView = {
+                // TODO WebView 연결
+            },
         )
     }
 }

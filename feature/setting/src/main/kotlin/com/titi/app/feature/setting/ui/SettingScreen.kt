@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -123,7 +124,7 @@ private fun SettingServiceSection(onSettingActions: (SettingActions) -> Unit) {
 
     Spacer(modifier = Modifier.height(4.dp))
 
-    SettingRowContent(
+    ListContent(
         title = "TiTi 기능들",
         rightAreaContent = {
             Icon(
@@ -153,7 +154,7 @@ private fun SettingNotificationSection(
 
     Spacer(modifier = Modifier.height(4.dp))
 
-    SettingRowContent(
+    ListContent(
         title = "타이머",
         description = "종료 5분전 알림",
         rightAreaContent = {
@@ -175,7 +176,7 @@ private fun SettingNotificationSection(
 
     Spacer(modifier = Modifier.height(1.dp))
 
-    SettingRowContent(
+    ListContent(
         title = "타이머",
         description = "종료 알림",
         rightAreaContent = {
@@ -196,7 +197,7 @@ private fun SettingNotificationSection(
 
     Spacer(modifier = Modifier.height(1.dp))
 
-    SettingRowContent(
+    ListContent(
         title = "스톱워치",
         description = "1시간단위 경과시 알림",
         rightAreaContent = {
@@ -231,7 +232,7 @@ private fun SettingVersionSection(
 
     Spacer(modifier = Modifier.height(4.dp))
 
-    SettingRowContent(
+    ListContent(
         title = "버전 정보",
         description = "최신버전: ${versionState.newVersion}",
         rightAreaContent = {
@@ -248,7 +249,7 @@ private fun SettingVersionSection(
 
     Spacer(modifier = Modifier.height(1.dp))
 
-    SettingRowContent(
+    ListContent(
         title = "업데이트 내역",
         rightAreaContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -275,7 +276,7 @@ private fun SettingVersionSection(
 }
 
 @Composable
-private fun SettingRowContent(
+internal fun ListContent(
     title: String,
     description: String? = null,
     rightAreaContent: @Composable () -> Unit,
@@ -283,7 +284,7 @@ private fun SettingRowContent(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .background(TdsColor.SECONDARY_BACKGROUND.getColor())
             .clickable { onClick?.invoke() }
             .padding(
