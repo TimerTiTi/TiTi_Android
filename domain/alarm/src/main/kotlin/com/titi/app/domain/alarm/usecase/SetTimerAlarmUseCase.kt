@@ -1,6 +1,7 @@
 package com.titi.app.domain.alarm.usecase
 
 import com.titi.app.data.alarm.api.AlarmRepository
+import com.titi.app.data.notification.api.NotificationRepository
 import com.titi.app.domain.alarm.mapper.toRepositoryModel
 import com.titi.app.domain.alarm.model.Alarm
 import com.titi.app.domain.alarm.model.Alarms
@@ -9,6 +10,7 @@ import org.threeten.bp.ZonedDateTime
 
 class SetTimerAlarmUseCase @Inject constructor(
     private val alarmRepository: AlarmRepository,
+    private val notificationRepository: NotificationRepository,
 ) {
     suspend operator fun invoke(
         title: String,
@@ -26,17 +28,23 @@ class SetTimerAlarmUseCase @Inject constructor(
             null
         }
 
+        val notification = notificationRepository.getNotification()
         val alarms = Alarms(
             alarms = mutableListOf<Alarm>().apply {
-                add(
-                    Alarm(
-                        title = title,
-                        message = finishMessage,
-                        finishTime = finishTime,
-                    ),
-                )
+                if (notification.timerBeforeTheEnd) {
+                    add(
+                        Alarm(
+                            title = title,
+                            message = finishMessage,
+                            finishTime = finishTime,
+                        ),
+                    )
+                }
 
-                if (fiveMinutesBeforeFinishTime != null) {
+                if (
+                    fiveMinutesBeforeFinishTime != null &&
+                    notification.timerFiveMinutesBeforeTheEnd
+                ) {
                     add(
                         Alarm(
                             title = title,
