@@ -11,9 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -33,6 +36,7 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.feature.setting.model.SettingActions
 import com.titi.app.feature.setting.model.SettingUiState
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingScreen(
     viewModel: SettingViewModel = mavericksViewModel(),
@@ -40,7 +44,24 @@ fun SettingScreen(
 ) {
     val uiState by viewModel.collectAsState()
 
-    Scaffold(containerColor = Color.Transparent) {
+    Scaffold(
+        containerColor = Color.Transparent,
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = TdsColor.GROUPED_BACKGROUND.getColor(),
+                ),
+                title = {
+                    TdsText(
+                        text = "Setting",
+                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                        fontSize = 24.sp,
+                        color = TdsColor.TEXT,
+                    )
+                },
+            )
+        },
+    ) {
         SettingScreen(
             modifier = Modifier.padding(it),
             uiState = uiState,
@@ -70,16 +91,6 @@ private fun SettingScreen(
             .then(modifier)
             .verticalScroll(scrollState),
     ) {
-        TdsText(
-            modifier = Modifier.padding(start = 16.dp),
-            text = "Setting",
-            textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-            fontSize = 34.sp,
-            color = TdsColor.TEXT,
-        )
-
-        Spacer(modifier = Modifier.height(35.dp))
-
         SettingServiceSection(onSettingActions = onSettingActions)
 
         Spacer(modifier = Modifier.height(35.dp))
