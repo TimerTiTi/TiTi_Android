@@ -1,5 +1,6 @@
 package com.titi.app.feature.setting.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.theme.TdsColor
@@ -36,6 +42,7 @@ import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.feature.setting.model.SettingActions
 import com.titi.app.feature.setting.model.SettingUiState
+import com.titi.app.feature.setting.model.Versions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,6 +51,31 @@ fun SettingScreen(
     handleNavigateActions: (SettingActions.Navigates) -> Unit,
 ) {
     val uiState by viewModel.collectAsState()
+
+    val firebaseDatabase = FirebaseDatabase.getInstance()
+    val databaseReference = firebaseDatabase.getReference("versions")
+
+    databaseReference.addValueEventListener(
+        object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val latestVersion = snapshot
+                    .children
+                    .lastOrNull()
+                    ?.getValue<Versions.Version>()
+                    ?.currentVersion
+
+                latestVersion?.let {
+                    viewModel.handleUpdateActions(
+                        SettingActions.Updates.Version(uiState.versionState.copy(newVersion = it)),
+                    )
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("SettingScreen", error.message)
+            }
+        },
+    )
 
     Scaffold(
         containerColor = Color.Transparent,
