@@ -55,7 +55,7 @@ fun FeaturesListScreen(
                 },
                 title = {
                     TdsText(
-                        text = "Setting",
+                        text = "TiTi 기능들",
                         textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                         fontSize = 24.sp,
                         color = TdsColor.TEXT,

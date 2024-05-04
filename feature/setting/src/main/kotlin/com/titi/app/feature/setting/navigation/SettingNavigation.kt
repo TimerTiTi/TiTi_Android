@@ -57,6 +57,6 @@ fun NavGraphBuilder.settingGraph(
     }
 
     composable(route = UPDATES_ROUTE) {
-        UpdatesListScreen()
+        UpdatesListScreen(onNavigateUp = onNavigateUp)
     }
 }

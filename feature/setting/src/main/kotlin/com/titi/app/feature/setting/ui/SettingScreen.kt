@@ -20,6 +20,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +44,7 @@ import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.feature.setting.model.SettingActions
 import com.titi.app.feature.setting.model.SettingUiState
-import com.titi.app.feature.setting.model.VersionUiState
+import com.titi.app.feature.setting.model.Version
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,37 +59,39 @@ fun SettingScreen(
 
     val context = LocalContext.current
 
-    databaseReference.addValueEventListener(
-        object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val latestVersion = snapshot
-                    .children
-                    .lastOrNull()
-                    ?.getValue<VersionUiState.Version>()
-                    ?.currentVersion
+    LaunchedEffect(Unit) {
+        databaseReference.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val latestVersion = snapshot
+                        .children
+                        .lastOrNull()
+                        ?.getValue<Version>()
+                        ?.currentVersion
 
-                val currentVersion = context
-                    .packageManager
-                    .getPackageInfo(context.packageName, 0)
-                    .versionName
+                    val currentVersion = context
+                        .packageManager
+                        .getPackageInfo(context.packageName, 0)
+                        .versionName
 
-                latestVersion?.let { safeLatestVersion ->
-                    viewModel.handleUpdateActions(
-                        SettingActions.Updates.Version(
-                            uiState.versionState.copy(
-                                newVersion = safeLatestVersion,
-                                currentVersion = currentVersion,
+                    latestVersion?.let { safeLatestVersion ->
+                        viewModel.handleUpdateActions(
+                            SettingActions.Updates.Version(
+                                uiState.versionState.copy(
+                                    newVersion = safeLatestVersion,
+                                    currentVersion = currentVersion,
+                                ),
                             ),
-                        ),
-                    )
+                        )
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("SettingScreen", error.message)
-            }
-        },
-    )
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("SettingScreen", error.message)
+                }
+            },
+        )
+    }
 
     Scaffold(
         containerColor = Color.Transparent,
