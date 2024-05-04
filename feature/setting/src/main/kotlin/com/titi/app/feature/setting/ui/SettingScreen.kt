@@ -43,7 +43,7 @@ import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.feature.setting.model.SettingActions
 import com.titi.app.feature.setting.model.SettingUiState
-import com.titi.app.feature.setting.model.Versions
+import com.titi.app.feature.setting.model.VersionUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,7 +64,7 @@ fun SettingScreen(
                 val latestVersion = snapshot
                     .children
                     .lastOrNull()
-                    ?.getValue<Versions.Version>()
+                    ?.getValue<VersionUiState.Version>()
                     ?.currentVersion
 
                 val currentVersion = context
