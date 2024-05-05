@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.net.toUri
 import androidx.navigation.compose.NavHost
 import com.titi.app.feature.log.navigation.logGraph
 import com.titi.app.feature.main.model.SplashResultState
@@ -14,9 +15,14 @@ import com.titi.app.feature.main.ui.TiTiAppState
 import com.titi.app.feature.popup.PopUpActivity
 import com.titi.app.feature.popup.PopUpActivity.Companion.COLOR_RECORDING_MODE_KEY
 import com.titi.app.feature.popup.PopUpActivity.Companion.MEASURE_SPLASH_RESULT_KEY
+import com.titi.app.feature.setting.navigation.navigateToFeatures
+import com.titi.app.feature.setting.navigation.navigateToUpdates
+import com.titi.app.feature.setting.navigation.settingGraph
 import com.titi.app.feature.time.navigation.STOPWATCH_SCREEN
 import com.titi.app.feature.time.navigation.TIMER_SCREEN
 import com.titi.app.feature.time.navigation.timeGraph
+import com.titi.app.feature.webview.navigateToWebView
+import com.titi.app.feature.webview.webViewGraph
 
 @Composable
 fun TiTiNavHost(
@@ -61,5 +67,27 @@ fun TiTiNavHost(
         )
 
         logGraph()
+
+        settingGraph(
+            onNavigateToFeatures = { navController.navigateToFeatures() },
+            onNavigateToUpdates = { navController.navigateToUpdates() },
+            onNavigateToPlayStore = {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    "https://play.google.com/store/apps/details?id=com.titi.app".toUri(),
+                )
+
+                context.startActivity(intent)
+            },
+            onNavigateUp = { navController.navigateUp() },
+            onNavigateToWebView = { title, url ->
+                navController.navigateToWebView(
+                    title = title,
+                    url = url,
+                )
+            },
+        )
+
+        webViewGraph(onNavigateUp = { navController.navigateUp() })
     }
 }

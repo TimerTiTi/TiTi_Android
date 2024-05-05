@@ -15,10 +15,15 @@ import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.feature.log.navigation.LOG_ROUTE
 import com.titi.app.feature.log.navigation.navigateToLog
 import com.titi.app.feature.main.navigation.TopLevelDestination
+import com.titi.app.feature.setting.navigation.FEATURES_ROUTE
+import com.titi.app.feature.setting.navigation.SETTING_ROUTE
+import com.titi.app.feature.setting.navigation.UPDATES_ROUTE
+import com.titi.app.feature.setting.navigation.navigateToSetting
 import com.titi.app.feature.time.navigation.STOPWATCH_ROUTE
 import com.titi.app.feature.time.navigation.TIMER_ROUTE
 import com.titi.app.feature.time.navigation.navigateToStopWatch
 import com.titi.app.feature.time.navigation.navigateToTimer
+import com.titi.app.feature.webview.WEBVIEW_ROUTE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -64,6 +69,7 @@ class TiTiAppState(
                 TIMER_ROUTE -> TopLevelDestination.TIMER
                 STOPWATCH_ROUTE -> TopLevelDestination.STOPWATCH
                 LOG_ROUTE -> TopLevelDestination.LOG
+                SETTING_ROUTE -> TopLevelDestination.SETTING
                 else -> null
             }
 
@@ -81,8 +87,13 @@ class TiTiAppState(
                 when (route) {
                     TIMER_ROUTE -> timeColor.timerBackgroundColor
                     STOPWATCH_ROUTE -> timeColor.stopwatchBackgroundColor
-                    LOG_ROUTE -> if (isSystemDarkTheme) 0xFF000000 else 0xFFFFFFFF
-                    else -> 0xFF000000
+                    SETTING_ROUTE,
+                    FEATURES_ROUTE,
+                    UPDATES_ROUTE,
+                    WEBVIEW_ROUTE,
+                    -> if (isSystemDarkTheme) 0xFF000000 else 0xFFF2F2F7
+
+                    else -> if (isSystemDarkTheme) 0xFF000000 else 0xFFFFFFFF
                 }
             }
             .stateIn(
@@ -106,6 +117,7 @@ class TiTiAppState(
             TopLevelDestination.TIMER -> navController.navigateToTimer(topLevelNavOptions)
             TopLevelDestination.STOPWATCH -> navController.navigateToStopWatch(topLevelNavOptions)
             TopLevelDestination.LOG -> navController.navigateToLog(topLevelNavOptions)
+            TopLevelDestination.SETTING -> navController.navigateToSetting(topLevelNavOptions)
         }
     }
 }
