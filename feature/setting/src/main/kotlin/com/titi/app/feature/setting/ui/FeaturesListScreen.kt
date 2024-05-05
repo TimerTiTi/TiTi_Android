@@ -33,7 +33,7 @@ import com.titi.app.feature.setting.model.makeFeatures
 fun FeaturesListScreen(
     viewModel: FeaturesListViewModel = mavericksViewModel(),
     onNavigateUp: () -> Unit,
-    onNavigateWebView: (String) -> Unit,
+    onNavigateWebView: (title: String, url: String) -> Unit,
 ) {
     val uiState by viewModel.collectAsState()
 
@@ -78,7 +78,7 @@ fun FeaturesListScreen(
 fun FeaturesListScreen(
     modifier: Modifier = Modifier,
     uiState: FeaturesUiState,
-    onClick: (String) -> Unit,
+    onClick: (title: String, url: String) -> Unit,
 ) {
     Column(modifier = modifier) {
         uiState.features.forEachIndexed { index, feature ->
@@ -91,7 +91,7 @@ fun FeaturesListScreen(
                         tint = TdsColor.LIGHT_GRAY.getColor(),
                     )
                 },
-                onClick = { onClick(feature.url) },
+                onClick = { onClick(feature.title, feature.url) },
             )
 
             if (index != uiState.features.size - 1) {
@@ -108,7 +108,7 @@ private fun FeaturesListScreenPreview() {
         FeaturesListScreen(
             modifier = Modifier.fillMaxSize(),
             uiState = FeaturesUiState(features = makeFeatures()),
-            onClick = {},
+            onClick = { title, url -> },
         )
     }
 }

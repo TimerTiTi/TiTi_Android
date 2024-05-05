@@ -21,6 +21,8 @@ import com.titi.app.feature.setting.navigation.settingGraph
 import com.titi.app.feature.time.navigation.STOPWATCH_SCREEN
 import com.titi.app.feature.time.navigation.TIMER_SCREEN
 import com.titi.app.feature.time.navigation.timeGraph
+import com.titi.app.feature.webview.navigateToWebView
+import com.titi.app.feature.webview.webViewGraph
 
 @Composable
 fun TiTiNavHost(
@@ -78,9 +80,14 @@ fun TiTiNavHost(
                 context.startActivity(intent)
             },
             onNavigateUp = { navController.navigateUp() },
-            onNavigateToWebView = {
-                // TODO WebView 연결
+            onNavigateToWebView = { title, url ->
+                navController.navigateToWebView(
+                    title = title,
+                    url = url,
+                )
             },
         )
+
+        webViewGraph(onNavigateUp = { navController.navigateUp() })
     }
 }

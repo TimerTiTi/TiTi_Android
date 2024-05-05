@@ -35,7 +35,7 @@ fun NavGraphBuilder.settingGraph(
     onNavigateToUpdates: () -> Unit,
     onNavigateToPlayStore: () -> Unit,
     onNavigateUp: () -> Unit,
-    onNavigateToWebView: (String) -> Unit,
+    onNavigateToWebView: (title: String, url: String) -> Unit,
 ) {
     composable(route = SETTING_ROUTE) {
         SettingScreen(
