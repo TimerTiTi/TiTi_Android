@@ -29,7 +29,7 @@ fun TimeGoalTimeEditDialog(
 
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Confirm(
-            title = stringResource(R.string.add_daily_title),
+            title = stringResource(R.string.edit_daily_title),
             message = stringResource(R.string.edit_daily_message, todayDate),
             positiveText = stringResource(id = R.string.Ok),
             negativeText = stringResource(id = R.string.Cancel),
