@@ -48,12 +48,13 @@ fun TdsTimeLineDailyGraph(
         modifier = modifier,
         contentAlignment = Alignment.Center,
     ) {
-        val size = maxWidth.coerceAtMost(345.dp)
+        val size = maxWidth.coerceAtMost(365.dp)
 
         OutlinedCard(
             modifier = Modifier
                 .createCaptureImageModifier(picture = picture)
-                .size(size),
+                .size(size)
+                .padding(10.dp),
             shape = RoundedCornerShape(size * 0.07),
             colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
             border = BorderStroke(
@@ -147,8 +148,8 @@ fun TdsTimeLineDailyGraph(
         Box(
             modifier = Modifier
                 .offset(
-                    x = -size / 2 + 26.dp,
-                    y = -size * 0.49 + 26.dp,
+                    x = -size / 2 + 36.dp,
+                    y = -size * 0.49 + 36.dp,
                 ),
         ) {
             TdsToggleIconButton(
