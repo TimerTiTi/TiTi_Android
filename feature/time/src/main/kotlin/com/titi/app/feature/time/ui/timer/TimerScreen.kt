@@ -25,7 +25,6 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.extension.getTdsTime
-import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.feature.time.content.TimeAddEditDailyDialog
 import com.titi.app.feature.time.content.TimeButtonContent
 import com.titi.app.feature.time.content.TimeCheckTaskDialog
@@ -163,7 +162,7 @@ fun TimerScreen(
             if (uiState.isSetTask) {
                 val splashResultStateString = viewModel.startRecording(
                     recordTimes = uiState.recordTimes,
-                    daily = uiState.daily ?: Daily(),
+                    daily = uiState.daily,
                     timeColor = uiState.timeColor,
                 )
                 onNavigateToMeasure(splashResultStateString)

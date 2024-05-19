@@ -35,7 +35,11 @@ fun TimeButtonContent(
             size = 50.dp,
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.add_record_icon),
+                painter = if (isFirstDaily) {
+                    painterResource(id = R.drawable.add_record_icon)
+                } else {
+                    painterResource(id = R.drawable.edit_record_icon)
+                },
                 contentDescription = "addRecord",
                 tint = tintColor,
             )
@@ -48,11 +52,7 @@ fun TimeButtonContent(
             size = 70.dp,
         ) {
             Icon(
-                painter = if (isFirstDaily) {
-                    painterResource(id = R.drawable.start_record_icon)
-                } else {
-                    painterResource(id = R.drawable.edit_record_icon)
-                },
+                painter = painterResource(id = R.drawable.start_record_icon),
                 contentDescription = "startRecord",
                 tint = Color.Unspecified,
             )

@@ -110,21 +110,32 @@ class TimerViewModel @AssistedInject constructor(
         }
     }
 
-    fun startRecording(recordTimes: RecordTimes, daily: Daily, timeColor: TimeColor): String {
-        val updateRecordTimes = if (recordTimes.savedTimerTime <= 0) {
-            recordTimes.copy(
-                recording = true,
-                recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
-                savedTimerTime = recordTimes.setTimerTime,
-            )
+    fun startRecording(recordTimes: RecordTimes, daily: Daily?, timeColor: TimeColor): String {
+        val updateRecordTimes = if (isAfterSixAM(daily?.day)) {
+            if (recordTimes.savedTimerTime <= 0) {
+                recordTimes.copy(
+                    recording = true,
+                    recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                    savedTimerTime = recordTimes.setTimerTime,
+                )
+            } else {
+                recordTimes.copy(
+                    recording = true,
+                    recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                )
+            }
         } else {
             recordTimes.copy(
                 recording = true,
                 recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                savedSumTime = 0,
+                savedTimerTime = recordTimes.setTimerTime,
+                savedStopWatchTime = 0,
+                savedGoalTime = recordTimes.setGoalTime,
             )
         }
 
-        val updateDaily = if (isAfterSixAM(daily.day)) {
+        val updateDaily = if (daily != null && isAfterSixAM(daily.day)) {
             daily
         } else {
             Daily()
