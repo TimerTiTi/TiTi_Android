@@ -2,12 +2,9 @@ package com.titi.app.feature.main.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Build
 import android.util.Log
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -51,11 +48,7 @@ import com.titi.app.feature.main.navigation.TopLevelDestination
 
 @SuppressLint("UnusedContentLambdaTargetStateParameter")
 @Composable
-fun TiTiApp(
-    splashResultState: SplashResultState,
-    appState: TiTiAppState,
-    measuringResult: ManagedActivityResultLauncher<Intent, ActivityResult>,
-) {
+fun TiTiApp(splashResultState: SplashResultState, appState: TiTiAppState) {
     val requestPermissionLauncher =
         rememberLauncherForActivityResult(
             ActivityResultContracts.RequestPermission(),
@@ -101,7 +94,6 @@ fun TiTiApp(
                 modifier = Modifier.fillMaxSize(),
                 appState = appState,
                 splashResultState = splashResultState,
-                measuringResult = measuringResult,
             )
         }
     }

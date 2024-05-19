@@ -15,6 +15,7 @@ import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.feature.log.navigation.LOG_ROUTE
 import com.titi.app.feature.log.navigation.navigateToLog
 import com.titi.app.feature.main.navigation.TopLevelDestination
+import com.titi.app.feature.measure.navigation.MEASURE_ROUTE
 import com.titi.app.feature.setting.navigation.FEATURES_ROUTE
 import com.titi.app.feature.setting.navigation.SETTING_ROUTE
 import com.titi.app.feature.setting.navigation.UPDATES_ROUTE
@@ -92,7 +93,7 @@ class TiTiAppState(
                     UPDATES_ROUTE,
                     WEBVIEW_ROUTE,
                     -> if (isSystemDarkTheme) 0xFF000000 else 0xFFF2F2F7
-
+                    MEASURE_ROUTE -> 0xFF000000
                     else -> if (isSystemDarkTheme) 0xFF000000 else 0xFFFFFFFF
                 }
             }
