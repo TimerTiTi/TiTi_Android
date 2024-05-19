@@ -1,4 +1,4 @@
-package com.titi.app.feature.time.content
+package com.titi.app.feature.time.component
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -11,10 +11,10 @@ import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.model.TdsDialogInfo
 
 @Composable
-fun TimeCheckTaskDialog(onShowDialog: (Boolean) -> Unit) {
+fun TimeCheckDailyDialog(title: String, onShowDialog: (Boolean) -> Unit) {
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Alert(
-            title = stringResource(id = R.string.task_check_title),
+            title = title,
             confirmText = stringResource(id = R.string.Ok),
         ),
         onShowDialog = onShowDialog,

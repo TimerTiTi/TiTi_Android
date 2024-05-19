@@ -1,4 +1,4 @@
-package com.titi.app.feature.time.content
+package com.titi.app.feature.time.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +17,7 @@ import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 
 @Composable
-fun TimeHeaderContent(todayDate: String, textColor: Color, onClickColor: () -> Unit) {
+fun TimeHeaderComponent(todayDate: String, textColor: Color, onClickColor: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()

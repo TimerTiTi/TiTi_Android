@@ -1,8 +1,9 @@
-package com.titi.app.feature.time.content
+package com.titi.app.feature.time.component
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -13,37 +14,27 @@ import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsInputTimeTextField
 import com.titi.app.core.designsystem.model.TdsDialogInfo
-import com.titi.app.core.designsystem.model.TdsTime
+import com.titi.app.core.util.addTimeToNow
 import com.titi.app.core.util.getTimeToLong
 
 @Composable
-fun TimeAddEditDailyDialog(
-    isFirstDaily: Boolean,
-    todayDate: String,
-    currentTime: TdsTime,
-    onPositive: (Long) -> Unit,
-    onShowDialog: (Boolean) -> Unit,
-) {
-    var hour by remember { mutableStateOf(currentTime.hour.toString()) }
-    var minutes by remember { mutableStateOf(currentTime.minutes.toString()) }
-    var seconds by remember { mutableStateOf(currentTime.seconds.toString()) }
+fun TimeTimerDialog(onPositive: (Long) -> Unit, onShowDialog: (Boolean) -> Unit) {
+    var hour by remember { mutableStateOf("") }
+    var minutes by remember { mutableStateOf("") }
+    var seconds by remember { mutableStateOf("") }
+    var setTimerTime by remember { mutableLongStateOf(0) }
 
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Confirm(
-            title = if (isFirstDaily) {
-                stringResource(R.string.add_daily_title)
-            } else {
-                stringResource(id = R.string.edit_daily_title)
-            },
-            message = if (isFirstDaily) {
-                stringResource(R.string.add_daily_message, todayDate)
-            } else {
-                stringResource(R.string.edit_daily_message, todayDate)
-            },
+            title = stringResource(R.string.set_timer_time_title),
+            message = stringResource(
+                R.string.set_timer_time_message,
+                addTimeToNow(setTimerTime),
+            ),
             positiveText = stringResource(id = R.string.Ok),
             negativeText = stringResource(id = R.string.Cancel),
             onPositive = {
-                onPositive(getTimeToLong(hour, minutes, seconds))
+                onPositive(setTimerTime)
             },
         ),
         onShowDialog = onShowDialog,
@@ -51,11 +42,20 @@ fun TimeAddEditDailyDialog(
         TdsInputTimeTextField(
             modifier = Modifier.padding(horizontal = 15.dp),
             hour = hour,
-            onHourChange = { hour = it },
+            onHourChange = {
+                hour = it
+                setTimerTime = getTimeToLong(hour, minutes, seconds)
+            },
             minutes = minutes,
-            onMinutesChange = { minutes = it },
+            onMinutesChange = {
+                minutes = it
+                setTimerTime = getTimeToLong(hour, minutes, seconds)
+            },
             seconds = seconds,
-            onSecondsChange = { seconds = it },
+            onSecondsChange = {
+                seconds = it
+                setTimerTime = getTimeToLong(hour, minutes, seconds)
+            },
         )
     }
 }
