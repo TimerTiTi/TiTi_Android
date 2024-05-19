@@ -1,4 +1,4 @@
-package com.titi.app.feature.time.content
+package com.titi.app.feature.time.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,7 +15,7 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 
 @Composable
-fun TimeTaskContent(
+fun TimeTaskComponent(
     isSetTask: Boolean,
     textColor: Color,
     taskName: String,

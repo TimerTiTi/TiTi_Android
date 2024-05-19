@@ -1,4 +1,4 @@
-package com.titi.app.feature.time.content
+package com.titi.app.feature.time.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,16 +14,10 @@ import androidx.compose.ui.unit.sp
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsText
-import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 
 @Composable
-fun TimeHeaderContent(
-    todayDate: String,
-    isDailyAfter6AM: Boolean,
-    textColor: Color,
-    onClickColor: () -> Unit,
-) {
+fun TimeHeaderComponent(todayDate: String, textColor: Color, onClickColor: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -34,7 +28,7 @@ fun TimeHeaderContent(
             text = todayDate,
             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             fontSize = 16.sp,
-            color = if (isDailyAfter6AM) textColor else TdsColor.RED.getColor(),
+            color = textColor,
         )
 
         TdsIconButton(

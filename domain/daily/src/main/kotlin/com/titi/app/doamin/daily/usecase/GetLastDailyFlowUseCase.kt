@@ -7,10 +7,10 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class GetCurrentDailyFlowUseCase @Inject constructor(
+class GetLastDailyFlowUseCase @Inject constructor(
     private val dailyRepository: DailyRepository,
 ) {
-    operator fun invoke(): Flow<Daily?> = dailyRepository.getDateDailyFlow().map {
+    operator fun invoke(): Flow<Daily?> = dailyRepository.getLastDailyFlow().map {
         it?.toDomainModel()
     }
 }

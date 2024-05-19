@@ -1,4 +1,4 @@
-package com.titi.app.feature.time.content
+package com.titi.app.feature.time.component
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
