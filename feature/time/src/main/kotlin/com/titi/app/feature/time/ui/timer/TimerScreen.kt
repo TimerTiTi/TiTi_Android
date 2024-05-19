@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,6 +28,8 @@ import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.extension.getTdsTime
+import com.titi.app.core.designsystem.navigation.TdsBottomNavigationBar
+import com.titi.app.core.designsystem.navigation.TopLevelDestination
 import com.titi.app.feature.time.component.TimeAddEditDailyDialog
 import com.titi.app.feature.time.component.TimeButtonComponent
 import com.titi.app.feature.time.component.TimeCheckDailyDialog
@@ -45,6 +48,7 @@ fun TimerScreen(
     onChangeFinishStateFalse: () -> Unit,
     onNavigateToColor: () -> Unit,
     onNavigateToMeasure: (String) -> Unit,
+    onNavigateToDestination: (TopLevelDestination) -> Unit,
 ) {
     val viewModel: TimerViewModel = mavericksViewModel(
         argsFactory = {
@@ -184,6 +188,7 @@ fun TimerScreen(
         onClickSettingTimer = {
             showUpdateTimerDialog = true
         },
+        onNavigateToDestination = onNavigateToDestination,
     )
 }
 
@@ -197,103 +202,119 @@ private fun TimerScreen(
     onClickAddEditDaily: () -> Unit,
     onClickStartRecord: () -> Unit,
     onClickSettingTimer: () -> Unit,
+    onNavigateToDestination: (TopLevelDestination) -> Unit,
 ) {
     val configuration = LocalConfiguration.current
 
-    when (configuration.orientation) {
-        Configuration.ORIENTATION_PORTRAIT -> {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                TimeHeaderComponent(
-                    todayDate = uiState.todayDate,
-                    textColor = textColor,
-                    onClickColor = onClickColor,
+    Scaffold(
+        containerColor = Color(uiState.timeColor.timerBackgroundColor),
+        bottomBar = {
+            if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                TdsBottomNavigationBar(
+                    currentTopLevelDestination = TopLevelDestination.TIMER,
+                    bottomNavigationColor = uiState.timeColor.timerBackgroundColor,
+                    onNavigateToDestination = onNavigateToDestination,
                 )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                TimeTaskComponent(
-                    isSetTask = uiState.isSetTask,
-                    textColor = textColor,
-                    taskName = uiState.taskName,
-                    onClickTask = onClickTask,
-                )
-
-                Spacer(modifier = Modifier.height(50.dp))
-
-                with(uiState.timerRecordTimes) {
-                    TdsTimer(
-                        isFinish = isFinish,
-                        outCircularLineColor = textColor,
-                        outCircularProgress = outCircularProgress,
-                        inCircularLineTrackColor = if (uiState.timerColor.isTextColorBlack) {
-                            Color.White
-                        } else {
-                            Color(0x8C000000)
-                        },
-                        inCircularProgress = inCircularProgress,
-                        fontColor = textColor,
-                        recordingMode = 1,
-                        savedSumTime = savedSumTime,
-                        savedTime = savedTime,
-                        savedGoalTime = savedGoalTime,
-                        finishGoalTime = finishGoalTime,
-                        isTaskTargetTimeOn = isTaskTargetTimeOn,
-                        onClickStopStart = {
-                            onClickStartRecord()
-                        },
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(50.dp))
-
-                TimeButtonComponent(
-                    recordingMode = 1,
-                    tintColor = textColor,
-                    isFirstDaily = uiState.isFirstDaily,
-                    onClickAddEditDaily = onClickAddEditDaily,
-                    onClickStartRecord = onClickStartRecord,
-                    onClickSettingTimer = onClickSettingTimer,
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
             }
-        }
-
-        else -> {
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .safeDrawingPadding(),
-                contentAlignment = Alignment.Center,
-            ) {
-                with(uiState.timerRecordTimes) {
-                    TdsTimer(
-                        isFinish = isFinish,
-                        outCircularLineColor = textColor,
-                        outCircularProgress = outCircularProgress,
-                        inCircularLineTrackColor = if (uiState.timerColor.isTextColorBlack) {
-                            Color.White
-                        } else {
-                            Color(0x8C000000)
-                        },
-                        inCircularProgress = inCircularProgress,
-                        fontColor = textColor,
-                        recordingMode = 1,
-                        savedSumTime = savedSumTime,
-                        savedTime = savedTime,
-                        savedGoalTime = savedGoalTime,
-                        finishGoalTime = finishGoalTime,
-                        isTaskTargetTimeOn = isTaskTargetTimeOn,
-                        onClickStopStart = {
-                            onClickStartRecord()
-                        },
+        },
+    ) {
+        when (configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(it)
+                        .padding(top = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    TimeHeaderComponent(
+                        todayDate = uiState.todayDate,
+                        textColor = textColor,
+                        onClickColor = onClickColor,
                     )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    TimeTaskComponent(
+                        isSetTask = uiState.isSetTask,
+                        textColor = textColor,
+                        taskName = uiState.taskName,
+                        onClickTask = onClickTask,
+                    )
+
+                    Spacer(modifier = Modifier.height(50.dp))
+
+                    with(uiState.timerRecordTimes) {
+                        TdsTimer(
+                            isFinish = isFinish,
+                            outCircularLineColor = textColor,
+                            outCircularProgress = outCircularProgress,
+                            inCircularLineTrackColor = if (uiState.timerColor.isTextColorBlack) {
+                                Color.White
+                            } else {
+                                Color(0x8C000000)
+                            },
+                            inCircularProgress = inCircularProgress,
+                            fontColor = textColor,
+                            recordingMode = 1,
+                            savedSumTime = savedSumTime,
+                            savedTime = savedTime,
+                            savedGoalTime = savedGoalTime,
+                            finishGoalTime = finishGoalTime,
+                            isTaskTargetTimeOn = isTaskTargetTimeOn,
+                            onClickStopStart = {
+                                onClickStartRecord()
+                            },
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(50.dp))
+
+                    TimeButtonComponent(
+                        recordingMode = 1,
+                        tintColor = textColor,
+                        isFirstDaily = uiState.isFirstDaily,
+                        onClickAddEditDaily = onClickAddEditDaily,
+                        onClickStartRecord = onClickStartRecord,
+                        onClickSettingTimer = onClickSettingTimer,
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+            }
+
+            else -> {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .safeDrawingPadding()
+                        .padding(it),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    with(uiState.timerRecordTimes) {
+                        TdsTimer(
+                            isFinish = isFinish,
+                            outCircularLineColor = textColor,
+                            outCircularProgress = outCircularProgress,
+                            inCircularLineTrackColor = if (uiState.timerColor.isTextColorBlack) {
+                                Color.White
+                            } else {
+                                Color(0x8C000000)
+                            },
+                            inCircularProgress = inCircularProgress,
+                            fontColor = textColor,
+                            recordingMode = 1,
+                            savedSumTime = savedSumTime,
+                            savedTime = savedTime,
+                            savedGoalTime = savedGoalTime,
+                            finishGoalTime = finishGoalTime,
+                            isTaskTargetTimeOn = isTaskTargetTimeOn,
+                            onClickStopStart = {
+                                onClickStartRecord()
+                            },
+                        )
+                    }
                 }
             }
         }

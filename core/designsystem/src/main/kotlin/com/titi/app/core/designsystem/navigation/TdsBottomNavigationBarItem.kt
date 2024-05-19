@@ -1,4 +1,4 @@
-package com.titi.app.core.designsystem.component
+package com.titi.app.core.designsystem.navigation
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -16,7 +16,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RowScope.TdsNavigationBarItem(
+fun RowScope.TdsBottomNavigationBarItem(
     selected: Boolean,
     onClick: () -> Unit,
     icon: @Composable () -> Unit,

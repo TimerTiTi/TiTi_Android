@@ -6,6 +6,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -57,6 +58,7 @@ fun WebViewScreen(title: String, url: String, onNavigateUp: () -> Unit) {
         WebViewScreen(
             modifier = Modifier
                 .fillMaxSize()
+                .safeDrawingPadding()
                 .padding(it),
             url = url,
         )

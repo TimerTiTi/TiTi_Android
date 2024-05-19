@@ -1,10 +1,12 @@
 package com.titi.app.feature.setting.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -38,8 +40,14 @@ fun FeaturesListScreen(
 ) {
     val uiState by viewModel.collectAsState()
 
+    val containerColor = if (isSystemInDarkTheme()) {
+        0xFF000000
+    } else {
+        0xFFF2F2F7
+    }
+
     Scaffold(
-        containerColor = Color.Transparent,
+        containerColor = Color(containerColor),
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -68,6 +76,7 @@ fun FeaturesListScreen(
         FeaturesListScreen(
             modifier = Modifier
                 .fillMaxSize()
+                .safeDrawingPadding()
                 .padding(it),
             uiState = uiState,
             onClick = onNavigateWebView,

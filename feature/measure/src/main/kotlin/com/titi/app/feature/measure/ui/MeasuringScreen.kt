@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -204,112 +205,118 @@ private fun MeasuringScreen(
 ) {
     val configuration = LocalConfiguration.current
 
-    when (configuration.orientation) {
-        Configuration.ORIENTATION_PORTRAIT -> {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black)
-                    .padding(top = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                TdsIconButton(
-                    modifier =
-                    Modifier
-                        .padding(start = 16.dp)
-                        .align(Alignment.Start),
-                    size = 32.dp,
-                    onClick = onSleepClick,
+    Scaffold(containerColor = Color.Black) {
+        when (configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black)
+                        .padding(it)
+                        .padding(top = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Icon(
-                        painter =
-                        if (uiState.isSleepMode) {
-                            painterResource(id = R.drawable.sleep_icon)
-                        } else {
-                            painterResource(id = R.drawable.non_sleep_icon)
-                        },
-                        contentDescription = "sleepIcon",
-                        tint = Color.White,
+                    TdsIconButton(
+                        modifier = Modifier
+                            .padding(start = 16.dp)
+                            .align(Alignment.Start),
+                        size = 32.dp,
+                        onClick = onSleepClick,
+                    ) {
+                        Icon(
+                            painter = if (uiState.isSleepMode) {
+                                painterResource(id = R.drawable.sleep_icon)
+                            } else {
+                                painterResource(id = R.drawable.non_sleep_icon)
+                            },
+                            contentDescription = "sleepIcon",
+                            tint = Color.White,
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    TdsText(
+                        modifier = Modifier.padding(vertical = 24.dp),
+                        text = uiState.recordTimes.currentTask?.taskName,
+                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                        fontSize = 18.sp,
+                        color = Color.White,
                     )
+
+                    Spacer(modifier = Modifier.height(50.dp))
+
+                    with(uiState.measuringRecordTimes) {
+                        TdsTimer(
+                            outCircularLineColor = Color(
+                                uiState.measuringTimeColor.backgroundColor,
+                            ),
+                            outCircularProgress = outCircularProgress,
+                            inCircularLineTrackColor = Color.White,
+                            inCircularProgress = inCircularProgress,
+                            fontColor = Color.White,
+                            themeColor = Color(uiState.measuringTimeColor.backgroundColor),
+                            recordingMode = uiState.recordTimes.recordingMode,
+                            savedSumTime = savedSumTime,
+                            savedTime = savedTime,
+                            savedGoalTime = savedGoalTime,
+                            finishGoalTime = finishGoalTime,
+                            isTaskTargetTimeOn = isTaskTargetTimeOn,
+                            onClickStopStart = {
+                                onFinishClick()
+                            },
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(50.dp))
+
+                    TdsIconButton(
+                        onClick = onFinishClick,
+                        size = 70.dp,
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.stop_record_icon),
+                            contentDescription = "startRecord",
+                            tint = TdsColor.RED.getColor(),
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Spacer(modifier = Modifier.height(80.dp))
                 }
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                TdsText(
-                    modifier = Modifier.padding(vertical = 12.dp),
-                    text = uiState.recordTimes.currentTask?.taskName,
-                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
-                    fontSize = 18.sp,
-                    color = Color.White,
-                )
-
-                Spacer(modifier = Modifier.height(50.dp))
-
-                with(uiState.measuringRecordTimes) {
-                    TdsTimer(
-                        outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
-                        outCircularProgress = outCircularProgress,
-                        inCircularLineTrackColor = Color.White,
-                        inCircularProgress = inCircularProgress,
-                        fontColor = Color.White,
-                        themeColor = Color(uiState.measuringTimeColor.backgroundColor),
-                        recordingMode = uiState.recordTimes.recordingMode,
-                        savedSumTime = savedSumTime,
-                        savedTime = savedTime,
-                        savedGoalTime = savedGoalTime,
-                        finishGoalTime = finishGoalTime,
-                        isTaskTargetTimeOn = isTaskTargetTimeOn,
-                        onClickStopStart = {
-                            onFinishClick()
-                        },
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(50.dp))
-
-                TdsIconButton(
-                    onClick = onFinishClick,
-                    size = 70.dp,
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.stop_record_icon),
-                        contentDescription = "startRecord",
-                        tint = TdsColor.RED.getColor(),
-                    )
-                }
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Spacer(modifier = Modifier.height(80.dp))
             }
-        }
 
-        else -> {
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .safeDrawingPadding()
-                    .background(Color.Black),
-                contentAlignment = Alignment.Center,
-            ) {
-                with(uiState.measuringRecordTimes) {
-                    TdsTimer(
-                        outCircularLineColor = Color(uiState.measuringTimeColor.backgroundColor),
-                        outCircularProgress = outCircularProgress,
-                        inCircularLineTrackColor = Color.White,
-                        inCircularProgress = inCircularProgress,
-                        fontColor = Color.White,
-                        themeColor = Color(uiState.measuringTimeColor.backgroundColor),
-                        recordingMode = uiState.recordTimes.recordingMode,
-                        savedSumTime = savedSumTime,
-                        savedTime = savedTime,
-                        savedGoalTime = savedGoalTime,
-                        finishGoalTime = finishGoalTime,
-                        isTaskTargetTimeOn = isTaskTargetTimeOn,
-                        onClickStopStart = {
-                            onFinishClick()
-                        },
-                    )
+            else -> {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .safeDrawingPadding()
+                        .padding(it)
+                        .background(Color.Black),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    with(uiState.measuringRecordTimes) {
+                        TdsTimer(
+                            outCircularLineColor = Color(
+                                uiState.measuringTimeColor.backgroundColor,
+                            ),
+                            outCircularProgress = outCircularProgress,
+                            inCircularLineTrackColor = Color.White,
+                            inCircularProgress = inCircularProgress,
+                            fontColor = Color.White,
+                            themeColor = Color(uiState.measuringTimeColor.backgroundColor),
+                            recordingMode = uiState.recordTimes.recordingMode,
+                            savedSumTime = savedSumTime,
+                            savedTime = savedTime,
+                            savedGoalTime = savedGoalTime,
+                            finishGoalTime = finishGoalTime,
+                            isTaskTargetTimeOn = isTaskTargetTimeOn,
+                            onClickStopStart = {
+                                onFinishClick()
+                            },
+                        )
+                    }
                 }
             }
         }

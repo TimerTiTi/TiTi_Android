@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.titi.app.core.designsystem.navigation.TopLevelDestination
 import com.titi.app.feature.setting.model.SettingActions
 import com.titi.app.feature.setting.ui.FeaturesListScreen
 import com.titi.app.feature.setting.ui.SettingScreen
@@ -36,6 +37,7 @@ fun NavGraphBuilder.settingGraph(
     onNavigateToPlayStore: () -> Unit,
     onNavigateUp: () -> Unit,
     onNavigateToWebView: (title: String, url: String) -> Unit,
+    onNavigateToDestination: (TopLevelDestination) -> Unit,
 ) {
     composable(route = SETTING_ROUTE) {
         SettingScreen(
@@ -46,6 +48,7 @@ fun NavGraphBuilder.settingGraph(
                     SettingActions.Navigates.UpdatesList -> onNavigateToUpdates()
                 }
             },
+            onNavigateToDestination = onNavigateToDestination,
         )
     }
 

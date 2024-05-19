@@ -3,6 +3,7 @@ package com.titi.app.feature.setting.ui
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -39,6 +41,8 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsText
+import com.titi.app.core.designsystem.navigation.TdsBottomNavigationBar
+import com.titi.app.core.designsystem.navigation.TopLevelDestination
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
@@ -51,6 +55,7 @@ import com.titi.app.feature.setting.model.Version
 fun SettingScreen(
     viewModel: SettingViewModel = mavericksViewModel(),
     handleNavigateActions: (SettingActions.Navigates) -> Unit,
+    onNavigateToDestination: (TopLevelDestination) -> Unit,
 ) {
     val uiState by viewModel.collectAsState()
 
@@ -93,8 +98,14 @@ fun SettingScreen(
         )
     }
 
+    val containerColor = if (isSystemInDarkTheme()) {
+        0xFF000000
+    } else {
+        0xFFF2F2F7
+    }
+
     Scaffold(
-        containerColor = Color.Transparent,
+        containerColor = Color(containerColor),
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -110,9 +121,18 @@ fun SettingScreen(
                 },
             )
         },
+        bottomBar = {
+            TdsBottomNavigationBar(
+                currentTopLevelDestination = TopLevelDestination.SETTING,
+                bottomNavigationColor = containerColor,
+                onNavigateToDestination = onNavigateToDestination,
+            )
+        },
     ) {
         SettingScreen(
-            modifier = Modifier.padding(it),
+            modifier = Modifier
+                .padding(it)
+                .safeDrawingPadding(),
             uiState = uiState,
             onSettingActions = { settingActions ->
                 when (settingActions) {
