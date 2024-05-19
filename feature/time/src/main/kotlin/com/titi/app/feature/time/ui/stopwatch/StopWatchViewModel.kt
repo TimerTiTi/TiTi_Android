@@ -5,8 +5,12 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
+import com.titi.app.core.util.isAfterSixAM
+import com.titi.app.core.util.toJson
+import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.doamin.daily.usecase.AddDailyUseCase
-import com.titi.app.doamin.daily.usecase.GetCurrentDailyFlowUseCase
+import com.titi.app.doamin.daily.usecase.GetLastDailyFlowUseCase
+import com.titi.app.domain.color.model.TimeColor
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.domain.color.usecase.UpdateColorUseCase
 import com.titi.app.domain.time.model.RecordTimes
@@ -15,6 +19,7 @@ import com.titi.app.domain.time.usecase.UpdateMeasuringStateUseCase
 import com.titi.app.domain.time.usecase.UpdateRecordingModeUseCase
 import com.titi.app.domain.time.usecase.UpdateSavedStopWatchTimeUseCase
 import com.titi.app.domain.time.usecase.UpdateSetGoalTimeUseCase
+import com.titi.app.feature.time.model.SplashResultState
 import com.titi.app.feature.time.model.StopWatchColor
 import com.titi.app.feature.time.model.StopWatchUiState
 import dagger.assisted.Assisted
@@ -22,12 +27,14 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZonedDateTime
 
 class StopWatchViewModel @AssistedInject constructor(
     @Assisted initialState: StopWatchUiState,
     getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
-    getCurrentDailyFlowUseCase: GetCurrentDailyFlowUseCase,
+    getLastDailyFlowUseCase: GetLastDailyFlowUseCase,
     private val updateRecordingModeUseCase: UpdateRecordingModeUseCase,
     private val updateColorUseCase: UpdateColorUseCase,
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
@@ -50,7 +57,7 @@ class StopWatchViewModel @AssistedInject constructor(
             copy(timeColor = it)
         }
 
-        getCurrentDailyFlowUseCase().catch {
+        getLastDailyFlowUseCase().catch {
             Log.e("TimeViewModel", it.message.toString())
         }.setOnEach {
             copy(daily = it)
@@ -97,16 +104,46 @@ class StopWatchViewModel @AssistedInject constructor(
         }
     }
 
-    fun addDaily() {
-        viewModelScope.launch {
-            addDailyUseCase()
+    fun startRecording(recordTimes: RecordTimes, daily: Daily?, timeColor: TimeColor): String {
+        val updateRecordTimes = if (isAfterSixAM(daily?.day)) {
+            if (recordTimes.savedTimerTime <= 0) {
+                recordTimes.copy(
+                    recording = true,
+                    recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                    savedTimerTime = recordTimes.setTimerTime,
+                )
+            } else {
+                recordTimes.copy(
+                    recording = true,
+                    recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                )
+            }
+        } else {
+            recordTimes.copy(
+                recording = true,
+                recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                savedSumTime = 0,
+                savedTimerTime = recordTimes.setTimerTime,
+                savedStopWatchTime = 0,
+            )
         }
-    }
 
-    fun updateMeasuringState(recordTimes: RecordTimes) {
-        viewModelScope.launch {
-            updateMeasuringStateUseCase(recordTimes)
+        val updateDaily = if (daily != null && isAfterSixAM(daily.day)) {
+            daily
+        } else {
+            Daily()
         }
+
+        viewModelScope.launch {
+            updateMeasuringStateUseCase(updateRecordTimes)
+            addDailyUseCase(updateDaily)
+        }
+
+        return SplashResultState(
+            recordTimes = updateRecordTimes,
+            daily = updateDaily,
+            timeColor = timeColor,
+        ).toJson()
     }
 
     fun updateSavedStopWatchTime(recordTimes: RecordTimes) {

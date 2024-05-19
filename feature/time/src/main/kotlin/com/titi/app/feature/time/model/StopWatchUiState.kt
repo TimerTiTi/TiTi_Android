@@ -4,7 +4,6 @@ import android.os.Bundle
 import com.airbnb.mvrx.MavericksState
 import com.titi.app.core.util.addTimeToNow
 import com.titi.app.core.util.getTodayDate
-import com.titi.app.core.util.isAfterSixAM
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.app.domain.time.model.RecordTimes
@@ -21,12 +20,10 @@ data class StopWatchUiState(
         daily = getSplashResultStateFromArgs(args).daily,
     )
 
-    val isDailyAfter6AM: Boolean = isAfterSixAM(daily?.day)
     val isSetTask: Boolean = recordTimes.currentTask != null
     val taskName: String = recordTimes.currentTask?.taskName ?: ""
     val stopWatchColor = timeColor.toUiModel()
     val stopWatchRecordTimes = recordTimes.toUiModel(daily)
-    val isEnableStartRecording: Boolean = isDailyAfter6AM && isSetTask
 }
 
 data class StopWatchColor(

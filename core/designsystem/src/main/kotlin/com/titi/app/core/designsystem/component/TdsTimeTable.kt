@@ -35,7 +35,7 @@ fun TdsTimeTable(
         mutableStateOf("0")
     }
     var fontSize by remember {
-        mutableStateOf(14.sp)
+        mutableStateOf(7.sp)
     }
     val textStyle = TdsTextStyle
         .SEMI_BOLD_TEXT_STYLE

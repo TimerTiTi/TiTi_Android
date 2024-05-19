@@ -70,3 +70,6 @@
   @com.squareup.moshi.FromJson <methods>;
   @com.squareup.moshi.ToJson <methods>;
 }
+
+-keepattributes Signature
+-keepclassmembers class com.titi.app.feature.setting.model.** {*;}

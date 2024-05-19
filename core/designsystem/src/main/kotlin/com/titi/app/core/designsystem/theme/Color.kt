@@ -21,6 +21,7 @@ data class TdsColorsPalette(
     val textColor: Color = Color.Unspecified,
     val backgroundColor: Color = Color.Unspecified,
     val secondaryBackgroundColor: Color = Color.Unspecified,
+    val groupedBackgroundColor: Color = Color.Unspecified,
     val switchBackgroundColor: Color = Color.Unspecified,
     val alertBackgroundColor: Color = Color.Unspecified,
     val tertiaryBackgroundColor: Color = Color.Unspecified,
@@ -52,7 +53,8 @@ val TdsLightColorsPalette = TdsColorsPalette(
     d12 = Color(0xFF928AEA),
     textColor = Color(0xFF000000),
     backgroundColor = Color(0xFFFFFFFF),
-    secondaryBackgroundColor = Color(0xFFF2F2F7),
+    secondaryBackgroundColor = Color(0xFFFFFFFF),
+    groupedBackgroundColor = Color(0xFFF2F2F7),
     switchBackgroundColor = Color(0xFFE9E9EB),
     alertBackgroundColor = Color(0xD1EEEEEE),
     tertiaryBackgroundColor = Color(0xFFFFFFFF),
@@ -85,6 +87,7 @@ val TdsDarkColorsPalette = TdsColorsPalette(
     textColor = Color(0xFFFFFFFF),
     backgroundColor = Color(0xFF000000),
     secondaryBackgroundColor = Color(0xFF1C1C1E),
+    groupedBackgroundColor = Color(0xFF000000),
     switchBackgroundColor = Color(0xFF39393D),
     alertBackgroundColor = Color(0xD12B2B2B),
     tertiaryBackgroundColor = Color(0xFF2C2C2E),
@@ -118,6 +121,7 @@ enum class TdsColor {
     TEXT,
     BACKGROUND,
     SECONDARY_BACKGROUND,
+    GROUPED_BACKGROUND,
     SWITCH_BACKGROUND,
     ALERT_BACKGROUND,
     TERTIARY_BACKGROUND,
@@ -154,6 +158,7 @@ enum class TdsColor {
         TEXT -> TiTiTheme.colors.textColor
         BACKGROUND -> TiTiTheme.colors.backgroundColor
         SECONDARY_BACKGROUND -> TiTiTheme.colors.secondaryBackgroundColor
+        GROUPED_BACKGROUND -> TiTiTheme.colors.groupedBackgroundColor
         SWITCH_BACKGROUND -> TiTiTheme.colors.switchBackgroundColor
         ALERT_BACKGROUND -> TiTiTheme.colors.alertBackgroundColor
         TERTIARY_BACKGROUND -> TiTiTheme.colors.tertiaryBackgroundColor

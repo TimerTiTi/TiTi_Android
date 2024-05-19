@@ -1,3 +1,4 @@
-TiTi android dev 1.0.2(23)
-- 타이머, 스탑워치 디자인 수정
-- 그래프 디자인 수정
+TiTi android dev 1.0.3(25)
+- 세팅 화면
+- 데일리 추가, 수정 로직 변경
+- 측정화면 activity -> screen

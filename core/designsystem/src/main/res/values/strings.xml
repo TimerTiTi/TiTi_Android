@@ -3,6 +3,7 @@
     <string name="bottom_timer_text">Timer</string>
     <string name="bottom_stopwatch_text">Stopwatch</string>
     <string name="bottom_log_text">Log</string>
+    <string name="bottom_setting_text">Setting</string>
 
     <string name="sum_time" translatable="false">누적 시간</string>
     <string name="timer" translatable="false">타이머</string>
@@ -24,8 +25,8 @@
     <string name="background">배경</string>
     <string name="text">텍스트</string>
     <string name="setting_background_text">해당 색상을 배경색으로 설정하시겠습니까?</string>
-    <string name="add_daily_title">새로운 기록 설정</string>
-    <string name="add_daily_message">%1$s 목표시간 설정</string>
+    <string name="edit_daily_title">목표시간 수정</string>
+    <string name="edit_daily_message">%1$s의 목표시간을 수정해요!</string>
     <string name="set_timer_time_title">타이머 시간 설정</string>
     <string name="set_timer_time_message">종료예정 : %1$s</string>
     <string name="daily_task_check_title">Task와 Daily를 확인해주세요.</string>
