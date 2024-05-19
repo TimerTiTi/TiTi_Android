@@ -224,18 +224,20 @@ private fun TimerScreen(
 ) {
     val configuration = LocalConfiguration.current
 
-    when (configuration.orientation) {
-        Configuration.ORIENTATION_PORTRAIT -> {
-            Scaffold(
-                containerColor = Color(uiState.timeColor.timerBackgroundColor),
-                bottomBar = {
-                    TdsBottomNavigationBar(
-                        currentTopLevelDestination = TopLevelDestination.TIMER,
-                        bottomNavigationColor = uiState.timeColor.timerBackgroundColor,
-                        onNavigateToDestination = onNavigateToDestination,
-                    )
-                },
-            ) {
+    Scaffold(
+        containerColor = Color(uiState.timeColor.timerBackgroundColor),
+        bottomBar = {
+            if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                TdsBottomNavigationBar(
+                    currentTopLevelDestination = TopLevelDestination.TIMER,
+                    bottomNavigationColor = uiState.timeColor.timerBackgroundColor,
+                    onNavigateToDestination = onNavigateToDestination,
+                )
+            }
+        },
+    ) {
+        when (configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -300,37 +302,38 @@ private fun TimerScreen(
                     Spacer(modifier = Modifier.weight(1f))
                 }
             }
-        }
 
-        else -> {
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .safeDrawingPadding(),
-                contentAlignment = Alignment.Center,
-            ) {
-                with(uiState.timerRecordTimes) {
-                    TdsTimer(
-                        isFinish = isFinish,
-                        outCircularLineColor = textColor,
-                        outCircularProgress = outCircularProgress,
-                        inCircularLineTrackColor = if (uiState.timerColor.isTextColorBlack) {
-                            Color.White
-                        } else {
-                            Color(0x8C000000)
-                        },
-                        inCircularProgress = inCircularProgress,
-                        fontColor = textColor,
-                        recordingMode = 1,
-                        savedSumTime = savedSumTime,
-                        savedTime = savedTime,
-                        savedGoalTime = savedGoalTime,
-                        finishGoalTime = finishGoalTime,
-                        isTaskTargetTimeOn = isTaskTargetTimeOn,
-                        onClickStopStart = {
-                            onClickStartRecord()
-                        },
-                    )
+            else -> {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .safeDrawingPadding()
+                        .padding(it),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    with(uiState.timerRecordTimes) {
+                        TdsTimer(
+                            isFinish = isFinish,
+                            outCircularLineColor = textColor,
+                            outCircularProgress = outCircularProgress,
+                            inCircularLineTrackColor = if (uiState.timerColor.isTextColorBlack) {
+                                Color.White
+                            } else {
+                                Color(0x8C000000)
+                            },
+                            inCircularProgress = inCircularProgress,
+                            fontColor = textColor,
+                            recordingMode = 1,
+                            savedSumTime = savedSumTime,
+                            savedTime = savedTime,
+                            savedGoalTime = savedGoalTime,
+                            finishGoalTime = finishGoalTime,
+                            isTaskTargetTimeOn = isTaskTargetTimeOn,
+                            onClickStopStart = {
+                                onClickStartRecord()
+                            },
+                        )
+                    }
                 }
             }
         }
