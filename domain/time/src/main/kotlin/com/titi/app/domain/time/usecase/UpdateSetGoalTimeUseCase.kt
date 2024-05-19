@@ -14,10 +14,8 @@ class UpdateSetGoalTimeUseCase @Inject constructor(
                 .toRepositoryModel()
                 .copy(
                     setGoalTime = setGoalTime,
-                    savedSumTime = 0,
-                    savedTimerTime = recordTimes.setTimerTime,
-                    savedStopWatchTime = 0,
-                    savedGoalTime = setGoalTime,
+                    savedGoalTime = setGoalTime -
+                        (recordTimes.setGoalTime - recordTimes.savedGoalTime),
                 ),
         )
     }

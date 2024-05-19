@@ -1,4 +1,4 @@
-package com.titi.app.feature.time.content
+package com.titi.app.feature.time.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,7 +32,7 @@ import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable
-fun ColorSelectContent(
+fun ColorSelectComponent(
     backgroundColor: Color,
     textColor: Color,
     onClickBackgroundColor: () -> Unit,
@@ -129,9 +129,9 @@ fun ColorSelectContent(
 
 @Preview
 @Composable
-private fun ColorSelectContentPreview() {
+private fun ColorSelectComponentPreview() {
     TiTiTheme {
-        ColorSelectContent(
+        ColorSelectComponent(
             backgroundColor = Color.Blue,
             textColor = Color.Black,
             onClickBackgroundColor = {},

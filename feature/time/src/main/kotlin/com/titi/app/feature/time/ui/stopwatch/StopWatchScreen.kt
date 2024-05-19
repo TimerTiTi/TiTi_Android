@@ -29,18 +29,15 @@ import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.extension.getTdsTime
 import com.titi.app.core.designsystem.navigation.TdsBottomNavigationBar
 import com.titi.app.core.designsystem.navigation.TopLevelDestination
-import com.titi.app.core.util.toJson
-import com.titi.app.feature.time.content.TimeButtonContent
-import com.titi.app.feature.time.content.TimeCheckDailyDialog
-import com.titi.app.feature.time.content.TimeColorDialog
-import com.titi.app.feature.time.content.TimeDailyDialog
-import com.titi.app.feature.time.content.TimeHeaderContent
-import com.titi.app.feature.time.content.TimeTaskContent
+import com.titi.app.feature.time.component.TimeAddEditDailyDialog
+import com.titi.app.feature.time.component.TimeButtonComponent
+import com.titi.app.feature.time.component.TimeCheckDailyDialog
+import com.titi.app.feature.time.component.TimeColorDialog
+import com.titi.app.feature.time.component.TimeHeaderComponent
+import com.titi.app.feature.time.component.TimeTaskComponent
 import com.titi.app.feature.time.model.SplashResultState
 import com.titi.app.feature.time.model.StopWatchUiState
 import com.titi.app.feature.time.ui.task.TaskBottomSheet
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.ZonedDateTime
 
 @Composable
 fun StopWatchScreen(
@@ -63,7 +60,7 @@ fun StopWatchScreen(
 
     var showTaskBottomSheet by remember { mutableStateOf(false) }
     var showSelectColorDialog by remember { mutableStateOf(false) }
-    var showAddDailyDialog by remember { mutableStateOf(false) }
+    var showAddEditDailyDialog by remember { mutableStateOf(false) }
     var showCheckTaskDailyDialog by remember { mutableStateOf(false) }
 
     if (showTaskBottomSheet) {
@@ -94,28 +91,32 @@ fun StopWatchScreen(
         )
     }
 
-    if (showAddDailyDialog) {
-        TimeDailyDialog(
+    if (showAddEditDailyDialog) {
+        TimeAddEditDailyDialog(
+            isFirstDaily = uiState.isFirstDaily,
             todayDate = uiState.todayDate,
             currentTime = uiState.recordTimes.setGoalTime.getTdsTime(),
-            onPositive = {
-                if (it > 0) {
-                    viewModel.updateSetGoalTime(
-                        uiState.recordTimes,
-                        it,
-                    )
-                    viewModel.addDaily()
+            onPositive = { goalTime ->
+                if (goalTime > 0) {
+                    if (uiState.isFirstDaily) {
+                        viewModel.addDaily()
+                    } else {
+                        viewModel.updateSetGoalTime(
+                            uiState.recordTimes,
+                            goalTime,
+                        )
+                    }
                 }
             },
             onShowDialog = {
-                showAddDailyDialog = it
+                showAddEditDailyDialog = it
             },
         )
     }
 
     if (showCheckTaskDailyDialog) {
         TimeCheckDailyDialog(
-            title = if (!uiState.isSetTask && !uiState.isDailyAfter6AM) {
+            title = if (!uiState.isSetTask && uiState.isFirstDaily) {
                 stringResource(id = R.string.daily_task_check_title)
             } else if (!uiState.isSetTask) {
                 stringResource(id = R.string.task_check_title)
@@ -142,26 +143,16 @@ fun StopWatchScreen(
         onClickTask = {
             showTaskBottomSheet = true
         },
-        onClickAddDaily = {
-            showAddDailyDialog = true
+        onClickAddEditDaily = {
+            showAddEditDailyDialog = true
         },
         onClickStartRecord = {
-            if (uiState.isEnableStartRecording) {
-                val updateRecordTimes =
-                    uiState.recordTimes.copy(
-                        recording = true,
-                        recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
-                    )
-
-                viewModel.updateMeasuringState(updateRecordTimes)
-
-                val splashResultStateString =
-                    SplashResultState(
-                        recordTimes = updateRecordTimes,
-                        timeColor = uiState.timeColor,
-                        daily = uiState.daily,
-                    ).toJson()
-
+            if (uiState.isSetTask && !uiState.isFirstDaily) {
+                val splashResultStateString = viewModel.startRecording(
+                    recordTimes = uiState.recordTimes,
+                    daily = uiState.daily,
+                    timeColor = uiState.timeColor,
+                )
                 onNavigateToMeasure(splashResultStateString)
             } else {
                 showCheckTaskDailyDialog = true
@@ -180,7 +171,7 @@ private fun StopWatchScreen(
     textColor: Color,
     onClickColor: () -> Unit,
     onClickTask: () -> Unit,
-    onClickAddDaily: () -> Unit,
+    onClickAddEditDaily: () -> Unit,
     onClickStartRecord: () -> Unit,
     onClickResetStopWatch: () -> Unit,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
@@ -208,16 +199,15 @@ private fun StopWatchScreen(
                         .padding(top = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    TimeHeaderContent(
+                    TimeHeaderComponent(
                         todayDate = uiState.todayDate,
-                        isDailyAfter6AM = uiState.isDailyAfter6AM,
                         textColor = textColor,
                         onClickColor = onClickColor,
                     )
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    TimeTaskContent(
+                    TimeTaskComponent(
                         isSetTask = uiState.isSetTask,
                         textColor = textColor,
                         taskName = uiState.taskName,
@@ -252,11 +242,11 @@ private fun StopWatchScreen(
 
                     Spacer(modifier = Modifier.height(50.dp))
 
-                    TimeButtonContent(
+                    TimeButtonComponent(
                         recordingMode = 2,
-                        isDailyAfter6AM = uiState.isDailyAfter6AM,
                         tintColor = textColor,
-                        onClickAddDaily = onClickAddDaily,
+                        isFirstDaily = uiState.isFirstDaily,
+                        onClickAddEditDaily = onClickAddEditDaily,
                         onClickStartRecord = onClickStartRecord,
                         onClickResetStopwatch = onClickResetStopWatch,
                     )

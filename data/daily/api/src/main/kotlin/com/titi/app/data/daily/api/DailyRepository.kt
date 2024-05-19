@@ -24,20 +24,7 @@ interface DailyRepository {
 
     suspend fun getDailies(startDateTime: String, endDateTime: String): List<DailyRepositoryModel>?
 
-    fun getDateDailyFlow(
-        startDateTime: String = LocalDate
-            .now()
-            .minusDays(1)
-            .atStartOfDay(ZoneOffset.systemDefault())
-            .withZoneSameInstant(ZoneOffset.UTC)
-            .toString(),
-        endDateTime: String = LocalDate
-            .now()
-            .atTime(23, 59, 59)
-            .atZone(ZoneId.systemDefault())
-            .withZoneSameInstant(ZoneOffset.UTC)
-            .toString(),
-    ): Flow<DailyRepositoryModel?>
+    fun getLastDailyFlow(): Flow<DailyRepositoryModel?>
 
     suspend fun getAllDailies(): List<DailyRepositoryModel>?
 

@@ -2,7 +2,7 @@ package com.titi.app.feature.main.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.titi.app.doamin.daily.usecase.GetCurrentDailyFlowUseCase
+import com.titi.app.doamin.daily.usecase.GetLastDailyFlowUseCase
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.domain.time.usecase.GetRecordTimesFlowUseCase
 import com.titi.app.feature.main.model.SplashResultState
@@ -17,13 +17,13 @@ import kotlinx.coroutines.flow.shareIn
 class MainViewModel @Inject constructor(
     getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
-    getCurrentDailyFlowUseCase: GetCurrentDailyFlowUseCase,
+    getLastDailyFlowUseCase: GetLastDailyFlowUseCase,
 ) : ViewModel() {
 
     val splashResultState: SharedFlow<SplashResultState?> = combine(
         getRecordTimesFlowUseCase(),
         getTimeColorFlowUseCase(),
-        getCurrentDailyFlowUseCase(),
+        getLastDailyFlowUseCase(),
     ) { recordTimes, timeColor, daily ->
         SplashResultState(
             recordTimes = recordTimes,
