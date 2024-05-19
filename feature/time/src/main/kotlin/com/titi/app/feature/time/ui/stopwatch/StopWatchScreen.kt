@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,6 +27,8 @@ import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.extension.getTdsTime
+import com.titi.app.core.designsystem.navigation.TdsBottomNavigationBar
+import com.titi.app.core.designsystem.navigation.TopLevelDestination
 import com.titi.app.core.util.toJson
 import com.titi.app.feature.time.content.TimeButtonContent
 import com.titi.app.feature.time.content.TimeCheckDailyDialog
@@ -44,6 +47,7 @@ fun StopWatchScreen(
     splashResultState: SplashResultState,
     onNavigateToColor: () -> Unit,
     onNavigateToMeasure: (String) -> Unit,
+    onNavigateToDestination: (TopLevelDestination) -> Unit,
 ) {
     val viewModel: StopWatchViewModel = mavericksViewModel(
         argsFactory = {
@@ -166,6 +170,7 @@ fun StopWatchScreen(
         onClickResetStopWatch = {
             viewModel.updateSavedStopWatchTime(uiState.recordTimes)
         },
+        onNavigateToDestination = onNavigateToDestination,
     )
 }
 
@@ -178,70 +183,84 @@ private fun StopWatchScreen(
     onClickAddDaily: () -> Unit,
     onClickStartRecord: () -> Unit,
     onClickResetStopWatch: () -> Unit,
+    onNavigateToDestination: (TopLevelDestination) -> Unit,
 ) {
     val configuration = LocalConfiguration.current
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                TimeHeaderContent(
-                    todayDate = uiState.todayDate,
-                    isDailyAfter6AM = uiState.isDailyAfter6AM,
-                    textColor = textColor,
-                    onClickColor = onClickColor,
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                TimeTaskContent(
-                    isSetTask = uiState.isSetTask,
-                    textColor = textColor,
-                    taskName = uiState.taskName,
-                    onClickTask = onClickTask,
-                )
-
-                Spacer(modifier = Modifier.height(50.dp))
-
-                with(uiState.stopWatchRecordTimes) {
-                    TdsTimer(
-                        outCircularLineColor = textColor,
-                        outCircularProgress = outCircularProgress,
-                        inCircularLineTrackColor = if (uiState.stopWatchColor.isTextColorBlack) {
-                            Color.White
-                        } else {
-                            Color(0x8C000000)
-                        },
-                        inCircularProgress = inCircularProgress,
-                        fontColor = textColor,
-                        recordingMode = 2,
-                        savedSumTime = savedSumTime,
-                        savedTime = savedTime,
-                        savedGoalTime = savedGoalTime,
-                        finishGoalTime = finishGoalTime,
-                        isTaskTargetTimeOn = isTaskTargetTimeOn,
-                        onClickStopStart = {
-                            onClickStartRecord()
-                        },
+            Scaffold(
+                containerColor = Color(uiState.timeColor.stopwatchBackgroundColor),
+                bottomBar = {
+                    TdsBottomNavigationBar(
+                        currentTopLevelDestination = TopLevelDestination.STOPWATCH,
+                        bottomNavigationColor = uiState.timeColor.stopwatchBackgroundColor,
+                        onNavigateToDestination = onNavigateToDestination,
                     )
+                },
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(it)
+                        .padding(top = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    TimeHeaderContent(
+                        todayDate = uiState.todayDate,
+                        isDailyAfter6AM = uiState.isDailyAfter6AM,
+                        textColor = textColor,
+                        onClickColor = onClickColor,
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    TimeTaskContent(
+                        isSetTask = uiState.isSetTask,
+                        textColor = textColor,
+                        taskName = uiState.taskName,
+                        onClickTask = onClickTask,
+                    )
+
+                    Spacer(modifier = Modifier.height(50.dp))
+
+                    with(uiState.stopWatchRecordTimes) {
+                        TdsTimer(
+                            outCircularLineColor = textColor,
+                            outCircularProgress = outCircularProgress,
+                            inCircularLineTrackColor =
+                            if (uiState.stopWatchColor.isTextColorBlack) {
+                                Color.White
+                            } else {
+                                Color(0x8C000000)
+                            },
+                            inCircularProgress = inCircularProgress,
+                            fontColor = textColor,
+                            recordingMode = 2,
+                            savedSumTime = savedSumTime,
+                            savedTime = savedTime,
+                            savedGoalTime = savedGoalTime,
+                            finishGoalTime = finishGoalTime,
+                            isTaskTargetTimeOn = isTaskTargetTimeOn,
+                            onClickStopStart = {
+                                onClickStartRecord()
+                            },
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(50.dp))
+
+                    TimeButtonContent(
+                        recordingMode = 2,
+                        isDailyAfter6AM = uiState.isDailyAfter6AM,
+                        tintColor = textColor,
+                        onClickAddDaily = onClickAddDaily,
+                        onClickStartRecord = onClickStartRecord,
+                        onClickResetStopwatch = onClickResetStopWatch,
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
                 }
-
-                Spacer(modifier = Modifier.height(50.dp))
-
-                TimeButtonContent(
-                    recordingMode = 2,
-                    isDailyAfter6AM = uiState.isDailyAfter6AM,
-                    tintColor = textColor,
-                    onClickAddDaily = onClickAddDaily,
-                    onClickStartRecord = onClickStartRecord,
-                    onClickResetStopwatch = onClickResetStopWatch,
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
             }
         }
 

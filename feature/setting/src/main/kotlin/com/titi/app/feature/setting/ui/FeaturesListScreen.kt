@@ -1,5 +1,6 @@
 package com.titi.app.feature.setting.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,8 +39,14 @@ fun FeaturesListScreen(
 ) {
     val uiState by viewModel.collectAsState()
 
+    val containerColor = if (isSystemInDarkTheme()) {
+        0xFF000000
+    } else {
+        0xFFF2F2F7
+    }
+
     Scaffold(
-        containerColor = Color.Transparent,
+        containerColor = Color(containerColor),
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(

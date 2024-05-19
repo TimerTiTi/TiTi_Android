@@ -6,33 +6,37 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
+import com.titi.app.core.designsystem.navigation.TopLevelDestination
 import com.titi.app.core.util.toJson
 import com.titi.app.feature.log.navigation.logGraph
+import com.titi.app.feature.log.navigation.navigateToLog
 import com.titi.app.feature.main.model.SplashResultState
 import com.titi.app.feature.main.model.toFeatureTimeModel
-import com.titi.app.feature.main.ui.TiTiAppState
 import com.titi.app.feature.measure.navigation.measureGraph
 import com.titi.app.feature.measure.navigation.navigateToMeasure
 import com.titi.app.feature.popup.PopUpActivity
 import com.titi.app.feature.popup.PopUpActivity.Companion.COLOR_RECORDING_MODE_KEY
 import com.titi.app.feature.setting.navigation.navigateToFeatures
+import com.titi.app.feature.setting.navigation.navigateToSetting
 import com.titi.app.feature.setting.navigation.navigateToUpdates
 import com.titi.app.feature.setting.navigation.settingGraph
 import com.titi.app.feature.time.navigation.STOPWATCH_SCREEN
 import com.titi.app.feature.time.navigation.TIMER_FINISH_KEY
 import com.titi.app.feature.time.navigation.TIMER_SCREEN
+import com.titi.app.feature.time.navigation.navigateToStopWatch
+import com.titi.app.feature.time.navigation.navigateToTimer
 import com.titi.app.feature.time.navigation.timeGraph
 import com.titi.app.feature.webview.navigateToWebView
 import com.titi.app.feature.webview.webViewGraph
 
 @Composable
-fun TiTiNavHost(
-    splashResultState: SplashResultState,
-    appState: TiTiAppState,
-    modifier: Modifier = Modifier,
-) {
-    val navController = appState.navController
+fun TiTiNavHost(splashResultState: SplashResultState, modifier: Modifier = Modifier) {
+    val navController = rememberNavController()
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
@@ -64,6 +68,9 @@ fun TiTiNavHost(
             onNavigateToMeasure = {
                 navController.navigateToMeasure(it)
             },
+            onNavigateToDestination = {
+                navController.navigateToTopLevelDestination(it)
+            },
         )
 
         measureGraph(
@@ -75,7 +82,11 @@ fun TiTiNavHost(
             },
         )
 
-        logGraph()
+        logGraph(
+            onNavigateToDestination = {
+                navController.navigateToTopLevelDestination(it)
+            },
+        )
 
         settingGraph(
             onNavigateToFeatures = { navController.navigateToFeatures() },
@@ -95,8 +106,30 @@ fun TiTiNavHost(
                     url = url,
                 )
             },
+            onNavigateToDestination = {
+                navController.navigateToTopLevelDestination(it)
+            },
         )
 
         webViewGraph(onNavigateUp = { navController.navigateUp() })
+    }
+}
+
+fun NavController.navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
+    val topLevelNavOptions =
+        navOptions {
+            popUpTo(graph.findStartDestination().id) {
+                saveState = true
+            }
+
+            launchSingleTop = true
+            restoreState = true
+        }
+
+    when (topLevelDestination) {
+        TopLevelDestination.TIMER -> navigateToTimer(topLevelNavOptions)
+        TopLevelDestination.STOPWATCH -> navigateToStopWatch(topLevelNavOptions)
+        TopLevelDestination.LOG -> navigateToLog(topLevelNavOptions)
+        TopLevelDestination.SETTING -> navigateToSetting(topLevelNavOptions)
     }
 }

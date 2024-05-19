@@ -2,6 +2,7 @@ package com.titi.app.feature.setting.ui
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -65,8 +66,14 @@ fun UpdatesListScreen(onNavigateUp: () -> Unit) {
         )
     }
 
+    val containerColor = if (isSystemInDarkTheme()) {
+        0xFF000000
+    } else {
+        0xFFF2F2F7
+    }
+
     Scaffold(
-        containerColor = Color.Transparent,
+        containerColor = Color(containerColor),
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(

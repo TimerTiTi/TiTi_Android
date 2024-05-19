@@ -1,4 +1,4 @@
-package com.titi.app.feature.main.navigation
+package com.titi.app.core.designsystem.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

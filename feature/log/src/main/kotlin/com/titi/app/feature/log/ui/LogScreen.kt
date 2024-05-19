@@ -2,6 +2,7 @@ package com.titi.app.feature.log.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -23,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +35,8 @@ import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsTabRow
+import com.titi.app.core.designsystem.navigation.TdsBottomNavigationBar
+import com.titi.app.core.designsystem.navigation.TopLevelDestination
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.feature.log.ui.component.SettingBottomSheet
@@ -40,7 +45,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
+fun LogScreen(
+    viewModel: LogViewModel = mavericksViewModel(),
+    onNavigateToDestination: (TopLevelDestination) -> Unit,
+) {
     val scope = rememberCoroutineScope()
     val orientation = LocalConfiguration.current.orientation
 
@@ -86,116 +94,134 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-        ) {
-            TdsTabRow(
-                modifier = Modifier
-                    .width(174.dp)
-                    .height(32.dp)
-                    .align(Alignment.Center),
-                selectedItemIndex = uiState.tabSelectedIndex,
-                items = listOf("Home", "Daily", "Week"),
-                onClick = {
-                    viewModel.updateTabSelectedIndex(it)
-                },
-            )
+    val containerColor = if (isSystemInDarkTheme()) {
+        0xFF000000
+    } else {
+        0xFFFFFFFF
+    }
 
-            if (showSettingButton && orientation == Configuration.ORIENTATION_PORTRAIT) {
-                TdsIconButton(
-                    modifier = Modifier.align(Alignment.CenterEnd),
+    Scaffold(
+        containerColor = Color(containerColor),
+        bottomBar = {
+            TdsBottomNavigationBar(
+                currentTopLevelDestination = TopLevelDestination.LOG,
+                bottomNavigationColor = containerColor,
+                onNavigateToDestination = onNavigateToDestination,
+            )
+        },
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+                .padding(vertical = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+            ) {
+                TdsTabRow(
+                    modifier = Modifier
+                        .width(174.dp)
+                        .height(32.dp)
+                        .align(Alignment.Center),
+                    selectedItemIndex = uiState.tabSelectedIndex,
+                    items = listOf("Home", "Daily", "Week"),
                     onClick = {
-                        showSettingBottomSheet = true
+                        viewModel.updateTabSelectedIndex(it)
                     },
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.setting_icon),
-                        contentDescription = "setting",
-                        tint = TdsColor.TEXT.getColor(),
-                    )
+                )
+
+                if (showSettingButton && orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    TdsIconButton(
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        onClick = {
+                            showSettingBottomSheet = true
+                        },
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.setting_icon),
+                            contentDescription = "setting",
+                            tint = TdsColor.TEXT.getColor(),
+                        )
+                    }
                 }
             }
-        }
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        HorizontalPager(
-            modifier = Modifier.fillMaxSize(),
-            state = pagerState,
-            userScrollEnabled = false,
-        ) { page ->
-            when (page % 3) {
-                0 -> HomeScreen(
-                    tdsColors = uiState.graphColorUiState.graphColors,
-                    totalData = uiState.homeUiState.totalData,
-                    graphGoalTimeUiState = uiState.graphGoalTimeUiState,
-                    homeMonthGraphData = uiState.homeUiState.homeGraphData.homeMonthGraphData,
-                    homeWeekGraphData = uiState.homeUiState.homeGraphData.homeWeekGraphData,
-                    homeDailyGraphData = uiState.homeUiState.homeGraphData.homeDailyGraphData,
-                )
+            HorizontalPager(
+                modifier = Modifier.fillMaxSize(),
+                state = pagerState,
+                userScrollEnabled = false,
+            ) { page ->
+                when (page % 3) {
+                    0 -> HomeScreen(
+                        tdsColors = uiState.graphColorUiState.graphColors,
+                        totalData = uiState.homeUiState.totalData,
+                        graphGoalTimeUiState = uiState.graphGoalTimeUiState,
+                        homeMonthGraphData = uiState.homeUiState.homeGraphData.homeMonthGraphData,
+                        homeWeekGraphData = uiState.homeUiState.homeGraphData.homeWeekGraphData,
+                        homeDailyGraphData = uiState.homeUiState.homeGraphData.homeDailyGraphData,
+                    )
 
-                1 -> DailyScreen(
-                    currentDate = uiState.dailyUiState.currentDate,
-                    hasDailies = uiState.dailyUiState.hasDailies,
-                    totalTime = uiState.dailyUiState.dailyGraphData.totalTime,
-                    maxTime = uiState.dailyUiState.dailyGraphData.maxTime,
-                    taskData = uiState.dailyUiState.dailyGraphData.taskData,
-                    tdsColors = uiState.graphColorUiState.graphColors,
-                    timeLines = uiState.dailyUiState.dailyGraphData.timeLine,
-                    timeTableData = uiState.dailyUiState.dailyGraphData.tdsTimeTableData,
-                    checkedButtonStates = uiState.dailyUiState.checkedButtonStates,
-                    onClickDate = {
-                        viewModel.updateCurrentDateDaily(it)
-                    },
-                    onClickGraphColor = {
-                        viewModel.updateGraphColors(
-                            selectedIndex = it,
-                            graphColorUiState = uiState.graphColorUiState,
-                        )
-                    },
-                    onCalendarLocalDateChanged = {
-                        viewModel.updateHasDailyAtDailyTab(it)
-                    },
-                    onCheckedChange = { graph, checked ->
-                        viewModel.updateCheckedState(
-                            page = graph,
-                            checked = checked,
-                            checkedButtonStates = uiState.dailyUiState.checkedButtonStates,
-                        )
-                    },
-                )
+                    1 -> DailyScreen(
+                        currentDate = uiState.dailyUiState.currentDate,
+                        hasDailies = uiState.dailyUiState.hasDailies,
+                        totalTime = uiState.dailyUiState.dailyGraphData.totalTime,
+                        maxTime = uiState.dailyUiState.dailyGraphData.maxTime,
+                        taskData = uiState.dailyUiState.dailyGraphData.taskData,
+                        tdsColors = uiState.graphColorUiState.graphColors,
+                        timeLines = uiState.dailyUiState.dailyGraphData.timeLine,
+                        timeTableData = uiState.dailyUiState.dailyGraphData.tdsTimeTableData,
+                        checkedButtonStates = uiState.dailyUiState.checkedButtonStates,
+                        onClickDate = {
+                            viewModel.updateCurrentDateDaily(it)
+                        },
+                        onClickGraphColor = {
+                            viewModel.updateGraphColors(
+                                selectedIndex = it,
+                                graphColorUiState = uiState.graphColorUiState,
+                            )
+                        },
+                        onCalendarLocalDateChanged = {
+                            viewModel.updateHasDailyAtDailyTab(it)
+                        },
+                        onCheckedChange = { graph, checked ->
+                            viewModel.updateCheckedState(
+                                page = graph,
+                                checked = checked,
+                                checkedButtonStates = uiState.dailyUiState.checkedButtonStates,
+                            )
+                        },
+                    )
 
-                2 -> WeekScreen(
-                    weekInformation = uiState.weekUiState.weekGraphData.weekInformation,
-                    hasDailies = uiState.weekUiState.hasDailies,
-                    totalTime = uiState.weekUiState.weekGraphData.totalWeekTime,
-                    averageTime = uiState.weekUiState.weekGraphData.averageWeekTime,
-                    weekLineChartData = uiState.weekUiState.weekGraphData.weekLineChartData,
-                    tdsColors = uiState.graphColorUiState.graphColors,
-                    topLevelTaskTotal = uiState.weekUiState.weekGraphData.topLevelTaskTotal,
-                    topLevelTaskData = uiState.weekUiState.weekGraphData.topLevelTdsTaskData,
-                    currentDate = uiState.weekUiState.currentDate,
-                    onClickDate = {
-                        viewModel.updateCurrentDateWeek(it)
-                    },
-                    onClickGraphColor = {
-                        viewModel.updateGraphColors(
-                            selectedIndex = it,
-                            graphColorUiState = uiState.graphColorUiState,
-                        )
-                    },
-                    onCalendarLocalDateChanged = {
-                        viewModel.updateHasDailyAtWeekTab(it)
-                    },
-                )
+                    2 -> WeekScreen(
+                        weekInformation = uiState.weekUiState.weekGraphData.weekInformation,
+                        hasDailies = uiState.weekUiState.hasDailies,
+                        totalTime = uiState.weekUiState.weekGraphData.totalWeekTime,
+                        averageTime = uiState.weekUiState.weekGraphData.averageWeekTime,
+                        weekLineChartData = uiState.weekUiState.weekGraphData.weekLineChartData,
+                        tdsColors = uiState.graphColorUiState.graphColors,
+                        topLevelTaskTotal = uiState.weekUiState.weekGraphData.topLevelTaskTotal,
+                        topLevelTaskData = uiState.weekUiState.weekGraphData.topLevelTdsTaskData,
+                        currentDate = uiState.weekUiState.currentDate,
+                        onClickDate = {
+                            viewModel.updateCurrentDateWeek(it)
+                        },
+                        onClickGraphColor = {
+                            viewModel.updateGraphColors(
+                                selectedIndex = it,
+                                graphColorUiState = uiState.graphColorUiState,
+                            )
+                        },
+                        onCalendarLocalDateChanged = {
+                            viewModel.updateHasDailyAtWeekTab(it)
+                        },
+                    )
+                }
             }
         }
     }
@@ -205,6 +231,6 @@ fun LogScreen(viewModel: LogViewModel = mavericksViewModel()) {
 @Composable
 private fun LogScreenPreview() {
     TiTiTheme {
-        LogScreen()
+        LogScreen(onNavigateToDestination = {})
     }
 }

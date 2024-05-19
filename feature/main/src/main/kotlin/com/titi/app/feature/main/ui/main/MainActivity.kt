@@ -6,7 +6,6 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -17,8 +16,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.feature.main.model.SplashResultState
-import com.titi.app.feature.main.ui.TiTiApp
-import com.titi.app.feature.main.ui.rememberNiaAppState
+import com.titi.app.feature.main.navigation.TiTiApp
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.filterNotNull
@@ -60,17 +58,9 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            val appState = rememberNiaAppState(
-                getTimeColorFlowUseCase = getTimeColorFlowUseCase,
-                isSystemDarkTheme = isSystemInDarkTheme(),
-            )
-
             TiTiTheme {
                 splashResultState?.let {
-                    TiTiApp(
-                        splashResultState = it,
-                        appState = appState,
-                    )
+                    TiTiApp(splashResultState = it)
                 }
             }
         }
