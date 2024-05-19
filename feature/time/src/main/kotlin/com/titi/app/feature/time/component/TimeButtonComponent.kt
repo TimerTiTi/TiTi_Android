@@ -14,14 +14,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsIconButton
-import com.titi.app.core.designsystem.theme.TdsColor
 
 @Composable
 fun TimeButtonComponent(
     recordingMode: Int,
     tintColor: Color,
-    isFirstDaily: Boolean,
-    onClickAddEditDaily: () -> Unit,
+    onClickGoalTimeEdit: () -> Unit,
     onClickStartRecord: () -> Unit,
     onClickSettingTimer: (() -> Unit)? = null,
     onClickResetStopwatch: (() -> Unit)? = null,
@@ -32,21 +30,14 @@ fun TimeButtonComponent(
         horizontalArrangement = Arrangement.Center,
     ) {
         TdsIconButton(
-            onClick = onClickAddEditDaily,
+            onClick = onClickGoalTimeEdit,
             size = 50.dp,
         ) {
             Icon(
-                painter = if (isFirstDaily) {
-                    painterResource(id = R.drawable.add_record_icon)
-                } else {
-                    painterResource(id = R.drawable.edit_record_icon)
-                },
+                painter =
+                painterResource(id = R.drawable.edit_record_icon),
                 contentDescription = "addRecord",
-                tint = if (isFirstDaily) {
-                    TdsColor.RED.getColor()
-                } else {
-                    tintColor
-                },
+                tint = tintColor,
             )
         }
 

@@ -78,7 +78,7 @@ fun TiTiNavHost(splashResultState: SplashResultState, modifier: Modifier = Modif
                 navController.previousBackStackEntry
                     ?.savedStateHandle
                     ?.set(TIMER_FINISH_KEY, isFinish)
-                navController.popBackStack()
+                navController.navigateUp()
             },
         )
 

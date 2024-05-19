@@ -20,7 +20,6 @@ data class StopWatchUiState(
         daily = getSplashResultStateFromArgs(args).daily,
     )
 
-    val isFirstDaily: Boolean = daily == null
     val isSetTask: Boolean = recordTimes.currentTask != null
     val taskName: String = recordTimes.currentTask?.taskName ?: ""
     val stopWatchColor = timeColor.toUiModel()
