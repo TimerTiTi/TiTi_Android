@@ -9,7 +9,7 @@ import com.titi.app.core.util.isAfterSixAM
 import com.titi.app.core.util.toJson
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.doamin.daily.usecase.AddDailyUseCase
-import com.titi.app.doamin.daily.usecase.GetCurrentDailyFlowUseCase
+import com.titi.app.doamin.daily.usecase.GetLastDailyFlowUseCase
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.domain.color.usecase.UpdateColorUseCase
@@ -34,7 +34,7 @@ class StopWatchViewModel @AssistedInject constructor(
     @Assisted initialState: StopWatchUiState,
     getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
-    getCurrentDailyFlowUseCase: GetCurrentDailyFlowUseCase,
+    getLastDailyFlowUseCase: GetLastDailyFlowUseCase,
     private val updateRecordingModeUseCase: UpdateRecordingModeUseCase,
     private val updateColorUseCase: UpdateColorUseCase,
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
@@ -57,7 +57,7 @@ class StopWatchViewModel @AssistedInject constructor(
             copy(timeColor = it)
         }
 
-        getCurrentDailyFlowUseCase().catch {
+        getLastDailyFlowUseCase().catch {
             Log.e("TimeViewModel", it.message.toString())
         }.setOnEach {
             copy(daily = it)
