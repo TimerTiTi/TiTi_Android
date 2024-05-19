@@ -95,12 +95,6 @@ class TimerViewModel @AssistedInject constructor(
         prevTimerColor = timerColor
     }
 
-    fun addDaily() {
-        viewModelScope.launch {
-            addDailyUseCase(Daily())
-        }
-    }
-
     fun updateSetGoalTime(recordTimes: RecordTimes, setGoalTime: Long) {
         viewModelScope.launch {
             updateSetGoalTimeUseCase(

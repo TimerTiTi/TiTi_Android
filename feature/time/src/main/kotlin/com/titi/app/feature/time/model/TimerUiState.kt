@@ -22,7 +22,6 @@ data class TimerUiState(
         daily = getSplashResultStateFromArgs(args).daily,
     )
 
-    val isFirstDaily: Boolean = daily == null
     val isSetTask: Boolean = recordTimes.currentTask != null
     val taskName: String = recordTimes.currentTask?.taskName ?: ""
     val timerColor = timeColor.toUiModel()

@@ -95,12 +95,6 @@ class StopWatchViewModel @AssistedInject constructor(
         prevStopWatchColor = stopWatchColor
     }
 
-    fun addDaily() {
-        viewModelScope.launch {
-            addDailyUseCase(Daily())
-        }
-    }
-
     fun updateSetGoalTime(recordTimes: RecordTimes, setGoalTime: Long) {
         viewModelScope.launch {
             updateSetGoalTimeUseCase(
