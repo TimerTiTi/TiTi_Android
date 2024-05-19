@@ -11,10 +11,10 @@ import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.model.TdsDialogInfo
 
 @Composable
-fun TimeCheckDailyDialog(title: String, onShowDialog: (Boolean) -> Unit) {
+fun TimeCheckTaskDialog(onShowDialog: (Boolean) -> Unit) {
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Alert(
-            title = title,
+            title = stringResource(id = R.string.task_check_title),
             confirmText = stringResource(id = R.string.Ok),
         ),
         onShowDialog = onShowDialog,

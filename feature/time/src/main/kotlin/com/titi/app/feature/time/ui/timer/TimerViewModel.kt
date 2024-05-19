@@ -5,8 +5,12 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
+import com.titi.app.core.util.isAfterSixAM
+import com.titi.app.core.util.toJson
+import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.doamin.daily.usecase.AddDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetCurrentDailyFlowUseCase
+import com.titi.app.domain.color.model.TimeColor
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.domain.color.usecase.UpdateColorUseCase
 import com.titi.app.domain.time.model.RecordTimes
@@ -15,6 +19,7 @@ import com.titi.app.domain.time.usecase.UpdateMeasuringStateUseCase
 import com.titi.app.domain.time.usecase.UpdateRecordingModeUseCase
 import com.titi.app.domain.time.usecase.UpdateSetGoalTimeUseCase
 import com.titi.app.domain.time.usecase.UpdateSetTimerTimeUseCase
+import com.titi.app.feature.time.model.SplashResultState
 import com.titi.app.feature.time.model.TimerColor
 import com.titi.app.feature.time.model.TimerUiState
 import dagger.assisted.Assisted
@@ -22,6 +27,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZonedDateTime
 
 class TimerViewModel @AssistedInject constructor(
     @Assisted initialState: TimerUiState,
@@ -88,6 +95,12 @@ class TimerViewModel @AssistedInject constructor(
         prevTimerColor = timerColor
     }
 
+    fun addDaily() {
+        viewModelScope.launch {
+            addDailyUseCase(Daily())
+        }
+    }
+
     fun updateSetGoalTime(recordTimes: RecordTimes, setGoalTime: Long) {
         viewModelScope.launch {
             updateSetGoalTimeUseCase(
@@ -97,16 +110,36 @@ class TimerViewModel @AssistedInject constructor(
         }
     }
 
-    fun addDaily() {
-        viewModelScope.launch {
-            addDailyUseCase()
+    fun startRecording(recordTimes: RecordTimes, daily: Daily, timeColor: TimeColor): String {
+        val updateRecordTimes = if (recordTimes.savedTimerTime <= 0) {
+            recordTimes.copy(
+                recording = true,
+                recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                savedTimerTime = recordTimes.setTimerTime,
+            )
+        } else {
+            recordTimes.copy(
+                recording = true,
+                recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+            )
         }
-    }
 
-    fun updateMeasuringState(recordTimes: RecordTimes) {
-        viewModelScope.launch {
-            updateMeasuringStateUseCase(recordTimes)
+        val updateDaily = if (isAfterSixAM(daily.day)) {
+            daily
+        } else {
+            Daily()
         }
+
+        viewModelScope.launch {
+            updateMeasuringStateUseCase(updateRecordTimes)
+            addDailyUseCase(updateDaily)
+        }
+
+        return SplashResultState(
+            recordTimes = updateRecordTimes,
+            daily = updateDaily,
+            timeColor = timeColor,
+        ).toJson()
     }
 
     fun updateSetTimerTime(recordTimes: RecordTimes, timerTime: Long) {

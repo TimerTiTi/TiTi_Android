@@ -17,7 +17,8 @@ import com.titi.app.core.designsystem.model.TdsTime
 import com.titi.app.core.util.getTimeToLong
 
 @Composable
-fun TimeDailyDialog(
+fun TimeAddEditDailyDialog(
+    isFirstDaily: Boolean,
     todayDate: String,
     currentTime: TdsTime,
     onPositive: (Long) -> Unit,
@@ -29,8 +30,16 @@ fun TimeDailyDialog(
 
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Confirm(
-            title = stringResource(R.string.add_daily_title),
-            message = stringResource(R.string.add_daily_message, todayDate),
+            title = if (isFirstDaily) {
+                stringResource(R.string.add_daily_title)
+            } else {
+                stringResource(id = R.string.edit_daily_title)
+            },
+            message = if (isFirstDaily) {
+                stringResource(R.string.add_daily_message, todayDate)
+            } else {
+                stringResource(R.string.edit_daily_message, todayDate)
+            },
             positiveText = stringResource(id = R.string.Ok),
             negativeText = stringResource(id = R.string.Cancel),
             onPositive = {

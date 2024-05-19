@@ -19,27 +19,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
-import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.extension.getTdsTime
-import com.titi.app.core.util.toJson
+import com.titi.app.doamin.daily.model.Daily
+import com.titi.app.feature.time.content.TimeAddEditDailyDialog
 import com.titi.app.feature.time.content.TimeButtonContent
-import com.titi.app.feature.time.content.TimeCheckDailyDialog
+import com.titi.app.feature.time.content.TimeCheckTaskDialog
 import com.titi.app.feature.time.content.TimeColorDialog
-import com.titi.app.feature.time.content.TimeDailyDialog
 import com.titi.app.feature.time.content.TimeHeaderContent
 import com.titi.app.feature.time.content.TimeTaskContent
 import com.titi.app.feature.time.content.TimeTimerDialog
 import com.titi.app.feature.time.model.SplashResultState
 import com.titi.app.feature.time.model.TimerUiState
 import com.titi.app.feature.time.ui.task.TaskBottomSheet
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.ZonedDateTime
 
 @Composable
 fun TimerScreen(
@@ -63,8 +59,8 @@ fun TimerScreen(
 
     var showTaskBottomSheet by remember { mutableStateOf(false) }
     var showSelectColorDialog by remember { mutableStateOf(false) }
-    var showAddDailyDialog by remember { mutableStateOf(false) }
-    var showCheckTaskDailyDialog by remember { mutableStateOf(false) }
+    var showAddEditDailyDialog by remember { mutableStateOf(false) }
+    var showCheckTaskDialog by remember { mutableStateOf(false) }
     var showUpdateTimerDialog by remember { mutableStateOf(false) }
 
     if (showTaskBottomSheet) {
@@ -97,39 +93,35 @@ fun TimerScreen(
         )
     }
 
-    if (showAddDailyDialog) {
-        TimeDailyDialog(
+    if (showAddEditDailyDialog) {
+        TimeAddEditDailyDialog(
+            isFirstDaily = uiState.isFirstDaily,
             todayDate = uiState.todayDate,
             currentTime = uiState.recordTimes.setGoalTime.getTdsTime(),
-            onPositive = {
-                if (it > 0) {
-                    viewModel.updateSetGoalTime(
-                        uiState.recordTimes,
-                        it,
-                    )
-                    viewModel.addDaily()
-                    onChangeFinishStateFalse()
+            onPositive = { goalTime ->
+                if (goalTime > 0) {
+                    if (uiState.isFirstDaily) {
+                        viewModel.addDaily()
+                    } else {
+                        viewModel.updateSetGoalTime(
+                            uiState.recordTimes,
+                            goalTime,
+                        )
+
+                        onChangeFinishStateFalse()
+                    }
                 }
             },
             onShowDialog = {
-                showAddDailyDialog = it
+                showAddEditDailyDialog = it
             },
         )
     }
 
-    if (showCheckTaskDailyDialog) {
-        TimeCheckDailyDialog(
-            title = if (!uiState.isSetTask && !uiState.isDailyAfter6AM) {
-                stringResource(id = R.string.daily_task_check_title)
-            } else if (!uiState.isSetTask) {
-                stringResource(id = R.string.task_check_title)
-            } else {
-                stringResource(id = R.string.daily_check_title)
-            },
-            onShowDialog = {
-                showCheckTaskDailyDialog = it
-            },
-        )
+    if (showCheckTaskDialog) {
+        TimeCheckTaskDialog {
+            showCheckTaskDialog = it
+        }
     }
 
     if (showUpdateTimerDialog) {
@@ -164,39 +156,19 @@ fun TimerScreen(
         onClickTask = {
             showTaskBottomSheet = true
         },
-        onClickAddDaily = {
-            showAddDailyDialog = true
+        onClickAddEditDaily = {
+            showAddEditDailyDialog = true
         },
         onClickStartRecord = {
-            if (uiState.isEnableStartRecording) {
-                val updateRecordTimes =
-                    with(uiState.recordTimes) {
-                        if (savedTimerTime <= 0) {
-                            copy(
-                                recording = true,
-                                recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
-                                savedTimerTime = setTimerTime,
-                            )
-                        } else {
-                            copy(
-                                recording = true,
-                                recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
-                            )
-                        }
-                    }
-
-                viewModel.updateMeasuringState(updateRecordTimes)
-
-                val splashResultStateString =
-                    SplashResultState(
-                        recordTimes = updateRecordTimes,
-                        timeColor = uiState.timeColor,
-                        daily = uiState.daily,
-                    ).toJson()
-
+            if (uiState.isSetTask) {
+                val splashResultStateString = viewModel.startRecording(
+                    recordTimes = uiState.recordTimes,
+                    daily = uiState.daily ?: Daily(),
+                    timeColor = uiState.timeColor,
+                )
                 onNavigateToMeasure(splashResultStateString)
             } else {
-                showCheckTaskDailyDialog = true
+                showCheckTaskDialog = true
             }
         },
         onClickSettingTimer = {
@@ -212,7 +184,7 @@ private fun TimerScreen(
     textColor: Color,
     onClickColor: () -> Unit,
     onClickTask: () -> Unit,
-    onClickAddDaily: () -> Unit,
+    onClickAddEditDaily: () -> Unit,
     onClickStartRecord: () -> Unit,
     onClickSettingTimer: () -> Unit,
 ) {
@@ -229,7 +201,6 @@ private fun TimerScreen(
             ) {
                 TimeHeaderContent(
                     todayDate = uiState.todayDate,
-                    isDailyAfter6AM = uiState.isDailyAfter6AM,
                     textColor = textColor,
                     onClickColor = onClickColor,
                 )
@@ -273,9 +244,9 @@ private fun TimerScreen(
 
                 TimeButtonContent(
                     recordingMode = 1,
-                    isDailyAfter6AM = uiState.isDailyAfter6AM,
                     tintColor = textColor,
-                    onClickAddDaily = onClickAddDaily,
+                    isFirstDaily = uiState.isFirstDaily,
+                    onClickAddEditDaily = onClickAddEditDaily,
                     onClickStartRecord = onClickStartRecord,
                     onClickSettingTimer = onClickSettingTimer,
                 )
