@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
@@ -206,17 +205,7 @@ private fun MeasuringScreen(
 ) {
     val configuration = LocalConfiguration.current
 
-    Scaffold(
-        containerColor = Color.Black,
-        bottomBar = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(58.dp)
-                    .background(Color.Transparent),
-            )
-        },
-    ) {
+    Scaffold(containerColor = Color.Black) {
         when (configuration.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> {
                 Column(
@@ -228,16 +217,14 @@ private fun MeasuringScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     TdsIconButton(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .padding(start = 16.dp)
                             .align(Alignment.Start),
                         size = 32.dp,
                         onClick = onSleepClick,
                     ) {
                         Icon(
-                            painter =
-                            if (uiState.isSleepMode) {
+                            painter = if (uiState.isSleepMode) {
                                 painterResource(id = R.drawable.sleep_icon)
                             } else {
                                 painterResource(id = R.drawable.non_sleep_icon)
@@ -250,7 +237,7 @@ private fun MeasuringScreen(
                     Spacer(modifier = Modifier.weight(1f))
 
                     TdsText(
-                        modifier = Modifier.padding(vertical = 12.dp),
+                        modifier = Modifier.padding(vertical = 24.dp),
                         text = uiState.recordTimes.currentTask?.taskName,
                         textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                         fontSize = 18.sp,
