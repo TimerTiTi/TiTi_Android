@@ -50,6 +50,7 @@
 -keep class com.titi.app.feature.main.model.** {*;}
 -keep class com.titi.app.feature.measure.model.** {*;}
 -keep class com.titi.app.feature.time.model.** {*;}
+-keep class com.titi.app.feature.setting.model.** {*;}
 
 -keepclasseswithmembers class * {
     @com.squareup.moshi.* <methods>;
@@ -73,3 +74,8 @@
 
 -keepattributes Signature
 -keepclassmembers class com.titi.app.feature.setting.model.** {*;}
+
+-keepclassmembers class com.google.firebase.database.** {*;}
+-keep class com.google.firebase.database.** {*;}
+-keepclassmembers class com.google.firebase.database.GenericTypeIndicator { *; }
+-keep class com.google.firebase.database.GenericTypeIndicator { *; }

@@ -33,7 +33,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.getValue
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsText
@@ -54,7 +53,7 @@ fun UpdatesListScreen(onNavigateUp: () -> Unit) {
             object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (data in snapshot.children) {
-                        data.getValue<Version>()?.let {
+                        data.getValue(Version::class.java)?.let {
                             updates.add(it)
                         }
                     }
