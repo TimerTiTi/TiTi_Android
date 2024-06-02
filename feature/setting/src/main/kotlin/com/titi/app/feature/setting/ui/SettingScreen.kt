@@ -38,7 +38,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.getValue
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.navigation.TdsBottomNavigationBar
@@ -71,7 +70,7 @@ fun SettingScreen(
                     val latestVersion = snapshot
                         .children
                         .lastOrNull()
-                        ?.getValue<Version>()
+                        ?.getValue(Version::class.java)
                         ?.currentVersion
 
                     val currentVersion = context
