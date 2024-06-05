@@ -4,7 +4,9 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
+import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
+import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.feature.edit.mapper.toFeatureModel
 import com.titi.app.feature.edit.model.DailyGraphData
 import com.titi.app.feature.edit.model.EditUiState
@@ -17,7 +19,23 @@ import kotlinx.coroutines.launch
 class EditViewModel @AssistedInject constructor(
     @Assisted initialState: EditUiState,
     private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
+    private val getGraphColorsUseCase: GetGraphColorsUseCase,
 ) : MavericksViewModel<EditUiState>(initialState) {
+
+    init {
+        viewModelScope.launch {
+            getGraphColorsUseCase()
+                ?.graphColors
+                ?.map { TdsColor.valueOf(it.name) }
+                ?.let { safeGraphColors ->
+                    setState {
+                        copy(
+                            graphColors = safeGraphColors,
+                        )
+                    }
+                }
+        }
+    }
 
     fun updateCurrentDateDaily(date: LocalDate) {
         viewModelScope.launch {

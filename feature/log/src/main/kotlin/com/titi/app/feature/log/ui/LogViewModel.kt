@@ -12,7 +12,7 @@ import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetMonthDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetWeekDailyUseCase
 import com.titi.app.doamin.daily.usecase.HasDailyForCurrentMonthUseCase
-import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
+import com.titi.app.domain.color.usecase.GetGraphColorsFlowUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
 import com.titi.app.feature.log.mapper.toDomainModel
 import com.titi.app.feature.log.mapper.toFeatureModel
@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 
 class LogViewModel @AssistedInject constructor(
     @Assisted initialState: LogUiState,
-    getGraphColorsUseCase: GetGraphColorsUseCase,
+    getGraphColorsFlowUseCase: GetGraphColorsFlowUseCase,
     private val updateGraphColorsUseCase: UpdateGraphColorsUseCase,
     private val getAllDailiesTasksUseCase: GetAllDailiesTasksUseCase,
     private val getMonthDailyUseCase: GetMonthDailyUseCase,
@@ -47,7 +47,7 @@ class LogViewModel @AssistedInject constructor(
 ) : MavericksViewModel<LogUiState>(initialState) {
 
     init {
-        getGraphColorsUseCase().catch {
+        getGraphColorsFlowUseCase().catch {
             Log.e("LogViewModel", it.message.toString())
         }.filterNotNull()
             .setOnEach {
