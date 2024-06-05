@@ -68,7 +68,7 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
                 ),
                 title = {
                     TdsText(
-                        text = currentDate.toString().replace('-', '.'),
+                        text = currentDate.replace('-', '.'),
                         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 17.sp,
                         color = TdsColor.TEXT,
