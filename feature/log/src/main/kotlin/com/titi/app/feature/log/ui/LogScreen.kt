@@ -48,6 +48,7 @@ import kotlinx.coroutines.launch
 fun LogScreen(
     viewModel: LogViewModel = mavericksViewModel(),
     onNavigateToDestination: (TopLevelDestination) -> Unit,
+    onNavigateToEdit: (LocalDate) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val orientation = LocalConfiguration.current.orientation
@@ -196,6 +197,9 @@ fun LogScreen(
                                 checkedButtonStates = uiState.dailyUiState.checkedButtonStates,
                             )
                         },
+                        onNavigateToEdit = {
+                            onNavigateToEdit(uiState.dailyUiState.currentDate)
+                        },
                     )
 
                     2 -> WeekScreen(
@@ -220,6 +224,9 @@ fun LogScreen(
                         onCalendarLocalDateChanged = {
                             viewModel.updateHasDailyAtWeekTab(it)
                         },
+                        onNavigateToEdit = {
+                            onNavigateToEdit(uiState.weekUiState.currentDate)
+                        },
                     )
                 }
             }
@@ -231,6 +238,9 @@ fun LogScreen(
 @Composable
 private fun LogScreenPreview() {
     TiTiTheme {
-        LogScreen(onNavigateToDestination = {})
+        LogScreen(
+            onNavigateToEdit = {},
+            onNavigateToDestination = {},
+        )
     }
 }

@@ -65,6 +65,7 @@ fun DailyScreen(
     onClickGraphColor: (Int) -> Unit,
     onCalendarLocalDateChanged: (LocalDate) -> Unit,
     onCheckedChange: (page: Int, checked: Boolean) -> Unit,
+    onNavigateToEdit: () -> Unit,
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
@@ -161,7 +162,7 @@ fun DailyScreen(
                     Toast.makeText(context, "선택된 그래프가 없습니다.", Toast.LENGTH_SHORT).show()
                 }
             },
-            onCreateClick = {},
+            onCreateClick = onNavigateToEdit,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -392,6 +393,7 @@ private fun DailyScreenPreview() {
             onClickGraphColor = {},
             onCalendarLocalDateChanged = {},
             onCheckedChange = { _, _ -> },
+            onNavigateToEdit = {},
         )
     }
 }

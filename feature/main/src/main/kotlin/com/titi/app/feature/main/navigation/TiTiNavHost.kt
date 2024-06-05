@@ -86,6 +86,7 @@ fun TiTiNavHost(splashResultState: SplashResultState, modifier: Modifier = Modif
             onNavigateToDestination = {
                 navController.navigateToTopLevelDestination(it)
             },
+            onNavigateToEdit = {},
         )
 
         settingGraph(

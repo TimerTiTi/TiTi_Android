@@ -53,6 +53,7 @@ fun WeekScreen(
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
     onCalendarLocalDateChanged: (LocalDate) -> Unit,
+    onNavigateToEdit: () -> Unit,
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
@@ -138,7 +139,7 @@ fun WeekScreen(
                     picture = picture,
                 )
             },
-            onCreateClick = {},
+            onCreateClick = onNavigateToEdit,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -242,6 +243,7 @@ private fun WeekScreenPreview() {
             onClickDate = {},
             onClickGraphColor = {},
             onCalendarLocalDateChanged = {},
+            onNavigateToEdit = {},
         )
     }
 }
