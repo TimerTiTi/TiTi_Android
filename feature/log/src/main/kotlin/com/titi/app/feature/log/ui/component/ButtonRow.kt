@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -20,7 +21,12 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 
 @Composable
-fun ButtonRow(modifier: Modifier = Modifier, onSaveClick: () -> Unit, onShareClick: () -> Unit) {
+fun ButtonRow(
+    modifier: Modifier = Modifier,
+    onSaveClick: () -> Unit,
+    onShareClick: () -> Unit,
+    onCreateClick: () -> Unit,
+) {
     BoxWithConstraints(
         modifier = modifier,
         contentAlignment = Alignment.Center,
@@ -36,6 +42,7 @@ fun ButtonRow(modifier: Modifier = Modifier, onSaveClick: () -> Unit, onShareCli
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
+                    modifier = Modifier.size(18.dp),
                     imageVector = ImageVector.vectorResource(R.drawable.save_photo_icon),
                     contentDescription = "save",
                     tint = TdsColor.TEXT.getColor(),
@@ -56,6 +63,7 @@ fun ButtonRow(modifier: Modifier = Modifier, onSaveClick: () -> Unit, onShareCli
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
+                    modifier = Modifier.size(18.dp),
                     imageVector = ImageVector.vectorResource(R.drawable.share_icon),
                     contentDescription = "save",
                     tint = TdsColor.TEXT.getColor(),
@@ -65,6 +73,27 @@ fun ButtonRow(modifier: Modifier = Modifier, onSaveClick: () -> Unit, onShareCli
 
                 TdsText(
                     text = "Share",
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    fontSize = 16.sp,
+                    color = TdsColor.TEXT,
+                )
+            }
+
+            Row(
+                modifier = Modifier.clickable { onCreateClick() },
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    modifier = Modifier.size(18.dp),
+                    imageVector = ImageVector.vectorResource(R.drawable.log_edit_icon),
+                    contentDescription = "save",
+                    tint = TdsColor.TEXT.getColor(),
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                TdsText(
+                    text = "Create",
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 16.sp,
                     color = TdsColor.TEXT,

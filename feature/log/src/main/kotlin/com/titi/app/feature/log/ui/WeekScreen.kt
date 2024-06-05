@@ -115,6 +115,13 @@ fun WeekScreen(
 
         Spacer(modifier = Modifier.height(15.dp))
 
+        TdsColorRow(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onClickGraphColor,
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
         ButtonRow(
             modifier = Modifier.fillMaxWidth(),
             onSaveClick = {
@@ -131,13 +138,7 @@ fun WeekScreen(
                     picture = picture,
                 )
             },
-        )
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        TdsColorRow(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = onClickGraphColor,
+            onCreateClick = {},
         )
 
         Spacer(modifier = Modifier.height(15.dp))
