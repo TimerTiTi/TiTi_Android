@@ -43,9 +43,9 @@ fun TdsStandardDailyGraph(
     tdsColors: List<TdsColor>,
     timeLines: List<Long>,
     taskData: List<TdsTaskData>,
-    checked: Boolean? = null,
-    picture: Picture? = null,
-    onCheckedChange: ((Boolean) -> Unit)? = null,
+    checked: Boolean?,
+    picture: Picture?,
+    onCheckedChange: ((Boolean) -> Unit)?,
 ) {
     BoxWithConstraints(
         modifier = modifier,

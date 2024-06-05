@@ -58,10 +58,12 @@ fun TdsGraphContent(
                     taskData = taskData,
                     totalTime = totalTime,
                     maxTime = maxTime,
-                    picture = pictureList[0],
-                    checked = checkedButtonStates[0],
-                    onCheckedChange = {
-                        onCheckedChange?.invoke(0, it)
+                    picture = pictureList.getOrNull(0),
+                    checked = checkedButtonStates.getOrNull(0),
+                    onCheckedChange = if (onCheckedChange != null) {
+                        { onCheckedChange(0, it) }
+                    } else {
+                        null
                     },
                 )
 
@@ -74,10 +76,12 @@ fun TdsGraphContent(
                     timeTableData = timeTableData,
                     totalTime = totalTime,
                     maxTime = maxTime,
-                    picture = pictureList[1],
-                    checked = checkedButtonStates[1],
-                    onCheckedChange = {
-                        onCheckedChange?.invoke(1, it)
+                    picture = pictureList.getOrNull(1),
+                    checked = checkedButtonStates.getOrNull(1),
+                    onCheckedChange = if (onCheckedChange != null) {
+                        { onCheckedChange(1, it) }
+                    } else {
+                        null
                     },
                 )
 
@@ -89,10 +93,12 @@ fun TdsGraphContent(
                     timeLines = timeLines,
                     totalTime = totalTime,
                     maxTime = maxTime,
-                    picture = pictureList[2],
-                    checked = checkedButtonStates[2],
-                    onCheckedChange = {
-                        onCheckedChange?.invoke(2, it)
+                    picture = pictureList.getOrNull(2),
+                    checked = checkedButtonStates.getOrNull(2),
+                    onCheckedChange = if (onCheckedChange != null) {
+                        { onCheckedChange(2, it) }
+                    } else {
+                        null
                     },
                 )
 
@@ -101,10 +107,12 @@ fun TdsGraphContent(
                     todayDate = todayDate,
                     taskData = taskData,
                     tdsColors = tdsColors,
-                    picture = pictureList[3],
-                    checked = checkedButtonStates[3],
-                    onCheckedChange = {
-                        onCheckedChange?.invoke(3, it)
+                    picture = pictureList.getOrNull(3),
+                    checked = checkedButtonStates.getOrNull(3),
+                    onCheckedChange = if (onCheckedChange != null) {
+                        { onCheckedChange(3, it) }
+                    } else {
+                        null
                     },
                 )
             }
