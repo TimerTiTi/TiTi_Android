@@ -28,9 +28,9 @@ fun TdsGraphContent(
     tdsColors: List<TdsColor>,
     timeLines: List<Long>,
     timeTableData: List<TdsTimeTableData>,
-    checkedButtonStates: List<Boolean>,
-    pictureList: List<Picture>,
-    onCheckedChange: (page: Int, checked: Boolean) -> Unit,
+    checkedButtonStates: List<Boolean> = emptyList(),
+    pictureList: List<Picture> = emptyList(),
+    onCheckedChange: ((page: Int, checked: Boolean) -> Unit)? = null,
 ) {
     val pagerState = rememberPagerState(
         pageCount = {
@@ -61,7 +61,7 @@ fun TdsGraphContent(
                     picture = pictureList[0],
                     checked = checkedButtonStates[0],
                     onCheckedChange = {
-                        onCheckedChange(0, it)
+                        onCheckedChange?.invoke(0, it)
                     },
                 )
 
@@ -77,7 +77,7 @@ fun TdsGraphContent(
                     picture = pictureList[1],
                     checked = checkedButtonStates[1],
                     onCheckedChange = {
-                        onCheckedChange(1, it)
+                        onCheckedChange?.invoke(1, it)
                     },
                 )
 
@@ -92,7 +92,7 @@ fun TdsGraphContent(
                     picture = pictureList[2],
                     checked = checkedButtonStates[2],
                     onCheckedChange = {
-                        onCheckedChange(2, it)
+                        onCheckedChange?.invoke(2, it)
                     },
                 )
 
@@ -104,7 +104,7 @@ fun TdsGraphContent(
                     picture = pictureList[3],
                     checked = checkedButtonStates[3],
                     onCheckedChange = {
-                        onCheckedChange(3, it)
+                        onCheckedChange?.invoke(3, it)
                     },
                 )
             }
