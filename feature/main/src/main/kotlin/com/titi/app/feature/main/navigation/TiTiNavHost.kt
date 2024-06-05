@@ -118,7 +118,9 @@ fun TiTiNavHost(splashResultState: SplashResultState, modifier: Modifier = Modif
 
         webViewGraph(onNavigateUp = { navController.navigateUp() })
 
-        editGraph()
+        editGraph(
+            onBack = { navController.navigateUp() },
+        )
     }
 }
 

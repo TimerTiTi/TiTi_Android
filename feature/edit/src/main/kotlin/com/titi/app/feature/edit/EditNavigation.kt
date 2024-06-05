@@ -3,6 +3,7 @@ package com.titi.app.feature.edit
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import java.time.LocalDate
 
 private const val EDIT_SCREEN = "edit"
 private const val EDIT_CURRENT_DATE_ARG = "currentDate"
@@ -12,8 +13,11 @@ fun NavController.navigateToEdit(currentDate: String) {
     navigate("$EDIT_SCREEN=$EDIT_CURRENT_DATE_ARG=$currentDate")
 }
 
-fun NavGraphBuilder.editGraph() {
+fun NavGraphBuilder.editGraph(onBack: () -> Unit) {
     composable(route = EDIT_ROUTE) {
-        EditScreen()
+        EditScreen(
+            currentDate = LocalDate.parse(it.arguments?.getString(EDIT_CURRENT_DATE_ARG)),
+            onBack = onBack,
+        )
     }
 }
