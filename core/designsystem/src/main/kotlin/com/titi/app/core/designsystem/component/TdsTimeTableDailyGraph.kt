@@ -45,9 +45,9 @@ fun TdsTimeTableDailyGraph(
     tdsColors: List<TdsColor>,
     taskData: List<TdsTaskData>,
     timeTableData: List<TdsTimeTableData>,
-    checked: Boolean,
-    picture: Picture,
-    onCheckedChange: (Boolean) -> Unit,
+    checked: Boolean? = null,
+    picture: Picture? = null,
+    onCheckedChange: ((Boolean) -> Unit)? = null,
 ) {
     BoxWithConstraints(
         modifier = modifier,
@@ -214,20 +214,22 @@ fun TdsTimeTableDailyGraph(
             }
         }
 
-        Box(
-            modifier = Modifier
-                .offset(
-                    x = -size / 2 + 36.dp,
-                    y = -size * 0.38 + 43.dp,
-                ),
-        ) {
-            TdsToggleIconButton(
-                checkedIcon = R.drawable.checked_icon,
-                uncheckedIcon = R.drawable.unchecked_icon,
-                checked = checked,
-                onCheckedChange = onCheckedChange,
-                tint = TdsColor.TEXT,
-            )
+        onCheckedChange?.let {
+            Box(
+                modifier = Modifier
+                    .offset(
+                        x = -size / 2 + 36.dp,
+                        y = -size * 0.38 + 43.dp,
+                    ),
+            ) {
+                TdsToggleIconButton(
+                    checkedIcon = R.drawable.checked_icon,
+                    uncheckedIcon = R.drawable.unchecked_icon,
+                    checked = checked ?: false,
+                    onCheckedChange = onCheckedChange,
+                    tint = TdsColor.TEXT,
+                )
+            }
         }
     }
 }

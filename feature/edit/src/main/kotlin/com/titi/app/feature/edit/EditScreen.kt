@@ -2,9 +2,11 @@ package com.titi.app.feature.edit
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -44,9 +46,9 @@ fun EditScreen(currentDate: LocalDate, onBack: () -> Unit) {
                 ),
                 title = {
                     TdsText(
-                        text = currentDate.toString(),
-                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                        fontSize = 24.sp,
+                        text = currentDate.toString().replace('-', '.'),
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                        fontSize = 17.sp,
                         color = TdsColor.TEXT,
                     )
                 },
@@ -63,10 +65,11 @@ fun EditScreen(currentDate: LocalDate, onBack: () -> Unit) {
                 actions = {
                     TdsText(
                         text = "SAVE",
-                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
-                        fontSize = 24.sp,
+                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                        fontSize = 17.sp,
                         color = TdsColor.TEXT,
                     )
+                    Spacer(modifier = Modifier.width(10.dp))
                 },
             )
         },

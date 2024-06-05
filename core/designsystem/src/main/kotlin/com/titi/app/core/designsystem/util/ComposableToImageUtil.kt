@@ -22,23 +22,28 @@ import java.util.UUID
 import kotlin.coroutines.resume
 import kotlinx.coroutines.suspendCancellableCoroutine
 
-fun Modifier.createCaptureImageModifier(picture: Picture): Modifier = this.drawWithCache {
-    val width = this.size.width.toInt()
-    val height = this.size.height.toInt()
-    onDrawWithContent {
-        val pictureCanvas = Canvas(
-            picture.beginRecording(
-                width,
-                height,
-            ),
-        )
-        draw(this, this.layoutDirection, pictureCanvas, this.size) {
-            this@onDrawWithContent.drawContent()
-        }
-        picture.endRecording()
+fun Modifier.createCaptureImageModifier(picture: Picture?): Modifier {
+    if (picture == null) return Modifier
 
-        drawIntoCanvas { canvas ->
-            canvas.nativeCanvas.drawPicture(picture)
+    return this.drawWithCache {
+        val width = this.size.width.toInt()
+        val height = this.size.height.toInt()
+
+        onDrawWithContent {
+            val pictureCanvas = Canvas(
+                picture.beginRecording(
+                    width,
+                    height,
+                ),
+            )
+            draw(this, this.layoutDirection, pictureCanvas, this.size) {
+                this@onDrawWithContent.drawContent()
+            }
+            picture.endRecording()
+
+            drawIntoCanvas { canvas ->
+                canvas.nativeCanvas.drawPicture(picture)
+            }
         }
     }
 }

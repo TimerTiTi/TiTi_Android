@@ -34,9 +34,9 @@ fun TdsTaskProgressDailyGraph(
     todayDate: String,
     taskData: List<TdsTaskData>,
     tdsColors: List<TdsColor>,
-    checked: Boolean,
-    picture: Picture,
-    onCheckedChange: (Boolean) -> Unit,
+    checked: Boolean? = null,
+    picture: Picture? = null,
+    onCheckedChange: ((Boolean) -> Unit)? = null,
 ) {
     BoxWithConstraints(
         modifier = modifier,
@@ -82,20 +82,22 @@ fun TdsTaskProgressDailyGraph(
             }
         }
 
-        Box(
-            modifier = Modifier
-                .offset(
-                    x = -size / 2 + 36.dp,
-                    y = -size * 0.49 + 36.dp,
-                ),
-        ) {
-            TdsToggleIconButton(
-                checkedIcon = R.drawable.checked_icon,
-                uncheckedIcon = R.drawable.unchecked_icon,
-                checked = checked,
-                onCheckedChange = onCheckedChange,
-                tint = TdsColor.TEXT,
-            )
+        onCheckedChange?.let {
+            Box(
+                modifier = Modifier
+                    .offset(
+                        x = -size / 2 + 36.dp,
+                        y = -size * 0.49 + 36.dp,
+                    ),
+            ) {
+                TdsToggleIconButton(
+                    checkedIcon = R.drawable.checked_icon,
+                    uncheckedIcon = R.drawable.unchecked_icon,
+                    checked = checked ?: false,
+                    onCheckedChange = onCheckedChange,
+                    tint = TdsColor.TEXT,
+                )
+            }
         }
     }
 }
