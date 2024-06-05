@@ -1,5 +1,8 @@
 package com.titi.app.feature.edit.model
 
+import android.os.Build
+import android.os.Bundle
+import com.airbnb.mvrx.Mavericks
 import com.airbnb.mvrx.MavericksState
 import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.model.TdsTaskData
@@ -24,7 +27,20 @@ data class EditUiState(
         TdsColor.D12,
     ),
     val dailyGraphData: DailyGraphData = DailyGraphData(),
-) : MavericksState
+) : MavericksState {
+    constructor(args: Bundle) : this(
+        currentDate = LocalDate.parse(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                args.getParcelable(
+                    Mavericks.KEY_ARG,
+                    String::class.java,
+                )
+            } else {
+                args.getParcelable(Mavericks.KEY_ARG)
+            } ?: LocalDate.now().toString(),
+        ),
+    )
+}
 
 data class DailyGraphData(
     val totalTime: String = 0L.getTimeString(),

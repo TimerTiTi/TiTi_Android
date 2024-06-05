@@ -17,7 +17,9 @@ fun NavController.navigateToEdit(currentDate: String) {
 fun NavGraphBuilder.editGraph(onBack: () -> Unit) {
     composable(route = EDIT_ROUTE) {
         EditScreen(
-            currentDate = LocalDate.parse(it.arguments?.getString(EDIT_CURRENT_DATE_ARG)),
+            currentDate = it.arguments
+                ?.getString(EDIT_CURRENT_DATE_ARG)
+                ?: LocalDate.now().toString(),
             onBack = onBack,
         )
     }

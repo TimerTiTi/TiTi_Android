@@ -24,6 +24,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.airbnb.mvrx.asMavericksArgs
+import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsGraphContent
 import com.titi.app.core.designsystem.component.TdsIconButton
@@ -33,11 +35,15 @@ import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
-import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditScreen(currentDate: LocalDate, onBack: () -> Unit) {
+fun EditScreen(currentDate: String, onBack: () -> Unit) {
+    val viewModel: EditViewModel = mavericksViewModel(
+        argsFactory = {
+            currentDate.asMavericksArgs()
+        },
+    )
     val containerColor = if (isSystemInDarkTheme()) {
         0xFF000000
     } else {
@@ -196,6 +202,6 @@ private fun EditScreen(modifier: Modifier) {
 @Composable
 private fun EditScreenPreview() {
     TiTiTheme {
-        EditScreen(currentDate = LocalDate.now()) { }
+        // EditScreen(currentDate = LocalDate.now()) { }
     }
 }
