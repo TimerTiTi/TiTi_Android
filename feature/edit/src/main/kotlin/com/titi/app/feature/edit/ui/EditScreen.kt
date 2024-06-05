@@ -1,4 +1,4 @@
-package com.titi.app.feature.edit
+package com.titi.app.feature.edit.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column

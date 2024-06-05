@@ -13,8 +13,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.titi.app.core.designsystem.navigation.TopLevelDestination
 import com.titi.app.core.util.toJson
-import com.titi.app.feature.edit.editGraph
-import com.titi.app.feature.edit.navigateToEdit
+import com.titi.app.feature.edit.navigation.editGraph
+import com.titi.app.feature.edit.navigation.navigateToEdit
 import com.titi.app.feature.log.navigation.logGraph
 import com.titi.app.feature.log.navigation.navigateToLog
 import com.titi.app.feature.main.model.SplashResultState

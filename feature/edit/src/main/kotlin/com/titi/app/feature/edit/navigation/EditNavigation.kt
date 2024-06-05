@@ -1,8 +1,9 @@
-package com.titi.app.feature.edit
+package com.titi.app.feature.edit.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.titi.app.feature.edit.ui.EditScreen
 import java.time.LocalDate
 
 private const val EDIT_SCREEN = "edit"
