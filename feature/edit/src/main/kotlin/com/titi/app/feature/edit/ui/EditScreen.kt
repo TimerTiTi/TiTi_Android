@@ -26,7 +26,6 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,10 +65,6 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
     val scrollState = rememberScrollState()
 
     val uiState by viewModel.collectAsState()
-
-    LaunchedEffect(Unit) {
-        viewModel.updateCurrentDateDaily(uiState.currentDate)
-    }
 
     Scaffold(
         containerColor = Color(containerColor),

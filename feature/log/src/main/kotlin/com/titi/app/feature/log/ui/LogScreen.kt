@@ -85,7 +85,6 @@ fun LogScreen(
     LaunchedEffect(Unit) {
         val currentDate = LocalDate.now()
         viewModel.updateCurrentDateHome(currentDate)
-        viewModel.updateCurrentDateDaily(currentDate)
         viewModel.updateCurrentDateWeek(currentDate)
     }
 
@@ -178,8 +177,8 @@ fun LogScreen(
                         timeLines = uiState.dailyUiState.dailyGraphData.timeLine,
                         timeTableData = uiState.dailyUiState.dailyGraphData.tdsTimeTableData,
                         checkedButtonStates = uiState.dailyUiState.checkedButtonStates,
-                        onClickDate = {
-                            viewModel.updateCurrentDateDaily(it)
+                        onClickDate = { clickDate ->
+                            viewModel.updateCurrentDate(clickDate)
                         },
                         onClickGraphColor = {
                             viewModel.updateGraphColors(

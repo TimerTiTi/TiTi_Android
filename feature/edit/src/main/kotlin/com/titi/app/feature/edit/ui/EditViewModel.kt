@@ -1,11 +1,12 @@
 package com.titi.app.feature.edit.ui
 
+import android.util.Log
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.app.core.designsystem.theme.TdsColor
-import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
+import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyFlowUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.feature.edit.mapper.toFeatureModel
 import com.titi.app.feature.edit.model.DailyGraphData
@@ -13,13 +14,13 @@ import com.titi.app.feature.edit.model.EditUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import java.time.LocalDate
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class EditViewModel @AssistedInject constructor(
     @Assisted initialState: EditUiState,
-    private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
     private val getGraphColorsUseCase: GetGraphColorsUseCase,
+    getCurrentDateDailyFlowUseCase: GetCurrentDateDailyFlowUseCase,
 ) : MavericksViewModel<EditUiState>(initialState) {
 
     init {
@@ -35,19 +36,15 @@ class EditViewModel @AssistedInject constructor(
                     }
                 }
         }
-    }
 
-    fun updateCurrentDateDaily(date: LocalDate) {
-        viewModelScope.launch {
-            getCurrentDateDailyUseCase(date)
-                .onSuccess {
-                    setState {
-                        copy(
-                            dailyGraphData = it?.toFeatureModel() ?: DailyGraphData(),
-                        )
-                    }
-                }
-        }
+        getCurrentDateDailyFlowUseCase(initialState.currentDate)
+            .catch {
+                Log.e("EditViewModel", it.message.toString())
+            }.setOnEach {
+                copy(
+                    dailyGraphData = it?.toFeatureModel() ?: DailyGraphData(),
+                )
+            }
     }
 
     @AssistedFactory

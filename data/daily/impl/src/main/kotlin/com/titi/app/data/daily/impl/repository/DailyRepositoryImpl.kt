@@ -22,6 +22,16 @@ internal class DailyRepositoryImpl @Inject constructor(
         )?.toRepositoryModel()
     }
 
+    override fun getDateDailyFlow(
+        startDateTime: String,
+        endDateTime: String,
+    ): Flow<DailyRepositoryModel?> {
+        return dailyDao.getDateDailyFlow(
+            startDateTime = startDateTime,
+            endDateTime = endDateTime,
+        ).map { it?.toRepositoryModel() }
+    }
+
     override suspend fun getDailies(
         startDateTime: String,
         endDateTime: String,
