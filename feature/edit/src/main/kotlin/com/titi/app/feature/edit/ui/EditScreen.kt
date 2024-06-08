@@ -2,6 +2,7 @@ package com.titi.app.feature.edit.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,6 +29,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,10 +54,10 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.core.util.toOnlyTime
+import com.titi.app.feature.edit.model.EditActions
 import com.titi.app.feature.edit.model.EditUiState
 import com.titi.app.feature.edit.model.TaskHistory
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditScreen(currentDate: String, onBack: () -> Unit) {
     val viewModel: EditViewModel = mavericksViewModel(
@@ -61,14 +65,29 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
             currentDate.asMavericksArgs()
         },
     )
+
+    val uiState by viewModel.collectAsState()
+
+    EditScreen(
+        uiState = uiState,
+        onEditActions = {
+            when (it) {
+                is EditActions.Navigates.Back -> onBack()
+                is EditActions.Updates -> viewModel.handleEditActions(it)
+            }
+        },
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Unit) {
     val containerColor = if (isSystemInDarkTheme()) {
         0xFF000000
     } else {
         0xFFFFFFFF
     }
     val scrollState = rememberScrollState()
-
-    val uiState by viewModel.collectAsState()
 
     Scaffold(
         containerColor = Color(containerColor),
@@ -79,14 +98,14 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
                 ),
                 title = {
                     TdsText(
-                        text = currentDate.replace('-', '.'),
+                        text = uiState.currentDate.toString().replace('-', '.'),
                         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 17.sp,
                         color = TdsColor.TEXT,
                     )
                 },
                 navigationIcon = {
-                    TdsIconButton(onClick = onBack) {
+                    TdsIconButton(onClick = { onEditActions(EditActions.Navigates.Back) }) {
                         Icon(
                             modifier = Modifier.size(32.dp),
                             painter = painterResource(id = R.drawable.arrow_left_icon),
@@ -97,6 +116,7 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
                 },
                 actions = {
                     TdsText(
+                        modifier = Modifier.clickable { onEditActions(EditActions.Updates.Save) },
                         text = "SAVE",
                         textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                         fontSize = 17.sp,
@@ -107,64 +127,60 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
             )
         },
     ) {
-        EditScreen(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
                 .verticalScroll(scrollState),
-            uiState = uiState,
-        )
-    }
-}
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Spacer(modifier = Modifier.height(5.dp))
 
-@Composable
-private fun EditScreen(modifier: Modifier, uiState: EditUiState) {
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Spacer(modifier = Modifier.height(5.dp))
-
-        with(uiState) {
-            TdsGraphContent(
-                modifier = Modifier.fillMaxWidth(),
-                todayDate = currentDate.toString().replace('-', '.'),
-                todayDayOfTheWeek = currentDate.dayOfWeek.value - 1,
-                totalTime = dailyGraphData.totalTime,
-                maxTime = dailyGraphData.maxTime,
-                taskData = dailyGraphData.taskData,
-                tdsColors = graphColors,
-                timeLines = dailyGraphData.timeLine,
-                timeTableData = dailyGraphData.tdsTimeTableData,
-                selectedTaskIndex = uiState.selectedTaskIndex,
-                onClickTask = { taskName, index ->
-                },
-                onClickAddTask = {},
-            )
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        if (uiState.clickedTaskName != null) {
-            EditTaskContent(
-                themeColor = uiState.graphColors.first(),
-                taskName = uiState.clickedTaskName,
-                taskHistories = uiState.dailyGraphData.taskHistories
-                    ?.get(uiState.clickedTaskName)
-                    ?: emptyList(),
-            )
-        } else {
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.Center,
-            ) {
-                TdsText(
-                    text = "과목을 선택하여 기록수정 후\nSAVE를 눌러 주세요.",
-                    color = TdsColor.TEXT,
-                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                    fontSize = 17.sp,
-                    textAlign = TextAlign.Center,
+            with(uiState) {
+                TdsGraphContent(
+                    modifier = Modifier.fillMaxWidth(),
+                    todayDate = currentDate.toString().replace('-', '.'),
+                    todayDayOfTheWeek = currentDate.dayOfWeek.value - 1,
+                    totalTime = dailyGraphData.totalTime,
+                    maxTime = dailyGraphData.maxTime,
+                    taskData = dailyGraphData.taskData,
+                    tdsColors = graphColors,
+                    timeLines = dailyGraphData.timeLine,
+                    timeTableData = dailyGraphData.tdsTimeTableData,
+                    selectedTaskIndex = uiState.selectedTaskIndex,
+                    onClickTask = { taskName, index ->
+                        onEditActions(EditActions.Updates.ClickTaskName(taskName, index))
+                    },
+                    onClickAddTask = {
+                        onEditActions(EditActions.Updates.ClickTaskName())
+                    },
                 )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            if (uiState.clickedTaskName != null) {
+                EditTaskContent(
+                    themeColor = uiState.graphColors.first(),
+                    taskName = uiState.clickedTaskName,
+                    taskHistories = uiState.dailyGraphData.taskHistories
+                        ?.get(uiState.clickedTaskName)
+                        ?: emptyList(),
+                    onEditActions = onEditActions,
+                )
+            } else {
+                Box(
+                    modifier = Modifier.weight(1f),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    TdsText(
+                        text = "과목을 선택하여 기록수정 후\nSAVE를 눌러 주세요.",
+                        color = TdsColor.TEXT,
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                        fontSize = 17.sp,
+                        textAlign = TextAlign.Center,
+                    )
+                }
             }
         }
     }
@@ -175,7 +191,12 @@ private fun EditTaskContent(
     themeColor: TdsColor,
     taskName: String,
     taskHistories: List<TaskHistory>,
+    onEditActions: (EditActions) -> Unit,
 ) {
+    var showEditTaskNameDialog by remember {
+        mutableStateOf(false)
+    }
+
     BoxWithConstraints(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center,
@@ -230,7 +251,11 @@ private fun EditTaskContent(
                     Spacer(modifier = Modifier.weight(1f))
 
                     Icon(
-                        modifier = Modifier.size(18.dp),
+                        modifier = Modifier
+                            .size(18.dp)
+                            .clickable {
+                                showEditTaskNameDialog = true
+                            },
                         painter = painterResource(
                             if (taskName.isBlank()) {
                                 R.drawable.plus_circle_icon
@@ -320,14 +345,24 @@ private fun EditTaskContent(
                 TdsText(
                     modifier = Modifier
                         .width(75.dp)
+                        .height(25.dp)
                         .background(
-                            color = themeColor.getColor(),
+                            color = if (taskHistories.isEmpty()) {
+                                TdsColor.LIGHT_GRAY.getColor()
+                            } else {
+                                themeColor.getColor()
+                            },
                             shape = RoundedCornerShape(4.dp),
                         )
-                        .padding(4.dp),
-                    textAlign = TextAlign.Center,
+                        .padding(4.dp)
+                        .clickable {
+                            if (taskHistories.isNotEmpty()) {
+                                onEditActions(EditActions.Updates.Done)
+                            }
+                        },
                     text = "OK",
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    textAlign = TextAlign.Center,
                     color = TdsColor.TEXT,
                     fontSize = 17.sp,
                 )
@@ -338,6 +373,10 @@ private fun EditTaskContent(
 
 @Composable
 private fun TaskRowContent(themeColor: TdsColor, taskHistory: TaskHistory) {
+    var showEditTaskHistoryDialog by remember {
+        mutableStateOf(false)
+    }
+
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             TdsText(
@@ -397,7 +436,9 @@ private fun TaskRowContent(themeColor: TdsColor, taskHistory: TaskHistory) {
             Spacer(modifier = Modifier.weight(1f))
 
             Icon(
-                modifier = Modifier.size(18.dp),
+                modifier = Modifier
+                    .size(18.dp)
+                    .clickable { showEditTaskHistoryDialog = true },
                 painter = painterResource(R.drawable.edit_circle_icon),
                 contentDescription = "",
                 tint = TdsColor.TEXT.getColor(),
@@ -406,7 +447,7 @@ private fun TaskRowContent(themeColor: TdsColor, taskHistory: TaskHistory) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TdsDivider()
+        TdsDivider(color = themeColor)
     }
 }
 

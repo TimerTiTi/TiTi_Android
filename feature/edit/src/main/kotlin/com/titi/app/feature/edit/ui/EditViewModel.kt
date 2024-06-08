@@ -10,6 +10,7 @@ import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyFlowUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.feature.edit.mapper.toFeatureModel
 import com.titi.app.feature.edit.model.DailyGraphData
+import com.titi.app.feature.edit.model.EditActions
 import com.titi.app.feature.edit.model.EditUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -45,6 +46,38 @@ class EditViewModel @AssistedInject constructor(
                     dailyGraphData = it?.toFeatureModel() ?: DailyGraphData(),
                 )
             }
+    }
+
+    fun handleEditActions(editActions: EditActions.Updates) {
+        when (editActions) {
+            EditActions.Updates.Save -> {
+            }
+
+            is EditActions.Updates.ClickTaskName -> updateClickTaskName(
+                taskName = editActions.taskName,
+                index = editActions.index,
+            )
+
+            EditActions.Updates.Done -> updateClickTaskName(
+                taskName = null,
+                index = -1,
+            )
+
+            is EditActions.Updates.UpdateTaskHistory -> {
+            }
+
+            is EditActions.Updates.UpdateTaskName -> {
+            }
+        }
+    }
+
+    private fun updateClickTaskName(taskName: String?, index: Int) {
+        setState {
+            copy(
+                clickedTaskName = taskName,
+                selectedTaskIndex = index,
+            )
+        }
     }
 
     @AssistedFactory
