@@ -46,6 +46,9 @@ fun TdsStandardDailyGraph(
     checked: Boolean?,
     picture: Picture?,
     onCheckedChange: ((Boolean) -> Unit)?,
+    selectedTaskIndex: Int? = null,
+    onClickTask: ((taskName: String, index: Int) -> Unit)? = null,
+    onClickAddTask: (() -> Unit)? = null,
 ) {
     BoxWithConstraints(
         modifier = modifier,
@@ -136,7 +139,11 @@ fun TdsStandardDailyGraph(
                             .width(size * 0.6)
                             .border(
                                 width = 2.dp,
-                                color = TdsColor.GRAPH_BORDER.getColor(),
+                                color = if (selectedTaskIndex == -1) {
+                                    TdsColor.RED.getColor()
+                                } else {
+                                    TdsColor.GRAPH_BORDER.getColor()
+                                },
                             )
                             .padding(2.dp)
                             .padding(horizontal = 6.dp),
@@ -145,6 +152,9 @@ fun TdsStandardDailyGraph(
                         leftText = "✔",
                         height = 25.dp,
                         colors = tdsColors.map { it.getColor() },
+                        selectedIndex = selectedTaskIndex,
+                        onClickTask = onClickTask,
+                        onClickAddTask = onClickAddTask,
                     )
 
                     Spacer(modifier = Modifier.width(5.dp))

@@ -31,6 +31,9 @@ fun TdsGraphContent(
     checkedButtonStates: List<Boolean> = emptyList(),
     pictureList: List<Picture> = emptyList(),
     onCheckedChange: ((page: Int, checked: Boolean) -> Unit)? = null,
+    selectedTaskIndex: Int? = null,
+    onClickTask: ((taskName: String, index: Int) -> Unit)? = null,
+    onClickAddTask: (() -> Unit)? = null,
 ) {
     val pagerState = rememberPagerState(
         pageCount = {
@@ -65,6 +68,9 @@ fun TdsGraphContent(
                     } else {
                         null
                     },
+                    selectedTaskIndex = selectedTaskIndex,
+                    onClickTask = onClickTask,
+                    onClickAddTask = onClickAddTask,
                 )
 
                 1 -> TdsTimeTableDailyGraph(
@@ -83,6 +89,9 @@ fun TdsGraphContent(
                     } else {
                         null
                     },
+                    selectedTaskIndex = selectedTaskIndex,
+                    onClickTask = onClickTask,
+                    onClickAddTask = onClickAddTask,
                 )
 
                 2 -> TdsTimeLineDailyGraph(

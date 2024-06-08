@@ -29,6 +29,7 @@ data class EditUiState(
         TdsColor.D12,
     ),
     val dailyGraphData: DailyGraphData = DailyGraphData(),
+    val selectedTaskIndex: Int = -1,
     val clickedTaskName: String? = null,
 ) : MavericksState {
     constructor(args: Bundle) : this(

@@ -48,6 +48,9 @@ fun TdsTimeTableDailyGraph(
     checked: Boolean? = null,
     picture: Picture? = null,
     onCheckedChange: ((Boolean) -> Unit)? = null,
+    selectedTaskIndex: Int? = null,
+    onClickTask: ((taskName: String, index: Int) -> Unit)? = null,
+    onClickAddTask: (() -> Unit)? = null,
 ) {
     BoxWithConstraints(
         modifier = modifier,
@@ -171,7 +174,11 @@ fun TdsTimeTableDailyGraph(
                                 .fillMaxSize()
                                 .border(
                                     width = 2.dp,
-                                    color = TdsColor.GRAPH_BORDER.getColor(),
+                                    color = if (selectedTaskIndex == -1) {
+                                        TdsColor.RED.getColor()
+                                    } else {
+                                        TdsColor.GRAPH_BORDER.getColor()
+                                    },
                                 )
                                 .padding(2.dp)
                                 .padding(horizontal = 6.dp),
@@ -180,6 +187,9 @@ fun TdsTimeTableDailyGraph(
                             isSpacing = true,
                             leftText = "✔",
                             height = 25.dp,
+                            selectedIndex = selectedTaskIndex,
+                            onClickTask = onClickTask,
+                            onClickAddTask = onClickAddTask,
                         )
                     }
 

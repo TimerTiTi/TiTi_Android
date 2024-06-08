@@ -136,6 +136,10 @@ private fun EditScreen(modifier: Modifier, uiState: EditUiState) {
                 tdsColors = graphColors,
                 timeLines = dailyGraphData.timeLine,
                 timeTableData = dailyGraphData.tdsTimeTableData,
+                selectedTaskIndex = uiState.selectedTaskIndex,
+                onClickTask = { taskName, index ->
+                },
+                onClickAddTask = {},
             )
         }
 
