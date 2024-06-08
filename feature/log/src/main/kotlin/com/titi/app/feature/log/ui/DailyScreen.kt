@@ -127,6 +127,7 @@ fun DailyScreen(
 
         ButtonRow(
             modifier = Modifier.fillMaxWidth(),
+            isCreate = !hasDailies.contains(currentDate),
             onSaveClick = {
                 if (checkedButtonStates.any { it }) {
                     saveDailyGraphWithPermission(
@@ -151,7 +152,7 @@ fun DailyScreen(
                     Toast.makeText(context, "선택된 그래프가 없습니다.", Toast.LENGTH_SHORT).show()
                 }
             },
-            onCreateClick = onNavigateToEdit,
+            onCreateEditClick = onNavigateToEdit,
         )
 
         Spacer(modifier = Modifier.height(15.dp))

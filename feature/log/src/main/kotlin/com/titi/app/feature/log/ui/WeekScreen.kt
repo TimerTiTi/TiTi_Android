@@ -125,6 +125,7 @@ fun WeekScreen(
 
         ButtonRow(
             modifier = Modifier.fillMaxWidth(),
+            isCreate = !hasDailies.contains(currentDate),
             onSaveClick = {
                 saveWeekGraphWithPermission(
                     coroutineScope = coroutineScope,
@@ -139,7 +140,7 @@ fun WeekScreen(
                     picture = picture,
                 )
             },
-            onCreateClick = onNavigateToEdit,
+            onCreateEditClick = onNavigateToEdit,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
