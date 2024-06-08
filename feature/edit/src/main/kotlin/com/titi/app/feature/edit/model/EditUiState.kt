@@ -8,7 +8,9 @@ import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
+import java.time.Duration
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class EditUiState(
     val currentDate: LocalDate = LocalDate.now(),
@@ -27,6 +29,7 @@ data class EditUiState(
         TdsColor.D12,
     ),
     val dailyGraphData: DailyGraphData = DailyGraphData(),
+    val clickedTaskName: String? = null,
 ) : MavericksState {
     constructor(args: Bundle) : this(
         currentDate = LocalDate.parse(
@@ -48,4 +51,12 @@ data class DailyGraphData(
     val timeLine: List<Long> = LongArray(24) { 0L }.toList(),
     val taskData: List<TdsTaskData> = emptyList(),
     val tdsTimeTableData: List<TdsTimeTableData> = emptyList(),
+    val taskHistories: Map<String, List<TaskHistory>>? = null,
 )
+
+data class TaskHistory(
+    val startDateTime: LocalDateTime,
+    val endDateTime: LocalDateTime,
+) {
+    val diffTime = Duration.between(startDateTime, endDateTime).toMillis() / 1000
+}

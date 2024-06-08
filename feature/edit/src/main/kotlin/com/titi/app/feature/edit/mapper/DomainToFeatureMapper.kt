@@ -4,6 +4,7 @@ import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.doamin.daily.model.Daily
+import com.titi.app.doamin.daily.model.TaskHistory
 import com.titi.app.feature.edit.model.DailyGraphData
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
@@ -32,6 +33,7 @@ internal fun Daily.toFeatureModel(): DailyGraphData {
             ?.flatten()
             ?.flatMap { makeTimeTableData(it.startDate, it.endDate) }
             ?: emptyList(),
+        taskHistories = taskHistories?.mapValues { it.value.map { it.toFeatureModel() } },
     )
 }
 
@@ -67,3 +69,10 @@ internal fun makeTimeTableData(startDate: String, endDate: String): List<TdsTime
 
     return timeTableData.toList()
 }
+
+internal fun TaskHistory.toFeatureModel() = com.titi.app.feature.edit.model.TaskHistory(
+    startDateTime = ZonedDateTime.parse(startDate)
+        .withZoneSameInstant(ZoneOffset.systemDefault()).toLocalDateTime(),
+    endDateTime = ZonedDateTime.parse(endDate).withZoneSameInstant(ZoneOffset.systemDefault())
+        .toLocalDateTime(),
+)

@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,10 +45,13 @@ import com.titi.app.core.designsystem.component.TdsDivider
 import com.titi.app.core.designsystem.component.TdsGraphContent
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsText
+import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.util.toOnlyTime
 import com.titi.app.feature.edit.model.EditUiState
+import com.titi.app.feature.edit.model.TaskHistory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -137,12 +141,37 @@ private fun EditScreen(modifier: Modifier, uiState: EditUiState) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        EditTaskContent()
+        if (uiState.clickedTaskName != null) {
+            EditTaskContent(
+                themeColor = uiState.graphColors.first(),
+                taskName = uiState.clickedTaskName,
+                taskHistories = uiState.dailyGraphData.taskHistories
+                    ?.get(uiState.clickedTaskName)
+                    ?: emptyList(),
+            )
+        } else {
+            Box(
+                modifier = Modifier.weight(1f),
+                contentAlignment = Alignment.Center,
+            ) {
+                TdsText(
+                    text = "과목을 선택하여 기록수정 후\nSAVE를 눌러 주세요.",
+                    color = TdsColor.TEXT,
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    fontSize = 17.sp,
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
     }
 }
 
 @Composable
-private fun EditTaskContent() {
+private fun EditTaskContent(
+    themeColor: TdsColor,
+    taskName: String,
+    taskHistories: List<TaskHistory>,
+) {
     BoxWithConstraints(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center,
@@ -182,11 +211,13 @@ private fun EditTaskContent() {
                     TdsText(
                         modifier = Modifier
                             .background(
-                                color = TdsColor.D1.getColor(),
+                                color = themeColor
+                                    .getColor()
+                                    .copy(alpha = 0.5f),
                                 shape = RoundedCornerShape(4.dp),
                             )
-                            .padding(2.dp),
-                        text = "과목명을 입력해 주세요.",
+                            .padding(4.dp),
+                        text = taskName.ifEmpty { "과목명을 입력해 주세요." },
                         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 17.sp,
                         color = TdsColor.TEXT,
@@ -196,7 +227,13 @@ private fun EditTaskContent() {
 
                     Icon(
                         modifier = Modifier.size(18.dp),
-                        painter = painterResource(R.drawable.plus_circle_icon),
+                        painter = painterResource(
+                            if (taskName.isBlank()) {
+                                R.drawable.plus_circle_icon
+                            } else {
+                                R.drawable.edit_circle_icon
+                            },
+                        ),
                         contentDescription = "",
                         tint = TdsColor.TEXT.getColor(),
                     )
@@ -218,10 +255,10 @@ private fun EditTaskContent() {
                     Spacer(modifier = Modifier.width(35.dp))
 
                     TdsText(
-                        text = "3:34:34",
+                        text = taskHistories.sumOf { it.diffTime }.getTimeString(),
                         textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                         fontSize = 20.sp,
-                        color = TdsColor.D1,
+                        color = themeColor,
                     )
                 }
 
@@ -231,20 +268,23 @@ private fun EditTaskContent() {
                     modifier = Modifier.weight(1f),
                 ) {
                     TdsText(
-                        text = "Time:",
+                        text = "Histories:",
                         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 17.sp,
                         color = TdsColor.TEXT,
                     )
 
-                    Spacer(modifier = Modifier.width(35.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
 
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        items(3) {
-                            TaskRowContent()
+                        items(taskHistories.size) { index ->
+                            TaskRowContent(
+                                themeColor = themeColor,
+                                taskHistory = taskHistories[index],
+                            )
                         }
 
                         item {
@@ -277,7 +317,7 @@ private fun EditTaskContent() {
                     modifier = Modifier
                         .width(75.dp)
                         .background(
-                            TdsColor.D1.getColor(),
+                            color = themeColor.getColor(),
                             shape = RoundedCornerShape(4.dp),
                         )
                         .padding(4.dp),
@@ -293,23 +333,27 @@ private fun EditTaskContent() {
 }
 
 @Composable
-private fun TaskRowContent() {
+private fun TaskRowContent(themeColor: TdsColor, taskHistory: TaskHistory) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             TdsText(
                 modifier = Modifier
+                    .width(64.dp)
                     .background(
-                        color = TdsColor.D1.getColor(),
+                        color = themeColor
+                            .getColor()
+                            .copy(alpha = 0.5f),
                         shape = RoundedCornerShape(4.dp),
                     )
-                    .padding(2.dp),
-                text = "10:00:00",
+                    .padding(vertical = 4.dp),
+                text = taskHistory.startDateTime.toOnlyTime(),
                 textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = 17.sp,
                 color = TdsColor.TEXT,
+                textAlign = TextAlign.Center,
             )
 
-            Spacer(modifier = Modifier.width(10.dp))
+            Spacer(modifier = Modifier.width(8.dp))
 
             TdsText(
                 text = "~",
@@ -318,25 +362,29 @@ private fun TaskRowContent() {
                 color = TdsColor.TEXT,
             )
 
-            Spacer(modifier = Modifier.width(10.dp))
+            Spacer(modifier = Modifier.width(8.dp))
 
             TdsText(
                 modifier = Modifier
+                    .width(64.dp)
                     .background(
-                        color = TdsColor.D1.getColor(),
+                        color = themeColor
+                            .getColor()
+                            .copy(alpha = 0.5f),
                         shape = RoundedCornerShape(4.dp),
                     )
-                    .padding(2.dp),
-                text = "10:00:00",
+                    .padding(vertical = 4.dp),
+                text = taskHistory.endDateTime.toOnlyTime(),
                 textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = 17.sp,
                 color = TdsColor.TEXT,
+                textAlign = TextAlign.Center,
             )
 
-            Spacer(modifier = Modifier.width(10.dp))
+            Spacer(modifier = Modifier.width(8.dp))
 
             TdsText(
-                text = "10:00:00",
+                text = taskHistory.diffTime.getTimeString(),
                 textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = 13.sp,
                 color = TdsColor.TEXT,
