@@ -63,10 +63,12 @@ class EditViewModel @AssistedInject constructor(
                 index = -1,
             )
 
-            is EditActions.Updates.UpdateTaskHistory -> {
-            }
+            is EditActions.Updates.UpdateTaskName -> updateTaskName(
+                currentTaskName = editActions.currentTaskName,
+                updateTaskName = editActions.updateTaskName,
+            )
 
-            is EditActions.Updates.UpdateTaskName -> {
+            is EditActions.Updates.UpdateTaskHistory -> {
             }
         }
     }
@@ -77,6 +79,34 @@ class EditViewModel @AssistedInject constructor(
                 clickedTaskName = taskName,
                 selectedTaskIndex = index,
             )
+        }
+    }
+
+    private fun updateTaskName(currentTaskName: String, updateTaskName: String) {
+        withState {
+            val taskHistories = it.dailyGraphData.taskHistories?.toMutableMap() ?: mutableMapOf()
+            val taskData = it.dailyGraphData.taskData.toMutableList()
+
+            if (currentTaskName.isEmpty()) {
+                taskHistories[updateTaskName] = emptyList()
+            } else {
+                taskHistories[updateTaskName] = taskHistories[currentTaskName] ?: emptyList()
+                taskHistories.remove(currentTaskName)
+                val findTaskDataIndex =
+                    taskData.indexOfFirst { data -> data.key == currentTaskName }
+                taskData[findTaskDataIndex] =
+                    taskData[findTaskDataIndex].copy(key = updateTaskName)
+            }
+
+            setState {
+                copy(
+                    clickedTaskName = updateTaskName,
+                    dailyGraphData = dailyGraphData.copy(
+                        taskHistories = taskHistories.toMap(),
+                        taskData = taskData.toList(),
+                    ),
+                )
+            }
         }
     }
 

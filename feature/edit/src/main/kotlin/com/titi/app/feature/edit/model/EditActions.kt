@@ -12,8 +12,8 @@ sealed interface EditActions {
         data object Save : Updates
 
         data class ClickTaskName(
-            val taskName: String = "",
-            val index: Int = -1,
+            val taskName: String,
+            val index: Int,
         ) : Updates
 
         data class UpdateTaskName(

@@ -36,8 +36,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,10 +50,11 @@ import com.titi.app.core.designsystem.component.TdsDivider
 import com.titi.app.core.designsystem.component.TdsGraphContent
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsText
+import com.titi.app.core.designsystem.component.dialog.AddTaskNameDialog
+import com.titi.app.core.designsystem.component.dialog.EditTaskNameDialog
 import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
-import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.core.util.toOnlyTime
 import com.titi.app.feature.edit.model.EditActions
 import com.titi.app.feature.edit.model.EditUiState
@@ -149,10 +151,20 @@ private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Uni
                     timeTableData = dailyGraphData.tdsTimeTableData,
                     selectedTaskIndex = uiState.selectedTaskIndex,
                     onClickTask = { taskName, index ->
-                        onEditActions(EditActions.Updates.ClickTaskName(taskName, index))
+                        onEditActions(
+                            EditActions.Updates.ClickTaskName(
+                                taskName = taskName,
+                                index = index,
+                            ),
+                        )
                     },
                     onClickAddTask = {
-                        onEditActions(EditActions.Updates.ClickTaskName())
+                        onEditActions(
+                            EditActions.Updates.ClickTaskName(
+                                taskName = "",
+                                index = dailyGraphData.taskData.size + 1,
+                            ),
+                        )
                     },
                 )
             }
@@ -195,6 +207,40 @@ private fun EditTaskContent(
 ) {
     var showEditTaskNameDialog by remember {
         mutableStateOf(false)
+    }
+
+    if (showEditTaskNameDialog) {
+        if (taskName.isNotEmpty()) {
+            EditTaskNameDialog(
+                taskName = TextFieldValue(
+                    text = taskName,
+                    selection = TextRange(taskName.length),
+                ),
+                onPositive = {
+                    onEditActions(
+                        EditActions.Updates.UpdateTaskName(
+                            currentTaskName = taskName,
+                            updateTaskName = it.text,
+                        ),
+                    )
+                },
+                onShowDialog = { showEditTaskNameDialog = it },
+            )
+        } else {
+            AddTaskNameDialog(
+                onPositive = {
+                    if (it.isNotEmpty()) {
+                        onEditActions(
+                            EditActions.Updates.UpdateTaskName(
+                                currentTaskName = taskName,
+                                updateTaskName = it,
+                            ),
+                        )
+                    }
+                },
+                onShowDialog = { showEditTaskNameDialog = it },
+            )
+        }
     }
 
     BoxWithConstraints(
@@ -348,7 +394,7 @@ private fun EditTaskContent(
                         .height(25.dp)
                         .background(
                             color = if (taskHistories.isEmpty()) {
-                                TdsColor.LIGHT_GRAY.getColor()
+                                TdsColor.GRAPH_BORDER.getColor()
                             } else {
                                 themeColor.getColor()
                             },
@@ -448,13 +494,5 @@ private fun TaskRowContent(themeColor: TdsColor, taskHistory: TaskHistory) {
         Spacer(modifier = Modifier.height(8.dp))
 
         TdsDivider(color = themeColor)
-    }
-}
-
-@Preview
-@Composable
-private fun EditScreenPreview() {
-    TiTiTheme {
-        // EditScreen(currentDate = LocalDate.now()) { }
     }
 }
