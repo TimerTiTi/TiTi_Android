@@ -1,7 +1,12 @@
 package com.titi.app.feature.edit.ui
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,11 +14,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -23,13 +32,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
+import com.titi.app.core.designsystem.component.TdsDivider
 import com.titi.app.core.designsystem.component.TdsGraphContent
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsText
@@ -127,6 +139,227 @@ private fun EditScreen(modifier: Modifier, uiState: EditUiState) {
                 timeTableData = dailyGraphData.tdsTimeTableData,
             )
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        EditTaskContent()
+    }
+}
+
+@Composable
+private fun EditTaskContent() {
+    BoxWithConstraints(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center,
+    ) {
+        val width = maxWidth.coerceAtMost(345.dp)
+
+        OutlinedCard(
+            modifier = Modifier
+                .width(width)
+                .height(280.dp),
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(containerColor = TdsColor.BACKGROUND.getColor()),
+            border = BorderStroke(
+                width = 3.dp,
+                TdsColor.SHADOW.getColor(),
+            ),
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    TdsText(
+                        text = "Task:",
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                        fontSize = 17.sp,
+                        color = TdsColor.TEXT,
+                    )
+
+                    Spacer(modifier = Modifier.width(35.dp))
+
+                    TdsText(
+                        modifier = Modifier
+                            .background(
+                                color = TdsColor.D1.getColor(),
+                                shape = RoundedCornerShape(4.dp),
+                            )
+                            .padding(2.dp),
+                        text = "과목명을 입력해 주세요.",
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                        fontSize = 17.sp,
+                        color = TdsColor.TEXT,
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Icon(
+                        modifier = Modifier.size(18.dp),
+                        painter = painterResource(R.drawable.plus_circle_icon),
+                        contentDescription = "",
+                        tint = TdsColor.TEXT.getColor(),
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    TdsText(
+                        text = "Time:",
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                        fontSize = 17.sp,
+                        color = TdsColor.TEXT,
+                    )
+
+                    Spacer(modifier = Modifier.width(35.dp))
+
+                    TdsText(
+                        text = "3:34:34",
+                        textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
+                        fontSize = 20.sp,
+                        color = TdsColor.D1,
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Row(
+                    modifier = Modifier.weight(1f),
+                ) {
+                    TdsText(
+                        text = "Time:",
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                        fontSize = 17.sp,
+                        color = TdsColor.TEXT,
+                    )
+
+                    Spacer(modifier = Modifier.width(35.dp))
+
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        items(3) {
+                            TaskRowContent()
+                        }
+
+                        item {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                            ) {
+                                Icon(
+                                    modifier = Modifier.size(18.dp),
+                                    painter = painterResource(R.drawable.plus_circle_icon),
+                                    contentDescription = "",
+                                    tint = TdsColor.TEXT.getColor(),
+                                )
+
+                                Spacer(modifier = Modifier.width(4.dp))
+
+                                TdsText(
+                                    text = "기록추가",
+                                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                                    color = TdsColor.TEXT,
+                                    fontSize = 14.sp,
+                                )
+                            }
+                        }
+                    }
+                }
+
+                TdsText(
+                    modifier = Modifier
+                        .width(75.dp)
+                        .background(
+                            TdsColor.D1.getColor(),
+                            shape = RoundedCornerShape(4.dp),
+                        )
+                        .padding(4.dp),
+                    textAlign = TextAlign.Center,
+                    text = "OK",
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    color = TdsColor.TEXT,
+                    fontSize = 17.sp,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun TaskRowContent() {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            TdsText(
+                modifier = Modifier
+                    .background(
+                        color = TdsColor.D1.getColor(),
+                        shape = RoundedCornerShape(4.dp),
+                    )
+                    .padding(2.dp),
+                text = "10:00:00",
+                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                fontSize = 17.sp,
+                color = TdsColor.TEXT,
+            )
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            TdsText(
+                text = "~",
+                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                fontSize = 17.sp,
+                color = TdsColor.TEXT,
+            )
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            TdsText(
+                modifier = Modifier
+                    .background(
+                        color = TdsColor.D1.getColor(),
+                        shape = RoundedCornerShape(4.dp),
+                    )
+                    .padding(2.dp),
+                text = "10:00:00",
+                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                fontSize = 17.sp,
+                color = TdsColor.TEXT,
+            )
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            TdsText(
+                text = "10:00:00",
+                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                fontSize = 13.sp,
+                color = TdsColor.TEXT,
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Icon(
+                modifier = Modifier.size(18.dp),
+                painter = painterResource(R.drawable.edit_circle_icon),
+                contentDescription = "",
+                tint = TdsColor.TEXT.getColor(),
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        TdsDivider()
     }
 }
 
