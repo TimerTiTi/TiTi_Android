@@ -56,9 +56,11 @@ import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.util.toOnlyTime
+import com.titi.app.feature.edit.mapper.toFeatureModel
+import com.titi.app.feature.edit.model.DateTimeTaskHistory
 import com.titi.app.feature.edit.model.EditActions
 import com.titi.app.feature.edit.model.EditUiState
-import com.titi.app.feature.edit.model.TaskHistory
+import java.time.LocalDate
 
 @Composable
 fun EditScreen(currentDate: String, onBack: () -> Unit) {
@@ -175,13 +177,16 @@ private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Uni
                 EditTaskContent(
                     themeColor = uiState.graphColors.first(),
                     taskName = uiState.clickedTaskName,
-                    taskHistories = uiState.dailyGraphData.taskHistories
+                    taskHistories = uiState.currentDaily
+                        .taskHistories
                         ?.get(uiState.clickedTaskName)
+                        ?.map { it.toFeatureModel() }
                         ?: emptyList(),
-                    fullTaskHistories = uiState.dailyGraphData
+                    fullTaskHistories = uiState.currentDaily
                         .taskHistories
                         ?.values
                         ?.flatten()
+                        ?.map { it.toFeatureModel() }
                         ?: emptyList(),
                     onEditActions = onEditActions,
                 )
@@ -207,12 +212,18 @@ private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Uni
 private fun EditTaskContent(
     themeColor: TdsColor,
     taskName: String,
-    taskHistories: List<TaskHistory>,
-    fullTaskHistories: List<TaskHistory>,
+    taskHistories: List<DateTimeTaskHistory>,
+    fullTaskHistories: List<DateTimeTaskHistory>,
     onEditActions: (EditActions) -> Unit,
 ) {
     var showEditTaskNameDialog by remember {
         mutableStateOf(false)
+    }
+    var showEditTaskHistoryDialog by remember {
+        mutableStateOf(false)
+    }
+    var selectedTaskHistory by remember {
+        mutableStateOf<DateTimeTaskHistory?>(null)
     }
 
     if (showEditTaskNameDialog) {
@@ -247,6 +258,27 @@ private fun EditTaskContent(
                 onShowDialog = { showEditTaskNameDialog = it },
             )
         }
+    }
+
+    if (showEditTaskHistoryDialog) {
+        EditTaskHistoryTimeDialog(
+            themeColor = themeColor,
+            startDateTime = selectedTaskHistory?.startDateTime ?: LocalDate.now().atStartOfDay(),
+            endDateTime = selectedTaskHistory?.endDateTime ?: LocalDate.now().atStartOfDay(),
+            fullTaskHistories = fullTaskHistories
+                .toMutableList()
+                .apply { remove(selectedTaskHistory) }
+                .toList(),
+            onShowDialog = { showEditTaskHistoryDialog = it },
+            onPositive = { dateTimeTaskHistory ->
+                onEditActions(
+                    EditActions.Updates.UpsertTaskHistory(
+                        taskName = taskName,
+                        dateTimeTaskHistory = dateTimeTaskHistory,
+                    ),
+                )
+            },
+        )
     }
 
     BoxWithConstraints(
@@ -365,13 +397,21 @@ private fun EditTaskContent(
                             TaskRowContent(
                                 themeColor = themeColor,
                                 taskHistory = taskHistories[index],
-                                fullTaskHistories = fullTaskHistories,
+                                onEditTaskHistory = { taskHistory ->
+                                    selectedTaskHistory = taskHistory
+                                    showEditTaskHistoryDialog = true
+                                },
                             )
                         }
 
                         item {
                             Row(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        selectedTaskHistory = null
+                                        showEditTaskHistoryDialog = true
+                                    },
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Center,
                             ) {
@@ -400,8 +440,8 @@ private fun EditTaskContent(
                         .width(75.dp)
                         .height(25.dp)
                         .background(
-                            color = if (taskHistories.isEmpty()) {
-                                TdsColor.GRAPH_BORDER.getColor()
+                            color = if (taskHistories.isEmpty() || taskName.isEmpty()) {
+                                TdsColor.GROUPED_BACKGROUND.getColor()
                             } else {
                                 themeColor.getColor()
                             },
@@ -409,7 +449,7 @@ private fun EditTaskContent(
                         )
                         .padding(4.dp)
                         .clickable {
-                            if (taskHistories.isNotEmpty()) {
+                            if (taskHistories.isNotEmpty() || taskName.isEmpty()) {
                                 onEditActions(EditActions.Updates.Done)
                             }
                         },
@@ -427,27 +467,9 @@ private fun EditTaskContent(
 @Composable
 private fun TaskRowContent(
     themeColor: TdsColor,
-    taskHistory: TaskHistory,
-    fullTaskHistories: List<TaskHistory>,
+    taskHistory: DateTimeTaskHistory,
+    onEditTaskHistory: (DateTimeTaskHistory) -> Unit,
 ) {
-    var showEditTaskHistoryDialog by remember {
-        mutableStateOf(false)
-    }
-
-    if (showEditTaskHistoryDialog) {
-        EditTaskHistoryTimeDialog(
-            themeColor = themeColor,
-            startDateTime = taskHistory.startDateTime,
-            endDateTime = taskHistory.endDateTime,
-            fullTaskHistories = fullTaskHistories
-                .toMutableList()
-                .apply { remove(taskHistory) }
-                .toList(),
-            onShowDialog = { showEditTaskHistoryDialog = it },
-            onPositive = { startDateTime, endDateTime -> },
-        )
-    }
-
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             TdsText(
@@ -509,7 +531,7 @@ private fun TaskRowContent(
             Icon(
                 modifier = Modifier
                     .size(18.dp)
-                    .clickable { showEditTaskHistoryDialog = true },
+                    .clickable { onEditTaskHistory(taskHistory) },
                 painter = painterResource(R.drawable.edit_circle_icon),
                 contentDescription = "",
                 tint = TdsColor.TEXT.getColor(),

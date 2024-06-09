@@ -27,7 +27,7 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.feature.edit.mapper.toAMPMHours
 import com.titi.app.feature.edit.mapper.toLocalDateTime
-import com.titi.app.feature.edit.model.TaskHistory
+import com.titi.app.feature.edit.model.DateTimeTaskHistory
 import com.titi.app.feature.edit.util.isStartTimeTaskHistoryOverlap
 import com.titi.app.feature.edit.util.isTaskHistoryOverlap
 import java.time.Duration
@@ -38,9 +38,9 @@ fun EditTaskHistoryTimeDialog(
     themeColor: TdsColor,
     startDateTime: LocalDateTime,
     endDateTime: LocalDateTime,
-    fullTaskHistories: List<TaskHistory>,
+    fullTaskHistories: List<DateTimeTaskHistory>,
     onShowDialog: (Boolean) -> Unit,
-    onPositive: (startDateTime: LocalDateTime, endDateTime: LocalDateTime) -> Unit,
+    onPositive: (DateTimeTaskHistory) -> Unit,
 ) {
     var startPickerValue by remember {
         mutableStateOf(startDateTime.toAMPMHours())
@@ -62,7 +62,14 @@ fun EditTaskHistoryTimeDialog(
                 .getTimeString(),
             positiveText = stringResource(R.string.Ok),
             onPositive = {
-                onPositive(startLocalDateTime, endLocalDateTime)
+                if (endLocalDateTime > startLocalDateTime) {
+                    onPositive(
+                        DateTimeTaskHistory(
+                            startDateTime = startLocalDateTime,
+                            endDateTime = endLocalDateTime,
+                        ),
+                    )
+                }
             },
             negativeText = stringResource(R.string.Cancel),
         ),

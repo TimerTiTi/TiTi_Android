@@ -1,7 +1,5 @@
 package com.titi.app.feature.edit.model
 
-import java.time.LocalDateTime
-
 sealed interface EditActions {
 
     sealed interface Navigates : EditActions {
@@ -23,8 +21,7 @@ sealed interface EditActions {
 
         data class UpsertTaskHistory(
             val taskName: String,
-            val startDateTime: LocalDateTime,
-            val endDateTime: LocalDateTime,
+            val dateTimeTaskHistory: DateTimeTaskHistory,
         ) : Updates
 
         data object Done : Updates

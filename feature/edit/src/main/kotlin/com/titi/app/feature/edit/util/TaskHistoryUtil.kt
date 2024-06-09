@@ -1,11 +1,11 @@
 package com.titi.app.feature.edit.util
 
-import com.titi.app.feature.edit.model.TaskHistory
+import com.titi.app.feature.edit.model.DateTimeTaskHistory
 import java.time.LocalDateTime
 
 fun isStartTimeTaskHistoryOverlap(
     startDateTime: LocalDateTime,
-    taskHistories: List<TaskHistory>,
+    taskHistories: List<DateTimeTaskHistory>,
 ): Boolean {
     for (taskHistory in taskHistories) {
         if (
@@ -21,7 +21,7 @@ fun isStartTimeTaskHistoryOverlap(
 fun isTaskHistoryOverlap(
     startDateTime: LocalDateTime,
     endDateTime: LocalDateTime,
-    taskHistories: List<TaskHistory>,
+    taskHistories: List<DateTimeTaskHistory>,
 ): Boolean {
     for (taskHistory in taskHistories) {
         if (startDateTime <= taskHistory.endDateTime && endDateTime >= taskHistory.startDateTime) {

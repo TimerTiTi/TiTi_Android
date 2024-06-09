@@ -6,6 +6,7 @@ import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.doamin.daily.model.TaskHistory
 import com.titi.app.feature.edit.model.DailyGraphData
+import com.titi.app.feature.edit.model.DateTimeTaskHistory
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
@@ -17,23 +18,25 @@ internal fun Daily.toFeatureModel(): DailyGraphData {
         totalTime = sumTime?.getTimeString() ?: "00:00:00",
         maxTime = maxTime.getTimeString(),
         timeLine = timeLine.toSystemDefaultTimeLine(),
-        taskData = tasks?.map {
-            TdsTaskData(
-                key = it.key,
-                value = it.value.getTimeString(),
-                progress = if (sumTime != null && sumTime > 0L) {
-                    it.value / sumTime.toFloat()
-                } else {
-                    0f
-                },
-            )
-        } ?: emptyList(),
+        taskData = tasks
+            ?.filter { it.key.isNotEmpty() }
+            ?.map {
+                TdsTaskData(
+                    key = it.key,
+                    value = it.value.getTimeString(),
+                    progress = if (sumTime != null && sumTime > 0L) {
+                        it.value / sumTime.toFloat()
+                    } else {
+                        0f
+                    },
+                )
+            } ?: emptyList(),
         tdsTimeTableData = taskHistories
+            ?.filter { it.key.isNotEmpty() }
             ?.values
             ?.flatten()
             ?.flatMap { makeTimeTableData(it.startDate, it.endDate) }
             ?: emptyList(),
-        taskHistories = taskHistories?.mapValues { it.value.map { it.toFeatureModel() } },
     )
 }
 
@@ -70,7 +73,7 @@ internal fun makeTimeTableData(startDate: String, endDate: String): List<TdsTime
     return timeTableData.toList()
 }
 
-internal fun TaskHistory.toFeatureModel() = com.titi.app.feature.edit.model.TaskHistory(
+internal fun TaskHistory.toFeatureModel() = DateTimeTaskHistory(
     startDateTime = ZonedDateTime.parse(startDate)
         .withZoneSameInstant(ZoneOffset.systemDefault()).toLocalDateTime(),
     endDateTime = ZonedDateTime.parse(endDate).withZoneSameInstant(ZoneOffset.systemDefault())

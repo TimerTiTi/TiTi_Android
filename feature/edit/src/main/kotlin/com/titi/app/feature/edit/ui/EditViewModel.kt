@@ -6,15 +6,20 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.app.core.designsystem.theme.TdsColor
+import com.titi.app.core.util.addTimeLine
+import com.titi.app.doamin.daily.model.Daily
+import com.titi.app.doamin.daily.model.TaskHistory
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyFlowUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
-import com.titi.app.feature.edit.mapper.toFeatureModel
-import com.titi.app.feature.edit.model.DailyGraphData
+import com.titi.app.feature.edit.model.DateTimeTaskHistory
 import com.titi.app.feature.edit.model.EditActions
 import com.titi.app.feature.edit.model.EditUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import java.time.ZoneId
+import java.time.ZoneOffset
+import kotlin.math.max
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
@@ -43,7 +48,7 @@ class EditViewModel @AssistedInject constructor(
                 Log.e("EditViewModel", it.message.toString())
             }.setOnEach {
                 copy(
-                    dailyGraphData = it?.toFeatureModel() ?: DailyGraphData(),
+                    currentDaily = it ?: Daily(),
                 )
             }
     }
@@ -68,8 +73,10 @@ class EditViewModel @AssistedInject constructor(
                 updateTaskName = editActions.updateTaskName,
             )
 
-            is EditActions.Updates.UpsertTaskHistory -> {
-            }
+            is EditActions.Updates.UpsertTaskHistory -> updateTaskHistory(
+                taskName = editActions.taskName,
+                dateTimeTaskHistory = editActions.dateTimeTaskHistory,
+            )
         }
     }
 
@@ -84,26 +91,61 @@ class EditViewModel @AssistedInject constructor(
 
     private fun updateTaskName(currentTaskName: String, updateTaskName: String) {
         withState {
-            val taskHistories = it.dailyGraphData.taskHistories?.toMutableMap() ?: mutableMapOf()
-            val taskData = it.dailyGraphData.taskData.toMutableList()
+            val taskHistories = it.currentDaily.taskHistories?.toMutableMap() ?: mutableMapOf()
+            val tasks = it.currentDaily.tasks?.toMutableMap() ?: mutableMapOf()
 
-            if (currentTaskName.isEmpty()) {
-                taskHistories[updateTaskName] = emptyList()
-            } else {
-                taskHistories[updateTaskName] = taskHistories[currentTaskName] ?: emptyList()
-                taskHistories.remove(currentTaskName)
-                val findTaskDataIndex =
-                    taskData.indexOfFirst { data -> data.key == currentTaskName }
-                taskData[findTaskDataIndex] =
-                    taskData[findTaskDataIndex].copy(key = updateTaskName)
-            }
+            taskHistories[updateTaskName] = taskHistories[currentTaskName] ?: emptyList()
+            taskHistories.remove(currentTaskName)
+            tasks[updateTaskName] = tasks[currentTaskName] ?: 0L
+            tasks.remove(currentTaskName)
 
             setState {
                 copy(
                     clickedTaskName = updateTaskName,
-                    dailyGraphData = dailyGraphData.copy(
+                    currentDaily = currentDaily.copy(
                         taskHistories = taskHistories.toMap(),
-                        taskData = taskData.toList(),
+                        tasks = tasks.toMap(),
+                    ),
+                )
+            }
+        }
+    }
+
+    private fun updateTaskHistory(taskName: String, dateTimeTaskHistory: DateTimeTaskHistory) {
+        withState {
+            val taskHistories = it.currentDaily.taskHistories?.toMutableMap() ?: mutableMapOf()
+            val tasks = it.currentDaily.tasks?.toMutableMap() ?: mutableMapOf()
+
+            val startZoneDateTime = dateTimeTaskHistory.startDateTime
+                .atZone(ZoneId.systemDefault())
+                .withZoneSameInstant(ZoneOffset.UTC)
+            val endZoneDateTime = dateTimeTaskHistory.endDateTime
+                .atZone(ZoneId.systemDefault())
+                .withZoneSameInstant(ZoneOffset.UTC)
+
+            val updateTaskHistory = TaskHistory(
+                startDate = startZoneDateTime.toString(),
+                endDate = endZoneDateTime.toString(),
+            )
+
+            taskHistories[taskName] = taskHistories[taskName]
+                ?.toMutableList()
+                ?.apply { add(updateTaskHistory) }
+                ?: listOf(updateTaskHistory)
+            tasks[taskName] = tasks.getOrDefault(taskName, 0L) +
+                dateTimeTaskHistory.diffTime
+
+            setState {
+                copy(
+                    currentDaily = currentDaily.copy(
+                        taskHistories = taskHistories.toMap(),
+                        tasks = tasks.toMap(),
+                        maxTime = max(it.currentDaily.maxTime, dateTimeTaskHistory.diffTime),
+                        timeLine = addTimeLine(
+                            startTime = startZoneDateTime,
+                            endTime = endZoneDateTime,
+                            timeLine = it.currentDaily.timeLine,
+                        ),
                     ),
                 )
             }
