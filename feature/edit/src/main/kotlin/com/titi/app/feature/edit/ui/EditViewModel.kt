@@ -68,7 +68,7 @@ class EditViewModel @AssistedInject constructor(
                 updateTaskName = editActions.updateTaskName,
             )
 
-            is EditActions.Updates.UpdateTaskHistory -> {
+            is EditActions.Updates.UpsertTaskHistory -> {
             }
         }
     }

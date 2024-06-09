@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.chargemap.compose.numberpicker.AMPMHours
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsText
@@ -25,15 +24,22 @@ import com.titi.app.core.designsystem.component.TdsTimePicker
 import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
+import com.titi.app.feature.edit.mapper.toAMPMHours
+import java.time.LocalDateTime
 
 @Composable
-fun EditTaskHistoryTimeDialog(themeColor: TdsColor, onShowDialog: (Boolean) -> Unit) {
+fun EditTaskHistoryTimeDialog(
+    themeColor: TdsColor,
+    startDateTime: LocalDateTime,
+    endDateTime: LocalDateTime,
+    onShowDialog: (Boolean) -> Unit,
+) {
     var startPickerValue by remember {
-        mutableStateOf(AMPMHours(10, 10, AMPMHours.DayTime.AM))
+        mutableStateOf(startDateTime.toAMPMHours())
     }
 
     var endPickerValue by remember {
-        mutableStateOf(AMPMHours(10, 10, AMPMHours.DayTime.AM))
+        mutableStateOf(endDateTime.toAMPMHours())
     }
 
     TdsDialog(

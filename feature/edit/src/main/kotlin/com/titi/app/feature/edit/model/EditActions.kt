@@ -21,17 +21,11 @@ sealed interface EditActions {
             val updateTaskName: String,
         ) : Updates
 
-        data class UpdateTaskHistory(
+        data class UpsertTaskHistory(
             val taskName: String,
             val startDateTime: LocalDateTime,
             val endDateTime: LocalDateTime,
         ) : Updates
-
-        data class AddTaskHistory(
-            val taskName: String,
-            val startDateTime: LocalDateTime,
-            val endDateTime: LocalDateTime,
-        )
 
         data object Done : Updates
     }

@@ -424,7 +424,12 @@ private fun TaskRowContent(themeColor: TdsColor, taskHistory: TaskHistory) {
     }
 
     if (showEditTaskHistoryDialog) {
-        EditTaskHistoryTimeDialog(themeColor) { showEditTaskHistoryDialog }
+        EditTaskHistoryTimeDialog(
+            themeColor = themeColor,
+            startDateTime = taskHistory.startDateTime,
+            endDateTime = taskHistory.endDateTime,
+            onShowDialog = { showEditTaskHistoryDialog = it },
+        )
     }
 
     Column(modifier = Modifier.fillMaxWidth()) {
