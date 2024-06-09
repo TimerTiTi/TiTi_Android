@@ -113,8 +113,7 @@ fun ColorSelectComponent(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Box(
-                    modifier =
-                    Modifier
+                    modifier = Modifier
                         .size(32.dp)
                         .clip(RoundedCornerShape(4.dp))
                         .background(color = textColor)

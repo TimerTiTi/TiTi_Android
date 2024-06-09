@@ -1,7 +1,5 @@
 package com.titi.app.feature.edit.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,23 +7,35 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.chargemap.compose.numberpicker.AMPMHours
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsText
+import com.titi.app.core.designsystem.component.TdsTimePicker
 import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 
 @Composable
 fun EditTaskHistoryTimeDialog(themeColor: TdsColor, onShowDialog: (Boolean) -> Unit) {
+    var startPickerValue by remember {
+        mutableStateOf(AMPMHours(10, 10, AMPMHours.DayTime.AM))
+    }
+
+    var endPickerValue by remember {
+        mutableStateOf(AMPMHours(10, 10, AMPMHours.DayTime.AM))
+    }
+
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Confirm(
             title = "01:00:00",
@@ -64,26 +74,10 @@ fun EditTaskHistoryTimeDialog(themeColor: TdsColor, onShowDialog: (Boolean) -> U
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                TdsText(
-                    modifier = Modifier
-                        .width(90.dp)
-                        .background(
-                            color = themeColor
-                                .getColor()
-                                .copy(0.5f),
-                            shape = RoundedCornerShape(4.dp),
-                        )
-                        .border(
-                            width = 2.dp,
-                            color = themeColor.getColor(),
-                            shape = RoundedCornerShape(4.dp),
-                        )
-                        .padding(vertical = 4.dp),
-                    text = "10:00:00",
-                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                    color = TdsColor.TEXT,
-                    fontSize = 22.sp,
-                    textAlign = TextAlign.Center,
+                TdsTimePicker(
+                    themeColor = themeColor,
+                    pickerValue = startPickerValue,
+                    onValueChange = { startPickerValue = it },
                 )
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -97,26 +91,10 @@ fun EditTaskHistoryTimeDialog(themeColor: TdsColor, onShowDialog: (Boolean) -> U
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                TdsText(
-                    modifier = Modifier
-                        .width(90.dp)
-                        .background(
-                            color = themeColor
-                                .getColor()
-                                .copy(0.5f),
-                            shape = RoundedCornerShape(4.dp),
-                        )
-                        .border(
-                            width = 2.dp,
-                            color = themeColor.getColor(),
-                            shape = RoundedCornerShape(4.dp),
-                        )
-                        .padding(vertical = 4.dp),
-                    text = "11:00:00",
-                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                    color = TdsColor.TEXT,
-                    fontSize = 22.sp,
-                    textAlign = TextAlign.Center,
+                TdsTimePicker(
+                    themeColor = themeColor,
+                    pickerValue = endPickerValue,
+                    onValueChange = { endPickerValue = it },
                 )
             }
         }

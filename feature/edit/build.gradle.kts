@@ -9,4 +9,6 @@ android {
 dependencies {
     implementation(project(":domain:daily"))
     implementation(project(":domain:color"))
+
+    implementation(libs.picker)
 }
