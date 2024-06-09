@@ -423,6 +423,10 @@ private fun TaskRowContent(themeColor: TdsColor, taskHistory: TaskHistory) {
         mutableStateOf(false)
     }
 
+    if (showEditTaskHistoryDialog) {
+        EditTaskHistoryTimeDialog(themeColor) { showEditTaskHistoryDialog }
+    }
+
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             TdsText(
