@@ -21,10 +21,13 @@ import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTimePicker
+import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.feature.edit.mapper.toAMPMHours
+import com.titi.app.feature.edit.mapper.toLocalDateTime
+import java.time.Duration
 import java.time.LocalDateTime
 
 @Composable
@@ -33,20 +36,30 @@ fun EditTaskHistoryTimeDialog(
     startDateTime: LocalDateTime,
     endDateTime: LocalDateTime,
     onShowDialog: (Boolean) -> Unit,
+    onPositive: (startDateTime: LocalDateTime, endDateTime: LocalDateTime) -> Unit,
 ) {
     var startPickerValue by remember {
         mutableStateOf(startDateTime.toAMPMHours())
+    }
+    var startLocalDateTime by remember {
+        mutableStateOf(startDateTime)
     }
 
     var endPickerValue by remember {
         mutableStateOf(endDateTime.toAMPMHours())
     }
+    var endLocalDateTime by remember {
+        mutableStateOf(endDateTime)
+    }
 
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Confirm(
-            title = "01:00:00",
+            title = (Duration.between(startLocalDateTime, endLocalDateTime).toMillis() / 1000)
+                .getTimeString(),
             positiveText = stringResource(R.string.Ok),
-            onPositive = {},
+            onPositive = {
+                onPositive(startLocalDateTime, endLocalDateTime)
+            },
             negativeText = stringResource(R.string.Cancel),
         ),
         onShowDialog = onShowDialog,
@@ -82,8 +95,16 @@ fun EditTaskHistoryTimeDialog(
             ) {
                 TdsTimePicker(
                     themeColor = themeColor,
+                    localDateTime = startLocalDateTime,
                     pickerValue = startPickerValue,
-                    onValueChange = { startPickerValue = it },
+                    onValueChange = {
+                        startPickerValue = it
+                        if (true) {
+                            startLocalDateTime = it.toLocalDateTime(
+                                currentDate = startLocalDateTime.toLocalDate(),
+                            )
+                        }
+                    },
                 )
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -99,8 +120,16 @@ fun EditTaskHistoryTimeDialog(
 
                 TdsTimePicker(
                     themeColor = themeColor,
+                    localDateTime = endLocalDateTime,
                     pickerValue = endPickerValue,
-                    onValueChange = { endPickerValue = it },
+                    onValueChange = {
+                        endPickerValue = it
+                        if (true) {
+                            endLocalDateTime = it.toLocalDateTime(
+                                currentDate = endLocalDateTime.toLocalDate(),
+                            )
+                        }
+                    },
                 )
             }
         }

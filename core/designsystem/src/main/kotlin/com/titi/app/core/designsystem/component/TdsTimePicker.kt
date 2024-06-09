@@ -24,11 +24,14 @@ import com.skydoves.balloon.compose.rememberBalloonBuilder
 import com.skydoves.balloon.compose.setBackgroundColor
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
+import com.titi.app.core.util.toOnlyTime
+import java.time.LocalDateTime
 
 @SuppressLint("DefaultLocale")
 @Composable
 fun TdsTimePicker(
     themeColor: TdsColor,
+    localDateTime: LocalDateTime,
     pickerValue: AMPMHours,
     onValueChange: (AMPMHours) -> Unit,
 ) {
@@ -60,13 +63,6 @@ fun TdsTimePicker(
             )
         },
     ) { balloonWindow ->
-        val hourString = if (pickerValue.dayTime == AMPMHours.DayTime.AM) {
-            String.format("%02d", pickerValue.hours)
-        } else {
-            String.format("%02d", pickerValue.hours + 12)
-        }
-        val minuteString = String.format("%02d", pickerValue.minutes)
-
         TdsText(
             modifier = Modifier
                 .width(90.dp)
@@ -83,7 +79,7 @@ fun TdsTimePicker(
                 )
                 .padding(vertical = 4.dp)
                 .clickable { balloonWindow.showAlignBottom() },
-            text = "$hourString:$minuteString:00",
+            text = localDateTime.toOnlyTime(),
             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             color = TdsColor.TEXT,
             fontSize = 22.sp,

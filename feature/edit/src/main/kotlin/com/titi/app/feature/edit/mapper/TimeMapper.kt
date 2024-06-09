@@ -5,6 +5,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 fun AMPMHours.toLocalDateTime(currentDate: LocalDate): LocalDateTime {
+    val hours = if (dayTime == AMPMHours.DayTime.AM) hours else hours + 12
     return currentDate.atTime(hours, minutes)
 }
 

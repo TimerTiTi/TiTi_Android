@@ -429,6 +429,7 @@ private fun TaskRowContent(themeColor: TdsColor, taskHistory: TaskHistory) {
             startDateTime = taskHistory.startDateTime,
             endDateTime = taskHistory.endDateTime,
             onShowDialog = { showEditTaskHistoryDialog = it },
+            onPositive = { startDateTime, endDateTime -> },
         )
     }
 
