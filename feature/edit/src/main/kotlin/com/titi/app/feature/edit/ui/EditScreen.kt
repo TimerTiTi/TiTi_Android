@@ -178,6 +178,11 @@ private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Uni
                     taskHistories = uiState.dailyGraphData.taskHistories
                         ?.get(uiState.clickedTaskName)
                         ?: emptyList(),
+                    fullTaskHistories = uiState.dailyGraphData
+                        .taskHistories
+                        ?.values
+                        ?.flatten()
+                        ?: emptyList(),
                     onEditActions = onEditActions,
                 )
             } else {
@@ -203,6 +208,7 @@ private fun EditTaskContent(
     themeColor: TdsColor,
     taskName: String,
     taskHistories: List<TaskHistory>,
+    fullTaskHistories: List<TaskHistory>,
     onEditActions: (EditActions) -> Unit,
 ) {
     var showEditTaskNameDialog by remember {
@@ -359,6 +365,7 @@ private fun EditTaskContent(
                             TaskRowContent(
                                 themeColor = themeColor,
                                 taskHistory = taskHistories[index],
+                                fullTaskHistories = fullTaskHistories,
                             )
                         }
 
@@ -418,7 +425,11 @@ private fun EditTaskContent(
 }
 
 @Composable
-private fun TaskRowContent(themeColor: TdsColor, taskHistory: TaskHistory) {
+private fun TaskRowContent(
+    themeColor: TdsColor,
+    taskHistory: TaskHistory,
+    fullTaskHistories: List<TaskHistory>,
+) {
     var showEditTaskHistoryDialog by remember {
         mutableStateOf(false)
     }
@@ -428,6 +439,10 @@ private fun TaskRowContent(themeColor: TdsColor, taskHistory: TaskHistory) {
             themeColor = themeColor,
             startDateTime = taskHistory.startDateTime,
             endDateTime = taskHistory.endDateTime,
+            fullTaskHistories = fullTaskHistories
+                .toMutableList()
+                .apply { remove(taskHistory) }
+                .toList(),
             onShowDialog = { showEditTaskHistoryDialog = it },
             onPositive = { startDateTime, endDateTime -> },
         )

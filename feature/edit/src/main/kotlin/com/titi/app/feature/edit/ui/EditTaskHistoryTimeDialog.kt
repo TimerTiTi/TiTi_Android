@@ -27,6 +27,9 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.feature.edit.mapper.toAMPMHours
 import com.titi.app.feature.edit.mapper.toLocalDateTime
+import com.titi.app.feature.edit.model.TaskHistory
+import com.titi.app.feature.edit.util.isStartTimeTaskHistoryOverlap
+import com.titi.app.feature.edit.util.isTaskHistoryOverlap
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -35,6 +38,7 @@ fun EditTaskHistoryTimeDialog(
     themeColor: TdsColor,
     startDateTime: LocalDateTime,
     endDateTime: LocalDateTime,
+    fullTaskHistories: List<TaskHistory>,
     onShowDialog: (Boolean) -> Unit,
     onPositive: (startDateTime: LocalDateTime, endDateTime: LocalDateTime) -> Unit,
 ) {
@@ -99,10 +103,9 @@ fun EditTaskHistoryTimeDialog(
                     pickerValue = startPickerValue,
                     onValueChange = {
                         startPickerValue = it
-                        if (true) {
-                            startLocalDateTime = it.toLocalDateTime(
-                                currentDate = startLocalDateTime.toLocalDate(),
-                            )
+                        val start = it.toLocalDateTime(startLocalDateTime.toLocalDate())
+                        if (!isStartTimeTaskHistoryOverlap(start, fullTaskHistories)) {
+                            startLocalDateTime = start
                         }
                     },
                 )
@@ -124,10 +127,9 @@ fun EditTaskHistoryTimeDialog(
                     pickerValue = endPickerValue,
                     onValueChange = {
                         endPickerValue = it
-                        if (true) {
-                            endLocalDateTime = it.toLocalDateTime(
-                                currentDate = endLocalDateTime.toLocalDate(),
-                            )
+                        val end = it.toLocalDateTime(endLocalDateTime.toLocalDate())
+                        if (!isTaskHistoryOverlap(startLocalDateTime, end, fullTaskHistories)) {
+                            endLocalDateTime = end
                         }
                     },
                 )
