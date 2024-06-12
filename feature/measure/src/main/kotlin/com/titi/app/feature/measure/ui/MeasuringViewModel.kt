@@ -122,7 +122,6 @@ class MeasuringViewModel @AssistedInject constructor(
                         taskName = taskName,
                         startTime = startTime,
                         endTime = endTime,
-                        measureTime = measureTime,
                     )
                 }
 

@@ -274,7 +274,8 @@ private fun EditTaskContent(
                 onEditActions(
                     EditActions.Updates.UpsertTaskHistory(
                         taskName = taskName,
-                        dateTimeTaskHistory = dateTimeTaskHistory,
+                        currentTaskHistory = selectedTaskHistory,
+                        updateTaskHistory = dateTimeTaskHistory,
                     ),
                 )
             },

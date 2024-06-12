@@ -21,7 +21,8 @@ sealed interface EditActions {
 
         data class UpsertTaskHistory(
             val taskName: String,
-            val dateTimeTaskHistory: DateTimeTaskHistory,
+            val currentTaskHistory: DateTimeTaskHistory?,
+            val updateTaskHistory: DateTimeTaskHistory,
         ) : Updates
 
         data object Done : Updates
