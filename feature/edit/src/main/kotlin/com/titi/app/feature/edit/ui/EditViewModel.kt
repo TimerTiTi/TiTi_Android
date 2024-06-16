@@ -6,7 +6,6 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.app.core.designsystem.theme.TdsColor
-import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.doamin.daily.model.TaskHistory
 import com.titi.app.doamin.daily.model.toUpdateDaily
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyFlowUseCase
@@ -45,10 +44,10 @@ class EditViewModel @AssistedInject constructor(
         getCurrentDateDailyFlowUseCase(initialState.currentDate)
             .catch {
                 Log.e("EditViewModel", it.message.toString())
-            }.setOnEach {
-                copy(
-                    currentDaily = it ?: Daily(),
-                )
+            }.setOnEach { currentDaily ->
+                currentDaily?.let { safeCurrentDaily ->
+                    copy(currentDaily = safeCurrentDaily)
+                } ?: copy()
             }
     }
 

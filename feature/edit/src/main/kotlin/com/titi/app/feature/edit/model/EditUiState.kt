@@ -13,6 +13,8 @@ import com.titi.app.feature.edit.mapper.toFeatureModel
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
 
 data class EditUiState(
     val currentDate: LocalDate = LocalDate.now(),
@@ -30,7 +32,13 @@ data class EditUiState(
         TdsColor.D11,
         TdsColor.D12,
     ),
-    val currentDaily: Daily = Daily(),
+    val currentDaily: Daily = Daily(
+        day = currentDate
+            .atStartOfDay()
+            .atZone(ZoneId.systemDefault())
+            .withZoneSameInstant(ZoneOffset.UTC)
+            .toString(),
+    ),
     val selectedTaskIndex: Int = -1,
     val clickedTaskName: String? = null,
     val saveEnabled: Boolean = false,
