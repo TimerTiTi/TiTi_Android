@@ -8,8 +8,8 @@ import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.app.core.util.isAfterSixAM
 import com.titi.app.core.util.toJson
 import com.titi.app.doamin.daily.model.Daily
-import com.titi.app.doamin.daily.usecase.AddDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetLastDailyFlowUseCase
+import com.titi.app.doamin.daily.usecase.UpsertDailyUseCase
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.domain.color.usecase.UpdateColorUseCase
@@ -38,7 +38,7 @@ class TimerViewModel @AssistedInject constructor(
     private val updateRecordingModeUseCase: UpdateRecordingModeUseCase,
     private val updateColorUseCase: UpdateColorUseCase,
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
-    private val addDailyUseCase: AddDailyUseCase,
+    private val upsertDailyUseCase: UpsertDailyUseCase,
     private val updateMeasuringStateUseCase: UpdateMeasuringStateUseCase,
     private val updateSetTimerTimeUseCase: UpdateSetTimerTimeUseCase,
 ) : MavericksViewModel<TimerUiState>(initialState) {
@@ -137,7 +137,7 @@ class TimerViewModel @AssistedInject constructor(
 
         viewModelScope.launch {
             updateMeasuringStateUseCase(updateRecordTimes)
-            addDailyUseCase(updateDaily)
+            upsertDailyUseCase(updateDaily)
         }
 
         return SplashResultState(
