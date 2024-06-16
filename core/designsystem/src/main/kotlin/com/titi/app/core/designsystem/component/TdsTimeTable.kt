@@ -55,11 +55,7 @@ fun TdsTimeTable(
             val hour = (idx + 6).let { if (it >= 24) it - 24 else it }.toString()
             val hourTextLayoutResult = hourTextMeasurer.measure(hour, textStyle)
 
-            val startX = if (hour.length > 1) {
-                itemWidth / 2 - hourTextLayoutResult.size.width
-            } else {
-                itemWidth / 2 - hourTextLayoutResult.size.width / 2
-            }
+            val startX = itemWidth / 2 - hourTextLayoutResult.size.width / 2
             val startY = itemHeight * (idx + 0.5f) - hourTextLayoutResult.size.height / 2
 
             drawText(
