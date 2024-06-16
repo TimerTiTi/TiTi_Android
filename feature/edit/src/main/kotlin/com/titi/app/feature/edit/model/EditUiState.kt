@@ -33,6 +33,7 @@ data class EditUiState(
     val currentDaily: Daily = Daily(),
     val selectedTaskIndex: Int = -1,
     val clickedTaskName: String? = null,
+    val saveEnabled: Boolean = false,
 ) : MavericksState {
     constructor(args: Bundle) : this(
         currentDate = LocalDate.parse(

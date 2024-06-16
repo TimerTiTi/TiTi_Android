@@ -120,12 +120,17 @@ private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Uni
                 },
                 actions = {
                     TdsText(
-                        modifier = Modifier.clickable { onEditActions(EditActions.Updates.Save) },
+                        modifier = Modifier.clickable {
+                            if (uiState.saveEnabled) {
+                                onEditActions(EditActions.Updates.Save)
+                            }
+                        },
                         text = "SAVE",
-                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
+                        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 17.sp,
-                        color = TdsColor.TEXT,
+                        color = if (uiState.saveEnabled) TdsColor.BLUE else TdsColor.LIGHT_GRAY,
                     )
+
                     Spacer(modifier = Modifier.width(10.dp))
                 },
             )

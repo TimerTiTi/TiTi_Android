@@ -55,6 +55,7 @@ class EditViewModel @AssistedInject constructor(
     fun handleEditActions(editActions: EditActions.Updates) {
         when (editActions) {
             EditActions.Updates.Save -> {
+                Log.e("ABC", "Save")
             }
 
             is EditActions.Updates.ClickTaskName -> updateClickTaskName(
@@ -106,6 +107,11 @@ class EditViewModel @AssistedInject constructor(
                         taskHistories = taskHistories.toMap(),
                         tasks = tasks.toMap(),
                     ),
+                    saveEnabled = if (saveEnabled) {
+                        true
+                    } else {
+                        taskHistories[updateTaskName]?.isNotEmpty() ?: false
+                    },
                 )
             }
         }
@@ -153,7 +159,14 @@ class EditViewModel @AssistedInject constructor(
                 ?: listOf(addTaskHistory)
 
             setState {
-                copy(currentDaily = currentDaily.toUpdateDaily(taskHistories.toMap()))
+                copy(
+                    currentDaily = currentDaily.toUpdateDaily(taskHistories.toMap()),
+                    saveEnabled = if (saveEnabled) {
+                        true
+                    } else {
+                        taskName.isNotEmpty()
+                    },
+                )
             }
         }
     }
