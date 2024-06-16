@@ -14,8 +14,16 @@ fun NavController.navigateToLog(navOptions: NavOptions) {
     navigate(LOG_ROUTE, navOptions)
 }
 
-fun NavGraphBuilder.logGraph(onNavigateToDestination: (TopLevelDestination) -> Unit) {
+fun NavGraphBuilder.logGraph(
+    onNavigateToDestination: (TopLevelDestination) -> Unit,
+    onNavigateToEdit: (String) -> Unit,
+) {
     composable(route = LOG_ROUTE) {
-        LogScreen(onNavigateToDestination = onNavigateToDestination)
+        LogScreen(
+            onNavigateToDestination = onNavigateToDestination,
+            onNavigateToEdit = {
+                onNavigateToEdit(it.toString())
+            },
+        )
     }
 }

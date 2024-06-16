@@ -43,4 +43,8 @@ internal class ColorRepositoryImpl @Inject constructor(
     override fun getGraphColorsFlow(): Flow<GraphColorRepositoryModel?> {
         return colorDataStore.getGraphColorsFlow().map { it?.toRepositoryModel() }
     }
+
+    override suspend fun getGraphColors(): GraphColorRepositoryModel? {
+        return colorDataStore.getGraphColors()?.toRepositoryModel()
+    }
 }

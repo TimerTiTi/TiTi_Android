@@ -5,7 +5,7 @@ import com.titi.app.doamin.daily.mapper.toRepositoryModel
 import com.titi.app.doamin.daily.model.Daily
 import javax.inject.Inject
 
-class AddDailyUseCase @Inject constructor(
+class UpsertDailyUseCase @Inject constructor(
     private val dailyRepository: DailyRepository,
 ) {
     suspend operator fun invoke(daily: Daily) {

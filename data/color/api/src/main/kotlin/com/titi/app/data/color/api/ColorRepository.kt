@@ -19,4 +19,6 @@ interface ColorRepository {
     fun getColorFlow(): Flow<ColorRepositoryModel?>
 
     fun getGraphColorsFlow(): Flow<GraphColorRepositoryModel?>
+
+    suspend fun getGraphColors(): GraphColorRepositoryModel?
 }

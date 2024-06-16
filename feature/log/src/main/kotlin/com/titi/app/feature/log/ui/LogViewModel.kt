@@ -8,11 +8,11 @@ import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.app.data.graph.api.GraphRepository
 import com.titi.app.data.graph.api.model.GraphCheckedRepositoryModel
 import com.titi.app.doamin.daily.usecase.GetAllDailiesTasksUseCase
-import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyUseCase
+import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyFlowUseCase
 import com.titi.app.doamin.daily.usecase.GetMonthDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetWeekDailyUseCase
 import com.titi.app.doamin.daily.usecase.HasDailyForCurrentMonthUseCase
-import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
+import com.titi.app.domain.color.usecase.GetGraphColorsFlowUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
 import com.titi.app.feature.log.mapper.toDomainModel
 import com.titi.app.feature.log.mapper.toFeatureModel
@@ -30,24 +30,28 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import java.time.LocalDate
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 
 class LogViewModel @AssistedInject constructor(
     @Assisted initialState: LogUiState,
-    getGraphColorsUseCase: GetGraphColorsUseCase,
+    getGraphColorsFlowUseCase: GetGraphColorsFlowUseCase,
     private val updateGraphColorsUseCase: UpdateGraphColorsUseCase,
     private val getAllDailiesTasksUseCase: GetAllDailiesTasksUseCase,
     private val getMonthDailyUseCase: GetMonthDailyUseCase,
-    private val getCurrentDateDailyUseCase: GetCurrentDateDailyUseCase,
+    private val getCurrentDateDailyFlowUseCase: GetCurrentDateDailyFlowUseCase,
     private val getWeekDailyUseCase: GetWeekDailyUseCase,
     private val hasDailyForCurrentMonthUseCase: HasDailyForCurrentMonthUseCase,
     private val graphRepository: GraphRepository,
 ) : MavericksViewModel<LogUiState>(initialState) {
 
+    private val currentDailyDate: MutableStateFlow<LocalDate> = MutableStateFlow(LocalDate.now())
+
     init {
-        getGraphColorsUseCase().catch {
+        getGraphColorsFlowUseCase().catch {
             Log.e("LogViewModel", it.message.toString())
         }.filterNotNull()
             .setOnEach {
@@ -64,6 +68,19 @@ class LogViewModel @AssistedInject constructor(
             Log.e("LogViewModel", it.message.toString())
         }.setOnEach {
             copy(graphGoalTimeUiState = it.toFeatureModel())
+        }
+
+        currentDailyDate.flatMapLatest {
+            getCurrentDateDailyFlowUseCase(it)
+        }.catch {
+            Log.e("LogViewModel", it.message.toString())
+        }.setOnEach {
+            copy(
+                dailyUiState = dailyUiState.copy(
+                    currentDate = currentDailyDate.value,
+                    dailyGraphData = it?.toFeatureModel() ?: DailyGraphData(),
+                ),
+            )
         }
     }
 
@@ -90,6 +107,7 @@ class LogViewModel @AssistedInject constructor(
                 weekGoalTime != null && weekGoalTime > 0 -> graphGoalTimeUiState.copy(
                     weekGoalTime = weekGoalTime,
                 )
+
                 else -> graphGoalTimeUiState
             }
 
@@ -153,54 +171,19 @@ class LogViewModel @AssistedInject constructor(
 
     fun updateHasDailyAtDailyTab(date: LocalDate) {
         viewModelScope.launch {
-            val state = awaitState()
-            if (
-                state.weekUiState.currentDate.month == date.month &&
-                state.weekUiState.hasDailies.isNotEmpty()
-            ) {
-                setState {
-                    copy(
-                        dailyUiState = dailyUiState.copy(
-                            hasDailies = state.weekUiState.hasDailies,
-                        ),
-                    )
-                }
-            } else {
-                val hasDailies = hasDailyForCurrentMonthUseCase(date)
-                setState {
-                    copy(
-                        dailyUiState = dailyUiState.copy(
-                            hasDailies = hasDailies,
-                        ),
-                    )
-                }
+            val hasDailies = hasDailyForCurrentMonthUseCase(date)
+            setState {
+                copy(
+                    dailyUiState = dailyUiState.copy(
+                        hasDailies = hasDailies,
+                    ),
+                )
             }
         }
     }
 
-    fun updateCurrentDateDaily(date: LocalDate) {
-        viewModelScope.launch {
-            getCurrentDateDailyUseCase(date)
-                .onSuccess {
-                    setState {
-                        copy(
-                            dailyUiState = dailyUiState.copy(
-                                currentDate = date,
-                                dailyGraphData = it?.toFeatureModel() ?: DailyGraphData(),
-                            ),
-                        )
-                    }
-                }.onFailure {
-                    setState {
-                        copy(
-                            dailyUiState = dailyUiState.copy(
-                                currentDate = date,
-                                dailyGraphData = DailyGraphData(),
-                            ),
-                        )
-                    }
-                }
-        }
+    fun updateCurrentDate(date: LocalDate) {
+        currentDailyDate.value = date
     }
 
     fun updateHasDailyAtWeekTab(date: LocalDate) {

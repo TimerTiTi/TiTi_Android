@@ -43,9 +43,12 @@ fun TdsStandardDailyGraph(
     tdsColors: List<TdsColor>,
     timeLines: List<Long>,
     taskData: List<TdsTaskData>,
-    checked: Boolean,
-    picture: Picture,
-    onCheckedChange: (Boolean) -> Unit,
+    checked: Boolean?,
+    picture: Picture?,
+    onCheckedChange: ((Boolean) -> Unit)?,
+    selectedTaskIndex: Int? = null,
+    onClickTask: ((taskName: String, index: Int) -> Unit)? = null,
+    onClickAddTask: (() -> Unit)? = null,
 ) {
     BoxWithConstraints(
         modifier = modifier,
@@ -136,15 +139,21 @@ fun TdsStandardDailyGraph(
                             .width(size * 0.6)
                             .border(
                                 width = 2.dp,
-                                color = TdsColor.GRAPH_BORDER.getColor(),
+                                color = if (selectedTaskIndex == -1) {
+                                    TdsColor.RED.getColor()
+                                } else {
+                                    TdsColor.GRAPH_BORDER.getColor()
+                                },
                             )
-                            .padding(2.dp)
-                            .padding(horizontal = 6.dp),
+                            .padding(2.dp),
                         taskData = taskData,
                         isSpacing = true,
                         leftText = "✔",
                         height = 25.dp,
                         colors = tdsColors.map { it.getColor() },
+                        selectedIndex = selectedTaskIndex,
+                        onClickTask = onClickTask,
+                        onClickAddTask = onClickAddTask,
                     )
 
                     Spacer(modifier = Modifier.width(5.dp))
@@ -201,20 +210,22 @@ fun TdsStandardDailyGraph(
             }
         }
 
-        Box(
-            modifier = Modifier
-                .offset(
-                    x = -size / 2 + 36.dp,
-                    y = -size * 0.38 + 43.dp,
-                ),
-        ) {
-            TdsToggleIconButton(
-                checkedIcon = R.drawable.checked_icon,
-                uncheckedIcon = R.drawable.unchecked_icon,
-                checked = checked,
-                onCheckedChange = onCheckedChange,
-                tint = TdsColor.TEXT,
-            )
+        onCheckedChange?.let {
+            Box(
+                modifier = Modifier
+                    .offset(
+                        x = -size / 2 + 36.dp,
+                        y = -size * 0.38 + 43.dp,
+                    ),
+            ) {
+                TdsToggleIconButton(
+                    checkedIcon = R.drawable.checked_icon,
+                    uncheckedIcon = R.drawable.unchecked_icon,
+                    checked = checked ?: false,
+                    onCheckedChange = onCheckedChange,
+                    tint = TdsColor.TEXT,
+                )
+            }
         }
     }
 }

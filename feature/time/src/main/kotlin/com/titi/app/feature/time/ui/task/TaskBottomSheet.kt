@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,17 +18,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
@@ -43,10 +38,11 @@ import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsInputTimeTextField
-import com.titi.app.core.designsystem.component.TdsOutlinedInputTextField
 import com.titi.app.core.designsystem.component.TdsTaskListItem
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTextButton
+import com.titi.app.core.designsystem.component.dialog.AddTaskNameDialog
+import com.titi.app.core.designsystem.component.dialog.EditTaskNameDialog
 import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.model.TdsTask
 import com.titi.app.core.designsystem.theme.TdsColor
@@ -58,7 +54,6 @@ import com.titi.app.core.designsystem.util.rememberDragDropState
 import com.titi.app.core.util.getTimeToLong
 import com.titi.app.domain.task.model.Task
 import com.titi.app.feature.time.model.TaskUiState
-import kotlinx.coroutines.android.awaitFrame
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,59 +65,17 @@ fun TaskBottomSheet(
     val uiState by viewModel.collectAsState()
 
     var showAddTaskDialog by remember { mutableStateOf(false) }
-    var taskName by remember { mutableStateOf("") }
-
     var editMode by remember { mutableStateOf(false) }
 
     if (showAddTaskDialog) {
-        taskName = ""
-        TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
-                title = stringResource(id = R.string.add_task_title),
-                message = stringResource(id = R.string.add_task_message),
-                cancelable = false,
-                positiveText = stringResource(id = R.string.Ok),
-                onPositive = {
-                    if (taskName.isNotEmpty()) {
-                        viewModel.addTask(taskName)
-                    }
-                },
-                negativeText = stringResource(id = R.string.Cancel),
-            ),
+        AddTaskNameDialog(
+            onPositive = { taskName ->
+                if (taskName.isNotEmpty()) {
+                    viewModel.addTask(taskName)
+                }
+            },
             onShowDialog = { showAddTaskDialog = it },
-        ) {
-            val addTaskFocusRequester = remember { FocusRequester() }
-            val keyboard = LocalSoftwareKeyboardController.current
-
-            LaunchedEffect(addTaskFocusRequester) {
-                addTaskFocusRequester.requestFocus()
-                awaitFrame()
-                keyboard?.show()
-            }
-
-            TdsOutlinedInputTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(26.dp)
-                    .padding(horizontal = 15.dp)
-                    .focusRequester(addTaskFocusRequester),
-                fontSize = 17.sp,
-                text = taskName,
-                placeHolder = {
-                    TdsText(
-                        text = stringResource(id = R.string.add_task_title),
-                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
-                        fontSize = 17.sp,
-                        color = TdsColor.DIVIDER,
-                    )
-                },
-                onValueChange = {
-                    if (it.length <= 12) {
-                        taskName = it
-                    }
-                },
-            )
-        }
+        )
     }
 
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -208,9 +161,6 @@ fun TaskBottomSheet(
         )
     }
 
-    val modifyTaskNameFocusRequester = remember { FocusRequester() }
-    val keyboard = LocalSoftwareKeyboardController.current
-
     if (showTaskTargetTimeDialog) {
         hour = ""
         minutes = ""
@@ -246,43 +196,15 @@ fun TaskBottomSheet(
     }
 
     if (showTaskNameModifyDialog) {
-        LaunchedEffect(modifyTaskNameFocusRequester) {
-            modifyTaskNameFocusRequester.requestFocus()
-            awaitFrame()
-            keyboard?.show()
-        }
-
-        val confirm = TdsDialogInfo.Confirm(
-            title = stringResource(id = R.string.modify_task_title),
-            message = stringResource(id = R.string.add_task_message),
-            positiveText = stringResource(id = R.string.Ok),
+        EditTaskNameDialog(
+            taskName = editTaskName,
             onPositive = {
-                if (editTaskName.text != editTask.taskName) {
-                    onModifyTaskName(Pair(editTask, editTaskName.text))
+                if (it.text != editTask.taskName) {
+                    onModifyTaskName(Pair(editTask, it.text))
                 }
             },
-            negativeText = stringResource(id = R.string.Cancel),
+            onShowDialog = { showTaskNameModifyDialog = it },
         )
-
-        TdsDialog(
-            tdsDialogInfo = confirm,
-            onShowDialog = {
-                showTaskNameModifyDialog = it
-            },
-        ) {
-            TdsOutlinedInputTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(26.dp)
-                    .padding(horizontal = 15.dp)
-                    .focusRequester(modifyTaskNameFocusRequester),
-                fontSize = 17.sp,
-                text = editTaskName,
-                onValueChange = {
-                    editTaskName = it
-                },
-            )
-        }
     }
 
     Column(modifier = Modifier.fillMaxSize()) {

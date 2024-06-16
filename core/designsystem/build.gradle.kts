@@ -8,5 +8,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:util"))
+
     implementation(libs.threetenabp)
+    implementation(libs.balloon)
+    implementation(libs.picker)
 }

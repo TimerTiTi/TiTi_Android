@@ -40,9 +40,9 @@ fun TdsTimeLineDailyGraph(
     timeLines: List<Long>,
     totalTime: String,
     maxTime: String,
-    checked: Boolean,
-    picture: Picture,
-    onCheckedChange: (Boolean) -> Unit,
+    checked: Boolean? = null,
+    picture: Picture? = null,
+    onCheckedChange: ((Boolean) -> Unit)? = null,
 ) {
     BoxWithConstraints(
         modifier = modifier,
@@ -78,7 +78,9 @@ fun TdsTimeLineDailyGraph(
                 Spacer(modifier = Modifier.height(5.dp))
 
                 TdsDayOfTheWeek(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp),
                     todayDayOfTheWeek = todayDayOfTheWeek,
                     color = tdsColors.first(),
                 )
@@ -145,20 +147,22 @@ fun TdsTimeLineDailyGraph(
             }
         }
 
-        Box(
-            modifier = Modifier
-                .offset(
-                    x = -size / 2 + 36.dp,
-                    y = -size * 0.49 + 36.dp,
-                ),
-        ) {
-            TdsToggleIconButton(
-                checkedIcon = R.drawable.checked_icon,
-                uncheckedIcon = R.drawable.unchecked_icon,
-                checked = checked,
-                onCheckedChange = onCheckedChange,
-                tint = TdsColor.TEXT,
-            )
+        onCheckedChange?.let {
+            Box(
+                modifier = Modifier
+                    .offset(
+                        x = -size / 2 + 36.dp,
+                        y = -size * 0.49 + 36.dp,
+                    ),
+            ) {
+                TdsToggleIconButton(
+                    checkedIcon = R.drawable.checked_icon,
+                    uncheckedIcon = R.drawable.unchecked_icon,
+                    checked = checked ?: false,
+                    onCheckedChange = onCheckedChange,
+                    tint = TdsColor.TEXT,
+                )
+            }
         }
     }
 }
