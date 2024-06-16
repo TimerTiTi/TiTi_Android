@@ -171,27 +171,13 @@ class LogViewModel @AssistedInject constructor(
 
     fun updateHasDailyAtDailyTab(date: LocalDate) {
         viewModelScope.launch {
-            val state = awaitState()
-            if (
-                state.weekUiState.currentDate.month == date.month &&
-                state.weekUiState.hasDailies.isNotEmpty()
-            ) {
-                setState {
-                    copy(
-                        dailyUiState = dailyUiState.copy(
-                            hasDailies = state.weekUiState.hasDailies,
-                        ),
-                    )
-                }
-            } else {
-                val hasDailies = hasDailyForCurrentMonthUseCase(date)
-                setState {
-                    copy(
-                        dailyUiState = dailyUiState.copy(
-                            hasDailies = hasDailies,
-                        ),
-                    )
-                }
+            val hasDailies = hasDailyForCurrentMonthUseCase(date)
+            setState {
+                copy(
+                    dailyUiState = dailyUiState.copy(
+                        hasDailies = hasDailies,
+                    ),
+                )
             }
         }
     }

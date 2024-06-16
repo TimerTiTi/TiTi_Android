@@ -86,6 +86,14 @@ fun LogScreen(
         val currentDate = LocalDate.now()
         viewModel.updateCurrentDateHome(currentDate)
         viewModel.updateCurrentDateWeek(currentDate)
+
+        val calendarCurrentDate = if (pagerState.currentPage == 1) {
+            uiState.dailyUiState.currentDate
+        } else {
+            uiState.weekUiState.currentDate
+        }
+
+        viewModel.updateHasDailyAtDailyTab(calendarCurrentDate)
     }
 
     LaunchedEffect(uiState.tabSelectedIndex) {
