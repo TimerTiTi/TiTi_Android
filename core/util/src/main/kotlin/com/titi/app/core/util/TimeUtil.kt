@@ -6,6 +6,13 @@ import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
+fun String.parseZoneDateTime(): String {
+    val inputDateTime = ZonedDateTime
+        .parse(this)
+        .withZoneSameInstant(ZoneId.systemDefault())
+    return inputDateTime.format(DateTimeFormatter.ofPattern("uuuu.MM.dd"))
+}
+
 fun getTodayDate(): String {
     val now = ZonedDateTime.now()
     return now.format(DateTimeFormatter.ofPattern("uuuu.MM.dd"))

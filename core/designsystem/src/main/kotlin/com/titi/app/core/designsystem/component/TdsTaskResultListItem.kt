@@ -1,6 +1,8 @@
 package com.titi.app.core.designsystem.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -30,7 +32,15 @@ fun TdsTaskResultListItem(
     color: Color,
     isSpacing: Boolean,
     leftText: String? = null,
+    isEditMode: Boolean = false,
+    onClickTask: ((String) -> Unit)? = null,
 ) {
+    val editModeModifier = if (isEditMode) {
+        Modifier.border(2.dp, TdsColor.RED.getColor())
+    } else {
+        Modifier
+    }
+
     val padding = height / 10
     val fontSize = (height.value / 2).sp
 
@@ -38,7 +48,10 @@ fun TdsTaskResultListItem(
         modifier = Modifier
             .fillMaxWidth()
             .height(height)
-            .padding(vertical = padding),
+            .clickable { onClickTask?.invoke(taskName) }
+            .then(editModeModifier)
+            .padding(horizontal = 6.dp)
+            .padding(padding),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {

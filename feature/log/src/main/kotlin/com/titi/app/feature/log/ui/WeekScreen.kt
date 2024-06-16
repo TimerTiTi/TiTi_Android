@@ -53,6 +53,7 @@ fun WeekScreen(
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
     onCalendarLocalDateChanged: (LocalDate) -> Unit,
+    onNavigateToEdit: () -> Unit,
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
@@ -115,8 +116,16 @@ fun WeekScreen(
 
         Spacer(modifier = Modifier.height(15.dp))
 
+        TdsColorRow(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onClickGraphColor,
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
         ButtonRow(
             modifier = Modifier.fillMaxWidth(),
+            isCreate = !hasDailies.contains(currentDate),
             onSaveClick = {
                 saveWeekGraphWithPermission(
                     coroutineScope = coroutineScope,
@@ -131,13 +140,7 @@ fun WeekScreen(
                     picture = picture,
                 )
             },
-        )
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        TdsColorRow(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = onClickGraphColor,
+            onCreateEditClick = onNavigateToEdit,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -241,6 +244,7 @@ private fun WeekScreenPreview() {
             onClickDate = {},
             onClickGraphColor = {},
             onCalendarLocalDateChanged = {},
+            onNavigateToEdit = {},
         )
     }
 }

@@ -42,6 +42,9 @@ internal class ColorDataStore(context: Context) {
     fun getGraphColorsFlow(): Flow<GraphColorEntity?> =
         dataStore.readFlowValue(GRAPH_COLORS_KEY).map { it?.fromJson() }
 
+    suspend fun getGraphColors(): GraphColorEntity? =
+        dataStore.readValue(GRAPH_COLORS_KEY)?.fromJson()
+
     companion object {
         private const val COLOR_PREF_NAME = "colorPrefName"
         private val COLOR_KEY = stringPreferencesKey("colorKey")

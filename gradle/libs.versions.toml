@@ -49,6 +49,7 @@ firebaseBom = "32.7.3"
 ktlint = "12.1.0"
 
 calendar = "2.5.0-beta01"
+picker = "1.0.3"
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -120,6 +121,7 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 firebase-database = { group = "com.google.firebase", name = "firebase-database-ktx" }
 
 calendar = { group = "com.kizitonwose.calendar", name = "compose", version.ref = "calendar" }
+picker = { group = "com.chargemap.compose", name = "numberpicker", version.ref = "picker" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

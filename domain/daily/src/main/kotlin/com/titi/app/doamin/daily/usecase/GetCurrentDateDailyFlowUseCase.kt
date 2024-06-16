@@ -7,12 +7,13 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZoneOffset
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
-class GetCurrentDateDailyUseCase @Inject constructor(
+class GetCurrentDateDailyFlowUseCase @Inject constructor(
     private val dailyRepository: DailyRepository,
 ) {
-
-    suspend operator fun invoke(currentDate: LocalDate): Result<Daily?> {
+    operator fun invoke(currentDate: LocalDate): Flow<Daily?> {
         val startDateTime = currentDate
             .atStartOfDay(ZoneOffset.systemDefault())
             .withZoneSameInstant(ZoneOffset.UTC)
@@ -22,11 +23,9 @@ class GetCurrentDateDailyUseCase @Inject constructor(
             .atZone(ZoneId.systemDefault())
             .withZoneSameInstant(ZoneOffset.UTC).toString()
 
-        return runCatching {
-            dailyRepository.getDateDaily(
-                startDateTime = startDateTime,
-                endDateTime = endDateTime,
-            )?.toDomainModel()
-        }
+        return dailyRepository.getDateDailyFlow(
+            startDateTime = startDateTime,
+            endDateTime = endDateTime,
+        ).map { it?.toDomainModel() }
     }
 }

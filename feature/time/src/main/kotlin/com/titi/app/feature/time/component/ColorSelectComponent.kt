@@ -79,8 +79,7 @@ fun ColorSelectComponent(
             balloonContent = {
                 Row {
                     Box(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .size(32.dp)
                             .clip(RoundedCornerShape(4.dp))
                             .background(color = Color.Black)
@@ -92,8 +91,7 @@ fun ColorSelectComponent(
                     Spacer(modifier = Modifier.width(16.dp))
 
                     Box(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .size(32.dp)
                             .clip(RoundedCornerShape(4.dp))
                             .background(color = Color.White)
@@ -115,8 +113,7 @@ fun ColorSelectComponent(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Box(
-                    modifier =
-                    Modifier
+                    modifier = Modifier
                         .size(32.dp)
                         .clip(RoundedCornerShape(4.dp))
                         .background(color = textColor)

@@ -25,11 +25,16 @@ fun RowScope.TdsDivider(thickness: Dp = 1.dp, color: TdsColor = TdsColor.DIVIDER
 }
 
 @Composable
-fun ColumnScope.TdsDivider(thickness: Dp = 1.dp, color: TdsColor = TdsColor.DIVIDER) {
+fun ColumnScope.TdsDivider(
+    modifier: Modifier = Modifier,
+    thickness: Dp = 1.dp,
+    color: TdsColor = TdsColor.DIVIDER,
+) {
     Divider(
         modifier = Modifier
             .fillMaxWidth()
-            .height(thickness),
+            .height(thickness)
+            .then(modifier),
         thickness = thickness,
         color = color.getColor(),
     )

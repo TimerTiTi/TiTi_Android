@@ -48,6 +48,7 @@ import kotlinx.coroutines.launch
 fun LogScreen(
     viewModel: LogViewModel = mavericksViewModel(),
     onNavigateToDestination: (TopLevelDestination) -> Unit,
+    onNavigateToEdit: (LocalDate) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val orientation = LocalConfiguration.current.orientation
@@ -84,8 +85,15 @@ fun LogScreen(
     LaunchedEffect(Unit) {
         val currentDate = LocalDate.now()
         viewModel.updateCurrentDateHome(currentDate)
-        viewModel.updateCurrentDateDaily(currentDate)
         viewModel.updateCurrentDateWeek(currentDate)
+
+        val calendarCurrentDate = if (pagerState.currentPage == 1) {
+            uiState.dailyUiState.currentDate
+        } else {
+            uiState.weekUiState.currentDate
+        }
+
+        viewModel.updateHasDailyAtDailyTab(calendarCurrentDate)
     }
 
     LaunchedEffect(uiState.tabSelectedIndex) {
@@ -177,8 +185,8 @@ fun LogScreen(
                         timeLines = uiState.dailyUiState.dailyGraphData.timeLine,
                         timeTableData = uiState.dailyUiState.dailyGraphData.tdsTimeTableData,
                         checkedButtonStates = uiState.dailyUiState.checkedButtonStates,
-                        onClickDate = {
-                            viewModel.updateCurrentDateDaily(it)
+                        onClickDate = { clickDate ->
+                            viewModel.updateCurrentDate(clickDate)
                         },
                         onClickGraphColor = {
                             viewModel.updateGraphColors(
@@ -195,6 +203,9 @@ fun LogScreen(
                                 checked = checked,
                                 checkedButtonStates = uiState.dailyUiState.checkedButtonStates,
                             )
+                        },
+                        onNavigateToEdit = {
+                            onNavigateToEdit(uiState.dailyUiState.currentDate)
                         },
                     )
 
@@ -220,6 +231,9 @@ fun LogScreen(
                         onCalendarLocalDateChanged = {
                             viewModel.updateHasDailyAtWeekTab(it)
                         },
+                        onNavigateToEdit = {
+                            onNavigateToEdit(uiState.weekUiState.currentDate)
+                        },
                     )
                 }
             }
@@ -231,6 +245,9 @@ fun LogScreen(
 @Composable
 private fun LogScreenPreview() {
     TiTiTheme {
-        LogScreen(onNavigateToDestination = {})
+        LogScreen(
+            onNavigateToEdit = {},
+            onNavigateToDestination = {},
+        )
     }
 }

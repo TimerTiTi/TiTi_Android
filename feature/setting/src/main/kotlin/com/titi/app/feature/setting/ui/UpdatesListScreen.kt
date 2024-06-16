@@ -12,12 +12,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -75,13 +76,14 @@ fun UpdatesListScreen(onNavigateUp: () -> Unit) {
     Scaffold(
         containerColor = Color(containerColor),
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = TdsColor.GROUPED_BACKGROUND.getColor(),
                 ),
                 navigationIcon = {
                     TdsIconButton(onClick = onNavigateUp) {
                         Icon(
+                            modifier = Modifier.size(32.dp),
                             painter = painterResource(id = R.drawable.arrow_left_icon),
                             contentDescription = "back",
                             tint = TdsColor.TEXT.getColor(),
@@ -122,7 +124,9 @@ private fun UpdateListScreen(modifier: Modifier = Modifier, updates: List<Versio
 private fun VersionContent(version: Version) {
     Column {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             TdsText(

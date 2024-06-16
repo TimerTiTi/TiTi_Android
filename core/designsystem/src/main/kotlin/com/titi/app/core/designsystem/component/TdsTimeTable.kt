@@ -31,9 +31,6 @@ fun TdsTimeTable(
     timeTableData: List<TdsTimeTableData>,
     colors: List<Color>,
 ) {
-    var hour by remember {
-        mutableStateOf("0")
-    }
     var fontSize by remember {
         mutableStateOf(7.sp)
     }
@@ -42,9 +39,6 @@ fun TdsTimeTable(
         .getTextStyle(fontSize = fontSize)
         .copy(color = TdsColor.TEXT.getColor())
     val hourTextMeasurer = rememberTextMeasurer()
-    val hourTextLayoutResult = remember(hour) {
-        hourTextMeasurer.measure(hour, textStyle)
-    }
 
     Canvas(
         modifier = modifier
@@ -58,7 +52,8 @@ fun TdsTimeTable(
         fontSize = (itemHeight / 5).sp
 
         repeat(24) { idx ->
-            hour = (idx + 6).let { if (it >= 24) it - 24 else it }.toString()
+            val hour = (idx + 6).let { if (it >= 24) it - 24 else it }.toString()
+            val hourTextLayoutResult = hourTextMeasurer.measure(hour, textStyle)
 
             val startX = if (hour.length > 1) {
                 itemWidth / 2 - hourTextLayoutResult.size.width
