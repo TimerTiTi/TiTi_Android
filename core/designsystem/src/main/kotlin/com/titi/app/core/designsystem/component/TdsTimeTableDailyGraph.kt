@@ -180,8 +180,7 @@ fun TdsTimeTableDailyGraph(
                                         TdsColor.GRAPH_BORDER.getColor()
                                     },
                                 )
-                                .padding(2.dp)
-                                .padding(horizontal = 6.dp),
+                                .padding(2.dp),
                             taskData = taskData,
                             colors = tdsColors.map { it.getColor() },
                             isSpacing = true,

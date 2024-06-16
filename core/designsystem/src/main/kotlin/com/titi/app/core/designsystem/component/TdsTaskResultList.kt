@@ -58,7 +58,10 @@ fun TdsTaskResultList(
                 )
 
                 if (leftText != null) {
-                    TdsDivider(color = TdsColor.GRAPH_BORDER)
+                    TdsDivider(
+                        modifier = Modifier.padding(horizontal = 6.dp),
+                        color = TdsColor.GRAPH_BORDER,
+                    )
                 }
             }
         }

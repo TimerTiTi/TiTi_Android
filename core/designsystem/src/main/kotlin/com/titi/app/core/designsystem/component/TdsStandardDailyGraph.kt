@@ -145,8 +145,7 @@ fun TdsStandardDailyGraph(
                                     TdsColor.GRAPH_BORDER.getColor()
                                 },
                             )
-                            .padding(2.dp)
-                            .padding(horizontal = 6.dp),
+                            .padding(2.dp),
                         taskData = taskData,
                         isSpacing = true,
                         leftText = "✔",

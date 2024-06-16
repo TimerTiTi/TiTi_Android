@@ -50,6 +50,7 @@ fun TdsTaskResultListItem(
             .height(height)
             .clickable { onClickTask?.invoke(taskName) }
             .then(editModeModifier)
+            .padding(horizontal = 6.dp)
             .padding(padding),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
