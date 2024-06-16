@@ -1,5 +1,6 @@
 package com.titi.app.feature.edit.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -46,6 +48,7 @@ import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
+import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsDivider
 import com.titi.app.core.designsystem.component.TdsGraphContent
 import com.titi.app.core.designsystem.component.TdsIconButton
@@ -53,6 +56,7 @@ import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.dialog.AddTaskNameDialog
 import com.titi.app.core.designsystem.component.dialog.EditTaskNameDialog
 import com.titi.app.core.designsystem.extension.getTimeString
+import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.util.toOnlyTime
@@ -72,11 +76,38 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
 
     val uiState by viewModel.collectAsState()
 
+    var showBackDialog by remember {
+        mutableStateOf(false)
+    }
+
+    if (showBackDialog) {
+        TdsDialog(
+            tdsDialogInfo = TdsDialogInfo.Confirm(
+                title = "변경 사항을 저장하지 않고 나가시겠어요?",
+                positiveText = stringResource(id = R.string.Ok),
+                negativeText = stringResource(id = R.string.Cancel),
+                onPositive = {
+                    onBack()
+                },
+            ),
+            onShowDialog = { showBackDialog = it },
+        ) {
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+    }
+
     EditScreen(
         uiState = uiState,
         onEditActions = {
             when (it) {
-                is EditActions.Navigates.Back -> onBack()
+                is EditActions.Navigates.Back -> {
+                    if (uiState.saveEnabled) {
+                        showBackDialog = true
+                    } else {
+                        onBack()
+                    }
+                }
+
                 is EditActions.Updates -> viewModel.handleEditActions(it)
             }
         },
@@ -92,6 +123,10 @@ private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Uni
         0xFFFFFFFF
     }
     val scrollState = rememberScrollState()
+
+    BackHandler {
+        onEditActions(EditActions.Navigates.Back)
+    }
 
     Scaffold(
         containerColor = Color(containerColor),
