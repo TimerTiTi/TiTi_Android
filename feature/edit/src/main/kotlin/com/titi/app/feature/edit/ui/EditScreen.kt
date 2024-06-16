@@ -29,6 +29,7 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -93,6 +94,12 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
             onShowDialog = { showBackDialog = it },
         ) {
             Spacer(modifier = Modifier.height(12.dp))
+        }
+    }
+
+    LaunchedEffect(uiState.finishEvent) {
+        if (uiState.finishEvent) {
+            onBack()
         }
     }
 
