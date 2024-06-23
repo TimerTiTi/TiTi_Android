@@ -7,9 +7,5 @@ fun String.isAfterH(hour: Int): Boolean {
     val inputDateTime = ZonedDateTime.parse(this).withZoneSameInstant(ZoneId.systemDefault())
     val currentDateTime = ZonedDateTime.now()
 
-    return if (inputDateTime.dayOfMonth == currentDateTime.dayOfMonth) {
-        currentDateTime.hour >= hour
-    } else {
-        false
-    }
+    return inputDateTime.dayOfMonth != currentDateTime.dayOfMonth && currentDateTime.hour >= hour
 }

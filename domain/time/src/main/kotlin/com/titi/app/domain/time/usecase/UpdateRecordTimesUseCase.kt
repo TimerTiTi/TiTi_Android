@@ -5,7 +5,7 @@ import com.titi.app.domain.time.mapper.toRepositoryModel
 import com.titi.app.domain.time.model.RecordTimes
 import javax.inject.Inject
 
-class UpdateMeasuringStateUseCase @Inject constructor(
+class UpdateRecordTimesUseCase @Inject constructor(
     private val recordTimesRepository: RecordTimesRepository,
 ) {
     suspend operator fun invoke(recordTimes: RecordTimes) {
