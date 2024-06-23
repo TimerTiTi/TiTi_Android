@@ -13,11 +13,6 @@ fun String.parseZoneDateTime(): String {
     return inputDateTime.format(DateTimeFormatter.ofPattern("uuuu.MM.dd"))
 }
 
-fun getTodayDate(): String {
-    val now = ZonedDateTime.now()
-    return now.format(DateTimeFormatter.ofPattern("uuuu.MM.dd"))
-}
-
 fun addTimeToNow(time: Long): String {
     val now = ZonedDateTime.now()
     val interval = Duration.ofSeconds(time)
