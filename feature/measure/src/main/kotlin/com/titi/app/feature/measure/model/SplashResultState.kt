@@ -1,6 +1,7 @@
 package com.titi.app.feature.measure.model
 
 import android.os.Parcelable
+import com.titi.app.core.util.getDailyDayWithHour
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.app.domain.time.model.RecordTimes
@@ -10,5 +11,5 @@ import kotlinx.parcelize.Parcelize
 data class SplashResultState(
     val recordTimes: RecordTimes = RecordTimes(),
     val timeColor: TimeColor = TimeColor(),
-    val daily: Daily? = null,
+    val daily: Daily = Daily(day = getDailyDayWithHour(6).first),
 ) : Parcelable

@@ -8,7 +8,7 @@ import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.app.core.util.isAfterSixAM
 import com.titi.app.core.util.toJson
 import com.titi.app.doamin.daily.model.Daily
-import com.titi.app.doamin.daily.usecase.GetLastDailyFlowUseCase
+import com.titi.app.doamin.daily.usecase.GetTodayDailyFlowUseCase
 import com.titi.app.doamin.daily.usecase.UpsertDailyUseCase
 import com.titi.app.domain.color.model.TimeColor
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
@@ -34,7 +34,7 @@ class StopWatchViewModel @AssistedInject constructor(
     @Assisted initialState: StopWatchUiState,
     getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
     getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
-    getLastDailyFlowUseCase: GetLastDailyFlowUseCase,
+    getTodayDailyFlowUseCase: GetTodayDailyFlowUseCase,
     private val updateRecordingModeUseCase: UpdateRecordingModeUseCase,
     private val updateColorUseCase: UpdateColorUseCase,
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
@@ -57,7 +57,7 @@ class StopWatchViewModel @AssistedInject constructor(
             copy(timeColor = it)
         }
 
-        getLastDailyFlowUseCase().catch {
+        getTodayDailyFlowUseCase().catch {
             Log.e("TimeViewModel", it.message.toString())
         }.setOnEach {
             copy(daily = it)
@@ -104,8 +104,8 @@ class StopWatchViewModel @AssistedInject constructor(
         }
     }
 
-    fun startRecording(recordTimes: RecordTimes, daily: Daily?, timeColor: TimeColor): String {
-        val updateRecordTimes = if (isAfterSixAM(daily?.day)) {
+    fun startRecording(recordTimes: RecordTimes, daily: Daily, timeColor: TimeColor): String {
+        val updateRecordTimes = if (isAfterSixAM(daily.day)) {
             if (recordTimes.savedTimerTime <= 0) {
                 recordTimes.copy(
                     recording = true,
@@ -128,7 +128,7 @@ class StopWatchViewModel @AssistedInject constructor(
             )
         }
 
-        val updateDaily = if (daily != null && isAfterSixAM(daily.day)) {
+        val updateDaily = if (isAfterSixAM(daily.day)) {
             daily
         } else {
             Daily()

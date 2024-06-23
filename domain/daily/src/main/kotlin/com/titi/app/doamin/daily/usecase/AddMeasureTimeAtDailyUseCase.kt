@@ -14,13 +14,12 @@ class AddMeasureTimeAtDailyUseCase @Inject constructor(
     private val dailyRepository: DailyRepository,
 ) {
     suspend operator fun invoke(taskName: String, startTime: String, endTime: String) {
-        val recentDaily = dailyRepository
-            .getDateDaily(
-                startDateTime = LocalDate.now()
-                    .atStartOfDay(ZoneId.systemDefault())
-                    .withZoneSameInstant(ZoneOffset.UTC)
-                    .toString(),
-            )?.toDomainModel()
+        val recentDaily = dailyRepository.getDateDaily(
+            startDateTime = LocalDate.now()
+                .atStartOfDay(ZoneId.systemDefault())
+                .withZoneSameInstant(ZoneOffset.UTC)
+                .toString(),
+        )?.toDomainModel()
 
         recentDaily?.let { daily ->
             val taskHistory = TaskHistory(
