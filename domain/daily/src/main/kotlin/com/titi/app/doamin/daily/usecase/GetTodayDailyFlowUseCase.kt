@@ -18,6 +18,6 @@ class GetTodayDailyFlowUseCase @Inject constructor(
         return dailyRepository.getDateDailyFlow(
             startDateTime = timePair.first,
             endDateTime = timePair.second,
-        ).map { it?.toDomainModel() ?: Daily(day = timePair.first) }
+        ).map { it?.toDomainModel() ?: Daily() }
     }
 }
