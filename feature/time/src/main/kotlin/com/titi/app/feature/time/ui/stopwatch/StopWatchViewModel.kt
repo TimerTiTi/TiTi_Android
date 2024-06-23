@@ -5,7 +5,7 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
-import com.titi.app.core.util.isAfterSixAM
+import com.titi.app.core.util.isAfterH
 import com.titi.app.core.util.toJson
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.doamin.daily.usecase.GetTodayDailyFlowUseCase
@@ -105,7 +105,7 @@ class StopWatchViewModel @AssistedInject constructor(
     }
 
     fun startRecording(recordTimes: RecordTimes, daily: Daily, timeColor: TimeColor): String {
-        val updateRecordTimes = if (isAfterSixAM(daily.day)) {
+        val updateRecordTimes = if (daily.day.isAfterH(6)) {
             if (recordTimes.savedTimerTime <= 0) {
                 recordTimes.copy(
                     recording = true,
@@ -128,7 +128,7 @@ class StopWatchViewModel @AssistedInject constructor(
             )
         }
 
-        val updateDaily = if (isAfterSixAM(daily.day)) {
+        val updateDaily = if (daily.day.isAfterH(6)) {
             daily
         } else {
             Daily()
