@@ -7,15 +7,13 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 
-val LocalTiTiColors =
-    staticCompositionLocalOf {
-        TdsColorsPalette()
-    }
+val LocalTiTiColors = staticCompositionLocalOf {
+    TdsColorsPalette()
+}
 
-val LocalTiTiTypography =
-    staticCompositionLocalOf {
-        TdsTypography()
-    }
+val LocalTiTiTypography = staticCompositionLocalOf {
+    TdsTypography()
+}
 
 object TiTiTheme {
     val colors: TdsColorsPalette
@@ -33,12 +31,11 @@ fun TiTiTheme(
     tdsTypography: TdsTypography = TiTiTheme.textStyle,
     content: @Composable () -> Unit,
 ) {
-    val tdsColorsPalette =
-        if (darkTheme) {
-            TdsDarkColorsPalette
-        } else {
-            TdsLightColorsPalette
-        }
+    val tdsColorsPalette = if (darkTheme) {
+        TdsDarkColorsPalette
+    } else {
+        TdsLightColorsPalette
+    }
 
     CompositionLocalProvider(
         LocalTiTiColors provides tdsColorsPalette,

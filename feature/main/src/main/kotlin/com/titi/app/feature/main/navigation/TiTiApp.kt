@@ -6,11 +6,21 @@ import android.os.Build
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.titi.app.feature.main.model.SplashResultState
+import com.titi.app.tds.TtdsSnackbarHost
+import com.titi.app.tds.TtdsSnackbarHostState
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedContentLambdaTargetStateParameter")
 @Composable
@@ -32,8 +42,23 @@ fun TiTiApp(splashResultState: SplashResultState) {
         askNotificationPermission()
     }
 
-    TiTiNavHost(
-        modifier = Modifier.fillMaxSize(),
-        splashResultState = splashResultState,
-    )
+    Box(modifier = Modifier.fillMaxSize()) {
+        TiTiNavHost(
+            modifier = Modifier.fillMaxSize(),
+            splashResultState = splashResultState,
+        )
+        val scope = rememberCoroutineScope()
+        val abc = remember { TtdsSnackbarHostState() }
+        Button(modifier = Modifier.align(Alignment.Center), onClick = {
+            scope.launch {
+                abc.showSnackbar(message = "sadfasfsadfsdf")
+            }
+        }) {
+            Text("sdfasdfsdaf")
+        }
+
+        TtdsSnackbarHost(hostState = abc, modifier = Modifier.align(Alignment.TopCenter)) {
+            Row { Text(text = "ABC") }
+        }
+    }
 }
