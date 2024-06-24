@@ -1,4 +1,4 @@
-package com.titi.app.tds
+package com.titi.app.tds.component
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
