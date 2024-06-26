@@ -17,6 +17,7 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.AccessibilityManager
 import androidx.compose.ui.platform.LocalAccessibilityManager
@@ -26,10 +27,8 @@ import androidx.compose.ui.semantics.dismiss
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import kotlin.coroutines.resume
-import kotlin.math.roundToInt
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -270,9 +269,7 @@ private fun TtdsSlideInSlideOutVertically(
 
                 Box(
                     Modifier
-                        .offset {
-                            IntOffset(100, offsetY.value.roundToInt())
-                        }
+                        .offset(y = offsetY.value.dp)
                         .semantics {
                             liveRegion = LiveRegionMode.Polite
                             dismiss {
@@ -286,7 +283,10 @@ private fun TtdsSlideInSlideOutVertically(
             }
         }
     }
-    Box(modifier) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
         state.scope = currentRecomposeScope
         state.items.forEach { (item, opacity) ->
             key(item) {
