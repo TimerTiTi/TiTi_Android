@@ -13,6 +13,8 @@ data class TimerUiState(
     val recordTimes: RecordTimes,
     val timeColor: TimeColor,
     val daily: Daily,
+    val splashResultStateString: String? = null,
+    val showResetDailySnackBar: Boolean = false,
 ) : MavericksState {
     constructor(args: Bundle) : this(
         recordTimes = getSplashResultStateFromArgs(args).recordTimes,

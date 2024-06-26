@@ -12,8 +12,7 @@ class GetTodayDailyFlowUseCase @Inject constructor(
     private val dailyRepository: DailyRepository,
 ) {
     operator fun invoke(): Flow<Daily> {
-        val hour = 6
-        val timePair = getDailyDayWithHour(hour)
+        val timePair = getDailyDayWithHour(6)
 
         return dailyRepository.getDateDailyFlow(
             startDateTime = timePair.first,

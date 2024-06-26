@@ -41,12 +41,12 @@ fun TtdsSnackbar(
             modifier = Modifier
                 .shadow(
                     elevation = 3.dp,
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(160.dp),
                     spotColor = Color.Black.copy(alpha = 0.12f),
                 )
                 .background(
                     color = Color.White,
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(160.dp),
                 )
                 .padding(
                     vertical = 8.dp,

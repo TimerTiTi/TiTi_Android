@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
@@ -45,21 +44,14 @@ fun StopWatchScreen(
     onNavigateToColor: () -> Unit,
     onNavigateToMeasure: (String) -> Unit,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
+    onShowResetDailySnackBar: () -> Unit,
 ) {
     val viewModel: StopWatchViewModel = mavericksViewModel(
         argsFactory = {
             splashResultState.asMavericksArgs()
         },
     )
-
-    LaunchedEffect(Unit) {
-        viewModel.updateRecordingMode()
-        viewModel.updateDailyRecordTimesAfterH(6)
-    }
-
     val uiState by viewModel.collectAsState()
-    val splashResultStateString by viewModel.splashResultStateString.collectAsStateWithLifecycle()
-
     var showTaskBottomSheet by remember { mutableStateOf(false) }
     var showSelectColorDialog by remember { mutableStateOf(false) }
     var showGoalTimeEditDialog by remember { mutableStateOf(false) }
@@ -116,8 +108,20 @@ fun StopWatchScreen(
         )
     }
 
-    LaunchedEffect(splashResultStateString) {
-        splashResultStateString?.let {
+    LaunchedEffect(Unit) {
+        viewModel.init()
+        viewModel.updateDailyRecordTimesAfterH()
+    }
+
+    LaunchedEffect(uiState.showResetDailySnackBar) {
+        if (uiState.showResetDailySnackBar) {
+            onShowResetDailySnackBar()
+            viewModel.initShowResetDailySnackBar()
+        }
+    }
+
+    LaunchedEffect(uiState.splashResultStateString) {
+        uiState.splashResultStateString?.let {
             onNavigateToMeasure(it)
             viewModel.initSplashResultStateString()
         }

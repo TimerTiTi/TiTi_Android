@@ -9,7 +9,6 @@ import com.titi.app.core.util.isAfterH
 import com.titi.app.core.util.toJson
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.doamin.daily.usecase.GetTodayDailyFlowUseCase
-import com.titi.app.doamin.daily.usecase.UpsertDailyUseCase
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.domain.color.usecase.UpdateColorUseCase
 import com.titi.app.domain.time.usecase.GetRecordTimesFlowUseCase
@@ -23,32 +22,27 @@ import com.titi.app.feature.time.model.StopWatchUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
 class StopWatchViewModel @AssistedInject constructor(
     @Assisted initialState: StopWatchUiState,
-    getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
-    getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
-    getTodayDailyFlowUseCase: GetTodayDailyFlowUseCase,
+    private val getRecordTimesFlowUseCase: GetRecordTimesFlowUseCase,
+    private val getTimeColorFlowUseCase: GetTimeColorFlowUseCase,
+    private val getTodayDailyFlowUseCase: GetTodayDailyFlowUseCase,
     private val updateRecordingModeUseCase: UpdateRecordingModeUseCase,
     private val updateColorUseCase: UpdateColorUseCase,
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
-    private val upsertDailyUseCase: UpsertDailyUseCase,
     private val updateRecordTimesUseCase: UpdateRecordTimesUseCase,
     private val updateSavedStopWatchTimeUseCase: UpdateSavedStopWatchTimeUseCase,
 ) : MavericksViewModel<StopWatchUiState>(initialState) {
 
-    private val _splashResultStateString: MutableStateFlow<String?> = MutableStateFlow(null)
-    val splashResultStateString = _splashResultStateString.asStateFlow()
-
     private lateinit var prevStopWatchColor: StopWatchColor
 
-    init {
+    fun init() {
         getRecordTimesFlowUseCase().catch {
             Log.e("TimeViewModel", it.message.toString())
         }.setOnEach {
@@ -61,19 +55,22 @@ class StopWatchViewModel @AssistedInject constructor(
             copy(timeColor = it)
         }
 
-        getTodayDailyFlowUseCase().catch {
-            Log.e("TimeViewModel", it.message.toString())
-        }.setOnEach {
-            copy(daily = it)
-        }
+        getTodayDailyFlowUseCase()
+            .distinctUntilChanged()
+            .catch {
+                Log.e("TimeViewModel", it.message.toString())
+            }.setOnEach {
+                copy(daily = it)
+            }
     }
 
-    fun updateDailyRecordTimesAfterH(hour: Int) {
+    fun updateDailyRecordTimesAfterH() {
         withState {
-            if (it.daily.day.isAfterH(hour)) {
+            if (it.daily.day.isAfterH(6)) {
                 viewModelScope.launch {
                     updateRecordTimesUseCase(
                         recordTimes = it.recordTimes.copy(
+                            recordingMode = 2,
                             savedSumTime = 0,
                             savedTimerTime = it.recordTimes.setTimerTime,
                             savedStopWatchTime = 0,
@@ -83,15 +80,16 @@ class StopWatchViewModel @AssistedInject constructor(
                 }
 
                 setState {
-                    copy(daily = Daily())
+                    copy(
+                        daily = Daily(),
+                        showResetDailySnackBar = true,
+                    )
+                }
+            } else {
+                viewModelScope.launch {
+                    updateRecordingModeUseCase(2)
                 }
             }
-        }
-    }
-
-    fun updateRecordingMode() {
-        viewModelScope.launch {
-            updateRecordingModeUseCase(2)
         }
     }
 
@@ -133,7 +131,8 @@ class StopWatchViewModel @AssistedInject constructor(
 
     fun startRecording() {
         withState {
-            val updatePair = if (it.daily.day.isAfterH(6)) {
+            val isAfterH = it.daily.day.isAfterH(6)
+            val updatePair = if (isAfterH) {
                 it.recordTimes.copy(
                     recording = true,
                     recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
@@ -149,16 +148,16 @@ class StopWatchViewModel @AssistedInject constructor(
                 ) to it.daily
             }
 
-            viewModelScope.launch {
-                updateRecordTimesUseCase(updatePair.first)
-                upsertDailyUseCase(updatePair.second)
+            setState {
+                copy(
+                    splashResultStateString = SplashResultState(
+                        recordTimes = updatePair.first,
+                        daily = updatePair.second,
+                        timeColor = it.timeColor,
+                    ).toJson(),
+                    showResetDailySnackBar = isAfterH,
+                )
             }
-
-            _splashResultStateString.value = SplashResultState(
-                recordTimes = updatePair.first,
-                daily = updatePair.second,
-                timeColor = it.timeColor,
-            ).toJson()
         }
     }
 
@@ -171,7 +170,15 @@ class StopWatchViewModel @AssistedInject constructor(
     }
 
     fun initSplashResultStateString() {
-        _splashResultStateString.value = null
+        setState {
+            copy(splashResultStateString = null)
+        }
+    }
+
+    fun initShowResetDailySnackBar() {
+        setState {
+            copy(showResetDailySnackBar = false)
+        }
     }
 
     @AssistedFactory
