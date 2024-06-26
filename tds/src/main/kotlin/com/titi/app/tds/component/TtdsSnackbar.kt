@@ -22,9 +22,18 @@ import com.titi.app.tds.theme.TtdsTextStyle
 import com.titi.app.tds.theme.TtdsTheme
 
 @Composable
+fun TtdsSnackbar(snackbarData: TtdsSnackbarData) {
+    TtdsSnackbar(
+        startIcon = snackbarData.visuals.startIcon,
+        emphasizedMessage = snackbarData.visuals.emphasizedMessage,
+        message = snackbarData.visuals.message,
+    )
+}
+
+@Composable
 fun TtdsSnackbar(
     startIcon: (@Composable () -> Unit)? = null,
-    emphasizedText: String?,
+    emphasizedMessage: String?,
     message: String,
 ) {
     TtdsTheme {
@@ -50,7 +59,7 @@ fun TtdsSnackbar(
             }
 
             TtdsSnackbarMessage(
-                emphasizedText = emphasizedText,
+                emphasizedMessage = emphasizedMessage,
                 message = message,
             )
         }
@@ -60,7 +69,7 @@ fun TtdsSnackbar(
 @Composable
 private fun TtdsSnackbarMessage(
     modifier: Modifier = Modifier,
-    emphasizedText: String?,
+    emphasizedMessage: String?,
     message: String,
 ) {
     TtdsText(
@@ -72,7 +81,7 @@ private fun TtdsSnackbarMessage(
                     fontWeight = FontWeight.SemiBold,
                 ),
             ) {
-                append("$emphasizedText ")
+                append("$emphasizedMessage ")
             }
             append(message)
         },
@@ -90,7 +99,7 @@ private fun TtdsSnackbarMessagePreview() {
             startIcon = {
                 TtdsSmallIcon(icon = R.drawable.reset_daily_icon)
             },
-            emphasizedText = "안녕하세요",
+            emphasizedMessage = "안녕하세요",
             message = "반갑습니다",
         )
     }

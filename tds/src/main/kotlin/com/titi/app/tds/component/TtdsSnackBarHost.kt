@@ -45,6 +45,7 @@ class TtdsSnackbarHostState {
         private set
 
     suspend fun showSnackbar(
+        startIcon: (@Composable () -> Unit)? = null,
         emphasizedMessage: String? = null,
         message: String,
         actionLabel: Boolean = false,
@@ -56,6 +57,7 @@ class TtdsSnackbarHostState {
         },
     ): TtdsSnackbarResult = showSnackbar(
         TtdsSnackbarVisualsImpl(
+            startIcon = startIcon,
             emphasizedMessage = emphasizedMessage,
             message = message,
             actionLabel = actionLabel,
@@ -76,6 +78,7 @@ class TtdsSnackbarHostState {
         }
 
     private class TtdsSnackbarVisualsImpl(
+        override val startIcon: (@Composable () -> Unit)?,
         override val emphasizedMessage: String?,
         override val message: String,
         override val actionLabel: Boolean,
@@ -88,6 +91,7 @@ class TtdsSnackbarHostState {
 
             other as TtdsSnackbarVisualsImpl
 
+            if (startIcon != other.startIcon) return false
             if (emphasizedMessage != other.emphasizedMessage) return false
             if (message != other.message) return false
             if (actionLabel != other.actionLabel) return false
@@ -98,7 +102,8 @@ class TtdsSnackbarHostState {
         }
 
         override fun hashCode(): Int {
-            var result = emphasizedMessage.hashCode()
+            var result = startIcon.hashCode()
+            result = 31 * result + emphasizedMessage.hashCode()
             result = 31 * result + message.hashCode()
             result = 31 * result + actionLabel.hashCode()
             result = 31 * result + withDismissAction.hashCode()
@@ -144,7 +149,7 @@ class TtdsSnackbarHostState {
 fun TtdsSnackbarHost(
     hostState: TtdsSnackbarHostState,
     modifier: Modifier = Modifier,
-    snackbar: @Composable (TtdsSnackbarData) -> Unit,
+    snackbar: @Composable (TtdsSnackbarData) -> Unit = { TtdsSnackbar(it) },
 ) {
     val currentSnackbarData = hostState.currentSnackbarData
     val accessibilityManager = LocalAccessibilityManager.current
@@ -167,6 +172,7 @@ fun TtdsSnackbarHost(
 
 @Stable
 interface TtdsSnackbarVisuals {
+    val startIcon: (@Composable () -> Unit)?
     val emphasizedMessage: String?
     val message: String
     val actionLabel: Boolean
