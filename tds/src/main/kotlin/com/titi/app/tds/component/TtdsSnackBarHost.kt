@@ -48,6 +48,7 @@ class TtdsSnackbarHostState {
         startIcon: (@Composable () -> Unit)? = null,
         emphasizedMessage: String? = null,
         message: String,
+        targetDpFromTop: Dp = 40.dp,
         actionLabel: Boolean = false,
         withDismissAction: Boolean = false,
         duration: TtdsSnackbarDuration = if (actionLabel) {
@@ -60,6 +61,7 @@ class TtdsSnackbarHostState {
             startIcon = startIcon,
             emphasizedMessage = emphasizedMessage,
             message = message,
+            targetDpFromTop = targetDpFromTop,
             actionLabel = actionLabel,
             withDismissAction = withDismissAction,
             duration = duration,
@@ -81,6 +83,7 @@ class TtdsSnackbarHostState {
         override val startIcon: (@Composable () -> Unit)?,
         override val emphasizedMessage: String?,
         override val message: String,
+        override val targetDpFromTop: Dp,
         override val actionLabel: Boolean,
         override val withDismissAction: Boolean,
         override val duration: TtdsSnackbarDuration,
@@ -94,6 +97,7 @@ class TtdsSnackbarHostState {
             if (startIcon != other.startIcon) return false
             if (emphasizedMessage != other.emphasizedMessage) return false
             if (message != other.message) return false
+            if (targetDpFromTop != other.targetDpFromTop) return false
             if (actionLabel != other.actionLabel) return false
             if (withDismissAction != other.withDismissAction) return false
             if (duration != other.duration) return false
@@ -105,6 +109,7 @@ class TtdsSnackbarHostState {
             var result = startIcon.hashCode()
             result = 31 * result + emphasizedMessage.hashCode()
             result = 31 * result + message.hashCode()
+            result = 31 * result + targetDpFromTop.hashCode()
             result = 31 * result + actionLabel.hashCode()
             result = 31 * result + withDismissAction.hashCode()
             result = 31 * result + duration.hashCode()
@@ -147,8 +152,8 @@ class TtdsSnackbarHostState {
 
 @Composable
 fun TtdsSnackbarHost(
-    hostState: TtdsSnackbarHostState,
     modifier: Modifier = Modifier,
+    hostState: TtdsSnackbarHostState,
     snackbar: @Composable (TtdsSnackbarData) -> Unit = { TtdsSnackbar(it) },
 ) {
     val currentSnackbarData = hostState.currentSnackbarData
@@ -175,6 +180,7 @@ interface TtdsSnackbarVisuals {
     val startIcon: (@Composable () -> Unit)?
     val emphasizedMessage: String?
     val message: String
+    val targetDpFromTop: Dp
     val actionLabel: Boolean
     val withDismissAction: Boolean
     val duration: TtdsSnackbarDuration
@@ -253,7 +259,7 @@ private fun TtdsSlideInSlideOutVertically(
                         durationMillis = duration,
                     ),
                     visible = isVisible,
-                    endDp = 40.dp,
+                    endDp = current?.visuals?.targetDpFromTop ?: 40.dp,
                     onAnimationFinish = {
                         if (key != state.current) {
                             state.items.removeAll { it.key == key }
