@@ -26,11 +26,7 @@ import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 
 @Composable
-fun TdsTimeTable(
-    modifier: Modifier = Modifier,
-    timeTableData: List<TdsTimeTableData>,
-    colors: List<Color>,
-) {
+fun TdsTimeTable(modifier: Modifier = Modifier, timeTableData: List<TdsTimeTableData>) {
     var fontSize by remember {
         mutableStateOf(7.sp)
     }
@@ -39,6 +35,7 @@ fun TdsTimeTable(
         .getTextStyle(fontSize = fontSize)
         .copy(color = TdsColor.TEXT.getColor())
     val hourTextMeasurer = rememberTextMeasurer()
+    val colors = timeTableData.map { it.color.getColor() }
 
     Canvas(
         modifier = modifier
@@ -76,7 +73,7 @@ fun TdsTimeTable(
             val barWidth = itemWidth * 6 * (timeTableData.end - timeTableData.start) / 3600
 
             drawRoundRect(
-                color = colors[index % colors.size],
+                color = colors[index],
                 cornerRadius = CornerRadius(itemHeight / 5, itemHeight / 5),
                 topLeft = Offset(
                     x = startX,
@@ -144,15 +141,6 @@ private fun TdsTimeTablePreview() {
                     start = 2121,
                     end = 3333,
                 ),
-            ),
-            colors = listOf(
-                TdsColor.D1.getColor(),
-                TdsColor.D2.getColor(),
-                TdsColor.D3.getColor(),
-                TdsColor.D4.getColor(),
-                TdsColor.D5.getColor(),
-                TdsColor.D6.getColor(),
-                TdsColor.D7.getColor(),
             ),
         )
     }

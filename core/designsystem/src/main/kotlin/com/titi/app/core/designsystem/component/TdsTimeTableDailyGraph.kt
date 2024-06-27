@@ -216,7 +216,6 @@ fun TdsTimeTableDailyGraph(
                                 )
                                 .padding(2.dp),
                             timeTableData = timeTableData,
-                            colors = tdsColors.map { it.getColor() },
                         )
                     }
                 }
