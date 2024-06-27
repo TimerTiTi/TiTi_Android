@@ -41,7 +41,7 @@ data class MeasuringUiState(
             splashResultState.timeColor.toMeasuringTimeColor(
                 recordTimes.recordingMode,
             )
-    val daily: Daily? get() = splashResultState.daily
+    val daily: Daily get() = splashResultState.daily
 }
 
 fun getSplashResultStateFromArgs(args: Bundle): SplashResultState =
@@ -77,7 +77,7 @@ fun TimeColor.toMeasuringTimeColor(recordingMode: Int) = MeasuringTimeColor(
 fun RecordTimes.toMeasuringRecordTimes(
     isSleepMode: Boolean,
     measureTime: Long,
-    daily: Daily?,
+    daily: Daily,
 ): MeasuringRecordTimes {
     val calculateSumTime = savedSumTime + measureTime
     val calculateSavedSumTime =
@@ -104,43 +104,38 @@ fun RecordTimes.toMeasuringRecordTimes(
             calculateTime
         }
 
-    val calculateGoalTime =
-        currentTask?.let {
-            if (it.isTaskTargetTimeOn) {
-                it.taskTargetTime - (daily?.tasks?.get(it.taskName) ?: 0) - measureTime
-            } else {
-                savedGoalTime - measureTime
-            }
-        } ?: (savedGoalTime - measureTime)
-    val calculateSavedGoalTime =
-        if (isSleepMode) {
-            calculateGoalTime - calculateGoalTime % 60
+    val calculateGoalTime = currentTask?.let {
+        if (it.isTaskTargetTimeOn) {
+            it.taskTargetTime - (daily.tasks?.get(it.taskName) ?: 0) - measureTime
         } else {
-            calculateGoalTime
+            savedGoalTime - measureTime
         }
+    } ?: (savedGoalTime - measureTime)
+    val calculateSavedGoalTime = if (isSleepMode) {
+        calculateGoalTime - calculateGoalTime % 60
+    } else {
+        calculateGoalTime
+    }
 
     val finishGoalTime = addTimeToNow(calculateSavedGoalTime)
 
-    val outCircularDividend =
-        if (recordingMode == 1) {
-            setTimerTime - calculateSavedTime
-        } else {
-            calculateSavedTime
-        }
-    val outCircularDivisor =
-        if (recordingMode == 1) {
-            setTimerTime.toFloat()
-        } else {
-            3600f
-        }
+    val outCircularDividend = if (recordingMode == 1) {
+        setTimerTime - calculateSavedTime
+    } else {
+        calculateSavedTime
+    }
+    val outCircularDivisor = if (recordingMode == 1) {
+        setTimerTime.toFloat()
+    } else {
+        3600f
+    }
     val outCircularProgress = outCircularDividend / outCircularDivisor
 
-    val inCircularDivisor =
-        if (currentTask?.isTaskTargetTimeOn == true) {
-            currentTask?.taskTargetTime?.toFloat() ?: 0f
-        } else {
-            setGoalTime.toFloat()
-        }
+    val inCircularDivisor = if (currentTask?.isTaskTargetTimeOn == true) {
+        currentTask?.taskTargetTime?.toFloat() ?: 0f
+    } else {
+        setGoalTime.toFloat()
+    }
     val inCircularProgress = calculateSavedSumTime / inCircularDivisor
 
     return MeasuringRecordTimes(
