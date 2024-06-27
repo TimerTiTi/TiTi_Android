@@ -21,4 +21,5 @@ dependencies {
 
     implementation(libs.androidx.splashscreen)
     implementation(libs.androidx.material3.window.size)
+    implementation(libs.lottie)
 }

@@ -6,27 +6,27 @@ import android.os.Build
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.titi.app.core.ui.isTablet
 import com.titi.app.feature.main.model.SplashResultState
 import com.titi.app.tds.R
-import com.titi.app.tds.component.TtdsSmallIcon
 import com.titi.app.tds.component.TtdsSnackbarHost
 import com.titi.app.tds.component.TtdsSnackbarHostState
 import kotlinx.coroutines.launch
@@ -63,23 +63,15 @@ fun TiTiApp(splashResultState: SplashResultState) {
                 scope.launch {
                     snackbarHostState.showSnackbar(
                         startIcon = {
-                            var startAnimation by remember { mutableStateOf(false) }
-                            val rotation by animateFloatAsState(
-                                targetValue = if (startAnimation) 360f else 0f,
-                                label = "rotation",
-                                animationSpec = tween(
-                                    durationMillis = 3000,
-                                    delayMillis = 150,
-                                ),
+                            val composition by rememberLottieComposition(
+                                LottieCompositionSpec.RawRes(R.raw.reset_daily_lottie),
                             )
+                            val progress by animateLottieCompositionAsState(composition)
 
-                            LaunchedEffect(Unit) {
-                                startAnimation = true
-                            }
-
-                            TtdsSmallIcon(
-                                modifier = Modifier.rotate(rotation),
-                                icon = R.drawable.reset_daily_icon,
+                            LottieAnimation(
+                                modifier = Modifier.size(22.dp).padding(4.dp),
+                                composition = composition,
+                                progress = { progress },
                             )
                         },
                         emphasizedMessage = "안녕하세요",
