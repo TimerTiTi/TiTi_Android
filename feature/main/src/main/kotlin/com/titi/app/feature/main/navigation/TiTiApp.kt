@@ -59,7 +59,7 @@ fun TiTiApp(splashResultState: SplashResultState) {
         TiTiNavHost(
             modifier = Modifier.fillMaxSize(),
             splashResultState = splashResultState,
-            onShowResetDailySnackBar = {
+            onShowResetDailySnackBar = { date ->
                 scope.launch {
                     snackbarHostState.showSnackbar(
                         startIcon = {
@@ -69,13 +69,15 @@ fun TiTiApp(splashResultState: SplashResultState) {
                             val progress by animateLottieCompositionAsState(composition)
 
                             LottieAnimation(
-                                modifier = Modifier.size(22.dp).padding(4.dp),
+                                modifier = Modifier
+                                    .size(22.dp)
+                                    .padding(4.dp),
                                 composition = composition,
                                 progress = { progress },
                             )
                         },
-                        emphasizedMessage = "안녕하세요",
-                        message = "반갑습니다",
+                        emphasizedMessage = date,
+                        message = "기록 시작!",
                         targetDpFromTop = if (configuration.isTablet()) 80.dp else 40.dp,
                     )
                 }

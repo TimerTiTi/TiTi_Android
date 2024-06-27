@@ -40,7 +40,7 @@ import com.titi.app.feature.webview.webViewGraph
 fun TiTiNavHost(
     modifier: Modifier = Modifier,
     splashResultState: SplashResultState,
-    onShowResetDailySnackBar: () -> Unit,
+    onShowResetDailySnackBar: (String) -> Unit,
 ) {
     val navController = rememberNavController()
     val context = LocalContext.current

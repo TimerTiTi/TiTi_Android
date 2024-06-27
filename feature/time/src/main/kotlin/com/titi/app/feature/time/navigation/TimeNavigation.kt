@@ -31,7 +31,7 @@ fun NavGraphBuilder.timeGraph(
     onNavigateToColor: (Int) -> Unit,
     onNavigateToMeasure: (String) -> Unit,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
-    onShowResetDailySnackBar: () -> Unit,
+    onShowResetDailySnackBar: (String) -> Unit,
 ) {
     composable(route = TIMER_ROUTE) { backStackEntry ->
         val isFinish by backStackEntry

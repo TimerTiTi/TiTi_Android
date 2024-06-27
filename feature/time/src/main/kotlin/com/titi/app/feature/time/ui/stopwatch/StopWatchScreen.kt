@@ -44,7 +44,7 @@ fun StopWatchScreen(
     onNavigateToColor: () -> Unit,
     onNavigateToMeasure: (String) -> Unit,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
-    onShowResetDailySnackBar: () -> Unit,
+    onShowResetDailySnackBar: (String) -> Unit,
 ) {
     val viewModel: StopWatchViewModel = mavericksViewModel(
         argsFactory = {
@@ -115,7 +115,7 @@ fun StopWatchScreen(
 
     LaunchedEffect(uiState.showResetDailySnackBar) {
         if (uiState.showResetDailySnackBar) {
-            onShowResetDailySnackBar()
+            onShowResetDailySnackBar(uiState.daily.day.parseZoneDateTime().substring(5))
             viewModel.initShowResetDailySnackBar()
         }
     }

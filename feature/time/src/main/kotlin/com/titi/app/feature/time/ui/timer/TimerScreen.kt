@@ -48,7 +48,7 @@ fun TimerScreen(
     onNavigateToColor: () -> Unit,
     onNavigateToMeasure: (String) -> Unit,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
-    onShowResetDailySnackBar: () -> Unit,
+    onShowResetDailySnackBar: (String) -> Unit,
 ) {
     val viewModel: TimerViewModel = mavericksViewModel(
         argsFactory = {
@@ -138,7 +138,7 @@ fun TimerScreen(
 
     LaunchedEffect(uiState.showResetDailySnackBar) {
         if (uiState.showResetDailySnackBar) {
-            onShowResetDailySnackBar()
+            onShowResetDailySnackBar(uiState.daily.day.parseZoneDateTime().substring(5))
             viewModel.initShowResetDailySnackBar()
         }
     }
