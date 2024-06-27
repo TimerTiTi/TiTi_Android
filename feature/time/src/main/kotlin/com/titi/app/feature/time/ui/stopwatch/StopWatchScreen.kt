@@ -27,6 +27,7 @@ import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.extension.getTdsTime
 import com.titi.app.core.designsystem.navigation.TdsBottomNavigationBar
 import com.titi.app.core.designsystem.navigation.TopLevelDestination
+import com.titi.app.core.util.parseZoneDateTime
 import com.titi.app.feature.time.component.TimeButtonComponent
 import com.titi.app.feature.time.component.TimeCheckTaskDialog
 import com.titi.app.feature.time.component.TimeColorDialog
@@ -43,19 +44,14 @@ fun StopWatchScreen(
     onNavigateToColor: () -> Unit,
     onNavigateToMeasure: (String) -> Unit,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
+    onShowResetDailySnackBar: (String) -> Unit,
 ) {
     val viewModel: StopWatchViewModel = mavericksViewModel(
         argsFactory = {
             splashResultState.asMavericksArgs()
         },
     )
-
-    LaunchedEffect(Unit) {
-        viewModel.updateRecordingMode()
-    }
-
     val uiState by viewModel.collectAsState()
-
     var showTaskBottomSheet by remember { mutableStateOf(false) }
     var showSelectColorDialog by remember { mutableStateOf(false) }
     var showGoalTimeEditDialog by remember { mutableStateOf(false) }
@@ -91,14 +87,11 @@ fun StopWatchScreen(
 
     if (showGoalTimeEditDialog) {
         TimeGoalTimeEditDialog(
-            todayDate = uiState.todayDate,
+            todayDate = uiState.daily.day.parseZoneDateTime(),
             currentTime = uiState.recordTimes.setGoalTime.getTdsTime(),
             onPositive = { goalTime ->
                 if (goalTime > 0) {
-                    viewModel.updateSetGoalTime(
-                        uiState.recordTimes,
-                        goalTime,
-                    )
+                    viewModel.updateSetGoalTime(goalTime)
                 }
             },
             onShowDialog = {
@@ -113,6 +106,25 @@ fun StopWatchScreen(
                 showCheckTaskDialog = it
             },
         )
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.init()
+        viewModel.updateDailyRecordTimesAfterH()
+    }
+
+    LaunchedEffect(uiState.showResetDailySnackBar) {
+        if (uiState.showResetDailySnackBar) {
+            onShowResetDailySnackBar(uiState.daily.day.parseZoneDateTime().substring(5))
+            viewModel.initShowResetDailySnackBar()
+        }
+    }
+
+    LaunchedEffect(uiState.splashResultStateString) {
+        uiState.splashResultStateString?.let {
+            onNavigateToMeasure(it)
+            viewModel.initSplashResultStateString()
+        }
     }
 
     StopWatchScreen(
@@ -134,18 +146,13 @@ fun StopWatchScreen(
         },
         onClickStartRecord = {
             if (uiState.isSetTask) {
-                val splashResultStateString = viewModel.startRecording(
-                    recordTimes = uiState.recordTimes,
-                    daily = uiState.daily,
-                    timeColor = uiState.timeColor,
-                )
-                onNavigateToMeasure(splashResultStateString)
+                viewModel.startRecording()
             } else {
                 showGoalTimeEditDialog = true
             }
         },
         onClickResetStopWatch = {
-            viewModel.updateSavedStopWatchTime(uiState.recordTimes)
+            viewModel.updateSavedStopWatchTime()
         },
         onNavigateToDestination = onNavigateToDestination,
     )
@@ -186,7 +193,7 @@ private fun StopWatchScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     TimeHeaderComponent(
-                        todayDate = uiState.todayDate,
+                        todayDate = uiState.daily.day.parseZoneDateTime(),
                         textColor = textColor,
                         onClickColor = onClickColor,
                     )

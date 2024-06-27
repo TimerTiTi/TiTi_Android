@@ -57,7 +57,7 @@ data class EditUiState(
         ),
     )
 
-    val dailyGraphData: DailyGraphData = currentDaily.toFeatureModel()
+    val dailyGraphData: DailyGraphData = currentDaily.toFeatureModel(graphColors)
 }
 
 data class DailyGraphData(

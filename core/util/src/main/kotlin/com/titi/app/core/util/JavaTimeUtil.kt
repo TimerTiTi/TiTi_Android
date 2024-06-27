@@ -1,7 +1,6 @@
 package com.titi.app.core.util
 
 import java.time.DayOfWeek
-import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -47,25 +46,48 @@ fun LocalDateTime.toOnlyTime(): String {
     return this.format(formatter)
 }
 
-fun addTimeLine(
-    startTime: ZonedDateTime,
-    endTime: ZonedDateTime,
-    timeLine: List<Long>,
-): List<Long> {
-    var current = startTime
-    val updateTimeLine = timeLine.toMutableList()
+fun getDailyDayWithHour(hour: Int): Pair<String, String> {
+    val currentDateTime = LocalDateTime.now()
 
-    while (current.isBefore(endTime)) {
-        val diffSeconds = if (current.hour == endTime.hour) {
-            Duration.between(current, endTime).seconds
-        } else {
-            val nextTime = current.plusHours(1).withMinute(0).withSecond(0)
-            Duration.between(current, nextTime).seconds
-        }
+    return if (currentDateTime.hour < hour) {
+        val startDateTime = currentDateTime
+            .minusDays(1)
+            .withHour(hour)
+            .withMinute(0)
+            .withSecond(0)
+            .withNano(0)
+            .atZone(ZoneId.systemDefault())
+            .withZoneSameInstant(ZoneOffset.UTC)
+            .toString()
+        val endDateTime = currentDateTime
+            .withHour(hour)
+            .withMinute(0)
+            .withSecond(0)
+            .withNano(0)
+            .atZone(ZoneId.systemDefault())
+            .withZoneSameInstant(ZoneOffset.UTC)
+            .toString()
 
-        updateTimeLine[current.hour] += diffSeconds
-        current = current.plusHours(1).withMinute(0).withSecond(0)
+        startDateTime to endDateTime
+    } else {
+        val startDateTime = currentDateTime
+            .withHour(hour)
+            .withMinute(0)
+            .withSecond(0)
+            .withNano(0)
+            .atZone(ZoneId.systemDefault())
+            .withZoneSameInstant(ZoneOffset.UTC)
+            .toString()
+        val endDateTime = currentDateTime
+            .plusDays(1)
+            .withHour(hour)
+            .withMinute(0)
+            .withSecond(0)
+            .withNano(0)
+            .atZone(ZoneId.systemDefault())
+            .withZoneSameInstant(ZoneOffset.UTC)
+            .toString()
+
+        startDateTime to endDateTime
     }
-
-    return updateTimeLine.toList()
 }

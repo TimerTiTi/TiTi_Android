@@ -13,11 +13,6 @@ fun String.parseZoneDateTime(): String {
     return inputDateTime.format(DateTimeFormatter.ofPattern("uuuu.MM.dd"))
 }
 
-fun getTodayDate(): String {
-    val now = ZonedDateTime.now()
-    return now.format(DateTimeFormatter.ofPattern("uuuu.MM.dd"))
-}
-
 fun addTimeToNow(time: Long): String {
     val now = ZonedDateTime.now()
     val interval = Duration.ofSeconds(time)
@@ -29,23 +24,6 @@ fun getTimeToLong(hour: String, minutes: String, seconds: String): Long {
     val minutesLong = minutes.toLongOrNull() ?: 0
     val secondsLong = seconds.toLongOrNull() ?: 0
     return hourLong * 3600 + minutesLong * 60 + secondsLong
-}
-
-fun isAfterSixAM(dateTime: String?): Boolean {
-    return if (dateTime.isNullOrBlank()) {
-        false
-    } else {
-        val inputDateTime =
-            ZonedDateTime.parse(dateTime).withZoneSameInstant(ZoneId.systemDefault())
-        val currentDateTime = ZonedDateTime.now()
-
-        if (inputDateTime.dayOfMonth == currentDateTime.dayOfMonth) {
-            true
-        } else {
-            val plusDays = inputDateTime.plusDays(1).dayOfMonth
-            currentDateTime.hour <= 6 && plusDays == currentDateTime.dayOfMonth
-        }
-    }
 }
 
 fun getMeasureTime(dateTime: String): Long {

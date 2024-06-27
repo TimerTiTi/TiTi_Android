@@ -38,10 +38,11 @@ class MainActivity : ComponentActivity() {
         val splashScreen = installSplashScreen()
 
         lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 splashResultState = viewModel.splashResultState.filterNotNull().first()
             }
         }
+
         splashScreen.setKeepOnScreenCondition {
             splashResultState == null
         }

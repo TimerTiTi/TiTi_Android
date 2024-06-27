@@ -11,6 +11,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:util"))
     implementation(project(":core:designsystem"))
+    implementation(project(":tds"))
 
     implementation(libs.findLibrary("androidx.compose.navigation").get())
     implementation(libs.findLibrary("androidx.hilt.navigation.compose").get())

@@ -36,14 +36,10 @@ internal class DailyRepositoryImpl @Inject constructor(
         startDateTime: String,
         endDateTime: String,
     ): List<DailyRepositoryModel>? {
-        return dailyDao.getWeekDaily(
+        return dailyDao.getDailies(
             startDateTime = startDateTime,
             endDateTime = endDateTime,
         )?.map { it.toRepositoryModel() }
-    }
-
-    override fun getLastDailyFlow(): Flow<DailyRepositoryModel?> {
-        return dailyDao.getLastDailyFlow().map { it?.toRepositoryModel() }
     }
 
     override suspend fun getAllDailies(): List<DailyRepositoryModel>? {

@@ -2,17 +2,17 @@ package com.titi.app.doamin.daily.model
 
 import android.os.Parcelable
 import com.titi.app.core.util.addTimeLine
+import com.titi.app.core.util.getDailyDayWithHour
 import kotlin.math.max
 import kotlinx.parcelize.Parcelize
 import org.threeten.bp.Duration
-import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
 @Parcelize
 data class Daily(
     val id: Long = 0,
     val status: String? = null,
-    val day: String = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+    val day: String = getDailyDayWithHour(6).first,
     val timeLine: List<Long> = LongArray(24) { 0 }.toList(),
     val maxTime: Long = 0,
     val tasks: Map<String, Long>? = null,

@@ -216,7 +216,6 @@ fun TdsTimeTableDailyGraph(
                                 )
                                 .padding(2.dp),
                             timeTableData = timeTableData,
-                            colors = tdsColors.map { it.getColor() },
                         )
                     }
                 }
@@ -288,21 +287,25 @@ private fun TdsTimeTableDailyGraphPreview() {
             taskData = taskData,
             timeTableData = listOf(
                 TdsTimeTableData(
+                    color = TdsColor.D1,
                     hour = 3,
                     start = 1800,
                     end = 2400,
                 ),
                 TdsTimeTableData(
+                    color = TdsColor.D1,
                     hour = 5,
                     start = 1234,
                     end = 2555,
                 ),
                 TdsTimeTableData(
+                    color = TdsColor.D1,
                     hour = 12,
                     start = 600,
                     end = 3444,
                 ),
                 TdsTimeTableData(
+                    color = TdsColor.D1,
                     hour = 23,
                     start = 2121,
                     end = 3333,
