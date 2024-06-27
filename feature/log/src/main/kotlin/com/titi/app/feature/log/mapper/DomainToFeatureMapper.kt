@@ -27,8 +27,10 @@ internal fun GraphColor.toFeatureModel() = GraphColorUiState(
     graphColors = graphColors.map { TdsColor.valueOf(it.name) },
 )
 
-internal fun Daily.toFeatureModel(): DailyGraphData {
+internal fun Daily.toFeatureModel(colors: List<TdsColor>): DailyGraphData {
     val sumTime = tasks?.values?.sum()
+    var colorIndex = 0
+    val taskColorMap = mutableMapOf<String, TdsColor>()
 
     return DailyGraphData(
         totalTime = sumTime?.getTimeString() ?: "00:00:00",
@@ -48,8 +50,12 @@ internal fun Daily.toFeatureModel(): DailyGraphData {
         tdsTimeTableData = taskHistories
             ?.flatMap { (taskName, histories) ->
                 histories.map { history ->
+                    val color = taskColorMap.getOrPut(taskName) {
+                        colors[colorIndex++ % colors.size]
+                    }
+
                     makeTimeTableData(
-                        taskName = taskName,
+                        color = color,
                         startDate = history.startDate,
                         endDate = history.endDate,
                     )
@@ -59,7 +65,7 @@ internal fun Daily.toFeatureModel(): DailyGraphData {
 }
 
 internal fun makeTimeTableData(
-    taskName: String,
+    color: TdsColor,
     startDate: String,
     endDate: String,
 ): List<TdsTimeTableData> {
@@ -78,7 +84,7 @@ internal fun makeTimeTableData(
 
         timeTableData.add(
             TdsTimeTableData(
-                taskName = taskName,
+                color = color,
                 hour = startZonedDateTime.hour,
                 start = startZonedDateTime.minute * 60 + startZonedDateTime.second,
                 end = if (nextHour.minute == 0) 3600 else nextHour.minute * 60 + nextHour.second,

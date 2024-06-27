@@ -3,6 +3,7 @@ package com.titi.app.feature.edit.mapper
 import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
+import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.doamin.daily.model.Daily
 import com.titi.app.doamin.daily.model.TaskHistory
 import com.titi.app.feature.edit.model.DailyGraphData
@@ -11,8 +12,10 @@ import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
-internal fun Daily.toFeatureModel(): DailyGraphData {
+internal fun Daily.toFeatureModel(colors: List<TdsColor>): DailyGraphData {
     val sumTime = tasks?.values?.sum()
+    var colorIndex = 0
+    val taskColorMap = mutableMapOf<String, TdsColor>()
 
     return DailyGraphData(
         totalTime = sumTime?.getTimeString() ?: "00:00:00",
@@ -35,8 +38,12 @@ internal fun Daily.toFeatureModel(): DailyGraphData {
             ?.filter { it.key.isNotEmpty() }
             ?.flatMap { (taskName, histories) ->
                 histories.map { history ->
+                    val color = taskColorMap.getOrPut(taskName) {
+                        colors[colorIndex++ % colors.size]
+                    }
+
                     makeTimeTableData(
-                        taskName = taskName,
+                        color = color,
                         startDate = history.startDate,
                         endDate = history.endDate,
                     )
@@ -52,7 +59,7 @@ fun List<Long>.toSystemDefaultTimeLine(): List<Long> {
 }
 
 internal fun makeTimeTableData(
-    taskName: String,
+    color: TdsColor,
     startDate: String,
     endDate: String,
 ): List<TdsTimeTableData> {
@@ -71,7 +78,7 @@ internal fun makeTimeTableData(
 
         timeTableData.add(
             TdsTimeTableData(
-                taskName = taskName,
+                color = color,
                 hour = startZonedDateTime.hour,
                 start = startZonedDateTime.minute * 60 + startZonedDateTime.second,
                 end = if (nextHour.minute == 0) 3600 else nextHour.minute * 60 + nextHour.second,

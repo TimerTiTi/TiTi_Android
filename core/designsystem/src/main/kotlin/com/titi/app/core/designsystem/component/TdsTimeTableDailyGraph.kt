@@ -288,25 +288,25 @@ private fun TdsTimeTableDailyGraphPreview() {
             taskData = taskData,
             timeTableData = listOf(
                 TdsTimeTableData(
-                    taskName = "ABC",
+                    color = TdsColor.D1,
                     hour = 3,
                     start = 1800,
                     end = 2400,
                 ),
                 TdsTimeTableData(
-                    taskName = "ABCD",
+                    color = TdsColor.D1,
                     hour = 5,
                     start = 1234,
                     end = 2555,
                 ),
                 TdsTimeTableData(
-                    taskName = "ABCDE",
+                    color = TdsColor.D1,
                     hour = 12,
                     start = 600,
                     end = 3444,
                 ),
                 TdsTimeTableData(
-                    taskName = "ABC",
+                    color = TdsColor.D1,
                     hour = 23,
                     start = 2121,
                     end = 3333,
