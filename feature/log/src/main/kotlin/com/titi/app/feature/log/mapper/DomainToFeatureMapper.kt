@@ -46,14 +46,23 @@ internal fun Daily.toFeatureModel(): DailyGraphData {
             )
         } ?: emptyList(),
         tdsTimeTableData = taskHistories
-            ?.values
-            ?.flatten()
-            ?.flatMap { makeTimeTableData(it.startDate, it.endDate) }
-            ?: emptyList(),
+            ?.flatMap { (taskName, histories) ->
+                histories.map { history ->
+                    makeTimeTableData(
+                        taskName = taskName,
+                        startDate = history.startDate,
+                        endDate = history.endDate,
+                    )
+                }.flatten()
+            } ?: emptyList(),
     )
 }
 
-internal fun makeTimeTableData(startDate: String, endDate: String): List<TdsTimeTableData> {
+internal fun makeTimeTableData(
+    taskName: String,
+    startDate: String,
+    endDate: String,
+): List<TdsTimeTableData> {
     var startZonedDateTime = ZonedDateTime
         .parse(startDate)
         .withZoneSameInstant(ZoneOffset.systemDefault())
@@ -69,6 +78,7 @@ internal fun makeTimeTableData(startDate: String, endDate: String): List<TdsTime
 
         timeTableData.add(
             TdsTimeTableData(
+                taskName = taskName,
                 hour = startZonedDateTime.hour,
                 start = startZonedDateTime.minute * 60 + startZonedDateTime.second,
                 end = if (nextHour.minute == 0) 3600 else nextHour.minute * 60 + nextHour.second,
