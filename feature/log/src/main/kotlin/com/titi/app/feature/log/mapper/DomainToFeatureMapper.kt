@@ -27,8 +27,10 @@ internal fun GraphColor.toFeatureModel() = GraphColorUiState(
     graphColors = graphColors.map { TdsColor.valueOf(it.name) },
 )
 
-internal fun Daily.toFeatureModel(): DailyGraphData {
+internal fun Daily.toFeatureModel(colors: List<TdsColor>): DailyGraphData {
     val sumTime = tasks?.values?.sum()
+    var colorIndex = 0
+    val taskColorMap = mutableMapOf<String, TdsColor>()
 
     return DailyGraphData(
         totalTime = sumTime?.getTimeString() ?: "00:00:00",
@@ -46,14 +48,27 @@ internal fun Daily.toFeatureModel(): DailyGraphData {
             )
         } ?: emptyList(),
         tdsTimeTableData = taskHistories
-            ?.values
-            ?.flatten()
-            ?.flatMap { makeTimeTableData(it.startDate, it.endDate) }
-            ?: emptyList(),
+            ?.flatMap { (taskName, histories) ->
+                histories.map { history ->
+                    val color = taskColorMap.getOrPut(taskName) {
+                        colors[colorIndex++ % colors.size]
+                    }
+
+                    makeTimeTableData(
+                        color = color,
+                        startDate = history.startDate,
+                        endDate = history.endDate,
+                    )
+                }.flatten()
+            } ?: emptyList(),
     )
 }
 
-internal fun makeTimeTableData(startDate: String, endDate: String): List<TdsTimeTableData> {
+internal fun makeTimeTableData(
+    color: TdsColor,
+    startDate: String,
+    endDate: String,
+): List<TdsTimeTableData> {
     var startZonedDateTime = ZonedDateTime
         .parse(startDate)
         .withZoneSameInstant(ZoneOffset.systemDefault())
@@ -69,6 +84,7 @@ internal fun makeTimeTableData(startDate: String, endDate: String): List<TdsTime
 
         timeTableData.add(
             TdsTimeTableData(
+                color = color,
                 hour = startZonedDateTime.hour,
                 start = startZonedDateTime.minute * 60 + startZonedDateTime.second,
                 end = if (nextHour.minute == 0) 3600 else nextHour.minute * 60 + nextHour.second,

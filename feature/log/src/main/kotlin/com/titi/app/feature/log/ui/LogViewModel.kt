@@ -74,11 +74,13 @@ class LogViewModel @AssistedInject constructor(
             getCurrentDateDailyFlowUseCase(it)
         }.catch {
             Log.e("LogViewModel", it.message.toString())
-        }.setOnEach {
+        }.setOnEach { daily ->
             copy(
                 dailyUiState = dailyUiState.copy(
                     currentDate = currentDailyDate.value,
-                    dailyGraphData = it?.toFeatureModel() ?: DailyGraphData(),
+                    dailyGraphData = daily
+                        ?.toFeatureModel(graphColorUiState.graphColors)
+                        ?: DailyGraphData(),
                 ),
             )
         }
