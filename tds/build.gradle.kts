@@ -6,3 +6,7 @@ plugins {
 android {
     namespace = "com.titi.app.tds"
 }
+
+dependencies {
+    implementation(project(":core:ui"))
+}
