@@ -14,11 +14,9 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.titi.app.core.ui.isTablet
-import com.titi.app.tds.R
 import com.titi.app.tds.theme.TtdsColor
 import com.titi.app.tds.theme.TtdsTextStyle
 import com.titi.app.tds.theme.TtdsTheme
@@ -96,18 +94,4 @@ private fun TtdsSnackbarMessage(
         color = TtdsColor.TEXT,
         fontSize = 14.sp * multiple,
     )
-}
-
-@Preview
-@Composable
-private fun TtdsSnackbarMessagePreview() {
-    TtdsTheme {
-        TtdsSnackbar(
-            startIcon = {
-                TtdsSmallIcon(icon = R.drawable.reset_daily_icon)
-            },
-            emphasizedMessage = "안녕하세요",
-            message = "반갑습니다",
-        )
-    }
 }

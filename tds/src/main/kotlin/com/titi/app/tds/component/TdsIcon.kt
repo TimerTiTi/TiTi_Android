@@ -7,11 +7,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.titi.app.tds.R
 import com.titi.app.tds.theme.TtdsColor
-import com.titi.app.tds.theme.TtdsTheme
 
 @Composable
 fun TtdsSmallIcon(
@@ -28,12 +25,4 @@ fun TtdsSmallIcon(
         tint = tint.getColor(),
         contentDescription = null,
     )
-}
-
-@Preview
-@Composable
-private fun TtdsSmallIconPreview() {
-    TtdsTheme {
-        TtdsSmallIcon(icon = R.drawable.reset_daily_icon)
-    }
 }
