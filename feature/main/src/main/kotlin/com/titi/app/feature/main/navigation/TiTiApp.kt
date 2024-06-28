@@ -44,6 +44,7 @@ fun TiTiApp(splashResultState: SplashResultState) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { TtdsSnackbarHostState() }
     val configuration = LocalConfiguration.current
+    val multiple = if (configuration.isTablet()) 2 else 1
 
     fun askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -70,15 +71,15 @@ fun TiTiApp(splashResultState: SplashResultState) {
 
                             LottieAnimation(
                                 modifier = Modifier
-                                    .size(22.dp)
-                                    .padding(4.dp),
+                                    .size(22.dp * multiple)
+                                    .padding(4.dp * multiple),
                                 composition = composition,
                                 progress = { progress },
                             )
                         },
                         emphasizedMessage = date,
                         message = "기록 시작!",
-                        targetDpFromTop = if (configuration.isTablet()) 80.dp else 40.dp,
+                        targetDpFromTop = 40.dp * multiple,
                     )
                 }
             },
