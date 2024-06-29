@@ -8,19 +8,23 @@ class GetResetDailyEventUseCase @Inject constructor(
     private val dailyRepository: DailyRepository,
 ) {
     suspend operator fun invoke(): Boolean {
-        val resetDaily = dailyRepository.getResetDailyEvent()
-        val today = getDailyDayWithHour(6).first
+        val resetEventDate = dailyRepository.getResetDailyEvent()
+        val (todayDate, endOfToday) = getDailyDayWithHour(6)
 
-        return if (resetDaily != null) {
-            if (resetDaily != today) {
-                dailyRepository.setResetDailyEvent(today)
+        return if (resetEventDate != null) {
+            if (resetEventDate != todayDate) {
+                dailyRepository.setResetDailyEvent(todayDate)
                 true
             } else {
                 false
             }
         } else {
-            dailyRepository.setResetDailyEvent(today)
-            true
+            dailyRepository.setResetDailyEvent(todayDate)
+            val dailyEvent = dailyRepository.getDateDaily(
+                startDateTime = todayDate,
+                endDateTime = endOfToday,
+            )
+            dailyEvent == null
         }
     }
 }
