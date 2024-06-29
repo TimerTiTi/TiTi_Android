@@ -42,4 +42,8 @@ interface DailyRepository {
     suspend fun getAllDailies(): List<DailyRepositoryModel>?
 
     suspend fun upsert(dailyRepositoryModel: DailyRepositoryModel)
+
+    suspend fun setResetDailyEvent(daily: String)
+
+    suspend fun getResetDailyEvent(): String?
 }

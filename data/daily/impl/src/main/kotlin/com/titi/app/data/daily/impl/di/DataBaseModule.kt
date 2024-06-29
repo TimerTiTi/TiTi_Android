@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room.databaseBuilder
 import com.titi.app.data.daily.impl.local.DailyDataBase
 import com.titi.app.data.daily.impl.local.dao.DailyDao
+import com.titi.app.data.daily.impl.local.datastore.DailyDataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,4 +26,8 @@ internal object DataBaseModule {
     @Singleton
     @Provides
     fun provideDailyDao(dailyDataBase: DailyDataBase): DailyDao = dailyDataBase.getDailyDao()
+
+    @Singleton
+    @Provides
+    fun provideDailyDataStore(@ApplicationContext context: Context) = DailyDataStore(context)
 }
