@@ -3,6 +3,7 @@ package com.titi.app.data.daily.impl.repository
 import com.titi.app.data.daily.api.DailyRepository
 import com.titi.app.data.daily.api.model.DailyRepositoryModel
 import com.titi.app.data.daily.impl.local.dao.DailyDao
+import com.titi.app.data.daily.impl.local.datastore.DailyDataStore
 import com.titi.app.data.daily.impl.mapper.toLocalModel
 import com.titi.app.data.daily.impl.mapper.toRepositoryModel
 import javax.inject.Inject
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.map
 
 internal class DailyRepositoryImpl @Inject constructor(
     private val dailyDao: DailyDao,
+    private val dailyDataStore: DailyDataStore,
 ) : DailyRepository {
     override suspend fun getDateDaily(
         startDateTime: String,
@@ -48,5 +50,13 @@ internal class DailyRepositoryImpl @Inject constructor(
 
     override suspend fun upsert(dailyRepositoryModel: DailyRepositoryModel) {
         dailyDao.upsert(dailyRepositoryModel.toLocalModel())
+    }
+
+    override suspend fun setResetDailyEvent(daily: String) {
+        dailyDataStore.setResetDailyEvent(daily)
+    }
+
+    override suspend fun getResetDailyEvent(): String? {
+        return dailyDataStore.getResetDailyEvent()
     }
 }
