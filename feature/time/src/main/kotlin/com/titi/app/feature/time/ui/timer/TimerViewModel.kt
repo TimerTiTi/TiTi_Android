@@ -8,6 +8,7 @@ import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.app.core.util.isAfterH
 import com.titi.app.core.util.toJson
 import com.titi.app.doamin.daily.model.Daily
+import com.titi.app.doamin.daily.usecase.GetResetDailyEventUseCase
 import com.titi.app.doamin.daily.usecase.GetTodayDailyFlowUseCase
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.domain.color.usecase.UpdateColorUseCase
@@ -38,6 +39,7 @@ class TimerViewModel @AssistedInject constructor(
     private val updateSetGoalTimeUseCase: UpdateSetGoalTimeUseCase,
     private val updateRecordTimesUseCase: UpdateRecordTimesUseCase,
     private val updateSetTimerTimeUseCase: UpdateSetTimerTimeUseCase,
+    private val getResetDailyEventUseCase: GetResetDailyEventUseCase,
 ) : MavericksViewModel<TimerUiState>(initialState) {
 
     private lateinit var prevTimerColor: TimerColor
@@ -67,8 +69,8 @@ class TimerViewModel @AssistedInject constructor(
 
     fun updateDailyRecordTimesAfterH() {
         withState {
-            if (it.daily.day.isAfterH(6)) {
-                viewModelScope.launch {
+            viewModelScope.launch {
+                if (getResetDailyEventUseCase()) {
                     updateRecordTimesUseCase(
                         recordTimes = it.recordTimes.copy(
                             recordingMode = 1,
@@ -78,16 +80,14 @@ class TimerViewModel @AssistedInject constructor(
                             savedGoalTime = it.recordTimes.setGoalTime,
                         ),
                     )
-                }
 
-                setState {
-                    copy(
-                        daily = Daily(),
-                        showResetDailySnackBar = true,
-                    )
-                }
-            } else {
-                viewModelScope.launch {
+                    setState {
+                        copy(
+                            daily = Daily(),
+                            showResetDailySnackBar = true,
+                        )
+                    }
+                } else {
                     updateRecordingModeUseCase(1)
                 }
             }
