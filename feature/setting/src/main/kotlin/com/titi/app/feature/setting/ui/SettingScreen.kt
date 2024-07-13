@@ -1,6 +1,9 @@
 package com.titi.app.feature.setting.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -393,6 +396,8 @@ internal fun ListContent(
 
 @Composable
 internal fun DeveloperSection(onSettingActions: (SettingActions) -> Unit) {
+    val context = LocalContext.current
+
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
         text = "개발자",
@@ -434,7 +439,7 @@ internal fun DeveloperSection(onSettingActions: (SettingActions) -> Unit) {
             onClick = {
                 onSettingActions(
                     SettingActions.Navigates.ExternalWeb(
-                        " https://www.instagram.com/study_withtiti/",
+                        "https://www.instagram.com/study_withtiti/",
                     ),
                 )
             },
@@ -451,7 +456,25 @@ internal fun DeveloperSection(onSettingActions: (SettingActions) -> Unit) {
             modifier = Modifier
                 .clip(CircleShape)
                 .background(TdsColor.SECONDARY_BACKGROUND.getColor()),
-            onClick = {},
+            onClick = {
+                val uriText = "mailto:koreatlwls@gmail.com" +
+                    "?subject=" + Uri.encode("TiTi 문의사항")
+
+                val uri = Uri.parse(uriText)
+
+                val sendIntent = Intent(Intent.ACTION_SENDTO)
+                sendIntent.data = uri
+
+                if (sendIntent.resolveActivity(context.packageManager) != null) {
+                    context.startActivity(Intent.createChooser(sendIntent, "Send email"))
+                } else {
+                    Toast.makeText(
+                        context,
+                        "이메일 앱이 존재하지 않습니다.",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                }
+            },
             size = 48.dp,
         ) {
             Icon(
