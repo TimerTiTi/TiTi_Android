@@ -427,8 +427,9 @@ internal fun DeveloperSection(onSettingActions: (SettingActions) -> Unit) {
         ) {
             Icon(
                 modifier = Modifier.size(30.dp),
-                painter = painterResource(R.drawable.gihub_icon),
+                painter = painterResource(R.drawable.github_icon),
                 contentDescription = null,
+                tint = TdsColor.TEXT.getColor(),
             )
         }
 
@@ -449,6 +450,7 @@ internal fun DeveloperSection(onSettingActions: (SettingActions) -> Unit) {
                 modifier = Modifier.size(30.dp),
                 painter = painterResource(R.drawable.instagram_icon),
                 contentDescription = null,
+                tint = TdsColor.TEXT.getColor(),
             )
         }
 
@@ -481,6 +483,7 @@ internal fun DeveloperSection(onSettingActions: (SettingActions) -> Unit) {
                 modifier = Modifier.size(30.dp),
                 painter = painterResource(R.drawable.email_icon),
                 contentDescription = null,
+                tint = TdsColor.TEXT.getColor(),
             )
         }
     }
