@@ -6,6 +6,9 @@ sealed interface SettingActions {
         data object FeaturesList : Navigates
         data object PlayStore : Navigates
         data object UpdatesList : Navigates
+
+        @JvmInline
+        value class ExternalWeb(val url: String) : Navigates
     }
 
     sealed interface Updates : SettingActions {
