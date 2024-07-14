@@ -44,8 +44,10 @@ internal class DailyRepositoryImpl @Inject constructor(
         )?.map { it.toRepositoryModel() }
     }
 
-    override suspend fun getAllDailies(): List<DailyRepositoryModel>? {
-        return dailyDao.getAllDailies()?.map { it.toRepositoryModel() }
+    override fun getAllDailiesFlow(): Flow<List<DailyRepositoryModel>?> {
+        return dailyDao.getAllDailiesFlow().map { dailies ->
+            dailies?.map { it.toRepositoryModel() }
+        }
     }
 
     override suspend fun upsert(dailyRepositoryModel: DailyRepositoryModel) {

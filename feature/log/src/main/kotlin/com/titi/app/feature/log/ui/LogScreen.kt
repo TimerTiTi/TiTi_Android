@@ -84,7 +84,6 @@ fun LogScreen(
 
     LaunchedEffect(Unit) {
         val currentDate = LocalDate.now()
-        viewModel.updateCurrentDateHome(currentDate)
         viewModel.updateCurrentDateWeek(currentDate)
 
         val calendarCurrentDate = if (pagerState.currentPage == 1) {

@@ -7,9 +7,8 @@ import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
 import com.titi.app.data.graph.api.GraphRepository
 import com.titi.app.data.graph.api.model.GraphCheckedRepositoryModel
-import com.titi.app.doamin.daily.usecase.GetAllDailiesTasksUseCase
+import com.titi.app.doamin.daily.usecase.GetAllDailiesFlowUseCase
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyFlowUseCase
-import com.titi.app.doamin.daily.usecase.GetMonthDailyUseCase
 import com.titi.app.doamin.daily.usecase.GetWeekDailyUseCase
 import com.titi.app.doamin.daily.usecase.HasDailyForCurrentMonthUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsFlowUseCase
@@ -22,14 +21,12 @@ import com.titi.app.feature.log.mapper.toWeekFeatureModel
 import com.titi.app.feature.log.model.DailyGraphData
 import com.titi.app.feature.log.model.GraphColorUiState
 import com.titi.app.feature.log.model.GraphGoalTimeUiState
-import com.titi.app.feature.log.model.HomeUiState
 import com.titi.app.feature.log.model.LogUiState
 import com.titi.app.feature.log.model.WeekGraphData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import java.time.LocalDate
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
@@ -39,9 +36,8 @@ import kotlinx.coroutines.launch
 class LogViewModel @AssistedInject constructor(
     @Assisted initialState: LogUiState,
     getGraphColorsFlowUseCase: GetGraphColorsFlowUseCase,
+    getAllDailiesFlowUseCase: GetAllDailiesFlowUseCase,
     private val updateGraphColorsUseCase: UpdateGraphColorsUseCase,
-    private val getAllDailiesTasksUseCase: GetAllDailiesTasksUseCase,
-    private val getMonthDailyUseCase: GetMonthDailyUseCase,
     private val getCurrentDateDailyFlowUseCase: GetCurrentDateDailyFlowUseCase,
     private val getWeekDailyUseCase: GetWeekDailyUseCase,
     private val hasDailyForCurrentMonthUseCase: HasDailyForCurrentMonthUseCase,
@@ -56,6 +52,15 @@ class LogViewModel @AssistedInject constructor(
         }.filterNotNull()
             .setOnEach {
                 copy(graphColorUiState = it.toFeatureModel())
+            }
+
+        getAllDailiesFlowUseCase().catch {
+            Log.e("LogViewModel", it.message.toString())
+        }.filterNotNull()
+            .setOnEach { dailies ->
+                copy(
+                    homeUiState = dailies.toHomeFeatureModel(),
+                )
             }
 
         graphRepository.getGraphCheckedFlow().catch {
@@ -114,34 +119,6 @@ class LogViewModel @AssistedInject constructor(
             }
 
             graphRepository.setGraphGoalTime(updateGraphGoalTimeUiState.toRepositoryModel())
-        }
-    }
-
-    fun updateCurrentDateHome(date: LocalDate) {
-        val totalAsync = viewModelScope.async {
-            getAllDailiesTasksUseCase()
-        }
-
-        val graphData = viewModelScope.async {
-            getMonthDailyUseCase(date)
-        }
-
-        viewModelScope.launch {
-            runCatching {
-                Pair(totalAsync.await(), graphData.await()).toHomeFeatureModel(date)
-            }.onSuccess {
-                setState {
-                    copy(
-                        homeUiState = it,
-                    )
-                }
-            }.onFailure {
-                setState {
-                    copy(
-                        homeUiState = HomeUiState(),
-                    )
-                }
-            }
         }
     }
 

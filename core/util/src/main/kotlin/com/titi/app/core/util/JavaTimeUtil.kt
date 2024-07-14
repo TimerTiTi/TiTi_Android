@@ -7,6 +7,8 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.WeekFields
+import java.util.Locale
 
 fun isCurrentWeek(checkDate: ZonedDateTime, currentDate: LocalDate): Boolean {
     val diffMonday = currentDate.dayOfWeek.value - DayOfWeek.MONDAY.value
@@ -90,4 +92,31 @@ fun getDailyDayWithHour(hour: Int): Pair<String, String> {
 
         startDateTime to endDateTime
     }
+}
+
+fun areDatesInSameMonth(localDate: LocalDate, zonedDateTime: ZonedDateTime): Boolean {
+    val zonedDateTimeToLocalDate = zonedDateTime.toLocalDate()
+
+    return localDate.year == zonedDateTimeToLocalDate.year &&
+        localDate.month == zonedDateTimeToLocalDate.month
+}
+
+fun areDatesInSameWeek(localDate: LocalDate, zonedDateTime: ZonedDateTime): Boolean {
+    val zonedDateTimeToLocalDate = zonedDateTime.toLocalDate()
+
+    val weekFields = WeekFields.of(Locale.getDefault())
+
+    val localDateWeek = localDate.get(weekFields.weekOfWeekBasedYear())
+    val zonedDateTimeWeek = zonedDateTimeToLocalDate.get(weekFields.weekOfWeekBasedYear())
+
+    val localDateYear = localDate.get(weekFields.weekBasedYear())
+    val zonedDateTimeYear = zonedDateTimeToLocalDate.get(weekFields.weekBasedYear())
+
+    return localDateWeek == zonedDateTimeWeek && localDateYear == zonedDateTimeYear
+}
+
+fun areDatesInSameDay(localDate: LocalDate, zonedDateTime: ZonedDateTime): Boolean {
+    val zonedDateTimeToLocalDate = zonedDateTime.toLocalDate()
+
+    return localDate == zonedDateTimeToLocalDate
 }
