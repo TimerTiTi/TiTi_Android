@@ -84,10 +84,10 @@ fun WeekScreen(
     if (showPermissionDialog) {
         TdsDialog(
             tdsDialogInfo = TdsDialogInfo.Confirm(
-                title = "사진을 저장하기 위해서 권한이 필요로 합니다.",
-                message = "허용하시겠습니까?",
-                positiveText = stringResource(id = R.string.Ok),
-                negativeText = stringResource(id = R.string.Cancel),
+                title = stringResource(R.string.daily_popup_savepermissiontitle),
+                message = stringResource(R.string.daily_popup_savepermissiondesc),
+                positiveText = stringResource(id = R.string.common_text_ok),
+                negativeText = stringResource(id = R.string.common_text_cancel),
                 onPositive = {
                     requestWritePermissionLauncher.launch(
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,

@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -183,7 +184,7 @@ private fun SettingScreen(
 private fun SettingServiceSection(onSettingActions: (SettingActions) -> Unit) {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
-        text = "서비스",
+        text = stringResource(R.string.settings_text_servicesection),
         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
         fontSize = 14.sp,
         color = TdsColor.TEXT,
@@ -192,7 +193,7 @@ private fun SettingServiceSection(onSettingActions: (SettingActions) -> Unit) {
     Spacer(modifier = Modifier.height(4.dp))
 
     ListContent(
-        title = "TiTi 기능들",
+        title = stringResource(R.string.settings_button_functions),
         rightAreaContent = {
             Icon(
                 painter = painterResource(id = R.drawable.arrow_right_icon),
@@ -213,7 +214,7 @@ private fun SettingNotificationSection(
 ) {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
-        text = "알림",
+        text = stringResource(R.string.setting_text_notification),
         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
         fontSize = 14.sp,
         color = TdsColor.TEXT,
@@ -222,8 +223,8 @@ private fun SettingNotificationSection(
     Spacer(modifier = Modifier.height(4.dp))
 
     ListContent(
-        title = "타이머",
-        description = "종료 5분전 알림",
+        title = stringResource(R.string.common_button_timer),
+        description = stringResource(R.string.switchsetting_button_5minnotidesc),
         rightAreaContent = {
             Switch(
                 checked = switchState.timerFiveMinutesBeforeTheEnd,
@@ -244,8 +245,8 @@ private fun SettingNotificationSection(
     Spacer(modifier = Modifier.height(1.dp))
 
     ListContent(
-        title = "타이머",
-        description = "종료 알림",
+        title = stringResource(R.string.common_button_timer),
+        description = stringResource(R.string.switchsetting_button_endnotidesc),
         rightAreaContent = {
             Switch(
                 checked = switchState.timerBeforeTheEnd,
@@ -265,8 +266,8 @@ private fun SettingNotificationSection(
     Spacer(modifier = Modifier.height(1.dp))
 
     ListContent(
-        title = "스톱워치",
-        description = "1시간단위 경과시 알림",
+        title = stringResource(R.string.common_button_stopwatch),
+        description = stringResource(R.string.switchsetting_button_1hourpassnotidesc),
         rightAreaContent = {
             Switch(
                 checked = switchState.stopwatch,
@@ -291,7 +292,7 @@ private fun SettingVersionSection(
 ) {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
-        text = "버전 및 업데이트 내역",
+        text = stringResource(R.string.settings_text_versionsection),
         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
         fontSize = 14.sp,
         color = TdsColor.TEXT,
@@ -300,8 +301,9 @@ private fun SettingVersionSection(
     Spacer(modifier = Modifier.height(4.dp))
 
     ListContent(
-        title = "버전 정보",
-        description = "최신버전: ${versionState.newVersion}",
+        title = stringResource(R.string.settings_button_versioninfotitle),
+        description = stringResource(R.string.settings_text_versioninfodesc) +
+            " : ${versionState.newVersion}",
         rightAreaContent = {
             TdsText(
                 text = versionState.currentVersion,
@@ -326,7 +328,7 @@ private fun SettingVersionSection(
     Spacer(modifier = Modifier.height(1.dp))
 
     ListContent(
-        title = "업데이트 내역",
+        title = stringResource(R.string.settings_button_updatehistory),
         rightAreaContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(

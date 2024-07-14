@@ -26,13 +26,13 @@ fun TimeTimerDialog(onPositive: (Long) -> Unit, onShowDialog: (Boolean) -> Unit)
 
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Confirm(
-            title = stringResource(R.string.set_timer_time_title),
+            title = stringResource(R.string.timer_text_settimertimetitle),
             message = stringResource(
-                R.string.set_timer_time_message,
+                R.string.timer_popup_finishtime,
                 addTimeToNow(setTimerTime),
             ),
-            positiveText = stringResource(id = R.string.Ok),
-            negativeText = stringResource(id = R.string.Cancel),
+            positiveText = stringResource(id = R.string.common_text_ok),
+            negativeText = stringResource(id = R.string.common_text_cancel),
             onPositive = {
                 onPositive(setTimerTime)
             },

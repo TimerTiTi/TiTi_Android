@@ -43,13 +43,13 @@ fun EditTaskNameDialog(
 
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Confirm(
-            title = stringResource(id = R.string.modify_task_title),
-            message = stringResource(id = R.string.add_task_message),
-            positiveText = stringResource(id = R.string.Ok),
+            title = stringResource(id = R.string.tasks_popup_edittaskname),
+            message = stringResource(id = R.string.tasks_popup_newtaskdesc),
+            positiveText = stringResource(id = R.string.common_text_ok),
             onPositive = {
                 onPositive(editTaskName)
             },
-            negativeText = stringResource(id = R.string.Cancel),
+            negativeText = stringResource(id = R.string.common_text_cancel),
         ),
         onShowDialog = onShowDialog,
     ) {

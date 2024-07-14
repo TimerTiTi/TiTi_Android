@@ -9,6 +9,7 @@ import android.os.Build
 import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.core.content.ContextCompat
+import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.util.saveBitmapFromComposable
 import com.titi.app.core.designsystem.util.shareBitmap
 import com.titi.app.core.designsystem.util.shareBitmapFromComposable
@@ -91,9 +92,9 @@ fun saveDailyGraph(
     pictureList: List<Picture>,
     checkedButtonStates: List<Boolean>,
 ): String {
-    var message = "모든 사진이 갤러리에 저장되었습니다."
+    var message = context.getString(R.string.save_toast_donemessage)
     val coroutineExceptionHandler = CoroutineExceptionHandler { _, _ ->
-        message = "갤러리에 저장이 실패하였습니다."
+        message = context.getString(R.string.save_taost_failmessage)
     }
     coroutineScope.launch(Dispatchers.Default + coroutineExceptionHandler) {
         checkedButtonStates.forEachIndexed { index, isChecked ->
@@ -107,9 +108,9 @@ fun saveDailyGraph(
 }
 
 fun saveWeekGraph(context: Context, coroutineScope: CoroutineScope, picture: Picture): String {
-    var message = "모든 사진이 갤러리에 저장되었습니다."
+    var message = context.getString(R.string.save_toast_donemessage)
     val coroutineExceptionHandler = CoroutineExceptionHandler { _, _ ->
-        message = "갤러리에 저장이 실패하였습니다."
+        message = context.getString(R.string.save_taost_failmessage)
     }
 
     coroutineScope.launch(Dispatchers.Default + coroutineExceptionHandler) {

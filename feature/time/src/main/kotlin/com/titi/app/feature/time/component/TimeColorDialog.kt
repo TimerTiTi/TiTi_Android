@@ -22,9 +22,9 @@ fun TimeColorDialog(
 ) {
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Confirm(
-            title = stringResource(id = R.string.custom_color),
-            positiveText = stringResource(id = R.string.Ok),
-            negativeText = stringResource(id = R.string.Cancel),
+            title = stringResource(id = R.string.recordingcolorselector_text_customcolor),
+            positiveText = stringResource(id = R.string.common_text_ok),
+            negativeText = stringResource(id = R.string.common_text_cancel),
             onPositive = {
                 onShowDialog(false)
             },
