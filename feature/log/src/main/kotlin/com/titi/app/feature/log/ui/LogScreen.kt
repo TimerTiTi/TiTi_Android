@@ -83,9 +83,6 @@ fun LogScreen(
     }
 
     LaunchedEffect(Unit) {
-        val currentDate = LocalDate.now()
-        viewModel.updateCurrentDateWeek(currentDate)
-
         val calendarCurrentDate = if (pagerState.currentPage == 1) {
             uiState.dailyUiState.currentDate
         } else {
@@ -219,7 +216,7 @@ fun LogScreen(
                         topLevelTaskData = uiState.weekUiState.weekGraphData.topLevelTdsTaskData,
                         currentDate = uiState.weekUiState.currentDate,
                         onClickDate = {
-                            viewModel.updateCurrentDateWeek(it)
+                            viewModel.updateCurrentWeekDate(it)
                         },
                         onClickGraphColor = {
                             viewModel.updateGraphColors(

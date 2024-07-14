@@ -39,6 +39,11 @@ interface DailyRepository {
 
     suspend fun getDailies(startDateTime: String, endDateTime: String): List<DailyRepositoryModel>?
 
+    fun getDailiesFlow(
+        startDateTime: String,
+        endDateTime: String,
+    ): Flow<List<DailyRepositoryModel>?>
+
     fun getAllDailiesFlow(): Flow<List<DailyRepositoryModel>?>
 
     suspend fun upsert(dailyRepositoryModel: DailyRepositoryModel)

@@ -30,6 +30,13 @@ internal interface DailyDao {
     )
     suspend fun getDailies(startDateTime: String, endDateTime: String): List<DailyEntity>?
 
+    @Query(
+        "SELECT * FROM dailies " +
+            " WHERE datetime(day) " +
+            "BETWEEN datetime(:startDateTime) AND datetime(:endDateTime)",
+    )
+    fun getDailiesFlow(startDateTime: String, endDateTime: String): Flow<List<DailyEntity>?>
+
     @Query("SELECT * FROM dailies")
     fun getAllDailiesFlow(): Flow<List<DailyEntity>?>
 

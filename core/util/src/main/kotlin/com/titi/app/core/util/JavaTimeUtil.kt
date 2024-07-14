@@ -67,20 +67,7 @@ fun areDatesInSameMonth(localDate: LocalDate, zonedDateTime: ZonedDateTime): Boo
 }
 
 fun areDatesInSameWeek(localDate: LocalDate, zonedDateTime: ZonedDateTime): Boolean {
-    val diffMonday = localDate.dayOfWeek.value - DayOfWeek.MONDAY.value
-    val diffSunday = DayOfWeek.SUNDAY.value - localDate.dayOfWeek.value
-
-    val monday = localDate
-        .minusDays(diffMonday.toLong())
-        .atStartOfDay()
-        .atZone(ZoneOffset.systemDefault())
-        .withZoneSameInstant(ZoneOffset.UTC)
-
-    val sunday = localDate
-        .plusDays(diffSunday.toLong())
-        .atTime(23, 59, 59)
-        .atZone(ZoneOffset.systemDefault())
-        .withZoneSameInstant(ZoneOffset.UTC)
+    val (monday, sunday) = getMondaySunday(localDate)
 
     return zonedDateTime.isAfter(monday) && zonedDateTime.isBefore(sunday)
 }
@@ -89,4 +76,22 @@ fun areDatesInSameDay(localDate: LocalDate, zonedDateTime: ZonedDateTime): Boole
     val zonedDateTimeToLocalDate = zonedDateTime.toLocalDate()
 
     return localDate == zonedDateTimeToLocalDate
+}
+
+fun getMondaySunday(currentDate: LocalDate): Pair<ZonedDateTime, ZonedDateTime> {
+    val diffMonday = currentDate.dayOfWeek.value - DayOfWeek.MONDAY.value
+    val diffSunday = DayOfWeek.SUNDAY.value - currentDate.dayOfWeek.value
+
+    val monday = currentDate
+        .minusDays(diffMonday.toLong())
+        .atStartOfDay(ZoneOffset.systemDefault())
+        .withZoneSameInstant(ZoneOffset.UTC)
+
+    val sunday = currentDate
+        .plusDays(diffSunday.toLong())
+        .atTime(23, 59, 59)
+        .atZone(ZoneOffset.systemDefault())
+        .withZoneSameInstant(ZoneOffset.UTC)
+
+    return Pair(monday, sunday)
 }

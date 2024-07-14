@@ -9,7 +9,7 @@ import com.titi.app.data.graph.api.GraphRepository
 import com.titi.app.data.graph.api.model.GraphCheckedRepositoryModel
 import com.titi.app.doamin.daily.usecase.GetAllDailiesFlowUseCase
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyFlowUseCase
-import com.titi.app.doamin.daily.usecase.GetWeekDailyUseCase
+import com.titi.app.doamin.daily.usecase.GetCurrentWeekDailiesFlowUseCase
 import com.titi.app.doamin.daily.usecase.HasDailyForCurrentMonthUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsFlowUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
@@ -38,14 +38,15 @@ class LogViewModel @AssistedInject constructor(
     @Assisted initialState: LogUiState,
     getGraphColorsFlowUseCase: GetGraphColorsFlowUseCase,
     getAllDailiesFlowUseCase: GetAllDailiesFlowUseCase,
-    private val updateGraphColorsUseCase: UpdateGraphColorsUseCase,
     private val getCurrentDateDailyFlowUseCase: GetCurrentDateDailyFlowUseCase,
-    private val getWeekDailyUseCase: GetWeekDailyUseCase,
+    private val getCurrentWeekDailiesFlowUseCase: GetCurrentWeekDailiesFlowUseCase,
+    private val updateGraphColorsUseCase: UpdateGraphColorsUseCase,
     private val hasDailyForCurrentMonthUseCase: HasDailyForCurrentMonthUseCase,
     private val graphRepository: GraphRepository,
 ) : MavericksViewModel<LogUiState>(initialState) {
 
     private val currentDailyDate: MutableStateFlow<LocalDate> = MutableStateFlow(LocalDate.now())
+    private val currentWeekDate: MutableStateFlow<LocalDate> = MutableStateFlow(LocalDate.now())
 
     init {
         getGraphColorsFlowUseCase().catch {
@@ -75,6 +76,21 @@ class LogViewModel @AssistedInject constructor(
                     dailyGraphData = daily
                         ?.toDailyFeatureModel(graphColorUiState.graphColors)
                         ?: DailyGraphData(),
+                ),
+            )
+        }
+
+        currentWeekDate.flatMapLatest {
+            getCurrentWeekDailiesFlowUseCase(it)
+        }.catch {
+            Log.e("LogViewModel", it.message.toString())
+        }.setOnEach { daily ->
+            copy(
+                weekUiState = weekUiState.copy(
+                    currentDate = currentWeekDate.value,
+                    weekGraphData = daily
+                        ?.toWeekFeatureModel(currentWeekDate.value)
+                        ?: WeekGraphData(),
                 ),
             )
         }
@@ -162,30 +178,8 @@ class LogViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateCurrentDateWeek(date: LocalDate) {
-        viewModelScope.launch {
-            getWeekDailyUseCase(date)
-                .onSuccess {
-                    setState {
-                        copy(
-                            weekUiState = weekUiState.copy(
-                                currentDate = date,
-                                weekGraphData = it?.toWeekFeatureModel(date) ?: WeekGraphData(),
-                            ),
-                        )
-                    }
-                }
-                .onFailure {
-                    setState {
-                        copy(
-                            weekUiState = weekUiState.copy(
-                                currentDate = date,
-                                weekGraphData = WeekGraphData(),
-                            ),
-                        )
-                    }
-                }
-        }
+    fun updateCurrentWeekDate(date: LocalDate) {
+        currentWeekDate.value = date
     }
 
     fun updateHasDailyAtWeekTab(date: LocalDate) {

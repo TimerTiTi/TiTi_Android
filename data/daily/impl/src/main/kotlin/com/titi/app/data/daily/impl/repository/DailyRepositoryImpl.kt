@@ -44,6 +44,18 @@ internal class DailyRepositoryImpl @Inject constructor(
         )?.map { it.toRepositoryModel() }
     }
 
+    override fun getDailiesFlow(
+        startDateTime: String,
+        endDateTime: String,
+    ): Flow<List<DailyRepositoryModel>?> {
+        return dailyDao.getDailiesFlow(
+            startDateTime = startDateTime,
+            endDateTime = endDateTime,
+        ).map { dailies ->
+            dailies?.map { it.toRepositoryModel() }
+        }
+    }
+
     override fun getAllDailiesFlow(): Flow<List<DailyRepositoryModel>?> {
         return dailyDao.getAllDailiesFlow().map { dailies ->
             dailies?.map { it.toRepositoryModel() }

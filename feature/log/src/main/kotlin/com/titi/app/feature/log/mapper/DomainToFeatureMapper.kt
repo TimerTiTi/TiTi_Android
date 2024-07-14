@@ -193,7 +193,15 @@ internal fun List<Daily>.toWeekFeatureModel(currentDate: LocalDate): WeekGraphDa
         val dateTime = ZonedDateTime
             .parse(daily.day)
             .withZoneSameInstant(ZoneId.systemDefault())
-        val sumTime = daily.tasks?.values?.sum() ?: 0L
+        var sumTime = 0L
+
+        daily.tasks?.let { taskMap ->
+            taskMap.forEach { (taskName, taskTime) ->
+                totalTaskMap[taskName] = totalTaskMap.getOrDefault(taskName, 0L) + taskTime
+                sumTime += taskTime
+                totalWeekTime += taskTime
+            }
+        }
 
         val updateWeekLineChartData = TdsWeekLineChartData(
             time = sumTime,
@@ -202,13 +210,9 @@ internal fun List<Daily>.toWeekFeatureModel(currentDate: LocalDate): WeekGraphDa
 
         defaultWeekLineChartData[dateTime.dayOfWeek.value - 1] = updateWeekLineChartData
         totalWeekTime += sumTime
+
         if (sumTime > 0) {
             studyCount++
-        }
-        daily.tasks?.let { taskMap ->
-            taskMap.forEach { (taskName, taskTime) ->
-                totalTaskMap[taskName] = totalTaskMap.getOrDefault(taskName, 0L) + taskTime
-            }
         }
     }
 
