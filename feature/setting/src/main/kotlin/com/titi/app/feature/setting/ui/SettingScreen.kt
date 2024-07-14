@@ -470,7 +470,7 @@ internal fun DeveloperSection(onSettingActions: (SettingActions) -> Unit) {
                 sendIntent.data = uri
 
                 if (sendIntent.resolveActivity(context.packageManager) != null) {
-                    context.startActivity(Intent.createChooser(sendIntent, "Send email"))
+                    context.startActivity(Intent.createChooser(sendIntent, "Send Email"))
                 } else {
                     Toast.makeText(
                         context,
