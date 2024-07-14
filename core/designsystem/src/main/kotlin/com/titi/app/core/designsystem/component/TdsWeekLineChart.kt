@@ -136,8 +136,8 @@ private fun TdsWeekLineBar(
             text = time,
             style = textStyle,
             topLeft = Offset(
-                x = center.x - dateTextLayoutResult.size.width / 2,
-                y = startY - dateTextLayoutResult.size.height - spacing,
+                x = center.x - timeTextLayoutResult.size.width / 2,
+                y = startY - timeTextLayoutResult.size.height - spacing,
             ),
         )
 
@@ -190,7 +190,7 @@ private fun TdsWeekLineChartPreview() {
                 .background(Color.White),
             weekLineChartData = listOf(
                 TdsWeekLineChartData(
-                    time = 6200,
+                    time = 36000,
                     date = "1/12",
                 ),
                 TdsWeekLineChartData(

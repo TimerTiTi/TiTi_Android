@@ -185,7 +185,7 @@ fun LogScreen(
                         timeTableData = uiState.dailyUiState.dailyGraphData.tdsTimeTableData,
                         checkedButtonStates = uiState.dailyUiState.checkedButtonStates,
                         onClickDate = { clickDate ->
-                            viewModel.updateCurrentDate(clickDate)
+                            viewModel.updateCurrentDailyDate(clickDate)
                         },
                         onClickGraphColor = {
                             viewModel.updateGraphColors(

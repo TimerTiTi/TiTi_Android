@@ -22,6 +22,12 @@ import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
+internal fun GraphColor.toFeatureModel() = GraphColorUiState(
+    selectedIndex = selectedIndex,
+    direction = direction,
+    graphColors = graphColors.map { TdsColor.valueOf(it.name) },
+)
+
 internal fun List<Daily>.toHomeFeatureModel(): HomeUiState {
     val currentDate = LocalDate.now()
     val totalTaskMap = mutableMapOf<String, Long>()
@@ -137,13 +143,7 @@ internal fun List<Daily>.toHomeFeatureModel(): HomeUiState {
     )
 }
 
-internal fun GraphColor.toFeatureModel() = GraphColorUiState(
-    selectedIndex = selectedIndex,
-    direction = direction,
-    graphColors = graphColors.map { TdsColor.valueOf(it.name) },
-)
-
-internal fun Daily.toFeatureModel(colors: List<TdsColor>): DailyGraphData {
+internal fun Daily.toDailyFeatureModel(colors: List<TdsColor>): DailyGraphData {
     val sumTime = tasks?.values?.sum()
     var colorIndex = 0
     val taskColorMap = mutableMapOf<String, TdsColor>()
@@ -178,38 +178,6 @@ internal fun Daily.toFeatureModel(colors: List<TdsColor>): DailyGraphData {
                 }.flatten()
             } ?: emptyList(),
     )
-}
-
-internal fun makeTimeTableData(
-    color: TdsColor,
-    startDate: String,
-    endDate: String,
-): List<TdsTimeTableData> {
-    var startZonedDateTime = ZonedDateTime
-        .parse(startDate)
-        .withZoneSameInstant(ZoneOffset.systemDefault())
-    val endZonedDateTime = ZonedDateTime
-        .parse(endDate)
-        .withZoneSameInstant(ZoneOffset.systemDefault())
-
-    val timeTableData = mutableListOf<TdsTimeTableData>()
-
-    while (startZonedDateTime.isBefore(endZonedDateTime)) {
-        var nextHour = startZonedDateTime.truncatedTo(ChronoUnit.HOURS).plusHours(1)
-        nextHour = if (nextHour.isBefore(endZonedDateTime)) nextHour else endZonedDateTime
-
-        timeTableData.add(
-            TdsTimeTableData(
-                color = color,
-                hour = startZonedDateTime.hour,
-                start = startZonedDateTime.minute * 60 + startZonedDateTime.second,
-                end = if (nextHour.minute == 0) 3600 else nextHour.minute * 60 + nextHour.second,
-            ),
-        )
-        startZonedDateTime = nextHour
-    }
-
-    return timeTableData.toList()
 }
 
 internal fun List<Daily>.toWeekFeatureModel(currentDate: LocalDate): WeekGraphData {
@@ -269,6 +237,38 @@ internal fun List<Daily>.toWeekFeatureModel(currentDate: LocalDate): WeekGraphDa
         topLevelTaskTotal = topLevelTaskSum.getTimeString(),
         topLevelTdsTaskData = topLevelTdsTaskData,
     )
+}
+
+internal fun makeTimeTableData(
+    color: TdsColor,
+    startDate: String,
+    endDate: String,
+): List<TdsTimeTableData> {
+    var startZonedDateTime = ZonedDateTime
+        .parse(startDate)
+        .withZoneSameInstant(ZoneOffset.systemDefault())
+    val endZonedDateTime = ZonedDateTime
+        .parse(endDate)
+        .withZoneSameInstant(ZoneOffset.systemDefault())
+
+    val timeTableData = mutableListOf<TdsTimeTableData>()
+
+    while (startZonedDateTime.isBefore(endZonedDateTime)) {
+        var nextHour = startZonedDateTime.truncatedTo(ChronoUnit.HOURS).plusHours(1)
+        nextHour = if (nextHour.isBefore(endZonedDateTime)) nextHour else endZonedDateTime
+
+        timeTableData.add(
+            TdsTimeTableData(
+                color = color,
+                hour = startZonedDateTime.hour,
+                start = startZonedDateTime.minute * 60 + startZonedDateTime.second,
+                end = if (nextHour.minute == 0) 3600 else nextHour.minute * 60 + nextHour.second,
+            ),
+        )
+        startZonedDateTime = nextHour
+    }
+
+    return timeTableData.toList()
 }
 
 fun List<Long>.toSystemDefaultTimeLine(): List<Long> {

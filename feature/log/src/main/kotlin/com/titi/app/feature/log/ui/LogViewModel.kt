@@ -13,6 +13,7 @@ import com.titi.app.doamin.daily.usecase.GetWeekDailyUseCase
 import com.titi.app.doamin.daily.usecase.HasDailyForCurrentMonthUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsFlowUseCase
 import com.titi.app.domain.color.usecase.UpdateGraphColorsUseCase
+import com.titi.app.feature.log.mapper.toDailyFeatureModel
 import com.titi.app.feature.log.mapper.toDomainModel
 import com.titi.app.feature.log.mapper.toFeatureModel
 import com.titi.app.feature.log.mapper.toHomeFeatureModel
@@ -63,18 +64,6 @@ class LogViewModel @AssistedInject constructor(
                 )
             }
 
-        graphRepository.getGraphCheckedFlow().catch {
-            Log.e("LogViewModel", it.message.toString())
-        }.setOnEach {
-            copy(dailyUiState = dailyUiState.copy(checkedButtonStates = it.checkedButtonStates))
-        }
-
-        graphRepository.getGraphGoalTimeFlow().catch {
-            Log.e("LogViewModel", it.message.toString())
-        }.setOnEach {
-            copy(graphGoalTimeUiState = it.toFeatureModel())
-        }
-
         currentDailyDate.flatMapLatest {
             getCurrentDateDailyFlowUseCase(it)
         }.catch {
@@ -84,9 +73,29 @@ class LogViewModel @AssistedInject constructor(
                 dailyUiState = dailyUiState.copy(
                     currentDate = currentDailyDate.value,
                     dailyGraphData = daily
-                        ?.toFeatureModel(graphColorUiState.graphColors)
+                        ?.toDailyFeatureModel(graphColorUiState.graphColors)
                         ?: DailyGraphData(),
                 ),
+            )
+        }
+
+        graphRepository.getGraphGoalTimeFlow().catch {
+            Log.e("LogViewModel", it.message.toString())
+        }.setOnEach {
+            copy(graphGoalTimeUiState = it.toFeatureModel())
+        }
+
+        graphRepository.getGraphCheckedFlow().catch {
+            Log.e("LogViewModel", it.message.toString())
+        }.setOnEach {
+            copy(dailyUiState = dailyUiState.copy(checkedButtonStates = it.checkedButtonStates))
+        }
+    }
+
+    fun updateTabSelectedIndex(index: Int) {
+        setState {
+            copy(
+                tabSelectedIndex = index,
             )
         }
     }
@@ -122,6 +131,37 @@ class LogViewModel @AssistedInject constructor(
         }
     }
 
+    fun updateCurrentDailyDate(date: LocalDate) {
+        currentDailyDate.value = date
+    }
+
+    fun updateCheckedState(page: Int, checked: Boolean, checkedButtonStates: List<Boolean>) {
+        viewModelScope.launch {
+            val updateCheckedButtonStates = checkedButtonStates.toMutableList().apply {
+                set(page, checked)
+            }
+
+            graphRepository.setGraphChecked(
+                GraphCheckedRepositoryModel(
+                    updateCheckedButtonStates,
+                ),
+            )
+        }
+    }
+
+    fun updateHasDailyAtDailyTab(date: LocalDate) {
+        viewModelScope.launch {
+            val hasDailies = hasDailyForCurrentMonthUseCase(date)
+            setState {
+                copy(
+                    dailyUiState = dailyUiState.copy(
+                        hasDailies = hasDailies,
+                    ),
+                )
+            }
+        }
+    }
+
     fun updateCurrentDateWeek(date: LocalDate) {
         viewModelScope.launch {
             getWeekDailyUseCase(date)
@@ -148,23 +188,6 @@ class LogViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateHasDailyAtDailyTab(date: LocalDate) {
-        viewModelScope.launch {
-            val hasDailies = hasDailyForCurrentMonthUseCase(date)
-            setState {
-                copy(
-                    dailyUiState = dailyUiState.copy(
-                        hasDailies = hasDailies,
-                    ),
-                )
-            }
-        }
-    }
-
-    fun updateCurrentDate(date: LocalDate) {
-        currentDailyDate.value = date
-    }
-
     fun updateHasDailyAtWeekTab(date: LocalDate) {
         viewModelScope.launch {
             val state = awaitState()
@@ -189,28 +212,6 @@ class LogViewModel @AssistedInject constructor(
                     )
                 }
             }
-        }
-    }
-
-    fun updateCheckedState(page: Int, checked: Boolean, checkedButtonStates: List<Boolean>) {
-        viewModelScope.launch {
-            val updateCheckedButtonStates = checkedButtonStates.toMutableList().apply {
-                set(page, checked)
-            }
-
-            graphRepository.setGraphChecked(
-                GraphCheckedRepositoryModel(
-                    updateCheckedButtonStates,
-                ),
-            )
-        }
-    }
-
-    fun updateTabSelectedIndex(index: Int) {
-        setState {
-            copy(
-                tabSelectedIndex = index,
-            )
         }
     }
 

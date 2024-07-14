@@ -1,13 +1,12 @@
 package com.titi.app.core.util
 
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.time.temporal.WeekFields
-import java.util.Locale
 
 fun LocalDateTime.toOnlyTime(): String {
     val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
@@ -68,17 +67,22 @@ fun areDatesInSameMonth(localDate: LocalDate, zonedDateTime: ZonedDateTime): Boo
 }
 
 fun areDatesInSameWeek(localDate: LocalDate, zonedDateTime: ZonedDateTime): Boolean {
-    val zonedDateTimeToLocalDate = zonedDateTime.toLocalDate()
+    val diffMonday = localDate.dayOfWeek.value - DayOfWeek.MONDAY.value
+    val diffSunday = DayOfWeek.SUNDAY.value - localDate.dayOfWeek.value
 
-    val weekFields = WeekFields.of(Locale.getDefault())
+    val monday = localDate
+        .minusDays(diffMonday.toLong())
+        .atStartOfDay()
+        .atZone(ZoneOffset.systemDefault())
+        .withZoneSameInstant(ZoneOffset.UTC)
 
-    val localDateWeek = localDate.get(weekFields.weekOfWeekBasedYear())
-    val zonedDateTimeWeek = zonedDateTimeToLocalDate.get(weekFields.weekOfWeekBasedYear())
+    val sunday = localDate
+        .plusDays(diffSunday.toLong())
+        .atTime(23, 59, 59)
+        .atZone(ZoneOffset.systemDefault())
+        .withZoneSameInstant(ZoneOffset.UTC)
 
-    val localDateYear = localDate.get(weekFields.weekBasedYear())
-    val zonedDateTimeYear = zonedDateTimeToLocalDate.get(weekFields.weekBasedYear())
-
-    return localDateWeek == zonedDateTimeWeek && localDateYear == zonedDateTimeYear
+    return zonedDateTime.isAfter(monday) && zonedDateTime.isBefore(sunday)
 }
 
 fun areDatesInSameDay(localDate: LocalDate, zonedDateTime: ZonedDateTime): Boolean {
