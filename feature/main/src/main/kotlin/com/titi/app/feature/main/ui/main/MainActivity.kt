@@ -29,11 +29,10 @@ class MainActivity : ComponentActivity() {
     lateinit var getTimeColorFlowUseCase: GetTimeColorFlowUseCase
 
     private val viewModel: MainViewModel by viewModels()
+    private var splashResultState: SplashResultState? by mutableStateOf(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        var splashResultState: SplashResultState? by mutableStateOf(null)
 
         val splashScreen = installSplashScreen()
 

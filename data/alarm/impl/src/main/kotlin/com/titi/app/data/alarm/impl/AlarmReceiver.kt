@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.net.Uri
 import androidx.core.app.NotificationCompat
 import com.titi.app.core.util.goAsync
@@ -37,7 +38,7 @@ internal class AlarmReceiver : BroadcastReceiver() {
 
         val deepLink = "titi://"
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(deepLink)).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            flags = FLAG_ACTIVITY_SINGLE_TOP
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(
             context,
