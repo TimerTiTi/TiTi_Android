@@ -186,6 +186,8 @@ private fun SettingScreen(
         Spacer(modifier = Modifier.height(35.dp))
 
         DeveloperSection(onSettingActions = onSettingActions)
+
+        Spacer(modifier = Modifier.height(35.dp))
     }
 }
 
