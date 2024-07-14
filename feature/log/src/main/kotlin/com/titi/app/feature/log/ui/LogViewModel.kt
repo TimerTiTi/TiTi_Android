@@ -21,7 +21,7 @@ import com.titi.app.feature.log.mapper.toRepositoryModel
 import com.titi.app.feature.log.mapper.toWeekFeatureModel
 import com.titi.app.feature.log.model.DailyGraphData
 import com.titi.app.feature.log.model.GraphColorUiState
-import com.titi.app.feature.log.model.GraphGoalTimeUiState
+import com.titi.app.feature.log.model.HomeUiState
 import com.titi.app.feature.log.model.LogUiState
 import com.titi.app.feature.log.model.WeekGraphData
 import dagger.assisted.Assisted
@@ -73,6 +73,7 @@ class LogViewModel @AssistedInject constructor(
             copy(
                 dailyUiState = dailyUiState.copy(
                     currentDate = currentDailyDate.value,
+                    isCreate = daily == null,
                     dailyGraphData = daily
                         ?.toDailyFeatureModel(graphColorUiState.graphColors)
                         ?: DailyGraphData(),
@@ -88,6 +89,7 @@ class LogViewModel @AssistedInject constructor(
             copy(
                 weekUiState = weekUiState.copy(
                     currentDate = currentWeekDate.value,
+                    isCreate = daily == null,
                     weekGraphData = daily
                         ?.toWeekFeatureModel(currentWeekDate.value)
                         ?: WeekGraphData(),
@@ -98,7 +100,7 @@ class LogViewModel @AssistedInject constructor(
         graphRepository.getGraphGoalTimeFlow().catch {
             Log.e("LogViewModel", it.message.toString())
         }.setOnEach {
-            copy(graphGoalTimeUiState = it.toFeatureModel())
+            copy(homeUiState = homeUiState.copy(graphGoalTime = it.toFeatureModel()))
         }
 
         graphRepository.getGraphCheckedFlow().catch {
@@ -128,19 +130,19 @@ class LogViewModel @AssistedInject constructor(
     fun updateGraphGoalTime(
         monthGoalTime: Int? = null,
         weekGoalTime: Int? = null,
-        graphGoalTimeUiState: GraphGoalTimeUiState,
+        graphGoalTime: HomeUiState.GraphGoalTime,
     ) {
         viewModelScope.launch {
             val updateGraphGoalTimeUiState = when {
-                monthGoalTime != null && monthGoalTime > 0 -> graphGoalTimeUiState.copy(
+                monthGoalTime != null && monthGoalTime > 0 -> graphGoalTime.copy(
                     monthGoalTime = monthGoalTime,
                 )
 
-                weekGoalTime != null && weekGoalTime > 0 -> graphGoalTimeUiState.copy(
+                weekGoalTime != null && weekGoalTime > 0 -> graphGoalTime.copy(
                     weekGoalTime = weekGoalTime,
                 )
 
-                else -> graphGoalTimeUiState
+                else -> graphGoalTime
             }
 
             graphRepository.setGraphGoalTime(updateGraphGoalTimeUiState.toRepositoryModel())

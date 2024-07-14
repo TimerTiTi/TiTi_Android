@@ -52,7 +52,7 @@ import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.domain.color.model.GraphColor
 import com.titi.app.feature.log.model.GraphColorUiState
-import com.titi.app.feature.log.model.GraphGoalTimeUiState
+import com.titi.app.feature.log.model.HomeUiState
 import com.titi.app.feature.log.ui.LogViewModel
 import kotlinx.coroutines.android.awaitFrame
 
@@ -61,7 +61,7 @@ import kotlinx.coroutines.android.awaitFrame
 fun SettingBottomSheet(
     viewModel: LogViewModel,
     graphColorUiState: GraphColorUiState,
-    graphGoalTimeUiState: GraphGoalTimeUiState,
+    graphGoalTime: HomeUiState.GraphGoalTime,
     onDismissRequest: () -> Unit,
 ) {
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -87,7 +87,7 @@ fun SettingBottomSheet(
                 onPositive = {
                     viewModel.updateGraphGoalTime(
                         monthGoalTime = goalTime.toIntOrNull(),
-                        graphGoalTimeUiState = graphGoalTimeUiState,
+                        graphGoalTime = graphGoalTime,
                     )
                 },
                 negativeText = stringResource(id = R.string.Cancel),
@@ -120,7 +120,7 @@ fun SettingBottomSheet(
                         showMonthGoalTimeDialog = false
                         viewModel.updateGraphGoalTime(
                             monthGoalTime = goalTime.toIntOrNull(),
-                            graphGoalTimeUiState = graphGoalTimeUiState,
+                            graphGoalTime = graphGoalTime,
                         )
                     },
                 ),
@@ -151,7 +151,7 @@ fun SettingBottomSheet(
                 onPositive = {
                     viewModel.updateGraphGoalTime(
                         weekGoalTime = goalTime.toIntOrNull(),
-                        graphGoalTimeUiState = graphGoalTimeUiState,
+                        graphGoalTime = graphGoalTime,
                     )
                 },
                 negativeText = stringResource(id = R.string.Cancel),
@@ -184,7 +184,7 @@ fun SettingBottomSheet(
                         showWeekGoalTimeDialog = false
                         viewModel.updateGraphGoalTime(
                             weekGoalTime = goalTime.toIntOrNull(),
-                            graphGoalTimeUiState = graphGoalTimeUiState,
+                            graphGoalTime = graphGoalTime,
                         )
                     },
                 ),
@@ -223,8 +223,8 @@ fun SettingBottomSheet(
                 GraphColor.GraphDirection.Left -> 1
             },
             graphColors = graphColorUiState.graphColors,
-            monthGoalTime = "${graphGoalTimeUiState.monthGoalTime} H",
-            weekGoalTime = "${graphGoalTimeUiState.weekGoalTime} H",
+            monthGoalTime = "${graphGoalTime.monthGoalTime} H",
+            weekGoalTime = "${graphGoalTime.weekGoalTime} H",
             onClickColor = {
                 viewModel.updateGraphColors(
                     selectedIndex = it,

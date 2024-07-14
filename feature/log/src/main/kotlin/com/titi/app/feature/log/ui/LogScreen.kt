@@ -75,7 +75,7 @@ fun LogScreen(
         SettingBottomSheet(
             viewModel = viewModel,
             graphColorUiState = uiState.graphColorUiState,
-            graphGoalTimeUiState = uiState.graphGoalTimeUiState,
+            graphGoalTime = uiState.homeUiState.graphGoalTime,
             onDismissRequest = {
                 showSettingBottomSheet = false
             },
@@ -163,24 +163,13 @@ fun LogScreen(
             ) { page ->
                 when (page % 3) {
                     0 -> HomeScreen(
+                        homeUiState = uiState.homeUiState,
                         tdsColors = uiState.graphColorUiState.graphColors,
-                        totalData = uiState.homeUiState.totalData,
-                        graphGoalTimeUiState = uiState.graphGoalTimeUiState,
-                        homeMonthGraphData = uiState.homeUiState.homeGraphData.homeMonthGraphData,
-                        homeWeekGraphData = uiState.homeUiState.homeGraphData.homeWeekGraphData,
-                        homeDailyGraphData = uiState.homeUiState.homeGraphData.homeDailyGraphData,
                     )
 
                     1 -> DailyScreen(
-                        currentDate = uiState.dailyUiState.currentDate,
-                        hasDailies = uiState.dailyUiState.hasDailies,
-                        totalTime = uiState.dailyUiState.dailyGraphData.totalTime,
-                        maxTime = uiState.dailyUiState.dailyGraphData.maxTime,
-                        taskData = uiState.dailyUiState.dailyGraphData.taskData,
+                        dailyUiState = uiState.dailyUiState,
                         tdsColors = uiState.graphColorUiState.graphColors,
-                        timeLines = uiState.dailyUiState.dailyGraphData.timeLine,
-                        timeTableData = uiState.dailyUiState.dailyGraphData.tdsTimeTableData,
-                        checkedButtonStates = uiState.dailyUiState.checkedButtonStates,
                         onClickDate = { clickDate ->
                             viewModel.updateCurrentDailyDate(clickDate)
                         },
@@ -206,15 +195,8 @@ fun LogScreen(
                     )
 
                     2 -> WeekScreen(
-                        weekInformation = uiState.weekUiState.weekGraphData.weekInformation,
-                        hasDailies = uiState.weekUiState.hasDailies,
-                        totalTime = uiState.weekUiState.weekGraphData.totalWeekTime,
-                        averageTime = uiState.weekUiState.weekGraphData.averageWeekTime,
-                        weekLineChartData = uiState.weekUiState.weekGraphData.weekLineChartData,
+                        weekUiState = uiState.weekUiState,
                         tdsColors = uiState.graphColorUiState.graphColors,
-                        topLevelTaskTotal = uiState.weekUiState.weekGraphData.topLevelTaskTotal,
-                        topLevelTaskData = uiState.weekUiState.weekGraphData.topLevelTdsTaskData,
-                        currentDate = uiState.weekUiState.currentDate,
                         onClickDate = {
                             viewModel.updateCurrentWeekDate(it)
                         },

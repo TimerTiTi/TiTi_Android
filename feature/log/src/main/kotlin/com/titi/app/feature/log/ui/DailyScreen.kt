@@ -32,6 +32,8 @@ import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.feature.log.model.DailyGraphData
+import com.titi.app.feature.log.model.DailyUiState
 import com.titi.app.feature.log.ui.component.ButtonRow
 import com.titi.app.feature.log.ui.component.CalendarContent
 import com.titi.app.feature.log.util.saveDailyGraph
@@ -41,15 +43,8 @@ import java.time.LocalDate
 
 @Composable
 fun DailyScreen(
-    currentDate: LocalDate,
-    totalTime: String,
-    maxTime: String,
-    hasDailies: List<LocalDate>,
-    taskData: List<TdsTaskData>,
+    dailyUiState: DailyUiState,
     tdsColors: List<TdsColor>,
-    timeLines: List<Long>,
-    timeTableData: List<TdsTimeTableData>,
-    checkedButtonStates: List<Boolean>,
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
     onCalendarLocalDateChanged: (LocalDate) -> Unit,
@@ -75,7 +70,7 @@ fun DailyScreen(
                     coroutineScope = coroutineScope,
                     context = context,
                     pictureList = pictureList,
-                    checkedButtonStates = checkedButtonStates,
+                    checkedButtonStates = dailyUiState.checkedButtonStates,
                 )
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             } else {
@@ -110,8 +105,8 @@ fun DailyScreen(
         CalendarContent(
             modifier = Modifier.fillMaxWidth(),
             themeColor = tdsColors.first(),
-            currentDate = currentDate,
-            hasDailies = hasDailies,
+            currentDate = dailyUiState.currentDate,
+            hasDailies = dailyUiState.hasDailies,
             onClickDate = onClickDate,
             onCalendarLocalDateChanged = onCalendarLocalDateChanged,
         )
@@ -127,14 +122,14 @@ fun DailyScreen(
 
         ButtonRow(
             modifier = Modifier.fillMaxWidth(),
-            isCreate = !hasDailies.contains(currentDate),
+            isCreate = dailyUiState.isCreate,
             onSaveClick = {
-                if (checkedButtonStates.any { it }) {
+                if (dailyUiState.checkedButtonStates.any { it }) {
                     saveDailyGraphWithPermission(
                         coroutineScope = coroutineScope,
                         context = context,
                         pictureList = pictureList,
-                        checkedButtonStates = checkedButtonStates,
+                        checkedButtonStates = dailyUiState.checkedButtonStates,
                         permissionLauncher = requestWritePermissionLauncher,
                     )
                 } else {
@@ -142,11 +137,11 @@ fun DailyScreen(
                 }
             },
             onShareClick = {
-                if (checkedButtonStates.any { it }) {
+                if (dailyUiState.checkedButtonStates.any { it }) {
                     shareDailyGraph(
                         context = context,
                         pictureList = pictureList,
-                        checkedButtonStates = checkedButtonStates,
+                        checkedButtonStates = dailyUiState.checkedButtonStates,
                     )
                 } else {
                     Toast.makeText(context, "선택된 그래프가 없습니다.", Toast.LENGTH_SHORT).show()
@@ -159,15 +154,15 @@ fun DailyScreen(
 
         TdsGraphContent(
             modifier = Modifier.fillMaxWidth(),
-            todayDate = currentDate.toString().replace('-', '.'),
-            todayDayOfTheWeek = currentDate.dayOfWeek.value - 1,
-            totalTime = totalTime,
-            maxTime = maxTime,
-            taskData = taskData,
+            todayDate = dailyUiState.currentDate.toString().replace('-', '.'),
+            todayDayOfTheWeek = dailyUiState.currentDate.dayOfWeek.value - 1,
+            totalTime = dailyUiState.dailyGraphData.totalTime,
+            maxTime = dailyUiState.dailyGraphData.maxTime,
+            taskData = dailyUiState.dailyGraphData.taskData,
             tdsColors = tdsColors,
-            timeLines = timeLines,
-            timeTableData = timeTableData,
-            checkedButtonStates = checkedButtonStates,
+            timeLines = dailyUiState.dailyGraphData.timeLine,
+            timeTableData = dailyUiState.dailyGraphData.tdsTimeTableData,
+            checkedButtonStates = dailyUiState.checkedButtonStates,
             pictureList = pictureList,
             onCheckedChange = onCheckedChange,
         )
@@ -270,15 +265,20 @@ private fun DailyScreenPreview() {
 
     TiTiTheme {
         DailyScreen(
-            taskData = taskData,
+            dailyUiState = DailyUiState(
+                currentDate = LocalDate.now(),
+                isCreate = false,
+                hasDailies = listOf(),
+                dailyGraphData = DailyGraphData(
+                    totalTime = "03:00:00",
+                    maxTime = "03:00:00",
+                    timeLine = timeLines,
+                    taskData = taskData,
+                    tdsTimeTableData = timeTableData,
+                ),
+                checkedButtonStates = listOf(),
+            ),
             tdsColors = tdsColors,
-            totalTime = "08:00:00",
-            maxTime = "03:00:00",
-            hasDailies = emptyList(),
-            timeLines = timeLines,
-            timeTableData = timeTableData,
-            currentDate = LocalDate.now(),
-            checkedButtonStates = List(4) { false },
             onClickDate = {},
             onClickGraphColor = {},
             onCalendarLocalDateChanged = {},
