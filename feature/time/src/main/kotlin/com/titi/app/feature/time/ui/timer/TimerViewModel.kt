@@ -157,6 +157,10 @@ class TimerViewModel @AssistedInject constructor(
                 } to it.daily
             }
 
+            viewModelScope.launch {
+                updateRecordTimesUseCase(updatePair.first)
+            }
+
             setState {
                 copy(
                     recordTimes = updatePair.first,
