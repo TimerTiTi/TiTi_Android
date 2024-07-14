@@ -1,9 +1,13 @@
 package com.titi.app.feature.setting.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,8 +16,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,6 +32,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -39,6 +46,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.titi.app.core.designsystem.R
+import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.navigation.TdsBottomNavigationBar
 import com.titi.app.core.designsystem.navigation.TopLevelDestination
@@ -174,6 +182,10 @@ private fun SettingScreen(
             versionState = uiState.versionState,
             onSettingActions = onSettingActions,
         )
+
+        Spacer(modifier = Modifier.height(35.dp))
+
+        DeveloperSection(onSettingActions = onSettingActions)
 
         Spacer(modifier = Modifier.height(35.dp))
     }
@@ -381,6 +393,101 @@ internal fun ListContent(
         }
 
         rightAreaContent()
+    }
+}
+
+@Composable
+internal fun DeveloperSection(onSettingActions: (SettingActions) -> Unit) {
+    val context = LocalContext.current
+
+    TdsText(
+        modifier = Modifier.padding(start = 16.dp),
+        text = "개발자",
+        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+        fontSize = 14.sp,
+        color = TdsColor.TEXT,
+    )
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        TdsIconButton(
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(TdsColor.SECONDARY_BACKGROUND.getColor()),
+            onClick = {
+                onSettingActions(
+                    SettingActions.Navigates.ExternalWeb("https://github.com/TimerTiTi"),
+                )
+            },
+            size = 48.dp,
+        ) {
+            Icon(
+                modifier = Modifier.size(30.dp),
+                painter = painterResource(R.drawable.github_icon),
+                contentDescription = null,
+                tint = TdsColor.TEXT.getColor(),
+            )
+        }
+
+        TdsIconButton(
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(TdsColor.SECONDARY_BACKGROUND.getColor()),
+            onClick = {
+                onSettingActions(
+                    SettingActions.Navigates.ExternalWeb(
+                        "https://www.instagram.com/study_withtiti/",
+                    ),
+                )
+            },
+            size = 48.dp,
+        ) {
+            Icon(
+                modifier = Modifier.size(30.dp),
+                painter = painterResource(R.drawable.instagram_icon),
+                contentDescription = null,
+                tint = TdsColor.TEXT.getColor(),
+            )
+        }
+
+        TdsIconButton(
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(TdsColor.SECONDARY_BACKGROUND.getColor()),
+            onClick = {
+                val uriText = "mailto:koreatlwls@gmail.com" +
+                    "?subject=" + Uri.encode("TiTi 문의사항")
+
+                val uri = Uri.parse(uriText)
+
+                val sendIntent = Intent(Intent.ACTION_SENDTO)
+                sendIntent.data = uri
+
+                if (sendIntent.resolveActivity(context.packageManager) != null) {
+                    context.startActivity(Intent.createChooser(sendIntent, "Send Email"))
+                } else {
+                    Toast.makeText(
+                        context,
+                        "이메일 앱이 존재하지 않습니다.",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                }
+            },
+            size = 48.dp,
+        ) {
+            Icon(
+                modifier = Modifier.size(30.dp),
+                painter = painterResource(R.drawable.email_icon),
+                contentDescription = null,
+                tint = TdsColor.TEXT.getColor(),
+            )
+        }
     }
 }
 

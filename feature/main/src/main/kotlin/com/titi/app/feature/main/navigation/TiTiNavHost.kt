@@ -119,6 +119,14 @@ fun TiTiNavHost(
             onNavigateToDestination = {
                 navController.navigateToTopLevelDestination(it)
             },
+            onNavigateToExternalWeb = {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    it.toUri(),
+                )
+
+                context.startActivity(intent)
+            },
         )
 
         webViewGraph(onNavigateUp = { navController.navigateUp() })

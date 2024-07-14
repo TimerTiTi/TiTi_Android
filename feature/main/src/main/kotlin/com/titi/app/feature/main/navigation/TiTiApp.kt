@@ -71,8 +71,8 @@ fun TiTiApp(splashResultState: SplashResultState) {
 
                             LottieAnimation(
                                 modifier = Modifier
-                                    .size(22.dp * multiple)
-                                    .padding(4.dp * multiple),
+                                    .size(22.dp)
+                                    .padding(4.dp),
                                 composition = composition,
                                 progress = { progress },
                             )
