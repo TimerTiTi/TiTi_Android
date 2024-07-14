@@ -29,22 +29,13 @@ import com.titi.app.core.designsystem.component.TdsTaskResultList
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTimeLineChart
 import com.titi.app.core.designsystem.component.TdsWeekLineChart
-import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
-import com.titi.app.feature.log.model.GraphGoalTimeUiState
 import com.titi.app.feature.log.model.HomeUiState
 
 @Composable
-fun HomeScreen(
-    tdsColors: List<TdsColor>,
-    totalData: HomeUiState.TotalData,
-    graphGoalTimeUiState: GraphGoalTimeUiState,
-    homeMonthGraphData: HomeUiState.HomeMonthGraphData,
-    homeWeekGraphData: HomeUiState.HomeWeekGraphData,
-    homeDailyGraphData: HomeUiState.HomeDailyGraphData,
-) {
+fun HomeScreen(homeUiState: HomeUiState, tdsColors: List<TdsColor>) {
     val scrollState = rememberScrollState()
 
     Column(
@@ -54,7 +45,7 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TotalCard(
-            totalData = totalData,
+            totalData = homeUiState.totalData,
             tdsColors = tdsColors,
         )
 
@@ -74,20 +65,20 @@ fun HomeScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             MonthSumCard(
-                totalTimeSeconds = homeMonthGraphData.totalTimeSeconds,
-                goalTimeSeconds = graphGoalTimeUiState.monthGoalTime * 3600L,
+                totalTimeSeconds = homeUiState.homeGraphData.homeMonthGraphData.totalTimeSeconds,
+                goalTimeSeconds = homeUiState.graphGoalTime.monthGoalTime * 3600L,
                 themeColor = tdsColors.first(),
             )
 
             WeekSumCard(
-                totalTimeSeconds = homeWeekGraphData.totalTimeSeconds,
-                goalTimeSeconds = graphGoalTimeUiState.weekGoalTime * 3600L,
+                totalTimeSeconds = homeUiState.homeGraphData.homeWeekGraphData.totalTimeSeconds,
+                goalTimeSeconds = homeUiState.graphGoalTime.weekGoalTime * 3600L,
                 themeColor = tdsColors.first(),
             )
         }
 
         MonthCard(
-            homeMonthGraphData = homeMonthGraphData,
+            homeMonthGraphData = homeUiState.homeGraphData.homeMonthGraphData,
             tdsColors = tdsColors,
         )
 
@@ -103,7 +94,7 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         WeekCard(
-            homeWeekGraphData = homeWeekGraphData,
+            homeWeekGraphData = homeUiState.homeGraphData.homeWeekGraphData,
             tdsColors = tdsColors,
         )
 
@@ -119,7 +110,7 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         TimeLineCard(
-            homeDailyGraphData = homeDailyGraphData,
+            homeDailyGraphData = homeUiState.homeGraphData.homeDailyGraphData,
             tdsColors = tdsColors,
         )
 
@@ -438,18 +429,7 @@ private fun HomeScreenPreview() {
     TiTiTheme {
         HomeScreen(
             tdsColors = tdsColors,
-            totalData = HomeUiState.TotalData(
-                totalTimeSeconds = 6368,
-                topTotalTdsTaskData = listOf(
-                    TdsTaskData(key = "definitiones", value = "360H", progress = 0.3f),
-                    TdsTaskData(key = "231445", value = "detraxit", progress = 0.2f),
-                    TdsTaskData(key = "sadfsd", value = "detraxit", progress = 0.5f),
-                ),
-            ),
-            graphGoalTimeUiState = GraphGoalTimeUiState(),
-            homeMonthGraphData = HomeUiState.HomeMonthGraphData(),
-            homeWeekGraphData = HomeUiState.HomeWeekGraphData(),
-            homeDailyGraphData = HomeUiState.HomeDailyGraphData(),
+            homeUiState = HomeUiState(),
         )
     }
 }
