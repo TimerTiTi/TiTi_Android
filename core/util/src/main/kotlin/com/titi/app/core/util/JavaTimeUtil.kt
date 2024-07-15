@@ -1,6 +1,7 @@
 package com.titi.app.core.util
 
 import java.time.DayOfWeek
+import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -94,4 +95,11 @@ fun getMondaySunday(currentDate: LocalDate): Pair<ZonedDateTime, ZonedDateTime> 
         .withZoneSameInstant(ZoneOffset.UTC)
 
     return Pair(monday, sunday)
+}
+
+fun getMeasureTime(dateTime: String): Long {
+    val inputDateTime = ZonedDateTime.parse(dateTime)
+    val currentDateTime = ZonedDateTime.now(ZoneOffset.UTC)
+
+    return Duration.between(inputDateTime, currentDateTime).seconds
 }

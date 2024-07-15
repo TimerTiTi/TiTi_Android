@@ -2,7 +2,6 @@ package com.titi.app.core.util
 
 import org.threeten.bp.Duration
 import org.threeten.bp.ZoneId
-import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
@@ -24,13 +23,6 @@ fun getTimeToLong(hour: String, minutes: String, seconds: String): Long {
     val minutesLong = minutes.toLongOrNull() ?: 0
     val secondsLong = seconds.toLongOrNull() ?: 0
     return hourLong * 3600 + minutesLong * 60 + secondsLong
-}
-
-fun getMeasureTime(dateTime: String): Long {
-    val inputDateTime = ZonedDateTime.parse(dateTime)
-    val currentDateTime = ZonedDateTime.now(ZoneOffset.UTC)
-
-    return Duration.between(inputDateTime, currentDateTime).seconds
 }
 
 fun addTimeLine(
