@@ -10,6 +10,6 @@ object BuildType {
 object AppConfig {
     const val APP_ID = "com.titi.app"
     const val APP_VERSION_NAME = "1.2.1"
-    const val APP_VERSION_CODE = 35
+    const val APP_VERSION_CODE = 36
     const val APP_NAME = "TiTi"
 }
