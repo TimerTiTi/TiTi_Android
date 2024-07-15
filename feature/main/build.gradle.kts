@@ -10,6 +10,7 @@ dependencies {
     implementation(project(":domain:color"))
     implementation(project(":domain:time"))
     implementation(project(":domain:daily"))
+    implementation(project(":domain:task"))
 
     implementation(project(":feature:time"))
     implementation(project(":feature:measure"))

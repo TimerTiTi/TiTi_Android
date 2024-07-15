@@ -36,7 +36,7 @@ fun NavGraphBuilder.timeGraph(
     composable(route = TIMER_ROUTE) { backStackEntry ->
         val isFinish by backStackEntry
             .savedStateHandle
-            .getStateFlow(TIMER_FINISH_KEY, false)
+            .getStateFlow(TIMER_FINISH_KEY, splashResultState.isMeasureFinish)
             .collectAsStateWithLifecycle()
 
         TimerScreen(
