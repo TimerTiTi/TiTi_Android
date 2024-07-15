@@ -14,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.ui.removeNotification
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.feature.main.model.SplashResultState
 import com.titi.app.feature.main.navigation.TiTiApp
@@ -64,5 +65,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        this.removeNotification()
     }
 }
