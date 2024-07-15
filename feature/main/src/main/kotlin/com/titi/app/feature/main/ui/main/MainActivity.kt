@@ -6,23 +6,13 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.core.ui.removeNotification
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
-import com.titi.app.feature.main.model.SplashResultState
 import com.titi.app.feature.main.navigation.TiTiApp
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -30,21 +20,14 @@ class MainActivity : ComponentActivity() {
     lateinit var getTimeColorFlowUseCase: GetTimeColorFlowUseCase
 
     private val viewModel: MainViewModel by viewModels()
-    private var splashResultState: SplashResultState? by mutableStateOf(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val splashScreen = installSplashScreen()
 
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                splashResultState = viewModel.splashResultState.filterNotNull().first()
-            }
-        }
-
         splashScreen.setKeepOnScreenCondition {
-            splashResultState == null
+            viewModel.splashResultState == null
         }
 
         enableEdgeToEdge(
@@ -60,7 +43,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TiTiTheme {
-                splashResultState?.let {
+                viewModel.splashResultState?.let {
                     TiTiApp(splashResultState = it)
                 }
             }
