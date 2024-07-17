@@ -8,7 +8,7 @@ import com.titi.app.domain.time.model.RecordTimes
 internal fun RecordTimes.toRepositoryModel() = RecordTimesRepositoryModel(
     recordingMode = recordingMode,
     recording = recording,
-    recordStartAt = recordStartAt ?: "",
+    recordStartAt = recordStartAt,
     setGoalTime = setGoalTime,
     setTimerTime = setTimerTime,
     savedSumTime = savedSumTime,
