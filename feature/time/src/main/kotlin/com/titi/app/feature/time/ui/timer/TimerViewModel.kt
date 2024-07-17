@@ -143,10 +143,22 @@ class TimerViewModel @AssistedInject constructor(
                     savedGoalTime = it.recordTimes.setGoalTime,
                 ) to Daily()
             } else {
-                it.recordTimes.copy(
-                    recording = true,
-                    recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
-                ) to it.daily
+                if (it.recordTimes.savedTimerTime > 0L) {
+                    it.recordTimes.copy(
+                        recording = true,
+                        recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                    )
+                } else {
+                    it.recordTimes.copy(
+                        recording = true,
+                        recordStartAt = ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                        savedTimerTime = it.recordTimes.setTimerTime,
+                    )
+                } to it.daily
+            }
+
+            viewModelScope.launch {
+                updateRecordTimesUseCase(updatePair.first)
             }
 
             setState {

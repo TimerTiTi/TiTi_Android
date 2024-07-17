@@ -11,4 +11,5 @@ data class SplashResultState(
     val recordTimes: RecordTimes = RecordTimes(),
     val timeColor: TimeColor = TimeColor(),
     val daily: Daily = Daily(),
+    val isMeasureFinish: Boolean = false,
 ) : Parcelable

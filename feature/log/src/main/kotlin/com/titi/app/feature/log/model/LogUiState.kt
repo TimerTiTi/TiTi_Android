@@ -13,17 +13,11 @@ import java.time.LocalDate
 
 data class LogUiState(
     val tabSelectedIndex: Int = 0,
-    val graphGoalTimeUiState: GraphGoalTimeUiState = GraphGoalTimeUiState(),
     val graphColorUiState: GraphColorUiState = GraphColorUiState(),
     val homeUiState: HomeUiState = HomeUiState(),
     val dailyUiState: DailyUiState = DailyUiState(),
     val weekUiState: WeekUiState = WeekUiState(),
 ) : MavericksState
-
-data class GraphGoalTimeUiState(
-    val monthGoalTime: Int = 100,
-    val weekGoalTime: Int = 30,
-)
 
 data class GraphColorUiState(
     val selectedIndex: Int = 0,
@@ -45,9 +39,15 @@ data class GraphColorUiState(
 )
 
 data class HomeUiState(
+    val graphGoalTime: GraphGoalTime = GraphGoalTime(),
     val totalData: TotalData = TotalData(),
     val homeGraphData: HomeGraphData = HomeGraphData(),
 ) {
+    data class GraphGoalTime(
+        val monthGoalTime: Int = 100,
+        val weekGoalTime: Int = 30,
+    )
+
     data class TotalData(
         val totalTimeSeconds: Long = 0L,
         val topTotalTdsTaskData: List<TdsTaskData> = emptyList(),
@@ -84,6 +84,7 @@ data class HomeUiState(
 
 data class DailyUiState(
     val currentDate: LocalDate = LocalDate.now(),
+    val isCreate: Boolean = true,
     val hasDailies: List<LocalDate> = emptyList(),
     val dailyGraphData: DailyGraphData = DailyGraphData(),
     val checkedButtonStates: List<Boolean> = List(4) { false },
@@ -99,6 +100,7 @@ data class DailyGraphData(
 
 data class WeekUiState(
     val currentDate: LocalDate = LocalDate.now(),
+    val isCreate: Boolean = true,
     val hasDailies: List<LocalDate> = emptyList(),
     val weekGraphData: WeekGraphData = WeekGraphData(),
 )

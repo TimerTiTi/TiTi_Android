@@ -27,11 +27,14 @@ import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsColorRow
 import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsStandardWeekGraph
+import com.titi.app.core.designsystem.extension.getWeekInformation
 import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.feature.log.model.WeekGraphData
+import com.titi.app.feature.log.model.WeekUiState
 import com.titi.app.feature.log.ui.component.ButtonRow
 import com.titi.app.feature.log.ui.component.CalendarContent
 import com.titi.app.feature.log.util.saveWeekGraph
@@ -41,15 +44,8 @@ import java.time.LocalDate
 
 @Composable
 fun WeekScreen(
-    totalTime: String,
-    averageTime: String,
-    hasDailies: List<LocalDate>,
-    weekLineChartData: List<TdsWeekLineChartData>,
-    weekInformation: Triple<String, String, String>,
+    weekUiState: WeekUiState,
     tdsColors: List<TdsColor>,
-    topLevelTaskData: List<TdsTaskData>,
-    topLevelTaskTotal: String,
-    currentDate: LocalDate,
     onClickDate: (LocalDate) -> Unit,
     onClickGraphColor: (Int) -> Unit,
     onCalendarLocalDateChanged: (LocalDate) -> Unit,
@@ -108,8 +104,8 @@ fun WeekScreen(
         CalendarContent(
             modifier = Modifier.fillMaxWidth(),
             themeColor = tdsColors.first(),
-            currentDate = currentDate,
-            hasDailies = hasDailies,
+            currentDate = weekUiState.currentDate,
+            hasDailies = weekUiState.hasDailies,
             onClickDate = onClickDate,
             onCalendarLocalDateChanged = onCalendarLocalDateChanged,
         )
@@ -125,7 +121,7 @@ fun WeekScreen(
 
         ButtonRow(
             modifier = Modifier.fillMaxWidth(),
-            isCreate = !hasDailies.contains(currentDate),
+            isCreate = weekUiState.isCreate,
             onSaveClick = {
                 saveWeekGraphWithPermission(
                     coroutineScope = coroutineScope,
@@ -147,13 +143,13 @@ fun WeekScreen(
 
         TdsStandardWeekGraph(
             modifier = Modifier.fillMaxWidth(),
-            totalTime = totalTime,
-            averageTime = averageTime,
-            weekInformation = weekInformation,
-            weekLineChartData = weekLineChartData,
+            totalTime = weekUiState.weekGraphData.totalWeekTime,
+            averageTime = weekUiState.weekGraphData.averageWeekTime,
+            weekInformation = weekUiState.weekGraphData.weekInformation,
+            weekLineChartData = weekUiState.weekGraphData.weekLineChartData,
             tdsColors = tdsColors,
-            topLevelTaskData = topLevelTaskData,
-            topLevelTaskTotal = topLevelTaskTotal,
+            topLevelTaskData = weekUiState.weekGraphData.topLevelTdsTaskData,
+            topLevelTaskTotal = weekUiState.weekGraphData.topLevelTaskTotal,
             picture = picture,
         )
     }
@@ -232,15 +228,21 @@ private fun WeekScreenPreview() {
 
     TiTiTheme {
         WeekScreen(
-            weekInformation = Triple("2024.02", "Week 2", "02.12~02.19"),
-            totalTime = "08:00:00",
-            averageTime = "03:00:00",
-            weekLineChartData = weekLineChartData,
+            weekUiState = WeekUiState(
+                currentDate = LocalDate.now(),
+                isCreate = false,
+                hasDailies = listOf(),
+                weekGraphData = WeekGraphData(
+                    weekInformation = LocalDate.now().getWeekInformation(),
+                    totalWeekTime = "03:00:00",
+                    averageWeekTime = "03:00:00",
+                    weekLineChartData = weekLineChartData,
+                    topLevelTaskTotal = "03:00:00",
+                    topLevelTdsTaskData = taskData,
+                ),
+
+            ),
             tdsColors = tdsColors,
-            hasDailies = emptyList(),
-            topLevelTaskData = taskData,
-            topLevelTaskTotal = "08:00:00",
-            currentDate = LocalDate.now(),
             onClickDate = {},
             onClickGraphColor = {},
             onCalendarLocalDateChanged = {},

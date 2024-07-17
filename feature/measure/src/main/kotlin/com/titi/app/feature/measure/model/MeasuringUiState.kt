@@ -80,29 +80,26 @@ fun RecordTimes.toMeasuringRecordTimes(
     daily: Daily,
 ): MeasuringRecordTimes {
     val calculateSumTime = savedSumTime + measureTime
-    val calculateSavedSumTime =
-        if (isSleepMode) {
-            calculateSumTime - calculateSumTime % 60
-        } else {
-            calculateSumTime
-        }
+    val calculateSavedSumTime = if (isSleepMode) {
+        calculateSumTime - calculateSumTime % 60
+    } else {
+        calculateSumTime
+    }
 
-    val calculateTime =
+    val calculateTime = if (recordingMode == 1) {
+        savedTimerTime - measureTime
+    } else {
+        savedStopWatchTime + measureTime
+    }
+    val calculateSavedTime = if (isSleepMode) {
         if (recordingMode == 1) {
-            savedTimerTime - measureTime
+            calculateTime - calculateTime % 60 + 60
         } else {
-            savedStopWatchTime + measureTime
+            calculateTime - calculateTime % 60
         }
-    val calculateSavedTime =
-        if (isSleepMode) {
-            if (recordingMode == 1) {
-                calculateTime - calculateTime % 60 + 60
-            } else {
-                calculateTime - calculateTime % 60
-            }
-        } else {
-            calculateTime
-        }
+    } else {
+        calculateTime
+    }
 
     val calculateGoalTime = currentTask?.let {
         if (it.isTaskTargetTimeOn) {

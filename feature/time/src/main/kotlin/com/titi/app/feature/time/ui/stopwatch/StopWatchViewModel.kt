@@ -148,6 +148,10 @@ class StopWatchViewModel @AssistedInject constructor(
                 ) to it.daily
             }
 
+            viewModelScope.launch {
+                updateRecordTimesUseCase(updatePair.first)
+            }
+
             setState {
                 copy(
                     splashResultStateString = SplashResultState(

@@ -38,5 +38,9 @@ internal fun makeFeatures(): List<FeaturesUiState.Feature> {
             title = "Daily",
             url = "https://www.notion.so/timertiti/Daily-d60dc90f3c104744a74985ea221e5691?pvs=4",
         ),
+        FeaturesUiState.Feature(
+            title = "Daily 수정/생성",
+            url = "https://timertiti.notion.site/Daily-f3b7898bcda541dda3ac526ea6a56313?pvs=4",
+        ),
     )
 }

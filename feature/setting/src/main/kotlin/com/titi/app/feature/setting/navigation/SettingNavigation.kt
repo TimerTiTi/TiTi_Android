@@ -38,6 +38,7 @@ fun NavGraphBuilder.settingGraph(
     onNavigateUp: () -> Unit,
     onNavigateToWebView: (title: String, url: String) -> Unit,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
+    onNavigateToExternalWeb: (String) -> Unit,
 ) {
     composable(route = SETTING_ROUTE) {
         SettingScreen(
@@ -46,6 +47,7 @@ fun NavGraphBuilder.settingGraph(
                     SettingActions.Navigates.FeaturesList -> onNavigateToFeatures()
                     SettingActions.Navigates.PlayStore -> onNavigateToPlayStore()
                     SettingActions.Navigates.UpdatesList -> onNavigateToUpdates()
+                    is SettingActions.Navigates.ExternalWeb -> onNavigateToExternalWeb(it.url)
                 }
             },
             onNavigateToDestination = onNavigateToDestination,

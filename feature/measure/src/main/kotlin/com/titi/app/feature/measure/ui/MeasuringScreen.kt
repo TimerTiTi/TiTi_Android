@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
@@ -22,12 +23,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,8 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
@@ -53,15 +53,11 @@ import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
+import com.titi.app.core.ui.removeNotification
 import com.titi.app.core.ui.setBrightness
 import com.titi.app.core.util.fromJson
 import com.titi.app.feature.measure.model.MeasuringUiState
 import com.titi.app.feature.measure.model.SplashResultState
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
@@ -106,48 +102,63 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
             measureTime = uiState.measureTime,
             endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
         )
+
+        onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
     }
 
-    LaunchedEffect(Unit) {
-        val timerTime = splashResultStateModel.recordTimes.savedTimerTime
-        val stopWatchTime = splashResultStateModel.recordTimes.savedStopWatchTime
-        val recordingMode = splashResultStateModel.recordTimes.recordingMode
+    val isFinish by remember {
+        derivedStateOf {
+            uiState.measuringRecordTimes.savedTime <= 0L
+        }
+    }
 
-        lifecycleOwner.lifecycleScope.launch {
-            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                snapshotFlow {
-                    uiState.measuringRecordTimes.savedTime
-                }.map { it <= 0 && recordingMode == 1 }
-                    .distinctUntilChanged()
-                    .filter { it }
-                    .collectLatest {
-                        stopMeasuring()
-                        removeNotification(context)
-                        onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_CREATE, Lifecycle.Event.ON_START,
+                Lifecycle.Event.ON_ANY, Lifecycle.Event.ON_RESUME,
+                -> Unit
+
+                Lifecycle.Event.ON_STOP, Lifecycle.Event.ON_PAUSE, Lifecycle.Event.ON_DESTROY -> {
+                    if (!isFinish) {
+                        makeInProgressNotification(context)
                     }
+                }
             }
         }
 
-        makeInProgressNotification(context)
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
-        viewModel.setAlarm(
-            title = alarmTitle,
-            finishMessage = alarmFinishMessage,
-            fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
-            measureTime = if (recordingMode == 1) {
-                timerTime - uiState.measureTime
-            } else {
-                stopWatchTime + uiState.measureTime
-            },
-        )
+    LaunchedEffect(isFinish) {
+        if (isFinish) {
+            stopMeasuring()
+        } else {
+            val timerTime = splashResultStateModel.recordTimes.savedTimerTime
+            val stopWatchTime = splashResultStateModel.recordTimes.savedStopWatchTime
+            val recordingMode = splashResultStateModel.recordTimes.recordingMode
 
-        showSetExactAlarmPermissionDialog = !viewModel.canSetAlarm()
+            viewModel.setAlarm(
+                title = alarmTitle,
+                finishMessage = alarmFinishMessage,
+                fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
+                measureTime = if (recordingMode == 1) {
+                    timerTime - uiState.measureTime
+                } else {
+                    stopWatchTime + uiState.measureTime
+                },
+            )
+
+            showSetExactAlarmPermissionDialog = !viewModel.canSetAlarm()
+        }
     }
 
     BackHandler {
         stopMeasuring()
-        removeNotification(context)
-        onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
+        context.removeNotification()
     }
 
     DisposableEffect(Unit) {
@@ -191,8 +202,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
         },
         onFinishClick = {
             stopMeasuring()
-            removeNotification(context)
-            onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
+            context.removeNotification()
         },
     )
 }
@@ -330,7 +340,7 @@ private fun makeInProgressNotification(context: Context) {
 
     val deepLink = "titi://"
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(deepLink)).apply {
-        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        flags = FLAG_ACTIVITY_SINGLE_TOP
     }
     val pendingIntent: PendingIntent = PendingIntent.getActivity(
         context,
@@ -346,15 +356,8 @@ private fun makeInProgressNotification(context: Context) {
         .setContentTitle(title)
         .setContentText(message)
         .setContentIntent(pendingIntent)
+        .setAutoCancel(true)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
     notificationManager.notify(1, builder.build())
-}
-
-private fun removeNotification(context: Context) {
-    val notificationManager = context.getSystemService(
-        Context.NOTIFICATION_SERVICE,
-    ) as NotificationManager
-    notificationManager.cancel(0)
-    notificationManager.cancel(1)
 }

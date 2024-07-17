@@ -5,6 +5,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.TiTi.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,8 +17,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:scheme="titi" />
+                <data android:scheme="titi" />
             </intent-filter>
         </activity>
     </application>
