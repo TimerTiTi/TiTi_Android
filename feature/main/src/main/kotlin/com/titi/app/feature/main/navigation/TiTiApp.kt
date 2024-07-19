@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -57,6 +58,10 @@ fun TiTiApp(splashResultState: SplashResultState) {
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
+        val snackbarMessage = stringResource(
+            com.titi.app.core.designsystem.R.string.toast_text_startrecording,
+        )
+
         TiTiNavHost(
             modifier = Modifier.fillMaxSize(),
             splashResultState = splashResultState,
@@ -78,7 +83,7 @@ fun TiTiApp(splashResultState: SplashResultState) {
                             )
                         },
                         emphasizedMessage = date,
-                        message = "기록 시작!",
+                        message = snackbarMessage,
                         targetDpFromTop = 40.dp * multiple,
                     )
                 }

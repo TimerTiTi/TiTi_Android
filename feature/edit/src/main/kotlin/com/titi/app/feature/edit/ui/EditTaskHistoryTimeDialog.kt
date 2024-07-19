@@ -60,7 +60,7 @@ fun EditTaskHistoryTimeDialog(
         tdsDialogInfo = TdsDialogInfo.Confirm(
             title = (Duration.between(startLocalDateTime, endLocalDateTime).toMillis() / 1000)
                 .getTimeString(),
-            positiveText = stringResource(R.string.Ok),
+            positiveText = stringResource(R.string.common_text_ok),
             onPositive = {
                 if (endLocalDateTime > startLocalDateTime) {
                     onPositive(
@@ -71,7 +71,7 @@ fun EditTaskHistoryTimeDialog(
                     )
                 }
             },
-            negativeText = stringResource(R.string.Cancel),
+            negativeText = stringResource(R.string.common_text_cancel),
         ),
         onShowDialog = onShowDialog,
     ) {
@@ -82,7 +82,7 @@ fun EditTaskHistoryTimeDialog(
                     .padding(horizontal = 16.dp),
             ) {
                 TdsText(
-                    text = "시작 시간",
+                    text = stringResource(R.string.editdaily_text_startat),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     color = TdsColor.TEXT,
                     fontSize = 14.sp,
@@ -91,7 +91,7 @@ fun EditTaskHistoryTimeDialog(
                 Spacer(modifier = Modifier.weight(1f))
 
                 TdsText(
-                    text = "종료 시간",
+                    text = stringResource(R.string.editdaily_text_endat),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     color = TdsColor.TEXT,
                     fontSize = 14.sp,

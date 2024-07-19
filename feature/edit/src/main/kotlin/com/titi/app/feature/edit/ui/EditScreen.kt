@@ -84,9 +84,9 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
     if (showBackDialog) {
         TdsDialog(
             tdsDialogInfo = TdsDialogInfo.Confirm(
-                title = "변경 사항을 저장하지 않고 나가시겠어요?",
-                positiveText = stringResource(id = R.string.Ok),
-                negativeText = stringResource(id = R.string.Cancel),
+                title = stringResource(R.string.edit_popup_nosavetitle),
+                positiveText = stringResource(id = R.string.common_text_ok),
+                negativeText = stringResource(id = R.string.common_text_cancel),
                 onPositive = {
                     onBack()
                 },
@@ -243,7 +243,7 @@ private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Uni
                     contentAlignment = Alignment.Center,
                 ) {
                     TdsText(
-                        text = "과목을 선택하여 기록수정 후\nSAVE를 눌러 주세요.",
+                        text = stringResource(R.string.editdaily_text_infohowtoeditdaily),
                         color = TdsColor.TEXT,
                         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 17.sp,
@@ -374,7 +374,7 @@ private fun EditTaskContent(
                                 shape = RoundedCornerShape(4.dp),
                             )
                             .padding(4.dp),
-                        text = taskName.ifEmpty { "과목명을 입력해 주세요." },
+                        text = taskName.ifEmpty { stringResource(R.string.edit_text_notaskname) },
                         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 17.sp,
                         color = TdsColor.TEXT,
@@ -473,7 +473,9 @@ private fun EditTaskContent(
                                 Spacer(modifier = Modifier.width(4.dp))
 
                                 TdsText(
-                                    text = "기록추가",
+                                    text = stringResource(
+                                        R.string.editdaily_button_appendnewhistory,
+                                    ),
                                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                                     color = TdsColor.TEXT,
                                     fontSize = 14.sp,
@@ -501,7 +503,7 @@ private fun EditTaskContent(
                                 onEditActions(EditActions.Updates.Done)
                             }
                         },
-                    text = "OK",
+                    text = stringResource(R.string.common_text_ok),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     textAlign = TextAlign.Center,
                     color = TdsColor.TEXT,
@@ -580,7 +582,9 @@ private fun TaskRowContent(
                 modifier = Modifier
                     .size(18.dp)
                     .clickable { onEditTaskHistory(taskHistory) },
-                painter = painterResource(R.drawable.edit_circle_icon),
+                painter = painterResource(
+                    R.drawable.edit_circle_icon,
+                ),
                 contentDescription = "",
                 tint = TdsColor.TEXT.getColor(),
             )

@@ -11,10 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
@@ -73,7 +75,7 @@ fun TdsTaskResultList(
                         .fillMaxWidth()
                         .padding(top = 8.dp)
                         .clickable { onClickAddTask?.invoke() },
-                    text = "+ 기록추가",
+                    text = "+ " + stringResource(R.string.editdaily_button_appendnewhistory),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     color = TdsColor.TEXT,
                     fontSize = 14.sp,

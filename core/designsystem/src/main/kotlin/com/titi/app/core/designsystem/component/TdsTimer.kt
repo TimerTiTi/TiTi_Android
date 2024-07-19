@@ -89,7 +89,7 @@ fun TdsTimer(
             modifier = Modifier
                 .size(outCircularSize)
                 .align(Alignment.Center),
-            progress = outCircularAnimateProgress.value,
+            progress = { outCircularAnimateProgress.value },
             color = if (savedTime < 60 && recordingMode == 1) {
                 TdsColor.RED.getColor()
             } else {
@@ -104,7 +104,7 @@ fun TdsTimer(
             modifier = Modifier
                 .size(inCircularSize)
                 .align(Alignment.Center),
-            progress = inCircularAnimateProgress.value,
+            progress = { inCircularAnimateProgress.value },
             color = inCircularLineTrackColor,
             trackColor = Color.Transparent,
             strokeWidth = inCircularTrackWidth,
@@ -120,7 +120,7 @@ fun TdsTimer(
             Spacer(modifier = Modifier.weight(2f))
 
             TdsText(
-                text = stringResource(R.string.sum_time),
+                text = stringResource(R.string.recording_text_sumtime),
                 textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = subTextSize.sp,
                 color = fontColor,
@@ -140,9 +140,9 @@ fun TdsTimer(
 
             TdsText(
                 text = if (recordingMode == 1) {
-                    stringResource(R.string.timer)
+                    stringResource(R.string.common_button_timer)
                 } else {
-                    stringResource(R.string.stopwatch)
+                    stringResource(R.string.common_button_stopwatch)
                 },
                 textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = mainTextSize.sp,
@@ -154,7 +154,7 @@ fun TdsTimer(
             if (isFinish) {
                 TdsText(
                     modifier = clickStopStartModifier,
-                    text = stringResource(id = R.string.finish_text),
+                    text = stringResource(id = R.string.timer_text_finish),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = mainTimerTextSize.sp,
                     color = fontColor,
@@ -185,9 +185,9 @@ fun TdsTimer(
 
             TdsText(
                 text = if (isTaskTargetTimeOn) {
-                    stringResource(id = R.string.task_time)
+                    stringResource(id = R.string.recording_text_tasktargettime)
                 } else {
-                    stringResource(id = R.string.goal_time)
+                    stringResource(id = R.string.recording_text_targettime)
                 },
                 textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = subTextSize.sp,

@@ -84,14 +84,14 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     val (alarmTitle, alarmFinishMessage, alarmFiveMinutesBeforeFinish) =
         if (splashResultStateModel.recordTimes.recordingMode == 1) {
             Triple(
-                stringResource(id = R.string.timer),
-                stringResource(id = R.string.timer_finish_alarm_message),
-                stringResource(id = R.string.timer_five_minutes_before_finish_alarm_message),
+                stringResource(id = R.string.common_button_timer),
+                stringResource(id = R.string.alarm_text_timerfinish),
+                stringResource(id = R.string.alarm_text_5minutes),
             )
         } else {
             Triple(
-                stringResource(id = R.string.stopwatch),
-                stringResource(id = R.string.stopwatch_alarm_message),
+                stringResource(id = R.string.common_button_stopwatch),
+                stringResource(id = R.string.alarm_text_message),
                 null,
             )
         }
@@ -174,10 +174,10 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     if (showSetExactAlarmPermissionDialog) {
         TdsDialog(
             tdsDialogInfo = TdsDialogInfo.Confirm(
-                title = stringResource(id = R.string.alarm_permission_title),
-                message = stringResource(id = R.string.alarm_permission_message),
-                positiveText = stringResource(id = R.string.Ok),
-                negativeText = stringResource(id = R.string.Cancel),
+                title = stringResource(id = R.string.measure_popup_permissiontitle),
+                message = stringResource(id = R.string.measure_popup_permissiondesc),
+                positiveText = stringResource(id = R.string.common_text_ok),
+                negativeText = stringResource(id = R.string.common_text_cancel),
                 onPositive = {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         val intent = Intent(
@@ -335,7 +335,7 @@ private fun MeasuringScreen(
 
 private fun makeInProgressNotification(context: Context) {
     val title = "TiTi"
-    val message = "측정이 진행 중입니다."
+    val message = context.getString(R.string.measure_text_measuring)
     val channelId = "InProgressId"
 
     val deepLink = "titi://"

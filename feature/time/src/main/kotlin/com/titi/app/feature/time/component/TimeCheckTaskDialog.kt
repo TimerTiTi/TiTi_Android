@@ -14,8 +14,8 @@ import com.titi.app.core.designsystem.model.TdsDialogInfo
 fun TimeCheckTaskDialog(onShowDialog: (Boolean) -> Unit) {
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Alert(
-            title = stringResource(id = R.string.task_check_title),
-            confirmText = stringResource(id = R.string.Ok),
+            title = stringResource(id = R.string.task_popup_checktitle),
+            confirmText = stringResource(id = R.string.common_text_ok),
         ),
         onShowDialog = onShowDialog,
     ) {

@@ -1,51 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="bottom_timer_text">Timer</string>
-    <string name="bottom_stopwatch_text">Stopwatch</string>
-    <string name="bottom_log_text">Log</string>
-    <string name="bottom_setting_text">Setting</string>
+    <string name="bottom_timer_text" translatable="false">Timer</string>
+    <string name="bottom_stopwatch_text" translatable="false">Stopwatch</string>
+    <string name="bottom_log_text" translatable="false">Log</string>
+    <string name="bottom_setting_text" translatable="false">Setting</string>
 
-    <string name="sum_time" translatable="false">누적 시간</string>
-    <string name="timer" translatable="false">타이머</string>
-    <string name="stopwatch" translatable="false">스탑워치</string>
-    <string name="goal_time" translatable="false">총 남은시간</string>
-    <string name="task_time">Task 남은시간</string>
-    <string name="task_set_goal_time" translatable="false">목표시간 설정: %1$s</string>
-    <string name="edit" translatable="false">Edit</string>
-    <string name="create_task_text" translatable="false">Task를 생성해주세요</string>
-    <string name="tasks" translatable="false">Tasks</string>
-    <string name="Ok" translatable="false">OK</string>
-    <string name="Cancel" translatable="false">Cancel</string>
-    <string name="add_task_title" translatable="false">새로운 Task</string>
-    <string name="add_task_message" translatable="false">12자리 내의 새로운 Task명을 입력하세요</string>
-    <string name="edit_task_target_time" translatable="false">목표시간 설정</string>
-    <string name="done" translatable="false">Done</string>
-    <string name="modify_task_title" translatable="false">Task명 수정</string>
-    <string name="custom_color">커스텀컬러</string>
-    <string name="background">배경</string>
-    <string name="text">텍스트</string>
-    <string name="setting_background_text">해당 색상을 배경색으로 설정하시겠습니까?</string>
-    <string name="edit_daily_title">목표시간 수정</string>
-    <string name="edit_daily_message">%1$s의 목표시간을 수정해요!</string>
-    <string name="set_timer_time_title">타이머 시간 설정</string>
-    <string name="set_timer_time_message">종료예정 : %1$s</string>
-    <string name="daily_task_check_title">Task와 Daily를 확인해주세요.</string>
-    <string name="daily_check_title">Daily를 생성해주세요.</string>
-    <string name="task_check_title">Task를 선택해주세요.</string>
-    <string name="finish_text">종료</string>
-    <string name="timer_finish_alarm_message">타이머가 종료되었습니다!</string>
-    <string name="timer_five_minutes_before_finish_alarm_message">5분 남았습니다.</string>
-    <string name="stopwatch_alarm_message">시간 경과되었습니다.</string>
-    <string name="alarm_permission_title">알람을 설정하기 위해 권한이 필요로 합니다.</string>
-    <string name="alarm_permission_message">설정하러 가시겠습니까?</string>
-
-    <string name="log_setting_color_title">컬러</string>
-    <string name="log_setting_color_message">그래프의 컬러를 설정 합니다</string>
-    <string name="log_setting_color_direction_title">컬러 방향</string>
-    <string name="log_setting_color_direction_message">컬러 조합의 방향을 설정 합니다</string>
-    <string name="log_setting_goal_time_title">목표 시간</string>
-    <string name="log_setting_goal_time_message">원형 프로그래스바의 목표 시간을 설정 합니다</string>
-
-    <string name="month_goal_time_dialog_message">Month의 목표 시간을 입력해 주세요\n(시간 단위)</string>
-    <string name="week_goal_time_dialog_message">Week의 목표 시간을 입력해 주세요\n(시간 단위)</string>
+    <string name="recording_text_sumtime">Sum Time</string>
+    <string name="common_button_timer">Timer</string>
+    <string name="recording_text_targettime">Target Time</string>
+    <string name="recording_text_tasktargettime">Task Target Time</string>
+    <string name="common_button_stopwatch">Stopwatch</string>
+    <string name="recordingcolorselector_text_customcolor">Custom Color</string>
+    <string name="recordingcolorselector_text_backgroundcolor">Background</string>
+    <string name="recordingcolorselector_text_textcolor">TextColor</string>
+    <string name="tasks_hint_newtasktitle">New task</string>
+    <string name="tasks_popup_newtaskdesc">Task name\'s max length is 12</string>
+    <string name="tasks_popup_edittaskname">Modify tasks\'s name</string>
+    <string name="tasks_popup_settasktargettime">Setting Target Time</string>
+    <string name="timer_text_settimertimetitle">Setting Timer Time</string>
+    <string name="modify_text_targettime">Edit Target Time</string>
+    <string name="modify_text_targettimedesc">%1$s  Edit the target time</string>
+    <string name="common_text_cancel">Cancel</string>
+    <string name="common_text_ok">Ok</string>
+    <string name="common_text_done">Done</string>
+    <string name="common_text_edit">Edit</string>
+    <string name="measure_popup_permissiontitle">Permission is required to set the alarm</string>
+    <string name="measure_popup_permissiondesc">Do you want to go set up?</string>
+    <string name="colorselector_text_color">Color</string>
+    <string name="colorselector_text_setgraphcolor">Setting the color of the graph</string>
+    <string name="colorselector_text_colordirectiontitle">Color direction</string>
+    <string name="colorselector_text_colordirectiondesc">Setting the direction of the color combination</string>
+    <string name="common_text_targettime">Target Time</string>
+    <string name="logsetting_text_dailytargettimedesc">Setting the target time of Circular Progress Bar</string>
+    <string name="common_popup_setmonthtargettime">Input Month\'s Target time (Hour)</string>
+    <string name="common_popup_setweektargettime">Input Week\'s Target time (Hour)</string>
+    <string name="save_toast_donemessage">All photos have been saved in the gallery.</string>
+    <string name="save_toast_nograph">No graphs selected.</string>
+    <string name="editdaily_button_appendnewhistory">New History</string>
+    <string name="editdaily_text_infohowtoeditdaily">Select a task, Edit the record\nand press the SAVE button</string>
+    <string name="editdaily_text_startat">StartAt</string>
+    <string name="editdaily_text_endat">EndAt</string>
+    <string name="settings_text_servicesection">Service</string>
+    <string name="settings_button_functions">TiTi Functions</string>
+    <string name="settings_text_settingsection">Setting</string>
+    <string name="switchsetting_button_5minnotidesc">5 minutes before end</string>
+    <string name="switchsetting_button_endnotidesc">Ended</string>
+    <string name="switchsetting_button_1hourpassnotidesc">Every 1 hour passed</string>
+    <string name="settings_text_versionsection">Version And Update history</string>
+    <string name="settings_button_versioninfotitle">Version Info</string>
+    <string name="settings_text_versioninfodesc">Latest version</string>
+    <string name="settings_button_updatehistory">Update history</string>
+    <string name="colorselector_popup_backgroundtitle">Do you want to set that color as the background color?</string>
+    <string name="edit_popup_nosavetitle">Would you like to leave without saving your changes?</string>
+    <string name="edit_text_notaskname">Please enter a task name.</string>
+    <string name="timer_text_finish">FINISH</string>
+    <string name="alarm_text_timerfinish">Timer has ended!</string>
+    <string name="alarm_text_5minutes">Five minutes left</string>
+    <string name="alarm_text_message">has elapsed.</string>
+    <string name="daily_popup_savepermissiontitle">You need permission to save your photos.</string>
+    <string name="daily_popup_savepermissiondesc">Do you want to allow it?</string>
+    <string name="save_taost_failmessage">Saving to gallery failed.</string>
+    <string name="task_popup_checktitle">Please select Task.</string>
+    <string name="tasks_text_createtask">Create task plz</string>
+    <string name="timer_popup_finishtime">Finish Time : %1$s</string>
+    <string name="setting_text_notification">Notification</string>
+    <string name="measure_text_measuring">Measurement is in progress.</string>
+    <string name="toast_text_startrecording">Start Recording!</string>
 </resources>

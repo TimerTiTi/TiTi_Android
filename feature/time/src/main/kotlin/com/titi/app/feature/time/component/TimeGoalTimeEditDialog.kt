@@ -29,10 +29,10 @@ fun TimeGoalTimeEditDialog(
 
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Confirm(
-            title = stringResource(R.string.edit_daily_title),
-            message = stringResource(R.string.edit_daily_message, todayDate),
-            positiveText = stringResource(id = R.string.Ok),
-            negativeText = stringResource(id = R.string.Cancel),
+            title = stringResource(R.string.modify_text_targettime),
+            message = stringResource(R.string.modify_text_targettimedesc, todayDate),
+            positiveText = stringResource(id = R.string.common_text_ok),
+            negativeText = stringResource(id = R.string.common_text_cancel),
             onPositive = {
                 onPositive(getTimeToLong(hour, minutes, seconds))
             },
