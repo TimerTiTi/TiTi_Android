@@ -18,8 +18,8 @@
     <string name="tasks_popup_edittaskname">Modify tasks\'s name</string>
     <string name="tasks_popup_settasktargettime">Setting Target Time</string>
     <string name="timer_text_settimertimetitle">Setting Timer Time</string>
-    <string name="modify_text_targettime">Modify Target Time</string>
-    <string name="modify_text_targettimedesc">Let\'s fix the target time for %1$s!</string>
+    <string name="modify_text_targettime">Edit Target Time</string>
+    <string name="modify_text_targettimedesc">%1$s  Edit the target time</string>
     <string name="common_text_cancel">Cancel</string>
     <string name="common_text_ok">Ok</string>
     <string name="common_text_done">Done</string>
@@ -65,4 +65,5 @@
     <string name="timer_popup_finishtime">Finish Time : %1$s</string>
     <string name="setting_text_notification">Notification</string>
     <string name="measure_text_measuring">Measurement is in progress.</string>
+    <string name="toast_text_startrecording">Start Recording!</string>
 </resources>

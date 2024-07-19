@@ -14,7 +14,7 @@
     <string name="tasks_popup_settasktargettime">设定目标时间</string>
     <string name="timer_text_settimertimetitle">定时器时间设置</string>
     <string name="modify_text_targettime">"修改目标时间 "</string>
-    <string name="modify_text_targettimedesc">修改$%1$s的目标时间！</string>
+    <string name="modify_text_targettimedesc">%1$s  修改目标时间</string>
     <string name="common_text_cancel">取消</string>
     <string name="common_text_ok">确认</string>
     <string name="common_text_done">结束</string>
@@ -60,4 +60,5 @@
     <string name="timer_popup_finishtime">即将结束 : %1$s</string>
     <string name="setting_text_notification">告示</string>
     <string name="measure_text_measuring">测量正在进行中.</string>
+    <string name="toast_text_startrecording">开始录制!</string>
 </resources>

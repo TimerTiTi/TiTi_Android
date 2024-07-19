@@ -60,4 +60,5 @@
     <string name="timer_popup_finishtime">종료예정 : %1$s</string>
     <string name="setting_text_notification">알림</string>
     <string name="measure_text_measuring">측정이 진행 중 입니다.</string>
+    <string name="toast_text_startrecording">기록 시작!</string>
 </resources>
