@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
@@ -53,16 +54,19 @@ fun TdsDialog(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 TdsText(
+                    modifier = Modifier.padding(horizontal = 12.dp),
                     text = tdsDialogInfo.title,
                     textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                     fontSize = 17.sp,
                     color = TdsColor.TEXT,
+                    textAlign = TextAlign.Center,
                 )
 
                 tdsDialogInfo.message?.let { message ->
                     Spacer(modifier = Modifier.height(8.dp))
 
                     TdsText(
+                        modifier = Modifier.padding(horizontal = 12.dp),
                         text = message,
                         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 13.sp,
@@ -194,7 +198,7 @@ private fun TdsAlertDialogPreview() {
         TdsDialog(
             tdsDialogInfo = TdsDialogInfo.Alert(
                 title = "새로운 기록 설정",
-                message = "2023.03.10 목표시간 설정",
+                message = "2023.03.10 목표",
                 cancelable = false,
                 onDismiss = {},
                 confirmText = "Confirm",

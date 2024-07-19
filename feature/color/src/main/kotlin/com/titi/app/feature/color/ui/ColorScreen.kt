@@ -24,7 +24,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
@@ -65,9 +64,9 @@ fun ColorScreen(
     if (showDialog) {
         TdsDialog(
             tdsDialogInfo = TdsDialogInfo.Confirm(
-                title = stringResource(R.string.setting_background_text),
+                title = stringResource(R.string.colorselector_popup_backgroundtitle),
                 cancelable = false,
-                positiveText = stringResource(id = R.string.Ok),
+                positiveText = stringResource(id = R.string.common_text_ok),
                 onPositive = {
                     viewModel.updateColor(
                         recordingMode = recordingMode,
@@ -75,16 +74,16 @@ fun ColorScreen(
                     )
                     onFinish()
                 },
-                negativeText = stringResource(id = R.string.Cancel),
+                negativeText = stringResource(id = R.string.common_text_cancel),
             ),
             onShowDialog = { showDialog = it },
         ) {
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .clip(RoundedCornerShape(6.dp))
-                    .background(Color(selectedColor))
-                    .border(2.dp, Color.LightGray),
+                    .border(2.dp, Color.LightGray, RoundedCornerShape(6.dp))
+                    .padding(2.dp)
+                    .background(Color(selectedColor)),
             )
         }
     }
@@ -180,8 +179,8 @@ private fun ColorScreen(
             AlphaTile(
                 modifier = Modifier
                     .size(80.dp)
-                    .clip(RoundedCornerShape(6.dp))
-                    .border(2.dp, Color.LightGray),
+                    .border(2.dp, Color.LightGray, RoundedCornerShape(6.dp))
+                    .padding(2.dp),
                 controller = controller,
             )
 
@@ -231,8 +230,8 @@ private fun ColorPresetContent(
                     Box(
                         modifier = Modifier
                             .size(35.dp)
-                            .clip(RoundedCornerShape(6.dp))
-                            .border(2.dp, Color.LightGray)
+                            .border(2.dp, Color.LightGray, RoundedCornerShape(6.dp))
+                            .padding(2.dp)
                             .background(Color.White),
                     ) {
                         colors.getOrNull(index)?.let {
@@ -265,7 +264,7 @@ private fun ColorButtons(
             onClick = { onClickCancel() },
         ) {
             TdsText(
-                text = stringResource(id = R.string.Cancel),
+                text = stringResource(id = R.string.common_text_cancel),
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = 16.sp,
                 color = TdsColor.RED,
@@ -281,7 +280,7 @@ private fun ColorButtons(
             onClick = { onClickConfirm() },
         ) {
             TdsText(
-                text = stringResource(id = R.string.Ok),
+                text = stringResource(id = R.string.common_text_ok),
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = 16.sp,
                 color = color.complementary(),

@@ -78,7 +78,7 @@ private fun TdsTextPreview() {
         TdsText(
             text = "ABC",
             color = TdsColor.TEXT,
-            textStyle = TdsTextStyle.BLACK_TEXT_STYLE,
+            textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
             fontSize = 40.sp,
         )
     }

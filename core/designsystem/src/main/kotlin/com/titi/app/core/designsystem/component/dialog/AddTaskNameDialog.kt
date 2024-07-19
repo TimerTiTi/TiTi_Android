@@ -31,14 +31,14 @@ fun AddTaskNameDialog(onPositive: (String) -> Unit, onShowDialog: (Boolean) -> U
 
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Confirm(
-            title = stringResource(id = R.string.add_task_title),
-            message = stringResource(id = R.string.add_task_message),
+            title = stringResource(id = R.string.tasks_hint_newtasktitle),
+            message = stringResource(id = R.string.tasks_popup_newtaskdesc),
             cancelable = false,
-            positiveText = stringResource(id = R.string.Ok),
+            positiveText = stringResource(id = R.string.common_text_ok),
             onPositive = {
                 onPositive(taskName)
             },
-            negativeText = stringResource(id = R.string.Cancel),
+            negativeText = stringResource(id = R.string.common_text_cancel),
         ),
         onShowDialog = onShowDialog,
     ) {
@@ -61,7 +61,7 @@ fun AddTaskNameDialog(onPositive: (String) -> Unit, onShowDialog: (Boolean) -> U
             text = taskName,
             placeHolder = {
                 TdsText(
-                    text = stringResource(id = R.string.add_task_title),
+                    text = stringResource(id = R.string.tasks_hint_newtasktitle),
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 17.sp,
                     color = TdsColor.DIVIDER,

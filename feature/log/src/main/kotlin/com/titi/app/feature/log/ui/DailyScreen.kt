@@ -81,10 +81,10 @@ fun DailyScreen(
     if (showPermissionDialog) {
         TdsDialog(
             tdsDialogInfo = TdsDialogInfo.Confirm(
-                title = "사진을 저장하기 위해서 권한이 필요로 합니다.",
-                message = "허용하시겠습니까?",
-                positiveText = stringResource(id = R.string.Ok),
-                negativeText = stringResource(id = R.string.Cancel),
+                title = stringResource(R.string.daily_popup_savepermissiontitle),
+                message = stringResource(R.string.daily_popup_savepermissiondesc),
+                positiveText = stringResource(id = R.string.common_text_ok),
+                negativeText = stringResource(id = R.string.common_text_cancel),
                 onPositive = {
                     requestWritePermissionLauncher.launch(
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -120,6 +120,7 @@ fun DailyScreen(
 
         Spacer(modifier = Modifier.height(15.dp))
 
+        val failMessage = stringResource(R.string.save_toast_nograph)
         ButtonRow(
             modifier = Modifier.fillMaxWidth(),
             isCreate = dailyUiState.isCreate,
@@ -133,7 +134,7 @@ fun DailyScreen(
                         permissionLauncher = requestWritePermissionLauncher,
                     )
                 } else {
-                    Toast.makeText(context, "선택된 그래프가 없습니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, failMessage, Toast.LENGTH_SHORT).show()
                 }
             },
             onShareClick = {
@@ -144,7 +145,7 @@ fun DailyScreen(
                         checkedButtonStates = dailyUiState.checkedButtonStates,
                     )
                 } else {
-                    Toast.makeText(context, "선택된 그래프가 없습니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, failMessage, Toast.LENGTH_SHORT).show()
                 }
             },
             onCreateEditClick = onNavigateToEdit,

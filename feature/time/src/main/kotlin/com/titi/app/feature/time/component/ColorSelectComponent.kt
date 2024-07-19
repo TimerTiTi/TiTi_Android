@@ -54,7 +54,7 @@ fun ColorSelectComponent(
     Row {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             TdsText(
-                text = stringResource(R.string.background),
+                text = stringResource(R.string.recordingcolorselector_text_backgroundcolor),
                 textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = 14.sp,
                 color = TdsColor.TEXT,
@@ -63,8 +63,7 @@ fun ColorSelectComponent(
             Spacer(modifier = Modifier.height(8.dp))
 
             Box(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .size(32.dp)
                     .clip(RoundedCornerShape(4.dp))
                     .background(color = backgroundColor)
@@ -104,7 +103,7 @@ fun ColorSelectComponent(
         ) { balloonWindow ->
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 TdsText(
-                    text = stringResource(R.string.text),
+                    text = stringResource(R.string.recordingcolorselector_text_textcolor),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 14.sp,
                     color = TdsColor.TEXT,

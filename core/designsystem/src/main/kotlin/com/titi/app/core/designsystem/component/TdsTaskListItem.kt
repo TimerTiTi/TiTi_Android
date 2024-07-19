@@ -80,11 +80,8 @@ fun TdsTaskListItem(
                     AnimatedVisibility(visible = tdsTask.isTaskTargetTimeOn) {
                         Row(modifier = Modifier.padding(top = 4.dp)) {
                             TdsText(
-                                text =
-                                stringResource(
-                                    R.string.task_set_goal_time,
-                                    tdsTask.taskTargetTime.getTimeString(),
-                                ),
+                                text = stringResource(R.string.tasks_popup_settasktargettime) +
+                                    " : ${tdsTask.taskTargetTime.getTimeString()}",
                                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                                 fontSize = 14.sp,
                                 color = TdsColor.LIGHT_GRAY,
@@ -94,7 +91,7 @@ fun TdsTaskListItem(
 
                             TdsText(
                                 modifier = Modifier.clickable { onEdit() },
-                                text = stringResource(R.string.edit),
+                                text = stringResource(R.string.common_text_edit),
                                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                                 fontSize = 14.sp,
                                 color = themeColor,

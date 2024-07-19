@@ -80,17 +80,17 @@ fun SettingBottomSheet(
     if (showMonthGoalTimeDialog) {
         TdsDialog(
             tdsDialogInfo = TdsDialogInfo.Confirm(
-                title = stringResource(id = R.string.log_setting_goal_time_title),
-                message = stringResource(id = R.string.month_goal_time_dialog_message),
+                title = stringResource(id = R.string.common_text_targettime),
+                message = stringResource(id = R.string.common_popup_setmonthtargettime),
                 cancelable = false,
-                positiveText = stringResource(id = R.string.Ok),
+                positiveText = stringResource(id = R.string.common_text_ok),
                 onPositive = {
                     viewModel.updateGraphGoalTime(
                         monthGoalTime = goalTime.toIntOrNull(),
                         graphGoalTime = graphGoalTime,
                     )
                 },
-                negativeText = stringResource(id = R.string.Cancel),
+                negativeText = stringResource(id = R.string.common_text_cancel),
             ),
             onShowDialog = {
                 showMonthGoalTimeDialog = it
@@ -144,17 +144,17 @@ fun SettingBottomSheet(
     if (showWeekGoalTimeDialog) {
         TdsDialog(
             tdsDialogInfo = TdsDialogInfo.Confirm(
-                title = stringResource(id = R.string.log_setting_goal_time_title),
-                message = stringResource(id = R.string.week_goal_time_dialog_message),
+                title = stringResource(id = R.string.common_text_targettime),
+                message = stringResource(id = R.string.common_popup_setweektargettime),
                 cancelable = false,
-                positiveText = stringResource(id = R.string.Ok),
+                positiveText = stringResource(id = R.string.common_text_ok),
                 onPositive = {
                     viewModel.updateGraphGoalTime(
                         weekGoalTime = goalTime.toIntOrNull(),
                         graphGoalTime = graphGoalTime,
                     )
                 },
-                negativeText = stringResource(id = R.string.Cancel),
+                negativeText = stringResource(id = R.string.common_text_cancel),
             ),
             onShowDialog = {
                 showWeekGoalTimeDialog = it
@@ -279,7 +279,7 @@ private fun SettingBottomSheetContent(
                     .padding(vertical = 10.dp),
             ) {
                 TdsText(
-                    text = stringResource(id = R.string.log_setting_color_title),
+                    text = stringResource(id = R.string.colorselector_text_color),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 16.sp,
                     color = TdsColor.TEXT,
@@ -288,7 +288,7 @@ private fun SettingBottomSheetContent(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 TdsText(
-                    text = stringResource(id = R.string.log_setting_color_message),
+                    text = stringResource(id = R.string.colorselector_text_setgraphcolor),
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 14.sp,
                     color = TdsColor.LIGHT_GRAY,
@@ -308,7 +308,7 @@ private fun SettingBottomSheetContent(
                     .padding(vertical = 10.dp),
             ) {
                 TdsText(
-                    text = stringResource(id = R.string.log_setting_color_direction_title),
+                    text = stringResource(id = R.string.colorselector_text_colordirectiontitle),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 16.sp,
                     color = TdsColor.TEXT,
@@ -317,7 +317,7 @@ private fun SettingBottomSheetContent(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 TdsText(
-                    text = stringResource(id = R.string.log_setting_color_direction_message),
+                    text = stringResource(id = R.string.colorselector_text_colordirectiondesc),
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 14.sp,
                     color = TdsColor.LIGHT_GRAY,
@@ -373,7 +373,7 @@ private fun SettingBottomSheetContent(
                     .padding(vertical = 10.dp),
             ) {
                 TdsText(
-                    text = stringResource(id = R.string.log_setting_goal_time_title),
+                    text = stringResource(id = R.string.common_text_targettime),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 16.sp,
                     color = TdsColor.TEXT,
@@ -382,7 +382,7 @@ private fun SettingBottomSheetContent(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 TdsText(
-                    text = stringResource(id = R.string.log_setting_goal_time_message),
+                    text = stringResource(id = R.string.logsetting_text_dailytargettimedesc),
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 14.sp,
                     color = TdsColor.LIGHT_GRAY,

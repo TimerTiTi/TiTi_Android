@@ -76,7 +76,7 @@ private fun TdsAnimatedCounterPreview() {
         TdsAnimatedCounter(
             count = 13,
             color = TdsColor.TEXT.getColor(),
-            textStyle = TdsTextStyle.BLACK_TEXT_STYLE,
+            textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
             fontSize = 40.sp,
         )
     }

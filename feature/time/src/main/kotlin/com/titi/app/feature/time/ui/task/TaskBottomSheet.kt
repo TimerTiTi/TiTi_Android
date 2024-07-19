@@ -169,15 +169,15 @@ fun TaskBottomSheet(
         TdsDialog(
             tdsDialogInfo = TdsDialogInfo.Confirm(
                 title = editTask.taskName,
-                message = stringResource(id = R.string.edit_task_target_time),
-                positiveText = stringResource(id = R.string.Ok),
+                message = stringResource(id = R.string.tasks_popup_settasktargettime),
+                positiveText = stringResource(id = R.string.common_text_ok),
                 onPositive = {
                     val targetTime = getTimeToLong(hour, minutes, seconds)
                     if (targetTime > 0) {
                         onClickTargetTimeEditButton(editTask.copy(taskTargetTime = targetTime))
                     }
                 },
-                negativeText = stringResource(id = R.string.Cancel),
+                negativeText = stringResource(id = R.string.common_text_cancel),
             ),
             onShowDialog = {
                 showTaskTargetTimeDialog = it
@@ -216,9 +216,9 @@ fun TaskBottomSheet(
             TdsTextButton(
                 modifier = Modifier.align(Alignment.CenterStart),
                 text = if (editMode) {
-                    stringResource(id = R.string.done)
+                    stringResource(id = R.string.common_text_done)
                 } else {
-                    stringResource(id = R.string.edit)
+                    stringResource(id = R.string.common_text_edit)
                 },
                 textColor = themeColor,
                 fontSize = 18.sp,
@@ -227,7 +227,7 @@ fun TaskBottomSheet(
 
             TdsText(
                 modifier = Modifier.align(Alignment.Center),
-                text = stringResource(id = R.string.tasks),
+                text = "Tasks",
                 textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = 20.sp,
                 color = TdsColor.TEXT,
