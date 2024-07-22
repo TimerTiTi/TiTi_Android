@@ -3,9 +3,7 @@ package com.titi.app.feature.edit.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -75,12 +73,8 @@ fun EditTaskHistoryTimeDialog(
         ),
         onShowDialog = onShowDialog,
     ) {
-        Column(modifier = Modifier.width(270.dp)) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-            ) {
+        Row {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 TdsText(
                     text = stringResource(R.string.editdaily_text_startat),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
@@ -88,22 +82,8 @@ fun EditTaskHistoryTimeDialog(
                     fontSize = 14.sp,
                 )
 
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(4.dp))
 
-                TdsText(
-                    text = stringResource(R.string.editdaily_text_endat),
-                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                    color = TdsColor.TEXT,
-                    fontSize = 14.sp,
-                )
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
                 TdsTimePicker(
                     themeColor = themeColor,
                     localDateTime = startLocalDateTime,
@@ -116,17 +96,19 @@ fun EditTaskHistoryTimeDialog(
                         }
                     },
                 )
+            }
 
-                Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.width(24.dp))
 
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 TdsText(
-                    text = "~",
+                    text = stringResource(R.string.editdaily_text_endat),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     color = TdsColor.TEXT,
                     fontSize = 14.sp,
                 )
 
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 TdsTimePicker(
                     themeColor = themeColor,
