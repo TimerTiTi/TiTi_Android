@@ -61,9 +61,13 @@
     <string name="daily_popup_savepermissiondesc">Do you want to allow it?</string>
     <string name="save_taost_failmessage">Saving to gallery failed.</string>
     <string name="task_popup_checktitle">Please select Task.</string>
-    <string name="tasks_text_createtask">Create task plz</string>
+    <string name="tasks_text_createtask">Create task</string>
     <string name="timer_popup_finishtime">Finish Time : %1$s</string>
     <string name="setting_text_notification">Notification</string>
     <string name="measure_text_measuring">Measurement is in progress.</string>
     <string name="toast_text_startrecording">Start Recording!</string>
+    <string name="setting_text_develop">Developer</string>
+    <string name="recording_text_setnewrecordtitle">Setting New Record</string>
+    <string name="settings_text_dailyeditcreate">Daily Modify/Create</string>
+    <string name="edit_text_duplicatehistory">Duplicate history exists.</string>
 </resources>

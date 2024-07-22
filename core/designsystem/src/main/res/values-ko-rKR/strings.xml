@@ -9,7 +9,7 @@
     <string name="recordingcolorselector_text_backgroundcolor">배경</string>
     <string name="recordingcolorselector_text_textcolor">텍스트</string>
     <string name="tasks_hint_newtasktitle">새로운 Task</string>
-    <string name="tasks_popup_newtaskdesc">12자리 내의 새로운 Task명을 입력하세요</string>
+    <string name="tasks_popup_newtaskdesc">12자리 내의 새로운 Task명을 입력하세요.</string>
     <string name="tasks_popup_edittaskname">Task명 수정</string>
     <string name="tasks_popup_settasktargettime">목표시간 설정</string>
     <string name="timer_text_settimertimetitle">타이머 시간 설정</string>
@@ -19,14 +19,14 @@
     <string name="common_text_ok">확인</string>
     <string name="common_text_done">완료</string>
     <string name="common_text_edit">편집</string>
-    <string name="measure_popup_permissiontitle">알람을 설정하기 위해 권한이 필요로 합니다</string>
+    <string name="measure_popup_permissiontitle">알람을 설정하기 위해 권한이 필요로 합니다.</string>
     <string name="measure_popup_permissiondesc">설정 하러 가시겠습니까?</string>
     <string name="colorselector_text_color">컬러</string>
-    <string name="colorselector_text_setgraphcolor">그래프의 컬러를 설정합니다</string>
+    <string name="colorselector_text_setgraphcolor">그래프의 컬러를 설정합니다.</string>
     <string name="colorselector_text_colordirectiontitle">컬러 방향</string>
-    <string name="colorselector_text_colordirectiondesc">컬러 조합의 방향을 설정합니다</string>
+    <string name="colorselector_text_colordirectiondesc">컬러 조합의 방향을 설정합니다.</string>
     <string name="common_text_targettime">목표 시간</string>
-    <string name="logsetting_text_dailytargettimedesc">원형 프로그래스바의 목표 시간을 설정합니다</string>
+    <string name="logsetting_text_dailytargettimedesc">원형 프로그래스바의 목표 시간을 설정합니다.</string>
     <string name="common_popup_setmonthtargettime">Month의 목표 시간을 입력해주세요 (시간 단위)</string>
     <string name="common_popup_setweektargettime">Week의 목표 시간을 입력해주세요 (시간 단위)</string>
     <string name="save_toast_donemessage">모든 사진이 갤러리에 저장되었습니다.</string>
@@ -61,4 +61,8 @@
     <string name="setting_text_notification">알림</string>
     <string name="measure_text_measuring">측정이 진행 중 입니다.</string>
     <string name="toast_text_startrecording">기록 시작!</string>
+    <string name="setting_text_develop">개발자</string>
+    <string name="recording_text_setnewrecordtitle">새로운 기록 설정</string>
+    <string name="settings_text_dailyeditcreate">Daily 수정/생성</string>
+    <string name="edit_text_duplicatehistory">중복된 내역이 존재 합니다.</string>
 </resources>
