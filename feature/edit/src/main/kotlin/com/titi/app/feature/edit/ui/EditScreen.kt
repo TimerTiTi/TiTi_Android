@@ -27,12 +27,15 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,7 +68,9 @@ import com.titi.app.feature.edit.mapper.toFeatureModel
 import com.titi.app.feature.edit.model.DateTimeTaskHistory
 import com.titi.app.feature.edit.model.EditActions
 import com.titi.app.feature.edit.model.EditUiState
+import com.titi.app.feature.edit.util.isTaskHistoryOverlap
 import java.time.LocalDate
+import kotlinx.coroutines.launch
 
 @Composable
 fun EditScreen(currentDate: String, onBack: () -> Unit) {
@@ -130,6 +135,8 @@ private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Uni
         0xFFFFFFFF
     }
     val scrollState = rememberScrollState()
+    val snackState = remember { SnackbarHostState() }
+    val snackScope = rememberCoroutineScope()
 
     BackHandler {
         onEditActions(EditActions.Navigates.Back)
@@ -177,6 +184,9 @@ private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Uni
                 },
             )
         },
+        snackbarHost = {
+            SnackbarHost(hostState = snackState)
+        },
     ) {
         Column(
             modifier = Modifier
@@ -222,6 +232,7 @@ private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Uni
 
             if (uiState.clickedTaskName != null) {
                 EditTaskContent(
+                    currentDate = uiState.currentDate,
                     themeColor = uiState.graphColors.first(),
                     taskName = uiState.clickedTaskName,
                     taskHistories = uiState.currentDaily
@@ -236,6 +247,11 @@ private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Uni
                         ?.map { it.toFeatureModel() }
                         ?: emptyList(),
                     onEditActions = onEditActions,
+                    onShowSnackbar = {
+                        snackScope.launch {
+                            snackState.showSnackbar(it)
+                        }
+                    },
                 )
             } else {
                 Box(
@@ -257,11 +273,13 @@ private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Uni
 
 @Composable
 private fun EditTaskContent(
+    currentDate: LocalDate,
     themeColor: TdsColor,
     taskName: String,
     taskHistories: List<DateTimeTaskHistory>,
     fullTaskHistories: List<DateTimeTaskHistory>,
     onEditActions: (EditActions) -> Unit,
+    onShowSnackbar: (String) -> Unit,
 ) {
     var showEditTaskNameDialog by remember {
         mutableStateOf(false)
@@ -307,24 +325,34 @@ private fun EditTaskContent(
         }
     }
 
+    val message = stringResource(R.string.edit_text_duplicatehistory)
     if (showEditTaskHistoryDialog) {
         EditTaskHistoryTimeDialog(
             themeColor = themeColor,
-            startDateTime = selectedTaskHistory?.startDateTime ?: LocalDate.now().atStartOfDay(),
-            endDateTime = selectedTaskHistory?.endDateTime ?: LocalDate.now().atStartOfDay(),
-            fullTaskHistories = fullTaskHistories
-                .toMutableList()
-                .apply { remove(selectedTaskHistory) }
-                .toList(),
+            startDateTime = selectedTaskHistory?.startDateTime ?: currentDate.atStartOfDay(),
+            endDateTime = selectedTaskHistory?.endDateTime ?: currentDate.atStartOfDay(),
             onShowDialog = { showEditTaskHistoryDialog = it },
             onPositive = { dateTimeTaskHistory ->
-                onEditActions(
-                    EditActions.Updates.UpsertTaskHistory(
-                        taskName = taskName,
-                        currentTaskHistory = selectedTaskHistory,
-                        updateTaskHistory = dateTimeTaskHistory,
-                    ),
-                )
+                if (
+                    !isTaskHistoryOverlap(
+                        startDateTime = dateTimeTaskHistory.startDateTime,
+                        endDateTime = dateTimeTaskHistory.endDateTime,
+                        taskHistories = fullTaskHistories
+                            .toMutableList()
+                            .apply { remove(selectedTaskHistory) }
+                            .toList(),
+                    )
+                ) {
+                    onEditActions(
+                        EditActions.Updates.UpsertTaskHistory(
+                            taskName = taskName,
+                            currentTaskHistory = selectedTaskHistory,
+                            updateTaskHistory = dateTimeTaskHistory,
+                        ),
+                    )
+                } else {
+                    onShowSnackbar(message)
+                }
             },
         )
     }
@@ -456,6 +484,7 @@ private fun EditTaskContent(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .padding(bottom = 30.dp)
                                     .clickable {
                                         selectedTaskHistory = null
                                         showEditTaskHistoryDialog = true

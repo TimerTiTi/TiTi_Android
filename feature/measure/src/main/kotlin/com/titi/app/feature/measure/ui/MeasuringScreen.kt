@@ -108,7 +108,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
 
     val isFinish by remember {
         derivedStateOf {
-            uiState.measuringRecordTimes.savedTime <= 0L
+            uiState.recordTimes.recordingMode == 1 && uiState.measuringRecordTimes.savedTime <= 0L
         }
     }
 

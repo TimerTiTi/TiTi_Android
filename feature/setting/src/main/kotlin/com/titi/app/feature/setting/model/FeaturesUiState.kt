@@ -1,9 +1,11 @@
 package com.titi.app.feature.setting.model
 
+import android.content.Context
 import com.airbnb.mvrx.MavericksState
+import com.titi.app.core.designsystem.R
 
 data class FeaturesUiState(
-    val features: List<Feature> = makeFeatures(),
+    val features: List<Feature> = emptyList(),
 ) : MavericksState {
     data class Feature(
         val title: String,
@@ -11,10 +13,10 @@ data class FeaturesUiState(
     )
 }
 
-internal fun makeFeatures(): List<FeaturesUiState.Feature> {
+internal fun Context.makeFeatures(): List<FeaturesUiState.Feature> {
     return listOf(
         FeaturesUiState.Feature(
-            title = "새로운 기록 설정",
+            title = this.getString(R.string.recording_text_setnewrecordtitle),
             url = "https://www.notion.so/timertiti/2501881bb0ef49c29a1c2cee29b7f48e?pvs=4",
         ),
         FeaturesUiState.Feature(
@@ -39,7 +41,7 @@ internal fun makeFeatures(): List<FeaturesUiState.Feature> {
             url = "https://www.notion.so/timertiti/Daily-d60dc90f3c104744a74985ea221e5691?pvs=4",
         ),
         FeaturesUiState.Feature(
-            title = "Daily 수정/생성",
+            title = this.getString(R.string.settings_text_dailyeditcreate),
             url = "https://timertiti.notion.site/Daily-f3b7898bcda541dda3ac526ea6a56313?pvs=4",
         ),
     )

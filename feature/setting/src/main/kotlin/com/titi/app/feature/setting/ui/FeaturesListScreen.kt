@@ -7,16 +7,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,6 +41,7 @@ fun FeaturesListScreen(
     onNavigateUp: () -> Unit,
     onNavigateWebView: (title: String, url: String) -> Unit,
 ) {
+    val context = LocalContext.current
     val uiState by viewModel.collectAsState()
 
     val containerColor = if (isSystemInDarkTheme()) {
@@ -46,10 +50,14 @@ fun FeaturesListScreen(
         0xFFF2F2F7
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.updateFeatures(context.makeFeatures())
+    }
+
     Scaffold(
         containerColor = Color(containerColor),
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = TdsColor.GROUPED_BACKGROUND.getColor(),
                 ),
@@ -64,7 +72,7 @@ fun FeaturesListScreen(
                 },
                 title = {
                     TdsText(
-                        text = "TiTi 기능들",
+                        text = stringResource(R.string.settings_button_functions),
                         textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                         fontSize = 24.sp,
                         color = TdsColor.TEXT,
@@ -115,10 +123,11 @@ fun FeaturesListScreen(
 @Preview
 private fun FeaturesListScreenPreview() {
     TiTiTheme {
+        val context = LocalContext.current
         FeaturesListScreen(
             modifier = Modifier.fillMaxSize(),
-            uiState = FeaturesUiState(features = makeFeatures()),
-            onClick = { title, url -> },
+            uiState = FeaturesUiState(features = context.makeFeatures()),
+            onClick = { _, _ -> },
         )
     }
 }

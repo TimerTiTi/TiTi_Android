@@ -13,6 +13,12 @@ class FeaturesListViewModel @AssistedInject constructor(
     @Assisted initialState: FeaturesUiState,
 ) : MavericksViewModel<FeaturesUiState>(initialState) {
 
+    fun updateFeatures(features: List<FeaturesUiState.Feature>) {
+        setState {
+            copy(features = features)
+        }
+    }
+
     @AssistedFactory
     interface Factory : AssistedViewModelFactory<FeaturesListViewModel, FeaturesUiState> {
         override fun create(state: FeaturesUiState): FeaturesListViewModel

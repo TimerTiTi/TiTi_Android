@@ -404,7 +404,7 @@ internal fun DeveloperSection(onSettingActions: (SettingActions) -> Unit) {
 
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
-        text = "개발자",
+        text = stringResource(R.string.setting_text_develop),
         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
         fontSize = 14.sp,
         color = TdsColor.TEXT,
