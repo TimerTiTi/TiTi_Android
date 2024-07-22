@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,36 +25,30 @@ import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
-import com.titi.app.feature.edit.mapper.toAMPMHours
-import com.titi.app.feature.edit.mapper.toLocalDateTime
 import com.titi.app.feature.edit.model.DateTimeTaskHistory
-import com.titi.app.feature.edit.util.isStartTimeTaskHistoryOverlap
-import com.titi.app.feature.edit.util.isTaskHistoryOverlap
 import java.time.Duration
 import java.time.LocalDateTime
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditTaskHistoryTimeDialog(
     themeColor: TdsColor,
     startDateTime: LocalDateTime,
     endDateTime: LocalDateTime,
-    fullTaskHistories: List<DateTimeTaskHistory>,
     onShowDialog: (Boolean) -> Unit,
     onPositive: (DateTimeTaskHistory) -> Unit,
 ) {
-    var startPickerValue by remember {
-        mutableStateOf(startDateTime.toAMPMHours())
-    }
     var startLocalDateTime by remember {
         mutableStateOf(startDateTime)
-    }
-
-    var endPickerValue by remember {
-        mutableStateOf(endDateTime.toAMPMHours())
     }
     var endLocalDateTime by remember {
         mutableStateOf(endDateTime)
     }
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = startLocalDateTime.hour,
+        initialMinute = startLocalDateTime.minute,
+    )
 
     TdsDialog(
         tdsDialogInfo = TdsDialogInfo.Confirm(
@@ -85,14 +81,15 @@ fun EditTaskHistoryTimeDialog(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 TdsTimePicker(
+                    state = timePickerState,
                     themeColor = themeColor,
                     localDateTime = startLocalDateTime,
-                    pickerValue = startPickerValue,
-                    onValueChange = {
-                        startPickerValue = it
-                        val start = it.toLocalDateTime(startLocalDateTime.toLocalDate())
-                        if (!isStartTimeTaskHistoryOverlap(start, fullTaskHistories)) {
-                            startLocalDateTime = start
+                    onTimeChanged = {
+                        startLocalDateTime = it
+                        endLocalDateTime = if (it > endLocalDateTime) {
+                            it
+                        } else {
+                            endLocalDateTime
                         }
                     },
                 )
@@ -111,15 +108,16 @@ fun EditTaskHistoryTimeDialog(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 TdsTimePicker(
+                    state = timePickerState,
                     themeColor = themeColor,
                     localDateTime = endLocalDateTime,
-                    pickerValue = endPickerValue,
-                    onValueChange = {
-                        endPickerValue = it
-                        val end = it.toLocalDateTime(endLocalDateTime.toLocalDate())
-                        if (!isTaskHistoryOverlap(startLocalDateTime, end, fullTaskHistories)) {
-                            endLocalDateTime = end
+                    onTimeChanged = {
+                        startLocalDateTime = if (startLocalDateTime > it) {
+                            it
+                        } else {
+                            startLocalDateTime
                         }
+                        endLocalDateTime = it
                     },
                 )
             }

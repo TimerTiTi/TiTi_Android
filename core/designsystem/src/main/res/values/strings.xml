@@ -69,4 +69,5 @@
     <string name="setting_text_develop">Developer</string>
     <string name="recording_text_setnewrecordtitle">Setting New Record</string>
     <string name="settings_text_dailyeditcreate">Daily Modify/Create</string>
+    <string name="edit_text_duplicatehistory">Duplicate history exists.</string>
 </resources>
