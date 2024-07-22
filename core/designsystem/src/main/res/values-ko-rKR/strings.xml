@@ -61,4 +61,7 @@
     <string name="setting_text_notification">알림</string>
     <string name="measure_text_measuring">측정이 진행 중 입니다.</string>
     <string name="toast_text_startrecording">기록 시작!</string>
+    <string name="setting_text_develop">개발자</string>
+    <string name="recording_text_setnewrecordtitle">새로운 기록 설정</string>
+    <string name="settings_text_dailyeditcreate">Daily 수정/생성</string>
 </resources>
