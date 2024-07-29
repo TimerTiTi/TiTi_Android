@@ -70,6 +70,6 @@
     <string name="recording_text_setnewrecordtitle">Setting New Record</string>
     <string name="settings_text_dailyeditcreate">Daily Modify/Create</string>
     <string name="edit_text_duplicatehistory">Duplicate history exists.</string>
-    <string name="setting_text_launguage">Language</string>
+    <string name="setting_text_language">Language</string>
     <string name="setting_text_system">System</string>
 </resources>

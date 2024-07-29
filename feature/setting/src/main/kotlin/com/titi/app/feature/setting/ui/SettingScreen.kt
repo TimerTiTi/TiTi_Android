@@ -306,7 +306,7 @@ private fun SettingNotificationSection(
 private fun SettingLanguageSection() {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
-        text = stringResource(R.string.setting_text_launguage),
+        text = stringResource(R.string.setting_text_language),
         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
         fontSize = 14.sp,
         color = TdsColor.TEXT,
