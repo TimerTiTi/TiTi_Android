@@ -49,7 +49,7 @@ fun TdsGraphContent(
             modifier = Modifier.wrapContentSize(),
             userScrollEnabled = true,
             state = pagerState,
-            beyondBoundsPageCount = 2,
+            beyondBoundsPageCount = 3,
         ) { page ->
             when (page % 4) {
                 0 -> TdsStandardDailyGraph(
