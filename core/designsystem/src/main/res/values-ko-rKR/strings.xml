@@ -67,4 +67,7 @@
     <string name="edit_text_duplicatehistory">중복된 내역이 존재 합니다.</string>
     <string name="setting_text_language">언어</string>
     <string name="setting_text_system">시스템</string>
+    <string name="setting_text_korean">한국어</string>
+    <string name="setting_text_english">영어</string>
+    <string name="setting_text_china">중국어</string>
 </resources>

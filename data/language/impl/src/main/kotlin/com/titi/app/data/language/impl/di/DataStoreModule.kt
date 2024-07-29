@@ -5,6 +5,7 @@ import com.titi.app.data.language.impl.local.LanguageDataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -13,5 +14,5 @@ import javax.inject.Singleton
 internal object DataStoreModule {
     @Provides
     @Singleton
-    fun provideLanguageDataStore(context: Context) = LanguageDataStore(context)
+    fun provideLanguageDataStore(@ApplicationContext context: Context) = LanguageDataStore(context)
 }

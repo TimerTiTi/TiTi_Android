@@ -72,4 +72,7 @@
     <string name="edit_text_duplicatehistory">Duplicate history exists.</string>
     <string name="setting_text_language">Language</string>
     <string name="setting_text_system">System</string>
+    <string name="setting_text_korean">Korean</string>
+    <string name="setting_text_english">English</string>
+    <string name="setting_text_china">Chinese</string>
 </resources>

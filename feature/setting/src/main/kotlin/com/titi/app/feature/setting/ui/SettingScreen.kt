@@ -61,7 +61,7 @@ import com.titi.app.feature.setting.model.Version
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingScreen(
+internal fun SettingScreen(
     viewModel: SettingViewModel = mavericksViewModel(),
     handleNavigateActions: (SettingActions.Navigates) -> Unit,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
@@ -180,7 +180,10 @@ private fun SettingScreen(
 
         Spacer(modifier = Modifier.height(35.dp))
 
-        SettingLanguageSection()
+        SettingLanguageSection(
+            radioState = uiState.radioState,
+            onSettingActions = onSettingActions,
+        )
 
         Spacer(modifier = Modifier.height(35.dp))
 
@@ -303,7 +306,10 @@ private fun SettingNotificationSection(
 }
 
 @Composable
-private fun SettingLanguageSection() {
+private fun SettingLanguageSection(
+    radioState: SettingUiState.RadioState,
+    onSettingActions: (SettingActions) -> Unit,
+) {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
         text = stringResource(R.string.setting_text_language),
@@ -318,8 +324,19 @@ private fun SettingLanguageSection() {
         title = stringResource(R.string.setting_text_system),
         rightAreaContent = {
             RadioButton(
-                selected = true,
-                onClick = {},
+                selected = radioState.system,
+                onClick = {
+                    onSettingActions(
+                        SettingActions.Updates.Radio(
+                            SettingUiState.RadioState(
+                                system = true,
+                                korean = false,
+                                english = false,
+                                china = false,
+                            ),
+                        ),
+                    )
+                },
             )
         },
     )
@@ -327,11 +344,22 @@ private fun SettingLanguageSection() {
     Spacer(modifier = Modifier.height(1.dp))
 
     ListContent(
-        title = "한국어",
+        title = stringResource(R.string.setting_text_korean),
         rightAreaContent = {
             RadioButton(
-                selected = true,
-                onClick = {},
+                selected = radioState.korean,
+                onClick = {
+                    onSettingActions(
+                        SettingActions.Updates.Radio(
+                            SettingUiState.RadioState(
+                                system = false,
+                                korean = true,
+                                english = false,
+                                china = false,
+                            ),
+                        ),
+                    )
+                },
             )
         },
     )
@@ -339,11 +367,22 @@ private fun SettingLanguageSection() {
     Spacer(modifier = Modifier.height(1.dp))
 
     ListContent(
-        title = "English",
+        title = stringResource(R.string.setting_text_english),
         rightAreaContent = {
             RadioButton(
-                selected = true,
-                onClick = {},
+                selected = radioState.english,
+                onClick = {
+                    onSettingActions(
+                        SettingActions.Updates.Radio(
+                            SettingUiState.RadioState(
+                                system = false,
+                                korean = false,
+                                english = true,
+                                china = false,
+                            ),
+                        ),
+                    )
+                },
             )
         },
     )
@@ -351,11 +390,22 @@ private fun SettingLanguageSection() {
     Spacer(modifier = Modifier.height(1.dp))
 
     ListContent(
-        title = "中国话",
+        title = stringResource(R.string.setting_text_china),
         rightAreaContent = {
             RadioButton(
-                selected = true,
-                onClick = {},
+                selected = radioState.china,
+                onClick = {
+                    onSettingActions(
+                        SettingActions.Updates.Radio(
+                            SettingUiState.RadioState(
+                                system = false,
+                                korean = false,
+                                english = false,
+                                china = true,
+                            ),
+                        ),
+                    )
+                },
             )
         },
     )
