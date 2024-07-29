@@ -65,4 +65,6 @@
     <string name="recording_text_setnewrecordtitle">새로운 기록 설정</string>
     <string name="settings_text_dailyeditcreate">Daily 수정/생성</string>
     <string name="edit_text_duplicatehistory">중복된 내역이 존재 합니다.</string>
+    <string name="setting_text_launguage">언어</string>
+    <string name="setting_text_system">시스템</string>
 </resources>

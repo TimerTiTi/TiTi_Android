@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.TopAppBar
@@ -179,6 +180,10 @@ private fun SettingScreen(
 
         Spacer(modifier = Modifier.height(35.dp))
 
+        SettingLanguageSection()
+
+        Spacer(modifier = Modifier.height(35.dp))
+
         SettingVersionSection(
             versionState = uiState.versionState,
             onSettingActions = onSettingActions,
@@ -295,6 +300,67 @@ private fun SettingNotificationSection(
             )
         },
     )
+}
+
+@Composable
+private fun SettingLanguageSection() {
+    TdsText(
+        modifier = Modifier.padding(start = 16.dp),
+        text = stringResource(R.string.setting_text_launguage),
+        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+        fontSize = 14.sp,
+        color = TdsColor.TEXT,
+    )
+
+    Spacer(modifier = Modifier.height(4.dp))
+
+    ListContent(
+        title = stringResource(R.string.setting_text_system),
+        rightAreaContent = {
+            RadioButton(
+                selected = true,
+                onClick = {},
+            )
+        },
+    )
+
+    Spacer(modifier = Modifier.height(1.dp))
+
+    ListContent(
+        title = "한국어",
+        rightAreaContent = {
+            RadioButton(
+                selected = true,
+                onClick = {},
+            )
+        },
+    )
+
+    Spacer(modifier = Modifier.height(1.dp))
+
+    ListContent(
+        title = "English",
+        rightAreaContent = {
+            RadioButton(
+                selected = true,
+                onClick = {},
+            )
+        },
+    )
+
+    Spacer(modifier = Modifier.height(1.dp))
+
+    ListContent(
+        title = "中国话",
+        rightAreaContent = {
+            RadioButton(
+                selected = true,
+                onClick = {},
+            )
+        },
+    )
+
+    Spacer(modifier = Modifier.height(1.dp))
 }
 
 @Composable

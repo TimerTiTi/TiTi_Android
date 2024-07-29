@@ -65,4 +65,6 @@
     <string name="recording_text_setnewrecordtitle">新建日志设置</string>
     <string name="settings_text_dailyeditcreate">"每日修改/创建 "</string>
     <string name="edit_text_duplicatehistory">重复的历史存在。</string>
+    <string name="setting_text_launguage">语言</string>
+    <string name="setting_text_system">系统</string>
 </resources>
