@@ -16,8 +16,8 @@ internal class LanguageRepositoryImpl @Inject constructor(
         languageDataStore.setLanguage(languageRepositoryModel.toLocalModel())
     }
 
-    override fun getLanguageFlow(): Flow<LanguageRepositoryModel> {
+    override fun getLanguageFlow(): Flow<LanguageRepositoryModel?> {
         return languageDataStore.getLanguageFlow()
-            .map { it?.toRepositoryModel() ?: LanguageRepositoryModel() }
+            .map { it?.toRepositoryModel() }
     }
 }

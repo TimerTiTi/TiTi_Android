@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface LanguageRepository {
     suspend fun setLanguage(languageRepositoryModel: LanguageRepositoryModel)
 
-    fun getLanguageFlow(): Flow<LanguageRepositoryModel>
+    fun getLanguageFlow(): Flow<LanguageRepositoryModel?>
 }
