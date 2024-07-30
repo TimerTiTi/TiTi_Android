@@ -1,4 +1,5 @@
 plugins {
+    id("titi.android.compose")
     id("titi.android.library")
 }
 

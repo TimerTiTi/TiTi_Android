@@ -18,4 +18,7 @@ sealed interface SettingActions {
         @JvmInline
         value class Version(val versionState: SettingUiState.VersionState) : Updates
     }
+
+    @JvmInline
+    value class Language(val language: String) : SettingActions
 }

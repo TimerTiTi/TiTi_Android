@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.TopAppBar
@@ -30,6 +31,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.google.firebase.database.DataSnapshot
@@ -54,13 +57,14 @@ import com.titi.app.core.designsystem.navigation.TopLevelDestination
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.ui.LanguageManager
 import com.titi.app.feature.setting.model.SettingActions
 import com.titi.app.feature.setting.model.SettingUiState
 import com.titi.app.feature.setting.model.Version
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingScreen(
+internal fun SettingScreen(
     viewModel: SettingViewModel = mavericksViewModel(),
     handleNavigateActions: (SettingActions.Navigates) -> Unit,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
@@ -71,6 +75,8 @@ fun SettingScreen(
     val databaseReference = firebaseDatabase.getReference("versions")
 
     val context = LocalContext.current
+    val languageManager = remember { LanguageManager(context) }
+    val currentLanguage by languageManager.currentLanguage.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         databaseReference.addValueEventListener(
@@ -142,11 +148,16 @@ fun SettingScreen(
                 .padding(it)
                 .safeDrawingPadding(),
             uiState = uiState,
+            currentLanguage = currentLanguage,
             onSettingActions = { settingActions ->
                 when (settingActions) {
                     is SettingActions.Navigates -> handleNavigateActions(settingActions)
 
                     is SettingActions.Updates -> viewModel.handleUpdateActions(settingActions)
+
+                    is SettingActions.Language -> {
+                        languageManager.setLanguage(settingActions.language)
+                    }
                 }
             },
         )
@@ -157,6 +168,7 @@ fun SettingScreen(
 private fun SettingScreen(
     modifier: Modifier,
     uiState: SettingUiState,
+    currentLanguage: String,
     onSettingActions: (SettingActions) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -174,6 +186,13 @@ private fun SettingScreen(
 
         SettingNotificationSection(
             switchState = uiState.switchState,
+            onSettingActions = onSettingActions,
+        )
+
+        Spacer(modifier = Modifier.height(35.dp))
+
+        SettingLanguageSection(
+            currentLanguage = currentLanguage,
             onSettingActions = onSettingActions,
         )
 
@@ -295,6 +314,86 @@ private fun SettingNotificationSection(
             )
         },
     )
+}
+
+@Composable
+private fun SettingLanguageSection(
+    currentLanguage: String,
+    onSettingActions: (SettingActions) -> Unit,
+) {
+    TdsText(
+        modifier = Modifier.padding(start = 16.dp),
+        text = stringResource(R.string.setting_text_language),
+        textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+        fontSize = 14.sp,
+        color = TdsColor.TEXT,
+    )
+
+    Spacer(modifier = Modifier.height(4.dp))
+
+    ListContent(
+        title = stringResource(R.string.setting_text_system),
+        rightAreaContent = {
+            RadioButton(
+                selected = currentLanguage == LanguageManager.SYSTEM_DEFAULT,
+                onClick = {
+                    onSettingActions(
+                        SettingActions.Language(LanguageManager.SYSTEM_DEFAULT),
+                    )
+                },
+            )
+        },
+    )
+
+    Spacer(modifier = Modifier.height(1.dp))
+
+    ListContent(
+        title = stringResource(R.string.setting_text_korean),
+        rightAreaContent = {
+            RadioButton(
+                selected = currentLanguage == LanguageManager.KOREAN,
+                onClick = {
+                    onSettingActions(
+                        SettingActions.Language(LanguageManager.KOREAN),
+                    )
+                },
+            )
+        },
+    )
+
+    Spacer(modifier = Modifier.height(1.dp))
+
+    ListContent(
+        title = stringResource(R.string.setting_text_english),
+        rightAreaContent = {
+            RadioButton(
+                selected = currentLanguage == LanguageManager.ENGLISH,
+                onClick = {
+                    onSettingActions(
+                        SettingActions.Language(LanguageManager.ENGLISH),
+                    )
+                },
+            )
+        },
+    )
+
+    Spacer(modifier = Modifier.height(1.dp))
+
+    ListContent(
+        title = stringResource(R.string.setting_text_china),
+        rightAreaContent = {
+            RadioButton(
+                selected = currentLanguage == LanguageManager.CHINA,
+                onClick = {
+                    onSettingActions(
+                        SettingActions.Language(LanguageManager.CHINA),
+                    )
+                },
+            )
+        },
+    )
+
+    Spacer(modifier = Modifier.height(1.dp))
 }
 
 @Composable
@@ -500,6 +599,7 @@ private fun SettingScreenPreview() {
         SettingScreen(
             modifier = Modifier,
             uiState = SettingUiState(),
+            currentLanguage = LanguageManager.SYSTEM_DEFAULT,
             onSettingActions = {},
         )
     }
