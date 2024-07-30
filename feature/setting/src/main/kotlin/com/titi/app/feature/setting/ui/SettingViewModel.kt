@@ -5,7 +5,6 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.hilt.AssistedViewModelFactory
 import com.airbnb.mvrx.hilt.hiltMavericksViewModelFactory
-import com.titi.app.data.language.api.LanguageRepository
 import com.titi.app.data.notification.api.NotificationRepository
 import com.titi.app.feature.setting.mapper.toFeatureModel
 import com.titi.app.feature.setting.mapper.toRepositoryModel
@@ -15,13 +14,11 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 internal class SettingViewModel @AssistedInject constructor(
     @Assisted initialState: SettingUiState,
     private val notificationRepository: NotificationRepository,
-    private val languageRepository: LanguageRepository,
 ) : MavericksViewModel<SettingUiState>(initialState) {
 
     init {
@@ -33,24 +30,11 @@ internal class SettingViewModel @AssistedInject constructor(
                     copy(switchState = it.toFeatureModel())
                 }
         }
-
-        viewModelScope.launch {
-            languageRepository.getLanguageFlow()
-                .catch {
-                    Log.e("SettingViewModel", it.message.toString())
-                }
-                .filterNotNull()
-                .setOnEach {
-                    copy(radioState = it.toFeatureModel())
-                }
-        }
     }
 
     fun handleUpdateActions(updateActions: SettingActions.Updates) {
         when (updateActions) {
             is SettingActions.Updates.Switch -> updateSwitch(updateActions.switchState)
-
-            is SettingActions.Updates.Radio -> updateRadio(updateActions.radioState)
 
             is SettingActions.Updates.Version -> updateVersion(updateActions.versionState)
         }
@@ -59,12 +43,6 @@ internal class SettingViewModel @AssistedInject constructor(
     private fun updateSwitch(switchState: SettingUiState.SwitchState) {
         viewModelScope.launch {
             notificationRepository.setNotification(switchState.toRepositoryModel())
-        }
-    }
-
-    private fun updateRadio(radioState: SettingUiState.RadioState) {
-        viewModelScope.launch {
-            languageRepository.setLanguage(radioState.toRepositoryModel())
         }
     }
 

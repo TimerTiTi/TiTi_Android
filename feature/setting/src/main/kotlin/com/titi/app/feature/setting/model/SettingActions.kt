@@ -16,9 +16,9 @@ sealed interface SettingActions {
         value class Switch(val switchState: SettingUiState.SwitchState) : Updates
 
         @JvmInline
-        value class Radio(val radioState: SettingUiState.RadioState) : Updates
-
-        @JvmInline
         value class Version(val versionState: SettingUiState.VersionState) : Updates
     }
+
+    @JvmInline
+    value class Language(val language: String) : SettingActions
 }

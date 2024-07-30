@@ -8,7 +8,6 @@ android {
 
 dependencies {
     implementation(project(":data:notification:api"))
-    implementation(project(":data:language:api"))
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)

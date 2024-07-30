@@ -31,6 +31,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.google.firebase.database.DataSnapshot
@@ -55,6 +57,7 @@ import com.titi.app.core.designsystem.navigation.TopLevelDestination
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.ui.LanguageManager
 import com.titi.app.feature.setting.model.SettingActions
 import com.titi.app.feature.setting.model.SettingUiState
 import com.titi.app.feature.setting.model.Version
@@ -72,6 +75,8 @@ internal fun SettingScreen(
     val databaseReference = firebaseDatabase.getReference("versions")
 
     val context = LocalContext.current
+    val languageManager = remember { LanguageManager(context) }
+    val currentLanguage by languageManager.currentLanguage.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         databaseReference.addValueEventListener(
@@ -143,11 +148,16 @@ internal fun SettingScreen(
                 .padding(it)
                 .safeDrawingPadding(),
             uiState = uiState,
+            currentLanguage = currentLanguage,
             onSettingActions = { settingActions ->
                 when (settingActions) {
                     is SettingActions.Navigates -> handleNavigateActions(settingActions)
 
                     is SettingActions.Updates -> viewModel.handleUpdateActions(settingActions)
+
+                    is SettingActions.Language -> {
+                        languageManager.setLanguage(settingActions.language)
+                    }
                 }
             },
         )
@@ -158,6 +168,7 @@ internal fun SettingScreen(
 private fun SettingScreen(
     modifier: Modifier,
     uiState: SettingUiState,
+    currentLanguage: String,
     onSettingActions: (SettingActions) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -181,7 +192,7 @@ private fun SettingScreen(
         Spacer(modifier = Modifier.height(35.dp))
 
         SettingLanguageSection(
-            radioState = uiState.radioState,
+            currentLanguage = currentLanguage,
             onSettingActions = onSettingActions,
         )
 
@@ -307,7 +318,7 @@ private fun SettingNotificationSection(
 
 @Composable
 private fun SettingLanguageSection(
-    radioState: SettingUiState.RadioState,
+    currentLanguage: String,
     onSettingActions: (SettingActions) -> Unit,
 ) {
     TdsText(
@@ -324,17 +335,10 @@ private fun SettingLanguageSection(
         title = stringResource(R.string.setting_text_system),
         rightAreaContent = {
             RadioButton(
-                selected = radioState.system,
+                selected = currentLanguage == LanguageManager.SYSTEM_DEFAULT,
                 onClick = {
                     onSettingActions(
-                        SettingActions.Updates.Radio(
-                            SettingUiState.RadioState(
-                                system = true,
-                                korean = false,
-                                english = false,
-                                china = false,
-                            ),
-                        ),
+                        SettingActions.Language(LanguageManager.SYSTEM_DEFAULT),
                     )
                 },
             )
@@ -347,17 +351,10 @@ private fun SettingLanguageSection(
         title = stringResource(R.string.setting_text_korean),
         rightAreaContent = {
             RadioButton(
-                selected = radioState.korean,
+                selected = currentLanguage == LanguageManager.KOREAN,
                 onClick = {
                     onSettingActions(
-                        SettingActions.Updates.Radio(
-                            SettingUiState.RadioState(
-                                system = false,
-                                korean = true,
-                                english = false,
-                                china = false,
-                            ),
-                        ),
+                        SettingActions.Language(LanguageManager.KOREAN),
                     )
                 },
             )
@@ -370,17 +367,10 @@ private fun SettingLanguageSection(
         title = stringResource(R.string.setting_text_english),
         rightAreaContent = {
             RadioButton(
-                selected = radioState.english,
+                selected = currentLanguage == LanguageManager.ENGLISH,
                 onClick = {
                     onSettingActions(
-                        SettingActions.Updates.Radio(
-                            SettingUiState.RadioState(
-                                system = false,
-                                korean = false,
-                                english = true,
-                                china = false,
-                            ),
-                        ),
+                        SettingActions.Language(LanguageManager.ENGLISH),
                     )
                 },
             )
@@ -393,17 +383,10 @@ private fun SettingLanguageSection(
         title = stringResource(R.string.setting_text_china),
         rightAreaContent = {
             RadioButton(
-                selected = radioState.china,
+                selected = currentLanguage == LanguageManager.CHINA,
                 onClick = {
                     onSettingActions(
-                        SettingActions.Updates.Radio(
-                            SettingUiState.RadioState(
-                                system = false,
-                                korean = false,
-                                english = false,
-                                china = true,
-                            ),
-                        ),
+                        SettingActions.Language(LanguageManager.CHINA),
                     )
                 },
             )
@@ -616,6 +599,7 @@ private fun SettingScreenPreview() {
         SettingScreen(
             modifier = Modifier,
             uiState = SettingUiState(),
+            currentLanguage = LanguageManager.SYSTEM_DEFAULT,
             onSettingActions = {},
         )
     }
