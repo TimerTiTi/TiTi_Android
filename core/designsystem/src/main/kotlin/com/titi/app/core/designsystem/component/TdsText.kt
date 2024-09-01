@@ -18,6 +18,7 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 @Composable
 fun TdsText(
     modifier: Modifier = Modifier,
+    isNoLocale: Boolean = true,
     text: String? = null,
     textStyle: TdsTextStyle,
     fontSize: TextUnit,
@@ -38,7 +39,10 @@ fun TdsText(
         maxLines = maxLines,
         minLines = minLines,
         onTextLayout = onTextLayout,
-        style = textStyle.getTextStyle(fontSize),
+        style = textStyle.getTextStyle(
+            isNoLocale = isNoLocale,
+            fontSize = fontSize,
+        ),
         textDecoration = textDecoration,
     )
 }
@@ -46,6 +50,7 @@ fun TdsText(
 @Composable
 fun TdsText(
     modifier: Modifier = Modifier,
+    isNoLocale: Boolean = true,
     text: String? = null,
     textStyle: TdsTextStyle,
     fontSize: TextUnit,
@@ -66,7 +71,10 @@ fun TdsText(
         maxLines = maxLines,
         minLines = minLines,
         onTextLayout = onTextLayout,
-        style = textStyle.getTextStyle(fontSize),
+        style = textStyle.getTextStyle(
+            isNoLocale = isNoLocale,
+            fontSize = fontSize,
+        ),
         textDecoration = textDecoration,
     )
 }

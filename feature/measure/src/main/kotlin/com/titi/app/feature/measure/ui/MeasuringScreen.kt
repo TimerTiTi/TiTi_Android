@@ -247,6 +247,7 @@ private fun MeasuringScreen(
                     Spacer(modifier = Modifier.weight(1f))
 
                     TdsText(
+                        isNoLocale = false,
                         modifier = Modifier.padding(vertical = 24.dp),
                         text = uiState.recordTimes.currentTask?.taskName,
                         textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,

@@ -72,6 +72,7 @@ fun EditTaskHistoryTimeDialog(
         Row {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 TdsText(
+                    isNoLocale = false,
                     text = stringResource(R.string.editdaily_text_startat),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     color = TdsColor.TEXT,
@@ -99,6 +100,7 @@ fun EditTaskHistoryTimeDialog(
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 TdsText(
+                    isNoLocale = false,
                     text = stringResource(R.string.editdaily_text_endat),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     color = TdsColor.TEXT,

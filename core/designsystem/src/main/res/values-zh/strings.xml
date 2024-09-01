@@ -27,8 +27,8 @@
     <string name="colorselector_text_colordirectiondesc">设置颜色组合的方向。</string>
     <string name="common_text_targettime">目标时间</string>
     <string name="logsetting_text_dailytargettimedesc">设置圆形程序栏的目标时间。</string>
-    <string name="common_popup_setmonthtargettime">请输入 Month 的目标时间\\n（以小时为单位）</string>
-    <string name="common_popup_setweektargettime">请输入 Week 的目标时间\\n(以小时为单位)</string>
+    <string name="common_popup_setmonthtargettime">请输入 Month 的目标时间\n（以小时为单位）</string>
+    <string name="common_popup_setweektargettime">请输入 Week 的目标时间\n(以小时为单位)</string>
     <string name="save_toast_donemessage">所有的照片都保存在画廊里了。</string>
     <string name="save_toast_nograph">没有选中的图表。</string>
     <string name="editdaily_button_appendnewhistory">新建记录</string>

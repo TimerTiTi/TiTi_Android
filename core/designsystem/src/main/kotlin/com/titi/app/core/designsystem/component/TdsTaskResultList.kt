@@ -75,6 +75,7 @@ fun TdsTaskResultList(
                         .fillMaxWidth()
                         .padding(top = 8.dp)
                         .clickable { onClickAddTask?.invoke() },
+                    isNoLocale = false,
                     text = "+ " + stringResource(R.string.editdaily_button_appendnewhistory),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     color = TdsColor.TEXT,

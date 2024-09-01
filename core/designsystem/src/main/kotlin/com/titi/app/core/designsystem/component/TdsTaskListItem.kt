@@ -69,6 +69,7 @@ fun TdsTaskListItem(
 
                 Column {
                     TdsText(
+                        isNoLocale = false,
                         text = tdsTask.taskName,
                         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 20.sp,
@@ -80,6 +81,7 @@ fun TdsTaskListItem(
                     AnimatedVisibility(visible = tdsTask.isTaskTargetTimeOn) {
                         Row(modifier = Modifier.padding(top = 4.dp)) {
                             TdsText(
+                                isNoLocale = false,
                                 text = stringResource(R.string.tasks_popup_settasktargettime) +
                                     " : ${tdsTask.taskTargetTime.getTimeString()}",
                                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
@@ -90,6 +92,7 @@ fun TdsTaskListItem(
                             Spacer(modifier = Modifier.width(8.dp))
 
                             TdsText(
+                                isNoLocale = false,
                                 modifier = Modifier.clickable { onEdit() },
                                 text = stringResource(R.string.common_text_edit),
                                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,

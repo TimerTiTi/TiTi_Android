@@ -57,6 +57,7 @@ fun TdsTaskResultListItem(
     ) {
         if (leftText != null) {
             TdsText(
+                isNoLocale = false,
                 text = leftText,
                 textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                 fontSize = fontSize,
@@ -71,6 +72,7 @@ fun TdsTaskResultListItem(
                 .widthIn(max = 100.dp)
                 .background(color = color.copy(alpha = 0.5f))
                 .padding(padding),
+            isNoLocale = false,
             text = taskName,
             textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             fontSize = fontSize,

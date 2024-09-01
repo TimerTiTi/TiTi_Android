@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -259,6 +260,7 @@ private fun EditScreen(uiState: EditUiState, onEditActions: (EditActions) -> Uni
                     contentAlignment = Alignment.Center,
                 ) {
                     TdsText(
+                        isNoLocale = false,
                         text = stringResource(R.string.editdaily_text_infohowtoeditdaily),
                         color = TdsColor.TEXT,
                         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
@@ -402,6 +404,7 @@ private fun EditTaskContent(
                                 shape = RoundedCornerShape(4.dp),
                             )
                             .padding(4.dp),
+                        isNoLocale = false,
                         text = taskName.ifEmpty { stringResource(R.string.edit_text_notaskname) },
                         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 17.sp,
@@ -502,6 +505,7 @@ private fun EditTaskContent(
                                 Spacer(modifier = Modifier.width(4.dp))
 
                                 TdsText(
+                                    isNoLocale = false,
                                     text = stringResource(
                                         R.string.editdaily_button_appendnewhistory,
                                     ),
@@ -517,7 +521,7 @@ private fun EditTaskContent(
                 TdsText(
                     modifier = Modifier
                         .width(75.dp)
-                        .height(25.dp)
+                        .wrapContentHeight()
                         .background(
                             color = if (taskHistories.isEmpty() || taskName.isEmpty()) {
                                 TdsColor.GROUPED_BACKGROUND.getColor()
@@ -532,6 +536,7 @@ private fun EditTaskContent(
                                 onEditActions(EditActions.Updates.Done)
                             }
                         },
+                    isNoLocale = false,
                     text = stringResource(R.string.common_text_ok),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     textAlign = TextAlign.Center,

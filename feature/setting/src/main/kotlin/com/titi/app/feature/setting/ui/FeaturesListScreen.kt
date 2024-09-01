@@ -72,6 +72,7 @@ fun FeaturesListScreen(
                 },
                 title = {
                     TdsText(
+                        isNoLocale = false,
                         text = stringResource(R.string.settings_button_functions),
                         textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                         fontSize = 24.sp,

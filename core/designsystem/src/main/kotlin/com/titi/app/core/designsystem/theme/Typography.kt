@@ -50,9 +50,9 @@ enum class TdsTextStyle {
     ;
 
     @Composable
-    fun getTextStyle(fontSize: TextUnit) = when (this) {
+    fun getTextStyle(fontSize: TextUnit, isNoLocale: Boolean = true) = when (this) {
         NORMAL_TEXT_STYLE -> {
-            val fontFamily = if (Locale.current.language == "zh") {
+            val fontFamily = if (Locale.current.language == "zh" && !isNoLocale) {
                 misansFontFamily
             } else {
                 hgggothicssiProFontFamily
@@ -60,7 +60,7 @@ enum class TdsTextStyle {
             TiTiTheme.textStyle.normalTextStyle.copy(fontFamily = fontFamily, fontSize = fontSize)
         }
         SEMI_BOLD_TEXT_STYLE -> {
-            val fontFamily = if (Locale.current.language == "zh") {
+            val fontFamily = if (Locale.current.language == "zh" && !isNoLocale) {
                 misansFontFamily
             } else {
                 hgggothicssiProFontFamily
@@ -68,7 +68,7 @@ enum class TdsTextStyle {
             TiTiTheme.textStyle.semiBoldTextStyle.copy(fontFamily = fontFamily, fontSize = fontSize)
         }
         EXTRA_BOLD_TEXT_STYLE -> {
-            val fontFamily = if (Locale.current.language == "zh") {
+            val fontFamily = if (Locale.current.language == "zh" && !isNoLocale) {
                 misansFontFamily
             } else {
                 hgggothicssiProFontFamily

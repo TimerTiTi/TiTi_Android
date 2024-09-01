@@ -264,6 +264,7 @@ private fun ColorButtons(
             onClick = { onClickCancel() },
         ) {
             TdsText(
+                isNoLocale = false,
                 text = stringResource(id = R.string.common_text_cancel),
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = 16.sp,
@@ -280,6 +281,7 @@ private fun ColorButtons(
             onClick = { onClickConfirm() },
         ) {
             TdsText(
+                isNoLocale = false,
                 text = stringResource(id = R.string.common_text_ok),
                 textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                 fontSize = 16.sp,
