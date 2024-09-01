@@ -2,7 +2,8 @@ package com.titi.app.tds.component
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
@@ -212,7 +213,7 @@ internal fun TtdsSnackbarDuration.toMillis(
     val original = when (this) {
         TtdsSnackbarDuration.Indefinite -> Long.MAX_VALUE
         TtdsSnackbarDuration.Long -> 10000L
-        TtdsSnackbarDuration.Short -> 4000L
+        TtdsSnackbarDuration.Short -> 2500L
     }
     if (accessibilityManager == null) {
         return original
@@ -242,21 +243,18 @@ private fun TtdsSlideInSlideOutVertically(
         keys.filterNotNull().mapTo(state.items) { key ->
             TtdsSlideInSlideOutVerticallyAnimationItem(key) { children ->
                 val isVisible = key == current
-                val duration = if (isVisible) {
-                    TTDS_SNACKBAR_SLIDE_IN_VERTICALLY_MILLIS
+
+                val slideAnimationSpec: AnimationSpec<Float> = if (isVisible) {
+                    spring()
                 } else {
-                    TTDS_SNACKBAR_SLIDE_OUT_VERTICALLY_MILLIS
+                    tween(
+                        durationMillis = 500,
+                        easing = EaseIn,
+                    )
                 }
-                val delay = TTDS_SNACKBAR_SLIDE_OUT_VERTICALLY_MILLIS +
-                    TTDS_SNACKBAR_IN_BETWEEN_DELAY_MILLIS
-                val animationDelay = if (isVisible && keys.filterNotNull().size != 1) delay else 0
 
                 val offsetY = animatedOffsetY(
-                    animation = tween(
-                        easing = LinearEasing,
-                        delayMillis = animationDelay,
-                        durationMillis = duration,
-                    ),
+                    animation = slideAnimationSpec,
                     visible = isVisible,
                     endDp = current?.visuals?.targetDpFromTop ?: 40.dp,
                     onAnimationFinish = {
@@ -332,7 +330,3 @@ private fun animatedOffsetY(
 
     return offsetY.asState()
 }
-
-private const val TTDS_SNACKBAR_SLIDE_IN_VERTICALLY_MILLIS = 150
-private const val TTDS_SNACKBAR_SLIDE_OUT_VERTICALLY_MILLIS = 75
-private const val TTDS_SNACKBAR_IN_BETWEEN_DELAY_MILLIS = 0
