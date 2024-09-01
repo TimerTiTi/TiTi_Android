@@ -34,8 +34,7 @@ fun TimeButtonComponent(
             size = 50.dp,
         ) {
             Icon(
-                painter =
-                painterResource(id = R.drawable.edit_record_icon),
+                painter = painterResource(id = R.drawable.edit_record_icon),
                 contentDescription = "addRecord",
                 tint = tintColor,
             )

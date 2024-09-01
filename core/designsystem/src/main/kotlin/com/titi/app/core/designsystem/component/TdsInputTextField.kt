@@ -40,7 +40,10 @@ fun TdsOutlinedInputTextField(
         onValueChange = onValueChange,
         textStyle = TdsTextStyle
             .SEMI_BOLD_TEXT_STYLE
-            .getTextStyle(fontSize = fontSize)
+            .getTextStyle(
+                isNoLocale = false,
+                fontSize = fontSize,
+            )
             .copy(
                 color = TdsColor.TEXT.getColor(),
                 textAlign = TextAlign.Center,

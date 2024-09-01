@@ -215,6 +215,7 @@ private fun SettingScreen(
 private fun SettingServiceSection(onSettingActions: (SettingActions) -> Unit) {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
+        isNoLocale = false,
         text = stringResource(R.string.settings_text_servicesection),
         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
         fontSize = 14.sp,
@@ -245,6 +246,7 @@ private fun SettingNotificationSection(
 ) {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
+        isNoLocale = false,
         text = stringResource(R.string.setting_text_notification),
         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
         fontSize = 14.sp,
@@ -323,6 +325,7 @@ private fun SettingLanguageSection(
 ) {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
+        isNoLocale = false,
         text = stringResource(R.string.setting_text_language),
         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
         fontSize = 14.sp,
@@ -403,6 +406,7 @@ private fun SettingVersionSection(
 ) {
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
+        isNoLocale = false,
         text = stringResource(R.string.settings_text_versionsection),
         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
         fontSize = 14.sp,
@@ -475,6 +479,7 @@ internal fun ListContent(
     ) {
         Column(modifier = Modifier.weight(1f)) {
             TdsText(
+                isNoLocale = false,
                 text = title,
                 textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = 17.sp,
@@ -485,6 +490,7 @@ internal fun ListContent(
 
             description?.let {
                 TdsText(
+                    isNoLocale = false,
                     text = it,
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 11.sp,
@@ -503,6 +509,7 @@ internal fun DeveloperSection(onSettingActions: (SettingActions) -> Unit) {
 
     TdsText(
         modifier = Modifier.padding(start = 16.dp),
+        isNoLocale = false,
         text = stringResource(R.string.setting_text_develop),
         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
         fontSize = 14.sp,

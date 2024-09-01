@@ -47,8 +47,8 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsDialog
+import com.titi.app.core.designsystem.component.TdsFontCheckText
 import com.titi.app.core.designsystem.component.TdsIconButton
-import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
@@ -246,7 +246,7 @@ private fun MeasuringScreen(
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    TdsText(
+                    TdsFontCheckText(
                         modifier = Modifier.padding(vertical = 24.dp),
                         text = uiState.recordTimes.currentTask?.taskName,
                         textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,

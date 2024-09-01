@@ -93,6 +93,7 @@ fun UpdatesListScreen(onNavigateUp: () -> Unit) {
                 },
                 title = {
                     TdsText(
+                        isNoLocale = false,
                         text = stringResource(R.string.settings_button_updatehistory),
                         textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                         fontSize = 24.sp,

@@ -61,6 +61,7 @@ fun AddTaskNameDialog(onPositive: (String) -> Unit, onShowDialog: (Boolean) -> U
             text = taskName,
             placeHolder = {
                 TdsText(
+                    isNoLocale = false,
                     text = stringResource(id = R.string.tasks_hint_newtasktitle),
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 17.sp,

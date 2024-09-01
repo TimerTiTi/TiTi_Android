@@ -46,6 +46,7 @@ fun WebViewScreen(title: String, url: String, onNavigateUp: () -> Unit) {
                 },
                 title = {
                     TdsText(
+                        isNoLocale = false,
                         text = title,
                         textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                         fontSize = 24.sp,
