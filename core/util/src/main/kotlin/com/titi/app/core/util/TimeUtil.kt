@@ -15,7 +15,7 @@ fun String.parseZoneDateTime(): String {
 fun addTimeToNow(time: Long): String {
     val now = ZonedDateTime.now()
     val interval = Duration.ofSeconds(time)
-    return now.plus(interval).format(DateTimeFormatter.ofPattern("hh.mm a"))
+    return now.plus(interval).format(DateTimeFormatter.ofPattern("HH.mm"))
 }
 
 fun getTimeToLong(hour: String, minutes: String, seconds: String): Long {

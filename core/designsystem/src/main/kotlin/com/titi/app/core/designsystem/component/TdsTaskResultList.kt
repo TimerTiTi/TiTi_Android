@@ -26,7 +26,6 @@ fun TdsTaskResultList(
     modifier: Modifier = Modifier,
     taskData: List<TdsTaskData>,
     colors: List<Color>,
-    isSpacing: Boolean,
     leftText: String? = null,
     height: Dp,
     selectedIndex: Int? = null,
@@ -45,7 +44,6 @@ fun TdsTaskResultList(
                     taskName = pie.key,
                     taskTotalTime = pie.value,
                     color = colors[index % colors.size],
-                    isSpacing = isSpacing,
                     leftText = when (leftText) {
                         null -> null
                         "Top" -> "Top${index + 1}"
@@ -75,6 +73,7 @@ fun TdsTaskResultList(
                         .fillMaxWidth()
                         .padding(top = 8.dp)
                         .clickable { onClickAddTask?.invoke() },
+                    isNoLocale = false,
                     text = "+ " + stringResource(R.string.editdaily_button_appendnewhistory),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     color = TdsColor.TEXT,

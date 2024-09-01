@@ -55,6 +55,7 @@ fun TdsDialog(
 
                 TdsText(
                     modifier = Modifier.padding(horizontal = 12.dp),
+                    isNoLocale = false,
                     text = tdsDialogInfo.title,
                     textStyle = TdsTextStyle.EXTRA_BOLD_TEXT_STYLE,
                     fontSize = 17.sp,
@@ -67,6 +68,7 @@ fun TdsDialog(
 
                     TdsText(
                         modifier = Modifier.padding(horizontal = 12.dp),
+                        isNoLocale = false,
                         text = message,
                         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 13.sp,

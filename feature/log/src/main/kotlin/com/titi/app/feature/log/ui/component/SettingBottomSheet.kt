@@ -279,6 +279,7 @@ private fun SettingBottomSheetContent(
                     .padding(vertical = 10.dp),
             ) {
                 TdsText(
+                    isNoLocale = false,
                     text = stringResource(id = R.string.colorselector_text_color),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 16.sp,
@@ -288,6 +289,7 @@ private fun SettingBottomSheetContent(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 TdsText(
+                    isNoLocale = false,
                     text = stringResource(id = R.string.colorselector_text_setgraphcolor),
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 14.sp,
@@ -308,6 +310,7 @@ private fun SettingBottomSheetContent(
                     .padding(vertical = 10.dp),
             ) {
                 TdsText(
+                    isNoLocale = false,
                     text = stringResource(id = R.string.colorselector_text_colordirectiontitle),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 16.sp,
@@ -317,6 +320,7 @@ private fun SettingBottomSheetContent(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 TdsText(
+                    isNoLocale = false,
                     text = stringResource(id = R.string.colorselector_text_colordirectiondesc),
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 14.sp,
@@ -373,6 +377,7 @@ private fun SettingBottomSheetContent(
                     .padding(vertical = 10.dp),
             ) {
                 TdsText(
+                    isNoLocale = false,
                     text = stringResource(id = R.string.common_text_targettime),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 16.sp,
@@ -382,6 +387,7 @@ private fun SettingBottomSheetContent(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 TdsText(
+                    isNoLocale = false,
                     text = stringResource(id = R.string.logsetting_text_dailytargettimedesc),
                     textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
                     fontSize = 14.sp,

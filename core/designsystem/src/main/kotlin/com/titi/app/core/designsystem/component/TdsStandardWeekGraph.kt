@@ -170,7 +170,6 @@ fun TdsStandardWeekGraph(
                             .padding(2.dp)
                             .padding(horizontal = 6.dp),
                         taskData = topLevelTaskData,
-                        isSpacing = true,
                         leftText = "Top",
                         height = 25.dp,
                         colors = tdsColors.map { it.getColor() },

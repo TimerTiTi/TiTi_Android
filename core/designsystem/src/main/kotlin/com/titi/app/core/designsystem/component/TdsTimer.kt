@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
@@ -120,6 +121,7 @@ fun TdsTimer(
             Spacer(modifier = Modifier.weight(2f))
 
             TdsText(
+                isNoLocale = false,
                 text = stringResource(R.string.recording_text_sumtime),
                 textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = subTextSize.sp,
@@ -139,6 +141,7 @@ fun TdsTimer(
             Spacer(modifier = Modifier.weight(2f))
 
             TdsText(
+                isNoLocale = false,
                 text = if (recordingMode == 1) {
                     stringResource(R.string.common_button_timer)
                 } else {
@@ -153,6 +156,7 @@ fun TdsTimer(
 
             if (isFinish) {
                 TdsText(
+                    isNoLocale = false,
                     modifier = clickStopStartModifier,
                     text = stringResource(id = R.string.timer_text_finish),
                     textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
@@ -189,6 +193,7 @@ fun TdsTimer(
                 } else {
                     stringResource(id = R.string.recording_text_targettime)
                 },
+                isNoLocale = false,
                 textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = subTextSize.sp,
                 color = fontColor,
@@ -220,6 +225,7 @@ fun TdsTimer(
                 textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = subTextSize.sp,
                 color = fontColor,
+                textAlign = TextAlign.Center,
             )
 
             Spacer(modifier = Modifier.weight(2f))

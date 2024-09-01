@@ -53,6 +53,7 @@ fun TdsTextButton(
         contentPadding = PaddingValues(12.dp, 8.dp),
     ) {
         TdsText(
+            isNoLocale = false,
             text = text,
             textStyle = textStyle,
             color = textColor,
@@ -85,6 +86,7 @@ fun TdsTextButton(
         contentPadding = PaddingValues(12.dp, 8.dp),
     ) {
         TdsText(
+            isNoLocale = false,
             text = text,
             textStyle = textStyle,
             color = textColor,
