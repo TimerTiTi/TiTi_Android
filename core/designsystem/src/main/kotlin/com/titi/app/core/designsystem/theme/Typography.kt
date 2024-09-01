@@ -50,33 +50,38 @@ enum class TdsTextStyle {
     ;
 
     @Composable
-    fun getTextStyle(fontSize: TextUnit, isNoLocale: Boolean = true) = when (this) {
-        NORMAL_TEXT_STYLE -> {
-            val fontFamily = if (Locale.current.language == "zh" && !isNoLocale) {
-                misansFontFamily
-            } else {
-                hgggothicssiProFontFamily
-            }
-            TiTiTheme.textStyle.normalTextStyle.copy(fontFamily = fontFamily, fontSize = fontSize)
+    fun getTextStyle(
+        fontSize: TextUnit,
+        isChinese: Boolean = false,
+        isNoLocale: Boolean = true,
+    ): TextStyle {
+        val fontFamily = when {
+            isChinese -> misansFontFamily
+            Locale.current.language == "zh" && !isNoLocale -> misansFontFamily
+            else -> hgggothicssiProFontFamily
         }
-        SEMI_BOLD_TEXT_STYLE -> {
-            val fontFamily = if (Locale.current.language == "zh" && !isNoLocale) {
-                misansFontFamily
-            } else {
-                hgggothicssiProFontFamily
+
+        return when (this) {
+            NORMAL_TEXT_STYLE -> {
+                TiTiTheme.textStyle.normalTextStyle.copy(
+                    fontFamily = fontFamily,
+                    fontSize = fontSize,
+                )
             }
-            TiTiTheme.textStyle.semiBoldTextStyle.copy(fontFamily = fontFamily, fontSize = fontSize)
-        }
-        EXTRA_BOLD_TEXT_STYLE -> {
-            val fontFamily = if (Locale.current.language == "zh" && !isNoLocale) {
-                misansFontFamily
-            } else {
-                hgggothicssiProFontFamily
+
+            SEMI_BOLD_TEXT_STYLE -> {
+                TiTiTheme.textStyle.semiBoldTextStyle.copy(
+                    fontFamily = fontFamily,
+                    fontSize = fontSize,
+                )
             }
-            TiTiTheme.textStyle.extraBoldTextStyle.copy(
-                fontFamily = fontFamily,
-                fontSize = fontSize,
-            )
+
+            EXTRA_BOLD_TEXT_STYLE -> {
+                TiTiTheme.textStyle.extraBoldTextStyle.copy(
+                    fontFamily = fontFamily,
+                    fontSize = fontSize,
+                )
+            }
         }
     }
 }

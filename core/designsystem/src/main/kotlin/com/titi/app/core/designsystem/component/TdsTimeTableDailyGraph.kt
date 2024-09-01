@@ -183,7 +183,6 @@ fun TdsTimeTableDailyGraph(
                                 .padding(2.dp),
                             taskData = taskData,
                             colors = tdsColors.map { it.getColor() },
-                            isSpacing = true,
                             leftText = "✔",
                             height = 25.dp,
                             selectedIndex = selectedTaskIndex,

@@ -4,13 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +30,6 @@ fun TdsTaskResultListItem(
     taskName: String,
     taskTotalTime: String,
     color: Color,
-    isSpacing: Boolean,
     leftText: String? = null,
     isEditMode: Boolean = false,
     onClickTask: ((String) -> Unit)? = null,
@@ -67,25 +66,21 @@ fun TdsTaskResultListItem(
             Spacer(modifier = Modifier.width(5.dp))
         }
 
-        TdsText(
-            modifier = Modifier
-                .widthIn(max = 100.dp)
-                .background(color = color.copy(alpha = 0.5f))
-                .padding(padding),
-            isNoLocale = false,
-            text = taskName,
-            textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-            fontSize = fontSize,
-            color = TdsColor.TEXT,
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 1,
-        )
-
-        if (isSpacing) {
-            Spacer(modifier = Modifier.weight(1f))
-        } else {
-            Spacer(modifier = Modifier.width(3.dp))
+        Box(modifier = Modifier.weight(1f)) {
+            TdsFontCheckText(
+                modifier = Modifier
+                    .background(color = color.copy(alpha = 0.5f))
+                    .padding(padding),
+                text = taskName,
+                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                fontSize = fontSize,
+                color = TdsColor.TEXT.getColor(),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+            )
         }
+
+        Spacer(modifier = Modifier.width(3.dp))
 
         TdsText(
             text = taskTotalTime,
@@ -107,7 +102,6 @@ private fun TdsTaskResultListItemPreview() {
             taskName = "수업",
             taskTotalTime = "5:25:30",
             color = TdsColor.D1.getColor(),
-            isSpacing = true,
             leftText = "✔",
         )
     }

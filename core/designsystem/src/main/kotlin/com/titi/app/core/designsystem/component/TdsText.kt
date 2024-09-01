@@ -11,6 +11,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import com.titi.app.core.designsystem.extension.isChineseCharacter
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
@@ -73,6 +74,39 @@ fun TdsText(
         onTextLayout = onTextLayout,
         style = textStyle.getTextStyle(
             isNoLocale = isNoLocale,
+            fontSize = fontSize,
+        ),
+        textDecoration = textDecoration,
+    )
+}
+
+@Composable
+fun TdsFontCheckText(
+    modifier: Modifier = Modifier,
+    text: String? = null,
+    textStyle: TdsTextStyle,
+    fontSize: TextUnit,
+    textDecoration: TextDecoration? = null,
+    color: Color,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE,
+    minLines: Int = 1,
+    onTextLayout: (TextLayoutResult) -> Unit = {},
+) {
+    val isContainsChinese = text?.any { it.isChineseCharacter() } ?: false
+
+    Text(
+        text = text ?: "",
+        modifier = modifier,
+        color = color,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines,
+        minLines = minLines,
+        onTextLayout = onTextLayout,
+        style = textStyle.getTextStyle(
+            isChinese = isContainsChinese,
             fontSize = fontSize,
         ),
         textDecoration = textDecoration,

@@ -68,12 +68,11 @@ fun TdsTaskListItem(
                 }
 
                 Column {
-                    TdsText(
-                        isNoLocale = false,
+                    TdsFontCheckText(
                         text = tdsTask.taskName,
                         textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                         fontSize = 20.sp,
-                        color = TdsColor.TEXT,
+                        color = TdsColor.TEXT.getColor(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )

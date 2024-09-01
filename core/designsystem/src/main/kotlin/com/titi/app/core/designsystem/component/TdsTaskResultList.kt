@@ -26,7 +26,6 @@ fun TdsTaskResultList(
     modifier: Modifier = Modifier,
     taskData: List<TdsTaskData>,
     colors: List<Color>,
-    isSpacing: Boolean,
     leftText: String? = null,
     height: Dp,
     selectedIndex: Int? = null,
@@ -45,7 +44,6 @@ fun TdsTaskResultList(
                     taskName = pie.key,
                     taskTotalTime = pie.value,
                     color = colors[index % colors.size],
-                    isSpacing = isSpacing,
                     leftText = when (leftText) {
                         null -> null
                         "Top" -> "Top${index + 1}"

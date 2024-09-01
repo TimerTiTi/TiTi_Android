@@ -153,7 +153,6 @@ private fun TotalCard(totalData: HomeUiState.TotalData, tdsColors: List<TdsColor
                 modifier = Modifier.weight(1f),
                 taskData = totalData.topTotalTdsTaskData,
                 colors = tdsColors.map { it.getColor() },
-                isSpacing = true,
                 height = 25.dp,
                 leftText = "Top",
             )
@@ -248,7 +247,6 @@ private fun MonthCard(
                 modifier = Modifier.weight(1f),
                 taskData = homeMonthGraphData.taskData,
                 colors = tdsColors.map { it.getColor() },
-                isSpacing = true,
                 leftText = "Top",
                 height = 25.dp,
             )
