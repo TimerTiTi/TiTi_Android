@@ -67,7 +67,9 @@ fun TdsTimeLineChart(
                     if (isCircleDraw) {
                         Canvas(modifier = Modifier.size(itemWidth)) {
                             drawCircle(
-                                color = currentStartColor.copy(alpha = time / 3600f),
+                                color = currentStartColor.copy(
+                                    alpha = (time / 3600f).coerceAtMost(1f),
+                                ),
                                 radius = itemWidth.toPx() * 0.45f,
                             )
                         }
