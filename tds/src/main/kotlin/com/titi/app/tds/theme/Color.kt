@@ -11,8 +11,12 @@ data class TtdsColorsPalette(
     val textMain: Color = Color.Unspecified,
     val textBtn: Color = Color.Unspecified,
     val textActive: Color = Color.Unspecified,
-    val btn: Color = Color.Unspecified,
+    val textMuted : Color = Color.Unspecified,
+    val btnMuted: Color = Color.Unspecified,
+    val btnCancel : Color = Color.Unspecified,
+    val stroke : Color = Color.Unspecified,
     val backgroundMain : Color = Color.Unspecified,
+    val backgroundTxtField : Color = Color.Unspecified
 )
 
 val TtdsLightColorsPalette = TtdsColorsPalette(
@@ -21,8 +25,12 @@ val TtdsLightColorsPalette = TtdsColorsPalette(
     textMain = Color(0xFF222222),
     textBtn = Color(0xFFA4A4A4),
     textActive = Color(0xFFFFFFFF),
-    btn = Color(0xFFF1F2F4),
+    textMuted = Color(0xFFB0B0B0),
+    btnMuted = Color(0xFFF1F2F4),
+    btnCancel = Color(0xFFBFC0C3),
+    stroke = Color(0xFFF1F2F4),
     backgroundMain = Color(0xFFFFFFFF),
+    backgroundTxtField = Color(0xFFF7F8FA)
 )
 
 val TtdsDarkColorsPalette = TtdsColorsPalette(
@@ -31,8 +39,12 @@ val TtdsDarkColorsPalette = TtdsColorsPalette(
     textMain = Color(0xFFFFFFFF),
     textBtn = Color(0xFFA4A4A4),
     textActive = Color(0xFFFFFFFF),
-    btn = Color(0xFF3B3B3B),
+    textMuted = Color(0xFFA6A6A6),
+    btnMuted = Color(0xFF3B3B3B),
+    btnCancel = Color(0xFFFFFFFF),
+    stroke = Color(0xFF191919),
     backgroundMain = Color(0xFF202021),
+    backgroundTxtField = Color(0xFF5B5B5B)
 )
 
 enum class TtdsColor {
@@ -41,8 +53,12 @@ enum class TtdsColor {
     TEXT_MAIN,
     TEXT_BTN,
     TEXT_ACTIVE,
-    BTN,
-    BACKGROUND_MAIN
+    TEXT_MUTED,
+    BTN_MUTED,
+    BTN_CANCEL,
+    STROKE,
+    BACKGROUND_MAIN,
+    BACKGROUND_TXT_FIELD,
     ;
 
     @Composable
@@ -52,7 +68,11 @@ enum class TtdsColor {
         TEXT_MAIN -> TtdsTheme.colors.textMain
         TEXT_BTN -> TtdsTheme.colors.textBtn
         TEXT_ACTIVE -> TtdsTheme.colors.textActive
-        BTN -> TtdsTheme.colors.btn
+        TEXT_MUTED -> TtdsTheme.colors.textMuted
+        BTN_MUTED -> TtdsTheme.colors.btnMuted
+        BTN_CANCEL -> TtdsTheme.colors.btnCancel
+        STROKE -> TtdsTheme.colors.stroke
         BACKGROUND_MAIN -> TtdsTheme.colors.backgroundMain
+        BACKGROUND_TXT_FIELD -> TtdsTheme.colors.backgroundTxtField
     }
 }

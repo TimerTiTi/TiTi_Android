@@ -1,7 +1,6 @@
 package com.titi.app.tds.component.dialog
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,8 +14,8 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.titi.app.tds.R
+import com.titi.app.tds.component.TtdsOutLinedTextField
 import com.titi.app.tds.model.TtdsDialogInfo
 import kotlinx.coroutines.android.awaitFrame
 
@@ -46,28 +45,21 @@ fun AddTaskNameDialog(onPositive: (String) -> Unit, onShowDialog: (Boolean) -> U
             keyboard?.show()
         }
 
-//        TdsOutlinedInputTextField(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(26.dp)
-//                .padding(horizontal = 15.dp)
-//                .focusRequester(addTaskFocusRequester),
-//            fontSize = 17.sp,
-//            text = taskName,
-//            placeHolder = {
-//                TdsText(
-//                    isNoLocale = false,
-//                    text = stringResource(id = R.string.tasks_hint_newtasktitle),
-//                    textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
-//                    fontSize = 17.sp,
-//                    color = TdsColor.DIVIDER,
-//                )
-//            },
-//            onValueChange = {
-//                if (it.length <= 12) {
-//                    taskName = it
-//                }
-//            },
-//        )
+        TtdsOutLinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 15.dp)
+                .focusRequester(addTaskFocusRequester),
+            text = taskName,
+            placeholder = stringResource(id = R.string.tasks_hint_newtasktitle),
+            onValueChange = {
+                if (it.length <= 12) {
+                    taskName = it
+                }
+            },
+            onClearText = {
+                taskName = ""
+            },
+        )
     }
 }

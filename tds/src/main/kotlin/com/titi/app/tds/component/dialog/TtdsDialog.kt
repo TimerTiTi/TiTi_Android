@@ -114,7 +114,7 @@ private fun TtdsConfirmDialogButtons(
         TtdsTextButton(
             modifier = Modifier.weight(1f),
             text = ttdsDialogInfo.negativeText,
-            buttonColor = TtdsColor.BTN,
+            buttonColor = TtdsColor.BTN_MUTED,
             textColor = TtdsColor.TEXT_BTN,
             buttonInfo = TtdsButtonInfo.Small(),
             onClick = {
