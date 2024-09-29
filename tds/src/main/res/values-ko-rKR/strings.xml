@@ -45,8 +45,8 @@
     <string name="settings_button_versioninfotitle">버전 정보</string>
     <string name="settings_text_versioninfodesc">최신버전</string>
     <string name="settings_button_updatehistory">업데이트 내역</string>
-    <string name="colorselector_popup_backgroundtitle">해당 색상을 배경색으로\n설정 하시겠습니까?</string>
-    <string name="edit_popup_nosavetitle">변경 사항을 저장 하지 않고\n나가시겠어요?</string>
+    <string name="colorselector_popup_backgroundtitle">해당 색상을 배경색으로 설정 하시겠습니까?</string>
+    <string name="edit_popup_nosavetitle">변경 사항을 저장 하지 않고 나가시겠어요?</string>
     <string name="edit_text_notaskname">Task명을 입력해 주세요.</string>
     <string name="timer_text_finish">종료</string>
     <string name="alarm_text_timerfinish">타이머가 종료되었습니다!</string>

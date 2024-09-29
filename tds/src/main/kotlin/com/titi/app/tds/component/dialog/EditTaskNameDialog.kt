@@ -1,7 +1,6 @@
-package com.titi.app.core.designsystem.component.dialog
+package com.titi.app.tds.component.dialog
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,11 +15,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.titi.app.core.designsystem.R
-import com.titi.app.core.designsystem.component.TdsDialog
-import com.titi.app.core.designsystem.component.TdsOutlinedInputTextField
-import com.titi.app.core.designsystem.model.TdsDialogInfo
+import com.titi.app.tds.R
+import com.titi.app.tds.component.TtdsOutLinedTextField
+import com.titi.app.tds.model.TtdsDialogInfo
 import kotlinx.coroutines.android.awaitFrame
 
 @Composable
@@ -41,8 +38,8 @@ fun EditTaskNameDialog(
         keyboard?.show()
     }
 
-    TdsDialog(
-        tdsDialogInfo = TdsDialogInfo.Confirm(
+    TtdsDialog(
+        ttdsDialogInfo = TtdsDialogInfo.Confirm(
             title = stringResource(id = R.string.tasks_popup_edittaskname),
             message = stringResource(id = R.string.tasks_popup_newtaskdesc),
             positiveText = stringResource(id = R.string.common_text_ok),
@@ -53,17 +50,21 @@ fun EditTaskNameDialog(
         ),
         onShowDialog = onShowDialog,
     ) {
-        TdsOutlinedInputTextField(
+        TtdsOutLinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(26.dp)
                 .padding(horizontal = 15.dp)
                 .focusRequester(modifyTaskNameFocusRequester),
-            fontSize = 17.sp,
             text = editTaskName,
             onValueChange = {
-                editTaskName = it
+                if (it.text.length <= 12) {
+                    editTaskName = it
+                }
             },
+            onClearText = {
+                editTaskName = TextFieldValue()
+            },
+            placeholder = "",
         )
     }
 }

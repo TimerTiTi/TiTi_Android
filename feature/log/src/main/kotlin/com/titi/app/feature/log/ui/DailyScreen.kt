@@ -25,9 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsColorRow
-import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsGraphContent
-import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
@@ -39,6 +37,8 @@ import com.titi.app.feature.log.ui.component.CalendarContent
 import com.titi.app.feature.log.util.saveDailyGraph
 import com.titi.app.feature.log.util.saveDailyGraphWithPermission
 import com.titi.app.feature.log.util.shareDailyGraph
+import com.titi.app.tds.component.dialog.TtdsDialog
+import com.titi.app.tds.model.TtdsDialogInfo
 import java.time.LocalDate
 
 @Composable
@@ -79,8 +79,8 @@ fun DailyScreen(
         }
 
     if (showPermissionDialog) {
-        TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+        TtdsDialog(
+            ttdsDialogInfo = TtdsDialogInfo.Confirm(
                 title = stringResource(R.string.daily_popup_savepermissiontitle),
                 message = stringResource(R.string.daily_popup_savepermissiondesc),
                 positiveText = stringResource(id = R.string.common_text_ok),
@@ -92,9 +92,7 @@ fun DailyScreen(
                 },
             ),
             onShowDialog = { showPermissionDialog = it },
-        ) {
-            Spacer(modifier = Modifier.height(15.dp))
-        }
+        )
     }
 
     Column(

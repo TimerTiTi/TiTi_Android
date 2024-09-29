@@ -9,6 +9,7 @@ android {
 
 dependencies {
     implementation(project(":core:util"))
+    implementation(project(":tds"))
 
     implementation(libs.threetenabp)
 }

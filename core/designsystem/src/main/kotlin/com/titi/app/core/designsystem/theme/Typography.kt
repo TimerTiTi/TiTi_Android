@@ -19,9 +19,9 @@ val hgggothicssiProFontFamily =
     )
 val misansFontFamily =
     FontFamily(
-        Font(R.font.misans_normal, FontWeight.Normal),
-        Font(R.font.misans_medium, FontWeight.SemiBold),
-        Font(R.font.misans_semibold, FontWeight.ExtraBold),
+        Font(com.titi.app.tds.R.font.misans_normal, FontWeight.Normal),
+        Font(com.titi.app.tds.R.font.misans_medium, FontWeight.SemiBold),
+        Font(com.titi.app.tds.R.font.misans_semibold, FontWeight.ExtraBold),
     )
 
 @Immutable

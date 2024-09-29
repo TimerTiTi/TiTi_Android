@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bottom_timer_text" translatable="false">Timer</string>
+    <string name="bottom_stopwatch_text" translatable="false">Stopwatch</string>
+    <string name="bottom_log_text" translatable="false">Log</string>
+    <string name="bottom_setting_text" translatable="false">Setting</string>
+
+    <string name="recording_text_sumtime">Sum Time</string>
+    <string name="common_button_timer">Timer</string>
+    <string name="recording_text_targettime">Target Time</string>
+    <string name="recording_text_tasktargettime">Task Target Time</string>
+    <string name="common_button_stopwatch">Stopwatch</string>
+    <string name="recordingcolorselector_text_customcolor">Custom Color</string>
+    <string name="recordingcolorselector_text_backgroundcolor">Background</string>
+    <string name="recordingcolorselector_text_textcolor">TextColor</string>
+    <string name="tasks_hint_newtasktitle">New task</string>
+    <string name="tasks_popup_newtaskdesc">Task name\'s max length is 12</string>
+    <string name="tasks_popup_edittaskname">Modify tasks\'s name</string>
+    <string name="tasks_popup_settasktargettime">Setting Target Time</string>
+    <string name="timer_text_settimertimetitle">Setting Timer Time</string>
+    <string name="modify_text_targettime">Edit Target Time</string>
+    <string name="modify_text_targettimedesc">%1$s  Edit the target time</string>
+    <string name="common_text_cancel">Cancel</string>
+    <string name="common_text_ok">Ok</string>
+    <string name="common_text_done">Done</string>
+    <string name="common_text_edit">Edit</string>
+    <string name="measure_popup_permissiontitle">Permission is required to set the alarm</string>
+    <string name="measure_popup_permissiondesc">Do you want to go set up?</string>
+    <string name="colorselector_text_color">Color</string>
+    <string name="colorselector_text_setgraphcolor">Setting the color of the graph</string>
+    <string name="colorselector_text_colordirectiontitle">Color direction</string>
+    <string name="colorselector_text_colordirectiondesc">Setting the direction of the color combination</string>
+    <string name="common_text_targettime">Target Time</string>
+    <string name="logsetting_text_dailytargettimedesc">Setting the target time of Circular Progress Bar</string>
+    <string name="common_popup_setmonthtargettime">Input Month\'s Target time (Hour)</string>
+    <string name="common_popup_setweektargettime">Input Week\'s Target time (Hour)</string>
+    <string name="save_toast_donemessage">All photos have been saved in the gallery.</string>
+    <string name="save_toast_nograph">No graphs selected.</string>
+    <string name="editdaily_button_appendnewhistory">New History</string>
+    <string name="editdaily_text_infohowtoeditdaily">Select a task, Edit the record\nand press the SAVE button</string>
+    <string name="editdaily_text_startat">StartAt</string>
+    <string name="editdaily_text_endat">EndAt</string>
+    <string name="settings_text_servicesection">Service</string>
+    <string name="settings_button_functions">TiTi Functions</string>
+    <string name="settings_text_settingsection">Setting</string>
+    <string name="switchsetting_button_5minnotidesc">5 minutes before end</string>
+    <string name="switchsetting_button_endnotidesc">Ended</string>
+    <string name="switchsetting_button_1hourpassnotidesc">Every 1 hour passed</string>
+    <string name="settings_text_versionsection">Version And Update history</string>
+    <string name="settings_button_versioninfotitle">Version Info</string>
+    <string name="settings_text_versioninfodesc">Latest version</string>
+    <string name="settings_button_updatehistory">Update history</string>
+    <string name="colorselector_popup_backgroundtitle">Do you want to set that color as the background color?</string>
+    <string name="edit_popup_nosavetitle">Would you like to leave without saving your changes?</string>
+    <string name="edit_text_notaskname">Please enter a task name.</string>
+    <string name="timer_text_finish">FINISH</string>
+    <string name="alarm_text_timerfinish">Timer has ended!</string>
+    <string name="alarm_text_5minutes">Five minutes left</string>
+    <string name="alarm_text_message">has elapsed.</string>
+    <string name="daily_popup_savepermissiontitle">You need permission to save your photos.</string>
+    <string name="daily_popup_savepermissiondesc">Do you want to allow it?</string>
+    <string name="save_taost_failmessage">Saving to gallery failed.</string>
+    <string name="task_popup_checktitle">Please select Task.</string>
+    <string name="tasks_text_createtask">Create task</string>
+    <string name="timer_popup_finishtime">Finish Time : %1$s</string>
+    <string name="setting_text_notification">Notification</string>
+    <string name="measure_text_measuring">Measurement is in progress.</string>
+    <string name="toast_text_startrecording">Start Recording!</string>
+    <string name="setting_text_develop">Developer</string>
+    <string name="recording_text_setnewrecordtitle">Setting New Record</string>
+    <string name="settings_text_dailyeditcreate">Daily Modify/Create</string>
+    <string name="edit_text_duplicatehistory">Duplicate history exists.</string>
+    <string name="setting_text_language">Language</string>
+    <string name="setting_text_system">System</string>
+    <string name="setting_text_korean">Korean</string>
+    <string name="setting_text_english">English</string>
+    <string name="setting_text_china">Chinese</string>
+</resources>

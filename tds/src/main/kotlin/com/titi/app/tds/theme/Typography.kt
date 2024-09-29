@@ -6,6 +6,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.unit.TextUnit
 import com.titi.app.tds.R
 
 val pretendardFontFamily =
@@ -15,23 +17,26 @@ val pretendardFontFamily =
         Font(R.font.pretendard_semi_bold, FontWeight.SemiBold),
         Font(R.font.pretendard_bold, FontWeight.Bold),
     )
+val misansFontFamily =
+    FontFamily(
+        Font(R.font.misans_normal, FontWeight.Normal),
+        Font(R.font.misans_medium, FontWeight.Medium),
+        Font(R.font.misans_semibold, FontWeight.SemiBold),
+        Font(R.font.misans_semibold, FontWeight.Bold),
+    )
 
 @Immutable
 data class TtdsTypography(
     val normalTextStyle: TextStyle = TextStyle(
-        fontFamily = pretendardFontFamily,
         fontWeight = FontWeight.Normal,
     ),
     val mediumTextStyle: TextStyle = TextStyle(
-        fontFamily = pretendardFontFamily,
         fontWeight = FontWeight.Medium,
     ),
     val semiBoldTextStyle: TextStyle = TextStyle(
-        fontFamily = pretendardFontFamily,
         fontWeight = FontWeight.SemiBold,
     ),
     val boldTextStyle: TextStyle = TextStyle(
-        fontFamily = pretendardFontFamily,
         fontWeight = FontWeight.Bold,
     ),
 )
@@ -44,10 +49,37 @@ enum class TtdsTextStyle {
     ;
 
     @Composable
-    fun getTextStyle() = when (this) {
-        NORMAL_TEXT_STYLE -> TtdsTheme.textStyle.normalTextStyle
-        MEDIUM_TEXT_STYLE -> TtdsTheme.textStyle.mediumTextStyle
-        SEMI_BOLD_TEXT_STYLE -> TtdsTheme.textStyle.semiBoldTextStyle
-        BOLD_TEXT_STYLE -> TtdsTheme.textStyle.boldTextStyle
+    fun getTextStyle(
+        fontSize: TextUnit,
+        isChinese: Boolean = false,
+        isNoLocale: Boolean = true,
+    ): TextStyle {
+        val fontFamily = when {
+            isChinese -> misansFontFamily
+            Locale.current.language == "zh" && !isNoLocale -> misansFontFamily
+            else -> pretendardFontFamily
+        }
+
+        return when (this) {
+            NORMAL_TEXT_STYLE -> TtdsTheme.textStyle.normalTextStyle.copy(
+                fontFamily = fontFamily,
+                fontSize = fontSize,
+            )
+
+            MEDIUM_TEXT_STYLE -> TtdsTheme.textStyle.mediumTextStyle.copy(
+                fontFamily = fontFamily,
+                fontSize = fontSize,
+            )
+
+            SEMI_BOLD_TEXT_STYLE -> TtdsTheme.textStyle.semiBoldTextStyle.copy(
+                fontFamily = fontFamily,
+                fontSize = fontSize,
+            )
+
+            BOLD_TEXT_STYLE -> TtdsTheme.textStyle.boldTextStyle.copy(
+                fontFamily = fontFamily,
+                fontSize = fontSize,
+            )
+        }
     }
 }
