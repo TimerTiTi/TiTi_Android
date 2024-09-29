@@ -1,2 +1,3 @@
-TiTi android 1.4.2
-- fix alpha over 1f
+TiTi android 1.4.3
+- update dialog
+- fix task special character
