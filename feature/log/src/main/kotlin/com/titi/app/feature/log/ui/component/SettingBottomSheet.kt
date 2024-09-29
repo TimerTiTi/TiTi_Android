@@ -42,11 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsColorRow
-import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsOutlinedInputTextField
 import com.titi.app.core.designsystem.component.TdsTabRow
 import com.titi.app.core.designsystem.component.TdsText
-import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
@@ -54,6 +52,8 @@ import com.titi.app.domain.color.model.GraphColor
 import com.titi.app.feature.log.model.GraphColorUiState
 import com.titi.app.feature.log.model.HomeUiState
 import com.titi.app.feature.log.ui.LogViewModel
+import com.titi.app.tds.component.dialog.TtdsDialog
+import com.titi.app.tds.model.TtdsDialogInfo
 import kotlinx.coroutines.android.awaitFrame
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,8 +78,8 @@ fun SettingBottomSheet(
     }
 
     if (showMonthGoalTimeDialog) {
-        TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+        TtdsDialog(
+            ttdsDialogInfo = TtdsDialogInfo.Confirm(
                 title = stringResource(id = R.string.common_text_targettime),
                 message = stringResource(id = R.string.common_popup_setmonthtargettime),
                 cancelable = false,
@@ -142,8 +142,8 @@ fun SettingBottomSheet(
     }
 
     if (showWeekGoalTimeDialog) {
-        TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+        TtdsDialog(
+            ttdsDialogInfo = TtdsDialogInfo.Confirm(
                 title = stringResource(id = R.string.common_text_targettime),
                 message = stringResource(id = R.string.common_popup_setweektargettime),
                 cancelable = false,

@@ -18,14 +18,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.titi.app.core.designsystem.R
-import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTimePicker
 import com.titi.app.core.designsystem.extension.getTimeString
-import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.feature.edit.model.DateTimeTaskHistory
+import com.titi.app.tds.component.dialog.TtdsDialog
+import com.titi.app.tds.model.TtdsDialogInfo
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -50,8 +50,8 @@ fun EditTaskHistoryTimeDialog(
         initialMinute = startLocalDateTime.minute,
     )
 
-    TdsDialog(
-        tdsDialogInfo = TdsDialogInfo.Confirm(
+    TtdsDialog(
+        ttdsDialogInfo = TtdsDialogInfo.Confirm(
             title = (Duration.between(startLocalDateTime, endLocalDateTime).toMillis() / 1000)
                 .getTimeString(),
             positiveText = stringResource(R.string.common_text_ok),

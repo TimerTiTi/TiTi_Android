@@ -53,15 +53,11 @@ import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
-import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsDivider
 import com.titi.app.core.designsystem.component.TdsGraphContent
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsText
-import com.titi.app.core.designsystem.component.dialog.AddTaskNameDialog
-import com.titi.app.core.designsystem.component.dialog.EditTaskNameDialog
 import com.titi.app.core.designsystem.extension.getTimeString
-import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.util.toOnlyTime
@@ -70,8 +66,12 @@ import com.titi.app.feature.edit.model.DateTimeTaskHistory
 import com.titi.app.feature.edit.model.EditActions
 import com.titi.app.feature.edit.model.EditUiState
 import com.titi.app.feature.edit.util.isTaskHistoryOverlap
-import java.time.LocalDate
+import com.titi.app.tds.component.dialog.AddTaskNameDialog
+import com.titi.app.tds.component.dialog.EditTaskNameDialog
+import com.titi.app.tds.component.dialog.TtdsDialog
+import com.titi.app.tds.model.TtdsDialogInfo
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @Composable
 fun EditScreen(currentDate: String, onBack: () -> Unit) {
@@ -88,8 +88,8 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
     }
 
     if (showBackDialog) {
-        TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+        TtdsDialog(
+            ttdsDialogInfo = TtdsDialogInfo.Confirm(
                 title = stringResource(R.string.edit_popup_nosavetitle),
                 positiveText = stringResource(id = R.string.common_text_ok),
                 negativeText = stringResource(id = R.string.common_text_cancel),

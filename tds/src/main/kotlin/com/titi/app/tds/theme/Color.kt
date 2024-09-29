@@ -12,6 +12,7 @@ data class TtdsColorsPalette(
     val textBtn: Color = Color.Unspecified,
     val textActive: Color = Color.Unspecified,
     val btn: Color = Color.Unspecified,
+    val backgroundMain : Color = Color.Unspecified,
 )
 
 val TtdsLightColorsPalette = TtdsColorsPalette(
@@ -21,6 +22,7 @@ val TtdsLightColorsPalette = TtdsColorsPalette(
     textBtn = Color(0xFFA4A4A4),
     textActive = Color(0xFFFFFFFF),
     btn = Color(0xFFF1F2F4),
+    backgroundMain = Color(0xFFFFFFFF),
 )
 
 val TtdsDarkColorsPalette = TtdsColorsPalette(
@@ -30,6 +32,7 @@ val TtdsDarkColorsPalette = TtdsColorsPalette(
     textBtn = Color(0xFFA4A4A4),
     textActive = Color(0xFFFFFFFF),
     btn = Color(0xFF3B3B3B),
+    backgroundMain = Color(0xFF202021),
 )
 
 enum class TtdsColor {
@@ -39,6 +42,7 @@ enum class TtdsColor {
     TEXT_BTN,
     TEXT_ACTIVE,
     BTN,
+    BACKGROUND_MAIN
     ;
 
     @Composable
@@ -49,5 +53,6 @@ enum class TtdsColor {
         TEXT_BTN -> TtdsTheme.colors.textBtn
         TEXT_ACTIVE -> TtdsTheme.colors.textActive
         BTN -> TtdsTheme.colors.btn
+        BACKGROUND_MAIN -> TtdsTheme.colors.backgroundMain
     }
 }

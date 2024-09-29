@@ -35,15 +35,11 @@ import androidx.compose.ui.unit.sp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
-import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsInputTimeTextField
 import com.titi.app.core.designsystem.component.TdsTaskListItem
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTextButton
-import com.titi.app.core.designsystem.component.dialog.AddTaskNameDialog
-import com.titi.app.core.designsystem.component.dialog.EditTaskNameDialog
-import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.model.TdsTask
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
@@ -54,6 +50,10 @@ import com.titi.app.core.designsystem.util.rememberDragDropState
 import com.titi.app.core.util.getTimeToLong
 import com.titi.app.domain.task.model.Task
 import com.titi.app.feature.time.model.TaskUiState
+import com.titi.app.tds.component.dialog.AddTaskNameDialog
+import com.titi.app.tds.component.dialog.EditTaskNameDialog
+import com.titi.app.tds.component.dialog.TtdsDialog
+import com.titi.app.tds.model.TtdsDialogInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -166,8 +166,8 @@ fun TaskBottomSheet(
         minutes = ""
         seconds = ""
 
-        TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+        TtdsDialog(
+            ttdsDialogInfo = TtdsDialogInfo.Confirm(
                 title = editTask.taskName,
                 message = stringResource(id = R.string.tasks_popup_settasktargettime),
                 positiveText = stringResource(id = R.string.common_text_ok),

@@ -11,6 +11,7 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.core.ui.removeNotification
 import com.titi.app.domain.color.usecase.GetTimeColorFlowUseCase
 import com.titi.app.feature.main.navigation.TiTiApp
+import com.titi.app.tds.theme.TtdsTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -43,8 +44,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TiTiTheme {
-                viewModel.splashResultState?.let {
-                    TiTiApp(splashResultState = it)
+                TtdsTheme{
+                    viewModel.splashResultState?.let {
+                        TiTiApp(splashResultState = it)
+                    }
                 }
             }
         }

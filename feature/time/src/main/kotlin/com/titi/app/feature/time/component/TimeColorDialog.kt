@@ -8,8 +8,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.titi.app.core.designsystem.R
-import com.titi.app.core.designsystem.component.TdsDialog
-import com.titi.app.core.designsystem.model.TdsDialogInfo
+import com.titi.app.tds.component.dialog.TtdsDialog
+import com.titi.app.tds.model.TtdsDialogInfo
 
 @Composable
 fun TimeColorDialog(
@@ -20,8 +20,8 @@ fun TimeColorDialog(
     onClickBackgroundColor: () -> Unit,
     onClickTextColor: (Boolean) -> Unit,
 ) {
-    TdsDialog(
-        tdsDialogInfo = TdsDialogInfo.Confirm(
+    TtdsDialog(
+        ttdsDialogInfo = TtdsDialogInfo.Confirm(
             title = stringResource(id = R.string.recordingcolorselector_text_customcolor),
             positiveText = stringResource(id = R.string.common_text_ok),
             negativeText = stringResource(id = R.string.common_text_cancel),

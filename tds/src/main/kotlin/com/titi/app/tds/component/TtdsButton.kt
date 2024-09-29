@@ -36,7 +36,7 @@ fun TtdsTextButton(
         TtdsText(
             isNoLocale = false,
             text = text,
-            textStyle = TtdsTextStyle.NORMAL_TEXT_STYLE,
+            textStyle = TtdsTextStyle.SEMI_BOLD_TEXT_STYLE,
             fontSize = buttonInfo.fontSize,
             color = textColor,
         )

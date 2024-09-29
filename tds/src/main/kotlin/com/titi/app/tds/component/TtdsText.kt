@@ -10,8 +10,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.titi.app.core.designsystem.theme.TdsColor
-import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.tds.theme.TtdsColor
 import com.titi.app.tds.theme.TtdsTextStyle
 

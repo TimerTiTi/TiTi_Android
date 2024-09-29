@@ -19,10 +19,10 @@ val pretendardFontFamily =
     )
 val misansFontFamily =
     FontFamily(
-        Font(com.titi.app.core.designsystem.R.font.misans_normal, FontWeight.Normal),
-        Font(com.titi.app.core.designsystem.R.font.misans_medium, FontWeight.Medium),
-        Font(com.titi.app.core.designsystem.R.font.misans_semibold, FontWeight.SemiBold),
-        Font(com.titi.app.core.designsystem.R.font.misans_semibold, FontWeight.Bold),
+        Font(R.font.misans_normal, FontWeight.Normal),
+        Font(R.font.misans_medium, FontWeight.Medium),
+        Font(R.font.misans_semibold, FontWeight.SemiBold),
+        Font(R.font.misans_semibold, FontWeight.Bold),
     )
 
 @Immutable

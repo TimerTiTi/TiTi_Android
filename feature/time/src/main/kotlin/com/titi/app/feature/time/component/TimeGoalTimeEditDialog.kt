@@ -10,11 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.titi.app.core.designsystem.R
-import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsInputTimeTextField
-import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.model.TdsTime
 import com.titi.app.core.util.getTimeToLong
+import com.titi.app.tds.component.dialog.TtdsDialog
+import com.titi.app.tds.model.TtdsDialogInfo
 
 @Composable
 fun TimeGoalTimeEditDialog(
@@ -27,8 +27,8 @@ fun TimeGoalTimeEditDialog(
     var minutes by remember { mutableStateOf(currentTime.minutes.toString()) }
     var seconds by remember { mutableStateOf(currentTime.seconds.toString()) }
 
-    TdsDialog(
-        tdsDialogInfo = TdsDialogInfo.Confirm(
+    TtdsDialog(
+        ttdsDialogInfo = TtdsDialogInfo.Confirm(
             title = stringResource(R.string.modify_text_targettime),
             message = stringResource(R.string.modify_text_targettimedesc, todayDate),
             positiveText = stringResource(id = R.string.common_text_ok),

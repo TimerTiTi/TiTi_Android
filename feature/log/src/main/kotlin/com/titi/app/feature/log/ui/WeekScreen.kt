@@ -25,10 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsColorRow
-import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsStandardWeekGraph
 import com.titi.app.core.designsystem.extension.getWeekInformation
-import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsWeekLineChartData
 import com.titi.app.core.designsystem.theme.TdsColor
@@ -40,6 +38,8 @@ import com.titi.app.feature.log.ui.component.CalendarContent
 import com.titi.app.feature.log.util.saveWeekGraph
 import com.titi.app.feature.log.util.saveWeekGraphWithPermission
 import com.titi.app.feature.log.util.shareWeekGraph
+import com.titi.app.tds.component.dialog.TtdsDialog
+import com.titi.app.tds.model.TtdsDialogInfo
 import java.time.LocalDate
 
 @Composable
@@ -78,8 +78,8 @@ fun WeekScreen(
         }
 
     if (showPermissionDialog) {
-        TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+        TtdsDialog(
+            ttdsDialogInfo = TtdsDialogInfo.Confirm(
                 title = stringResource(R.string.daily_popup_savepermissiontitle),
                 message = stringResource(R.string.daily_popup_savepermissiondesc),
                 positiveText = stringResource(id = R.string.common_text_ok),
@@ -241,7 +241,7 @@ private fun WeekScreenPreview() {
                     topLevelTdsTaskData = taskData,
                 ),
 
-            ),
+                ),
             tdsColors = tdsColors,
             onClickDate = {},
             onClickGraphColor = {},

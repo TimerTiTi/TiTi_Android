@@ -40,15 +40,15 @@ import com.github.skydoves.colorpicker.compose.ColorPickerController
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import com.titi.app.core.designsystem.R
-import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.extension.complementary
 import com.titi.app.core.designsystem.extension.hexCode
-import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.feature.color.model.ColorUiState
+import com.titi.app.tds.component.dialog.TtdsDialog
+import com.titi.app.tds.model.TtdsDialogInfo
 
 @Composable
 fun ColorScreen(
@@ -62,8 +62,8 @@ fun ColorScreen(
     var showDialog by remember { mutableStateOf(false) }
     var selectedColor by remember { mutableLongStateOf(0L) }
     if (showDialog) {
-        TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+        TtdsDialog(
+            ttdsDialogInfo = TtdsDialogInfo.Confirm(
                 title = stringResource(R.string.colorselector_popup_backgroundtitle),
                 cancelable = false,
                 positiveText = stringResource(id = R.string.common_text_ok),
