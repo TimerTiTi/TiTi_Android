@@ -11,13 +11,13 @@ data class TtdsColorsPalette(
     val textMain: Color = Color.Unspecified,
     val textBtn: Color = Color.Unspecified,
     val textActive: Color = Color.Unspecified,
-    val textMuted : Color = Color.Unspecified,
+    val textMuted: Color = Color.Unspecified,
     val btnMuted: Color = Color.Unspecified,
-    val btnCancel : Color = Color.Unspecified,
-    val stroke : Color = Color.Unspecified,
-    val stroke2 : Color = Color.Unspecified,
-    val backgroundMain : Color = Color.Unspecified,
-    val backgroundTxtField : Color = Color.Unspecified
+    val btnCancel: Color = Color.Unspecified,
+    val stroke: Color = Color.Unspecified,
+    val stroke2: Color = Color.Unspecified,
+    val backgroundMain: Color = Color.Unspecified,
+    val backgroundTxtField: Color = Color.Unspecified,
 )
 
 val TtdsLightColorsPalette = TtdsColorsPalette(
@@ -32,7 +32,7 @@ val TtdsLightColorsPalette = TtdsColorsPalette(
     stroke = Color(0xFFF1F2F4),
     stroke2 = Color(0xFFF1F2F4),
     backgroundMain = Color(0xFFFFFFFF),
-    backgroundTxtField = Color(0xFFF7F8FA)
+    backgroundTxtField = Color(0xFFF7F8FA),
 )
 
 val TtdsDarkColorsPalette = TtdsColorsPalette(
@@ -47,7 +47,7 @@ val TtdsDarkColorsPalette = TtdsColorsPalette(
     stroke = Color(0xFF191919),
     stroke2 = Color(0x80F1F2F4),
     backgroundMain = Color(0xFF202021),
-    backgroundTxtField = Color(0xFF5B5B5B)
+    backgroundTxtField = Color(0xFF5B5B5B),
 )
 
 enum class TtdsColor {

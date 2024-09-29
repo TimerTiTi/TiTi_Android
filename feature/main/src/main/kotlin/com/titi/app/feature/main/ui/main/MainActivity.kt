@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TiTiTheme {
-                TtdsTheme{
+                TtdsTheme {
                     viewModel.splashResultState?.let {
                         TiTiApp(splashResultState = it)
                     }

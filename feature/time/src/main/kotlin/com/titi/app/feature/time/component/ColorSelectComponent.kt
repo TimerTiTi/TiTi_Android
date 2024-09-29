@@ -27,9 +27,6 @@ import com.skydoves.balloon.compose.Balloon
 import com.skydoves.balloon.compose.rememberBalloonBuilder
 import com.skydoves.balloon.compose.setBackgroundColor
 import com.titi.app.core.designsystem.R
-import com.titi.app.core.designsystem.component.TdsText
-import com.titi.app.core.designsystem.theme.TdsColor
-import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.tds.component.TtdsText
 import com.titi.app.tds.theme.TtdsColor

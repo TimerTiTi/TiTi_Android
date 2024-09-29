@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.sp
 sealed interface TtdsButtonInfo {
     val paddingValues: PaddingValues
     val shape: Shape
-    val fontSize : TextUnit
+    val fontSize: TextUnit
 
     data class Small(
         override val paddingValues: PaddingValues = PaddingValues(12.dp, 8.dp),

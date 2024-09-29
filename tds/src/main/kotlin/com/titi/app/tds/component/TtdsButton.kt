@@ -53,7 +53,7 @@ private fun TtdsTextButtonPreview() {
             buttonColor = TtdsColor.PRIMARY,
             textColor = TtdsColor.TEXT_ACTIVE,
             buttonInfo = TtdsButtonInfo.Small(),
-            onClick = {}
+            onClick = {},
         )
     }
 }

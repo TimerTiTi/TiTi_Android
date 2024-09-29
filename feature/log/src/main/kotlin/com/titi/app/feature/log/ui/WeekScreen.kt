@@ -239,7 +239,7 @@ private fun WeekScreenPreview() {
                     topLevelTdsTaskData = taskData,
                 ),
 
-                ),
+            ),
             tdsColors = tdsColors,
             onClickDate = {},
             onClickGraphColor = {},
