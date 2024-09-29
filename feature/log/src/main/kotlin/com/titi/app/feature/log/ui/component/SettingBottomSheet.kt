@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsColorRow
-import com.titi.app.core.designsystem.component.TdsOutlinedInputTextField
 import com.titi.app.core.designsystem.component.TdsTabRow
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.theme.TdsColor
@@ -52,6 +51,7 @@ import com.titi.app.domain.color.model.GraphColor
 import com.titi.app.feature.log.model.GraphColorUiState
 import com.titi.app.feature.log.model.HomeUiState
 import com.titi.app.feature.log.ui.LogViewModel
+import com.titi.app.tds.component.TtdsOutLinedTextField
 import com.titi.app.tds.component.dialog.TtdsDialog
 import com.titi.app.tds.model.TtdsDialogInfo
 import kotlinx.coroutines.android.awaitFrame
@@ -105,10 +105,9 @@ fun SettingBottomSheet(
                 keyboard?.show()
             }
 
-            TdsOutlinedInputTextField(
+            TtdsOutLinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(26.dp)
                     .padding(horizontal = 15.dp)
                     .focusRequester(monthGoalTimeFocusRequester),
                 keyboardOptions = KeyboardOptions(
@@ -124,19 +123,12 @@ fun SettingBottomSheet(
                         )
                     },
                 ),
-                fontSize = 17.sp,
                 text = goalTime,
-                placeHolder = {
-                    TdsText(
-                        text = "100",
-                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
-                        fontSize = 17.sp,
-                        color = TdsColor.DIVIDER,
-                    )
-                },
+                placeholder = "100",
                 onValueChange = {
                     goalTime = it
                 },
+                onClearText = { goalTime = "" },
             )
         }
     }
@@ -169,10 +161,9 @@ fun SettingBottomSheet(
                 keyboard?.show()
             }
 
-            TdsOutlinedInputTextField(
+            TtdsOutLinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(26.dp)
                     .padding(horizontal = 15.dp)
                     .focusRequester(weekGoalTimeFocusRequester),
                 keyboardOptions = KeyboardOptions(
@@ -188,19 +179,12 @@ fun SettingBottomSheet(
                         )
                     },
                 ),
-                fontSize = 17.sp,
                 text = goalTime,
-                placeHolder = {
-                    TdsText(
-                        text = "30",
-                        textStyle = TdsTextStyle.NORMAL_TEXT_STYLE,
-                        fontSize = 17.sp,
-                        color = TdsColor.DIVIDER,
-                    )
-                },
+                placeholder = "30",
                 onValueChange = {
                     goalTime = it
                 },
+                onClearText = { goalTime = "" },
             )
         }
     }
