@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.titi.app.core.designsystem.R
-import com.titi.app.core.designsystem.component.TdsInputTimeTextField
 import com.titi.app.core.util.addTimeToNow
 import com.titi.app.core.util.getTimeToLong
+import com.titi.app.tds.component.TtdsInputTimeTextField
 import com.titi.app.tds.component.dialog.TtdsDialog
 import com.titi.app.tds.model.TtdsDialogInfo
 
@@ -39,7 +39,7 @@ fun TimeTimerDialog(onPositive: (Long) -> Unit, onShowDialog: (Boolean) -> Unit)
         ),
         onShowDialog = onShowDialog,
     ) {
-        TdsInputTimeTextField(
+        TtdsInputTimeTextField(
             modifier = Modifier.padding(horizontal = 15.dp),
             hour = hour,
             onHourChange = {

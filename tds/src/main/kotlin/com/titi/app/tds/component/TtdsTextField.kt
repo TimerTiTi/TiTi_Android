@@ -3,6 +3,7 @@ package com.titi.app.tds.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,7 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.titi.app.tds.R
@@ -87,12 +90,14 @@ fun TtdsOutLinedTextField(
 @Composable
 fun TtdsOutLinedTextField(
     modifier: Modifier = Modifier,
+    fontSize: TextUnit = 14.sp,
     text: String,
     placeholder: String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
+    textAlign: TextAlign = TextAlign.Start,
     onValueChange: (String) -> Unit,
-    onClearText: () -> Unit,
+    onClearText: (() -> Unit)? = null,
 ) {
     Row(
         modifier = modifier
@@ -106,14 +111,18 @@ fun TtdsOutLinedTextField(
             .background(TtdsColor.BACKGROUND_TXT_FIELD.getColor())
             .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
     ) {
         Box(modifier = Modifier.weight(1f, true)) {
             BasicTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = text,
                 textStyle = TtdsTextStyle.NORMAL_TEXT_STYLE
-                    .getTextStyle(14.sp)
-                    .copy(TtdsColor.TEXT_MAIN.getColor()),
+                    .getTextStyle(fontSize)
+                    .copy(
+                        color = TtdsColor.TEXT_MAIN.getColor(),
+                        textAlign = textAlign,
+                    ),
                 keyboardOptions = keyboardOptions,
                 keyboardActions = keyboardActions,
                 onValueChange = onValueChange,
@@ -124,13 +133,14 @@ fun TtdsOutLinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     text = placeholder,
                     textStyle = TtdsTextStyle.NORMAL_TEXT_STYLE,
-                    fontSize = 14.sp,
+                    fontSize = fontSize,
                     color = TtdsColor.TEXT_MUTED,
+                    textAlign = textAlign,
                 )
             }
         }
 
-        if (text.isNotBlank()) {
+        if (text.isNotBlank() && onClearText != null) {
             Icon(
                 modifier = Modifier.clickable { onClearText() },
                 painter = painterResource(R.drawable.icon_cancel),
@@ -144,12 +154,14 @@ fun TtdsOutLinedTextField(
 @Composable
 fun TtdsOutLinedTextField(
     modifier: Modifier = Modifier,
+    fontSize: TextUnit = 14.sp,
     text: TextFieldValue,
     placeholder: String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
+    textAlign: TextAlign = TextAlign.Start,
     onValueChange: (TextFieldValue) -> Unit,
-    onClearText: () -> Unit,
+    onClearText: (() -> Unit)? = null,
 ) {
     Row(
         modifier = modifier
@@ -163,14 +175,18 @@ fun TtdsOutLinedTextField(
             .background(TtdsColor.BACKGROUND_TXT_FIELD.getColor())
             .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
     ) {
         Box(modifier = Modifier.weight(1f, true)) {
             BasicTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = text,
                 textStyle = TtdsTextStyle.NORMAL_TEXT_STYLE
-                    .getTextStyle(14.sp)
-                    .copy(TtdsColor.TEXT_MAIN.getColor()),
+                    .getTextStyle(fontSize)
+                    .copy(
+                        color = TtdsColor.TEXT_MAIN.getColor(),
+                        textAlign = textAlign,
+                    ),
                 keyboardOptions = keyboardOptions,
                 keyboardActions = keyboardActions,
                 onValueChange = onValueChange,
@@ -181,13 +197,14 @@ fun TtdsOutLinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     text = placeholder,
                     textStyle = TtdsTextStyle.NORMAL_TEXT_STYLE,
-                    fontSize = 14.sp,
+                    fontSize = fontSize,
                     color = TtdsColor.TEXT_MUTED,
+                    textAlign = textAlign,
                 )
             }
         }
 
-        if (text.text.isNotBlank()) {
+        if (text.text.isNotBlank() && onClearText != null) {
             Icon(
                 modifier = Modifier.clickable { onClearText() },
                 painter = painterResource(R.drawable.icon_cancel),

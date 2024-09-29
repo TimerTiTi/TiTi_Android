@@ -4,10 +4,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,7 +35,6 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
 import com.titi.app.core.designsystem.component.TdsIconButton
-import com.titi.app.core.designsystem.component.TdsInputTimeTextField
 import com.titi.app.core.designsystem.component.TdsTaskListItem
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTextButton
@@ -51,6 +48,7 @@ import com.titi.app.core.designsystem.util.rememberDragDropState
 import com.titi.app.core.util.getTimeToLong
 import com.titi.app.domain.task.model.Task
 import com.titi.app.feature.time.model.TaskUiState
+import com.titi.app.tds.component.TtdsInputTimeTextField
 import com.titi.app.tds.component.dialog.AddTaskNameDialog
 import com.titi.app.tds.component.dialog.EditTaskNameDialog
 import com.titi.app.tds.component.dialog.TtdsDialog
@@ -184,7 +182,7 @@ fun TaskBottomSheet(
                 showTaskTargetTimeDialog = it
             },
         ) {
-            TdsInputTimeTextField(
+            TtdsInputTimeTextField(
                 modifier = Modifier.padding(horizontal = 15.dp),
                 hour = hour,
                 onHourChange = { hour = it },
