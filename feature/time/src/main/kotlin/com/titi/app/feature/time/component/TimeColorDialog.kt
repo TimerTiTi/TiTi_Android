@@ -40,6 +40,5 @@ fun TimeColorDialog(
             },
             onClickTextColor = onClickTextColor,
         )
-        Spacer(Modifier.height(16.dp))
     }
 }

@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.feature.color.ui.ColorScreen
+import com.titi.app.tds.theme.TtdsTheme
 
 class PopUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,10 +15,12 @@ class PopUpActivity : ComponentActivity() {
 
         setContent {
             TiTiTheme {
-                ColorScreen(
-                    recordingMode = recordingMode,
-                    onFinish = { finish() },
-                )
+                TtdsTheme {
+                    ColorScreen(
+                        recordingMode = recordingMode,
+                        onFinish = { finish() },
+                    )
+                }
             }
         }
     }

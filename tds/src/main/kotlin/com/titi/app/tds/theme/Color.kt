@@ -15,6 +15,7 @@ data class TtdsColorsPalette(
     val btnMuted: Color = Color.Unspecified,
     val btnCancel : Color = Color.Unspecified,
     val stroke : Color = Color.Unspecified,
+    val stroke2 : Color = Color.Unspecified,
     val backgroundMain : Color = Color.Unspecified,
     val backgroundTxtField : Color = Color.Unspecified
 )
@@ -29,6 +30,7 @@ val TtdsLightColorsPalette = TtdsColorsPalette(
     btnMuted = Color(0xFFF1F2F4),
     btnCancel = Color(0xFFBFC0C3),
     stroke = Color(0xFFF1F2F4),
+    stroke2 = Color(0xFFF1F2F4),
     backgroundMain = Color(0xFFFFFFFF),
     backgroundTxtField = Color(0xFFF7F8FA)
 )
@@ -43,6 +45,7 @@ val TtdsDarkColorsPalette = TtdsColorsPalette(
     btnMuted = Color(0xFF3B3B3B),
     btnCancel = Color(0xFFFFFFFF),
     stroke = Color(0xFF191919),
+    stroke2 = Color(0x80F1F2F4),
     backgroundMain = Color(0xFF202021),
     backgroundTxtField = Color(0xFF5B5B5B)
 )
@@ -57,6 +60,7 @@ enum class TtdsColor {
     BTN_MUTED,
     BTN_CANCEL,
     STROKE,
+    STROKE2,
     BACKGROUND_MAIN,
     BACKGROUND_TXT_FIELD,
     ;
@@ -72,6 +76,7 @@ enum class TtdsColor {
         BTN_MUTED -> TtdsTheme.colors.btnMuted
         BTN_CANCEL -> TtdsTheme.colors.btnCancel
         STROKE -> TtdsTheme.colors.stroke
+        STROKE2 -> TtdsTheme.colors.stroke2
         BACKGROUND_MAIN -> TtdsTheme.colors.backgroundMain
         BACKGROUND_TXT_FIELD -> TtdsTheme.colors.backgroundTxtField
     }

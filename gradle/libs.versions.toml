@@ -48,7 +48,7 @@ firebaseBom = "33.3.0"
 
 ktlint = "12.1.0"
 
-calendar = "2.5.0-beta01"
+calendar = "2.6.0"
 lottie = "6.4.1"
 
 [libraries]

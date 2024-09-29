@@ -92,9 +92,7 @@ fun DailyScreen(
                 },
             ),
             onShowDialog = { showPermissionDialog = it },
-        ) {
-            Spacer(modifier = Modifier.height(15.dp))
-        }
+        )
     }
 
     Column(

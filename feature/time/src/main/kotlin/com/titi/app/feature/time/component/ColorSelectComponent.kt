@@ -1,6 +1,7 @@
 package com.titi.app.feature.time.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,9 @@ import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.tds.component.TtdsText
+import com.titi.app.tds.theme.TtdsColor
+import com.titi.app.tds.theme.TtdsTextStyle
 
 @Composable
 fun ColorSelectComponent(
@@ -53,20 +57,25 @@ fun ColorSelectComponent(
 
     Row {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            TdsText(
+            TtdsText(
                 isNoLocale = false,
                 text = stringResource(R.string.recordingcolorselector_text_backgroundcolor),
-                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                textStyle = TtdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                 fontSize = 14.sp,
-                color = TdsColor.TEXT,
+                color = TtdsColor.TEXT_MAIN,
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Box(
                 modifier = Modifier
-                    .size(32.dp)
-                    .clip(RoundedCornerShape(4.dp))
+                    .size(40.dp)
+                    .border(
+                        width = 1.dp,
+                        color = TtdsColor.STROKE2.getColor(),
+                        shape = RoundedCornerShape(8.dp),
+                    )
+                    .clip(RoundedCornerShape(8.dp))
                     .background(color = backgroundColor)
                     .clickable { onClickBackgroundColor() },
             )
@@ -103,20 +112,25 @@ fun ColorSelectComponent(
             },
         ) { balloonWindow ->
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                TdsText(
+                TtdsText(
                     isNoLocale = false,
                     text = stringResource(R.string.recordingcolorselector_text_textcolor),
-                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    textStyle = TtdsTextStyle.SEMI_BOLD_TEXT_STYLE,
                     fontSize = 14.sp,
-                    color = TdsColor.TEXT,
+                    color = TtdsColor.TEXT_MAIN,
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Box(
                     modifier = Modifier
-                        .size(32.dp)
-                        .clip(RoundedCornerShape(4.dp))
+                        .size(40.dp)
+                        .border(
+                            width = 1.dp,
+                            color = TtdsColor.STROKE2.getColor(),
+                            shape = RoundedCornerShape(8.dp),
+                        )
+                        .clip(RoundedCornerShape(8.dp))
                         .background(color = textColor)
                         .clickable { balloonWindow.showAlignBottom() },
                 )

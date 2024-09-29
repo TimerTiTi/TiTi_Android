@@ -191,7 +191,6 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
                 },
             ),
             onShowDialog = { showSetExactAlarmPermissionDialog = it },
-            bodyContent = {},
         )
     }
 

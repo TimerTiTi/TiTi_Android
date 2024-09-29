@@ -24,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
@@ -49,6 +50,7 @@ import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.feature.color.model.ColorUiState
 import com.titi.app.tds.component.dialog.TtdsDialog
 import com.titi.app.tds.model.TtdsDialogInfo
+import com.titi.app.tds.theme.TtdsColor
 
 @Composable
 fun ColorScreen(
@@ -81,8 +83,12 @@ fun ColorScreen(
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .border(2.dp, Color.LightGray, RoundedCornerShape(6.dp))
-                    .padding(2.dp)
+                    .border(
+                        width = 1.dp,
+                        color = TtdsColor.STROKE2.getColor(),
+                        shape = RoundedCornerShape(8.dp),
+                    )
+                    .clip(RoundedCornerShape(8.dp))
                     .background(Color(selectedColor)),
             )
         }

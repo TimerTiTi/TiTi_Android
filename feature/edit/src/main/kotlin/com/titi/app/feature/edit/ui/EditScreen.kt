@@ -98,9 +98,7 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
                 },
             ),
             onShowDialog = { showBackDialog = it },
-        ) {
-            Spacer(modifier = Modifier.height(12.dp))
-        }
+        )
     }
 
     LaunchedEffect(uiState.finishEvent) {
