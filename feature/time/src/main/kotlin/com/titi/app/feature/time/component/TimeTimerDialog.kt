@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.titi.app.core.designsystem.R
-import com.titi.app.core.designsystem.component.TdsDialog
-import com.titi.app.core.designsystem.component.TdsInputTimeTextField
-import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.util.addTimeToNow
 import com.titi.app.core.util.getTimeToLong
+import com.titi.app.tds.component.TtdsInputTimeTextField
+import com.titi.app.tds.component.dialog.TtdsDialog
+import com.titi.app.tds.model.TtdsDialogInfo
 
 @Composable
 fun TimeTimerDialog(onPositive: (Long) -> Unit, onShowDialog: (Boolean) -> Unit) {
@@ -24,8 +24,8 @@ fun TimeTimerDialog(onPositive: (Long) -> Unit, onShowDialog: (Boolean) -> Unit)
     var seconds by remember { mutableStateOf("") }
     var setTimerTime by remember { mutableLongStateOf(0) }
 
-    TdsDialog(
-        tdsDialogInfo = TdsDialogInfo.Confirm(
+    TtdsDialog(
+        ttdsDialogInfo = TtdsDialogInfo.Confirm(
             title = stringResource(R.string.timer_text_settimertimetitle),
             message = stringResource(
                 R.string.timer_popup_finishtime,
@@ -39,7 +39,7 @@ fun TimeTimerDialog(onPositive: (Long) -> Unit, onShowDialog: (Boolean) -> Unit)
         ),
         onShowDialog = onShowDialog,
     ) {
-        TdsInputTimeTextField(
+        TtdsInputTimeTextField(
             modifier = Modifier.padding(horizontal = 15.dp),
             hour = hour,
             onHourChange = {

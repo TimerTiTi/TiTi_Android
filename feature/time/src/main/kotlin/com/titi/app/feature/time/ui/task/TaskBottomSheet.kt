@@ -4,11 +4,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -35,15 +34,10 @@ import androidx.compose.ui.unit.sp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.titi.app.core.designsystem.R
-import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsIconButton
-import com.titi.app.core.designsystem.component.TdsInputTimeTextField
 import com.titi.app.core.designsystem.component.TdsTaskListItem
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.component.TdsTextButton
-import com.titi.app.core.designsystem.component.dialog.AddTaskNameDialog
-import com.titi.app.core.designsystem.component.dialog.EditTaskNameDialog
-import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.model.TdsTask
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
@@ -54,6 +48,11 @@ import com.titi.app.core.designsystem.util.rememberDragDropState
 import com.titi.app.core.util.getTimeToLong
 import com.titi.app.domain.task.model.Task
 import com.titi.app.feature.time.model.TaskUiState
+import com.titi.app.tds.component.TtdsInputTimeTextField
+import com.titi.app.tds.component.dialog.AddTaskNameDialog
+import com.titi.app.tds.component.dialog.EditTaskNameDialog
+import com.titi.app.tds.component.dialog.TtdsDialog
+import com.titi.app.tds.model.TtdsDialogInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -81,9 +80,9 @@ fun TaskBottomSheet(
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ModalBottomSheet(
         modifier = Modifier
-            .fillMaxHeight(0.9f)
             .fillMaxWidth()
-            .navigationBarsPadding(),
+            .statusBarsPadding()
+            .padding(top = 30.dp),
         onDismissRequest = onCloseBottomSheet,
         sheetState = bottomSheetState,
         shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
@@ -166,8 +165,8 @@ fun TaskBottomSheet(
         minutes = ""
         seconds = ""
 
-        TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+        TtdsDialog(
+            ttdsDialogInfo = TtdsDialogInfo.Confirm(
                 title = editTask.taskName,
                 message = stringResource(id = R.string.tasks_popup_settasktargettime),
                 positiveText = stringResource(id = R.string.common_text_ok),
@@ -183,7 +182,7 @@ fun TaskBottomSheet(
                 showTaskTargetTimeDialog = it
             },
         ) {
-            TdsInputTimeTextField(
+            TtdsInputTimeTextField(
                 modifier = Modifier.padding(horizontal = 15.dp),
                 hour = hour,
                 onHourChange = { hour = it },

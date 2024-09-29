@@ -24,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
@@ -40,15 +41,16 @@ import com.github.skydoves.colorpicker.compose.ColorPickerController
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import com.titi.app.core.designsystem.R
-import com.titi.app.core.designsystem.component.TdsDialog
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.extension.complementary
 import com.titi.app.core.designsystem.extension.hexCode
-import com.titi.app.core.designsystem.model.TdsDialogInfo
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.feature.color.model.ColorUiState
+import com.titi.app.tds.component.dialog.TtdsDialog
+import com.titi.app.tds.model.TtdsDialogInfo
+import com.titi.app.tds.theme.TtdsColor
 
 @Composable
 fun ColorScreen(
@@ -62,8 +64,8 @@ fun ColorScreen(
     var showDialog by remember { mutableStateOf(false) }
     var selectedColor by remember { mutableLongStateOf(0L) }
     if (showDialog) {
-        TdsDialog(
-            tdsDialogInfo = TdsDialogInfo.Confirm(
+        TtdsDialog(
+            ttdsDialogInfo = TtdsDialogInfo.Confirm(
                 title = stringResource(R.string.colorselector_popup_backgroundtitle),
                 cancelable = false,
                 positiveText = stringResource(id = R.string.common_text_ok),
@@ -81,8 +83,12 @@ fun ColorScreen(
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .border(2.dp, Color.LightGray, RoundedCornerShape(6.dp))
-                    .padding(2.dp)
+                    .border(
+                        width = 1.dp,
+                        color = TtdsColor.STROKE2.getColor(),
+                        shape = RoundedCornerShape(8.dp),
+                    )
+                    .clip(RoundedCornerShape(8.dp))
                     .background(Color(selectedColor)),
             )
         }

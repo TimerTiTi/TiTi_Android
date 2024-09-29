@@ -35,6 +35,8 @@ import com.titi.app.feature.time.navigation.navigateToTimer
 import com.titi.app.feature.time.navigation.timeGraph
 import com.titi.app.feature.webview.navigateToWebView
 import com.titi.app.feature.webview.webViewGraph
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun TiTiNavHost(
@@ -72,7 +74,9 @@ fun TiTiNavHost(
                 context.startActivity(intent)
             },
             onNavigateToMeasure = {
-                navController.navigateToMeasure(it)
+                navController.navigateToMeasure(
+                    URLEncoder.encode(it, StandardCharsets.UTF_8.toString()),
+                )
             },
             onNavigateToDestination = {
                 navController.navigateToTopLevelDestination(it)
