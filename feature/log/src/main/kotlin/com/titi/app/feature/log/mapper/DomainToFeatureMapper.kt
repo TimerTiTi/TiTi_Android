@@ -199,7 +199,6 @@ internal fun List<Daily>.toWeekFeatureModel(currentDate: LocalDate): WeekGraphDa
             taskMap.forEach { (taskName, taskTime) ->
                 totalTaskMap[taskName] = totalTaskMap.getOrDefault(taskName, 0L) + taskTime
                 sumTime += taskTime
-                totalWeekTime += taskTime
             }
         }
 
