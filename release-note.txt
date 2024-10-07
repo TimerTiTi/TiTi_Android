@@ -1,3 +1,2 @@
-TiTi android 1.4.3
-- update dialog
-- fix task special character
+TiTi android 1.4.4
+- fix: wrong week total time in week log
