@@ -1,2 +1,2 @@
-TiTi android 1.4.4
-- fix: wrong week total time in week log
+TiTi android 1.4.5
+- fix: missing monday in home page week chart
