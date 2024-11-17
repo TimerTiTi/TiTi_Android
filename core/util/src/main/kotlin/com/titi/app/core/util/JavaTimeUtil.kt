@@ -69,8 +69,8 @@ fun areDatesInSameMonth(localDate: LocalDate, zonedDateTime: ZonedDateTime): Boo
 
 fun areDatesInSameWeek(localDate: LocalDate, zonedDateTime: ZonedDateTime): Boolean {
     val (monday, sunday) = getMondaySunday(localDate)
-
-    return zonedDateTime.isAfter(monday) && zonedDateTime.isBefore(sunday)
+   
+    return  (zonedDateTime.isEqual(monday) || zonedDateTime.isAfter(monday)) && zonedDateTime.isBefore(sunday)
 }
 
 fun areDatesInSameDay(localDate: LocalDate, zonedDateTime: ZonedDateTime): Boolean {
