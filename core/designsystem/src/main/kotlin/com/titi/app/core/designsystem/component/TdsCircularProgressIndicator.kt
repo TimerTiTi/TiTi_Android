@@ -42,11 +42,20 @@ fun TdsCircularProgressIndicator(
 
         CircularProgressIndicator(
             modifier = Modifier.fillMaxSize(),
+            progress = { 1f },
+            color = color.copy(alpha = 0.5f),
+            strokeWidth = strokeWidth,
+            trackColor = Color.Transparent,
+        )
+
+        CircularProgressIndicator(
+            modifier = Modifier.fillMaxSize(),
             progress = { sumTime / maxTime.toFloat() },
             color = color,
-            trackColor = color.copy(alpha = 0.5f),
+            trackColor = Color.Transparent,
             strokeCap = StrokeCap.Round,
             strokeWidth = strokeWidth,
+            gapSize = 0.dp,
         )
 
         TdsText(
