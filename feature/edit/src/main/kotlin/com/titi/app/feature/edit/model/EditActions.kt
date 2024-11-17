@@ -26,5 +26,10 @@ sealed interface EditActions {
         ) : Updates
 
         data object Done : Updates
+
+        data class DeleteTaskHistory(
+            val taskName: String,
+            val taskHistory: DateTimeTaskHistory,
+        ) : Updates
     }
 }

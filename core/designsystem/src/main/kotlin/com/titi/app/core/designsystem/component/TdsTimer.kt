@@ -90,15 +90,27 @@ fun TdsTimer(
             modifier = Modifier
                 .size(outCircularSize)
                 .align(Alignment.Center),
+            progress = { 1f },
+            color = Color(0x66555555),
+            trackColor = Color.Transparent,
+            strokeWidth = outCircularTrackWidth,
+            strokeCap = StrokeCap.Round,
+        )
+
+        CircularProgressIndicator(
+            modifier = Modifier
+                .size(outCircularSize)
+                .align(Alignment.Center),
             progress = { outCircularAnimateProgress.value },
             color = if (savedTime < 60 && recordingMode == 1) {
                 TdsColor.RED.getColor()
             } else {
                 outCircularLineColor
             },
-            trackColor = Color(0x66555555),
+            trackColor = Color.Transparent,
             strokeWidth = outCircularTrackWidth,
             strokeCap = StrokeCap.Round,
+            gapSize = 0.dp,
         )
 
         CircularProgressIndicator(
@@ -110,6 +122,7 @@ fun TdsTimer(
             trackColor = Color.Transparent,
             strokeWidth = inCircularTrackWidth,
             strokeCap = StrokeCap.Round,
+            gapSize = 0.dp,
         )
 
         Column(

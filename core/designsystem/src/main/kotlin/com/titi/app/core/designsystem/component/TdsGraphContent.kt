@@ -1,7 +1,6 @@
 package com.titi.app.core.designsystem.component
 
 import android.graphics.Picture
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,7 +15,6 @@ import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TdsGraphContent(
     modifier: Modifier = Modifier,

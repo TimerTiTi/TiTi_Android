@@ -77,6 +77,11 @@ class EditViewModel @AssistedInject constructor(
                 currentTaskHistory = editActions.currentTaskHistory,
                 updateTaskHistory = editActions.updateTaskHistory,
             )
+
+            is EditActions.Updates.DeleteTaskHistory -> deleteTaskHistory(
+                taskName = editActions.taskName,
+                taskHistory = editActions.taskHistory,
+            )
         }
     }
 
@@ -177,6 +182,37 @@ class EditViewModel @AssistedInject constructor(
                     } else {
                         taskName.isNotEmpty()
                     },
+                )
+            }
+        }
+    }
+
+    private fun deleteTaskHistory(taskName: String, taskHistory: DateTimeTaskHistory) {
+        withState {
+            val taskHistories = it.currentDaily.taskHistories?.toMutableMap() ?: mutableMapOf()
+            val removeTaskHistory = TaskHistory(
+                startDate = taskHistory
+                    .startDateTime
+                    .atZone(ZoneId.systemDefault())
+                    .withZoneSameInstant(ZoneOffset.UTC)
+                    .toString(),
+                endDate = taskHistory
+                    .endDateTime
+                    .atZone(ZoneId.systemDefault())
+                    .withZoneSameInstant(ZoneOffset.UTC)
+                    .toString(),
+            )
+            taskHistories[taskName] = taskHistories[taskName]
+                ?.toMutableList()
+                ?.apply {
+                    remove(removeTaskHistory)
+                }
+                ?: emptyList()
+
+            setState {
+                copy(
+                    currentDaily = currentDaily.toUpdateDaily(taskHistories.toMap()),
+                    saveEnabled = true,
                 )
             }
         }
