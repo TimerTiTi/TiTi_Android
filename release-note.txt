@@ -1,3 +1,4 @@
-TiTi android 1.4.5
-- fix: missing monday in home page week chart
-- TdsCircularProgressIndicator
+TiTi android 1.4.6
+- 데일리 수정 기록 삭제 기능 추가
+- 측정 종료 멀티터치 방지
+- 타임라인 차트 Max Height
