@@ -30,7 +30,10 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -57,6 +60,7 @@ import com.titi.app.core.designsystem.component.TdsDivider
 import com.titi.app.core.designsystem.component.TdsGraphContent
 import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsText
+import com.titi.app.core.designsystem.component.TdsTextButton
 import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
@@ -478,6 +482,14 @@ private fun EditTaskContent(
                                     selectedTaskHistory = taskHistory
                                     showEditTaskHistoryDialog = true
                                 },
+                                onDeleteTaskHistory = { taskHistory ->
+                                    onEditActions(
+                                        EditActions.Updates.DeleteTaskHistory(
+                                            taskName,
+                                            taskHistory,
+                                        ),
+                                    )
+                                },
                             )
                         }
 
@@ -551,79 +563,116 @@ private fun TaskRowContent(
     themeColor: TdsColor,
     taskHistory: DateTimeTaskHistory,
     onEditTaskHistory: (DateTimeTaskHistory) -> Unit,
+    onDeleteTaskHistory: (DateTimeTaskHistory) -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            TdsText(
+    val dismissState = rememberSwipeToDismissBoxState(
+        confirmValueChange = {
+            if (it == SwipeToDismissBoxValue.EndToStart) {
+                onDeleteTaskHistory(taskHistory)
+                true
+            } else {
+                false
+            }
+        },
+    )
+
+    SwipeToDismissBox(
+        state = dismissState,
+        enableDismissFromStartToEnd = false,
+        backgroundContent = {
+            Box(
                 modifier = Modifier
-                    .width(64.dp)
-                    .background(
-                        color = themeColor
-                            .getColor()
-                            .copy(alpha = 0.5f),
-                        shape = RoundedCornerShape(4.dp),
-                    )
-                    .padding(vertical = 4.dp),
-                text = taskHistory.startDateTime.toOnlyTime(),
-                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                fontSize = 17.sp,
-                color = TdsColor.TEXT,
-                textAlign = TextAlign.Center,
-            )
+                    .fillMaxSize()
+                    .background(Color.Red),
+                contentAlignment = Alignment.CenterEnd,
+            ) {
+                TdsText(
+                    modifier = Modifier.padding(end = 16.dp),
+                    text = "Delete",
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    fontSize = 17.sp,
+                    color = TdsColor.TEXT,
+                )
+            }
+        },
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.White),
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                TdsText(
+                    modifier = Modifier
+                        .width(64.dp)
+                        .background(
+                            color = themeColor
+                                .getColor()
+                                .copy(alpha = 0.5f),
+                            shape = RoundedCornerShape(4.dp),
+                        )
+                        .padding(vertical = 4.dp),
+                    text = taskHistory.startDateTime.toOnlyTime(),
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    fontSize = 17.sp,
+                    color = TdsColor.TEXT,
+                    textAlign = TextAlign.Center,
+                )
 
-            Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(8.dp))
 
-            TdsText(
-                text = "~",
-                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                fontSize = 17.sp,
-                color = TdsColor.TEXT,
-            )
+                TdsText(
+                    text = "~",
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    fontSize = 17.sp,
+                    color = TdsColor.TEXT,
+                )
 
-            Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(8.dp))
 
-            TdsText(
-                modifier = Modifier
-                    .width(64.dp)
-                    .background(
-                        color = themeColor
-                            .getColor()
-                            .copy(alpha = 0.5f),
-                        shape = RoundedCornerShape(4.dp),
-                    )
-                    .padding(vertical = 4.dp),
-                text = taskHistory.endDateTime.toOnlyTime(),
-                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                fontSize = 17.sp,
-                color = TdsColor.TEXT,
-                textAlign = TextAlign.Center,
-            )
+                TdsText(
+                    modifier = Modifier
+                        .width(64.dp)
+                        .background(
+                            color = themeColor
+                                .getColor()
+                                .copy(alpha = 0.5f),
+                            shape = RoundedCornerShape(4.dp),
+                        )
+                        .padding(vertical = 4.dp),
+                    text = taskHistory.endDateTime.toOnlyTime(),
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    fontSize = 17.sp,
+                    color = TdsColor.TEXT,
+                    textAlign = TextAlign.Center,
+                )
 
-            Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(8.dp))
 
-            TdsText(
-                text = taskHistory.diffTime.getTimeString(),
-                textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
-                fontSize = 13.sp,
-                color = TdsColor.TEXT,
-            )
+                TdsText(
+                    text = taskHistory.diffTime.getTimeString(),
+                    textStyle = TdsTextStyle.SEMI_BOLD_TEXT_STYLE,
+                    fontSize = 13.sp,
+                    color = TdsColor.TEXT,
+                )
 
-            Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.weight(1f))
 
-            Icon(
-                modifier = Modifier
-                    .size(18.dp)
-                    .clickable { onEditTaskHistory(taskHistory) },
-                painter = painterResource(
-                    R.drawable.edit_circle_icon,
-                ),
-                contentDescription = "",
-                tint = TdsColor.TEXT.getColor(),
-            )
+                Icon(
+                    modifier = Modifier
+                        .size(18.dp)
+                        .clickable { onEditTaskHistory(taskHistory) },
+                    painter = painterResource(
+                        R.drawable.edit_circle_icon,
+                    ),
+                    contentDescription = "",
+                    tint = TdsColor.TEXT.getColor(),
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TdsDivider(color = themeColor)
         }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TdsDivider(color = themeColor)
     }
 }

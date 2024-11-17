@@ -16,7 +16,6 @@ import com.titi.app.core.designsystem.model.TdsTaskData
 import com.titi.app.core.designsystem.model.TdsTimeTableData
 import com.titi.app.core.designsystem.theme.TdsColor
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TdsGraphContent(
     modifier: Modifier = Modifier,
