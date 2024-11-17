@@ -1,6 +1,5 @@
 package com.titi.app.core.designsystem.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.titi.app.core.designsystem.extension.clickableSingle
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
@@ -108,7 +108,7 @@ fun TdsIconButton(
         modifier = modifier
             .size(size)
             .clip(CircleShape)
-            .clickable(
+            .clickableSingle(
                 onClick = onClick,
                 enabled = enabled,
                 role = Role.Button,
