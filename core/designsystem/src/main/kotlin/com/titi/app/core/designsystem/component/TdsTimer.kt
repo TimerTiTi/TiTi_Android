@@ -91,7 +91,7 @@ fun TdsTimer(
                 .size(outCircularSize)
                 .align(Alignment.Center),
             progress = { 1f },
-            color =Color(0x66555555),
+            color = Color(0x66555555),
             trackColor = Color.Transparent,
             strokeWidth = outCircularTrackWidth,
             strokeCap = StrokeCap.Round,

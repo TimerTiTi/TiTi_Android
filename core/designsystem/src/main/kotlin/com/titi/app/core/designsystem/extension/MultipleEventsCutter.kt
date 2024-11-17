@@ -6,8 +6,7 @@ internal interface MultipleEventsCutter {
     companion object
 }
 
-internal fun MultipleEventsCutter.Companion.get(): MultipleEventsCutter =
-    MultipleEventsCutterImpl()
+internal fun MultipleEventsCutter.Companion.get(): MultipleEventsCutter = MultipleEventsCutterImpl()
 
 private class MultipleEventsCutterImpl : MultipleEventsCutter {
     private val now: Long

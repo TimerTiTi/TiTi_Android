@@ -17,10 +17,10 @@ import com.titi.app.feature.edit.model.EditUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.launch
 import java.time.ZoneId
 import java.time.ZoneOffset
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 
 class EditViewModel @AssistedInject constructor(
     @Assisted initialState: EditUiState,
@@ -187,10 +187,7 @@ class EditViewModel @AssistedInject constructor(
         }
     }
 
-    private fun deleteTaskHistory(
-        taskName: String,
-        taskHistory: DateTimeTaskHistory,
-    ) {
+    private fun deleteTaskHistory(taskName: String, taskHistory: DateTimeTaskHistory) {
         withState {
             val taskHistories = it.currentDaily.taskHistories?.toMutableMap() ?: mutableMapOf()
             val removeTaskHistory = TaskHistory(

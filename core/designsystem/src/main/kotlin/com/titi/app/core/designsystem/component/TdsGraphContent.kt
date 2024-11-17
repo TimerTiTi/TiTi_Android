@@ -1,7 +1,6 @@
 package com.titi.app.core.designsystem.component
 
 import android.graphics.Picture
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
