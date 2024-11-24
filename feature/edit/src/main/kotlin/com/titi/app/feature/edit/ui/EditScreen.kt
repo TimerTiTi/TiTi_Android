@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -473,10 +474,13 @@ private fun EditTaskContent(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        items(taskHistories.size) { index ->
+                        items(
+                            items = taskHistories,
+                            key = { it.id },
+                        ) { item ->
                             TaskRowContent(
                                 themeColor = themeColor,
-                                taskHistory = taskHistories[index],
+                                taskHistory = item,
                                 onEditTaskHistory = { taskHistory ->
                                     selectedTaskHistory = taskHistory
                                     showEditTaskHistoryDialog = true
