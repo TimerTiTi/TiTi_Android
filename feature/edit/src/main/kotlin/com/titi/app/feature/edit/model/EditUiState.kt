@@ -15,6 +15,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
+import java.util.UUID
 
 data class EditUiState(
     val currentDate: LocalDate = LocalDate.now(),
@@ -69,6 +70,7 @@ data class DailyGraphData(
 )
 
 data class DateTimeTaskHistory(
+    val id: String = UUID.randomUUID().toString(),
     val startDateTime: LocalDateTime,
     val endDateTime: LocalDateTime,
 ) {
