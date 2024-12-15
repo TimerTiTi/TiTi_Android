@@ -9,7 +9,7 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.doamin.daily.model.TaskHistory
 import com.titi.app.doamin.daily.model.toUpdateDaily
 import com.titi.app.doamin.daily.usecase.GetCurrentDateDailyFlowUseCase
-import com.titi.app.doamin.daily.usecase.UpsertDailyUseCase
+import com.titi.app.doamin.daily.usecase.UpdateDailyAndRecordTimesUseCase
 import com.titi.app.domain.color.usecase.GetGraphColorsUseCase
 import com.titi.app.feature.edit.model.DateTimeTaskHistory
 import com.titi.app.feature.edit.model.EditActions
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 class EditViewModel @AssistedInject constructor(
     @Assisted initialState: EditUiState,
     private val getGraphColorsUseCase: GetGraphColorsUseCase,
-    private val upsertDailyUseCase: UpsertDailyUseCase,
+    private val updateDailyAndRecordTimesUseCase: UpdateDailyAndRecordTimesUseCase,
     getCurrentDateDailyFlowUseCase: GetCurrentDateDailyFlowUseCase,
 ) : MavericksViewModel<EditUiState>(initialState) {
 
@@ -88,7 +88,7 @@ class EditViewModel @AssistedInject constructor(
     private fun updateDaily() {
         withState {
             viewModelScope.launch {
-                upsertDailyUseCase(it.currentDaily)
+                updateDailyAndRecordTimesUseCase(it.currentDaily)
             }.invokeOnCompletion {
                 setState {
                     copy(finishEvent = true)

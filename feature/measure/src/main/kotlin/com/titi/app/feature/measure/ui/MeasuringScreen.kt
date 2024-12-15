@@ -58,6 +58,7 @@ import com.titi.app.feature.measure.model.MeasuringUiState
 import com.titi.app.feature.measure.model.SplashResultState
 import com.titi.app.tds.component.dialog.TtdsDialog
 import com.titi.app.tds.model.TtdsDialogInfo
+import kotlinx.coroutines.flow.collectLatest
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
@@ -102,8 +103,6 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
             measureTime = uiState.measureTime,
             endTime = ZonedDateTime.now(ZoneOffset.UTC).toString(),
         )
-
-        onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
     }
 
     val isFinish by remember {
@@ -169,6 +168,14 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
 
     LaunchedEffect(uiState.isSleepMode) {
         context.setBrightness(uiState.isSleepMode)
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.onFinish.collectLatest {
+            if (it) {
+                onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
+            }
+        }
     }
 
     if (showSetExactAlarmPermissionDialog) {
