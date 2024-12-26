@@ -22,6 +22,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneOffset
@@ -39,6 +41,9 @@ class MeasuringViewModel @AssistedInject constructor(
     private val cancelAlarmsUseCase: CancelAlarmsUseCase,
     getSleepModeFlowUseCase: GetSleepModeFlowUseCase,
 ) : MavericksViewModel<MeasuringUiState>(initialState) {
+
+    private val _onFinish: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    val onFinish = _onFinish.asSharedFlow()
 
     init {
         getSleepModeFlowUseCase().catch {
@@ -141,6 +146,10 @@ class MeasuringViewModel @AssistedInject constructor(
             }
 
             cancelAlarmsUseCase()
+        }.invokeOnCompletion {
+            viewModelScope.launch {
+                _onFinish.emit(true)
+            }
         }
     }
 

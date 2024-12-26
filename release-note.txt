@@ -1,2 +1,3 @@
-TiTi android 1.4.8
-- 타임라인 바 높이 수정
+TiTi android 1.4.9
+- recordTimes, Daily 동기화
+- measuring finish event
