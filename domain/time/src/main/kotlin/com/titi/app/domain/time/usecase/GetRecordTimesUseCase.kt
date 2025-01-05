@@ -9,10 +9,10 @@ import javax.inject.Inject
 class GetRecordTimesUseCase @Inject constructor(
     private val recordTimesRepository: RecordTimesRepository,
 ) {
-    suspend operator fun invoke() : RecordTimes {
-       val recordTimes =  recordTimesRepository.getRecordTimes()
-           ?.toDomainModel()
-           ?: RecordTimes()
+    suspend operator fun invoke(): RecordTimes {
+        val recordTimes = recordTimesRepository.getRecordTimes()
+            ?.toDomainModel()
+            ?: RecordTimes()
 
         recordTimesRepository.setRecordTimes(recordTimes.toRepositoryModel())
         return recordTimes

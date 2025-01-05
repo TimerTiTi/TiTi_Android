@@ -15,7 +15,7 @@ fun String.containsSpecialCharacter(): Boolean {
     return this.any { it in specialCharacters }
 }
 
-fun String.removeSpecialCharacter() : String {
+fun String.removeSpecialCharacter(): String {
     val specialCharacters = "!@#$%^&*()_+-=[]{}|;':\",./<>?"
     return this.filterNot { it in specialCharacters }
 }
