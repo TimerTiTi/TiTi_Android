@@ -9,3 +9,13 @@ fun String.isAfterH(hour: Int): Boolean {
 
     return inputDateTime.dayOfMonth != currentDateTime.dayOfMonth && currentDateTime.hour >= hour
 }
+
+fun String.containsSpecialCharacter(): Boolean {
+    val specialCharacters = "!@#$%^&*()_+-=[]{}|;':\",./<>?"
+    return this.any { it in specialCharacters }
+}
+
+fun String.removeSpecialCharacter(): String {
+    val specialCharacters = "!@#$%^&*()_+-=[]{}|;':\",./<>?"
+    return this.filterNot { it in specialCharacters }
+}

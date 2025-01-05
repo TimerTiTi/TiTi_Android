@@ -14,6 +14,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.titi.app.core.util.containsSpecialCharacter
 import com.titi.app.tds.R
 import com.titi.app.tds.component.TtdsOutLinedTextField
 import com.titi.app.tds.model.TtdsDialogInfo
@@ -53,7 +54,7 @@ fun AddTaskNameDialog(onPositive: (String) -> Unit, onShowDialog: (Boolean) -> U
             text = taskName,
             placeholder = stringResource(id = R.string.tasks_hint_newtasktitle),
             onValueChange = {
-                if (it.length <= 12) {
+                if (it.length <= 12 && !it.containsSpecialCharacter()) {
                     taskName = it
                 }
             },

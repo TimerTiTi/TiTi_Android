@@ -8,4 +8,5 @@ android {
 
 dependencies {
     implementation(project(":data:task:api"))
+    implementation(project(":core:util"))
 }
