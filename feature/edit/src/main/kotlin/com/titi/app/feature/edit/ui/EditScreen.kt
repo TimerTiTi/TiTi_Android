@@ -64,6 +64,7 @@ import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
+import com.titi.app.core.util.removeSpecialCharacter
 import com.titi.app.core.util.toOnlyTime
 import com.titi.app.feature.edit.mapper.toFeatureModel
 import com.titi.app.feature.edit.model.DateTimeTaskHistory
@@ -299,8 +300,8 @@ private fun EditTaskContent(
         if (taskName.isNotEmpty()) {
             EditTaskNameDialog(
                 taskName = TextFieldValue(
-                    text = taskName,
-                    selection = TextRange(taskName.length),
+                    text = taskName.removeSpecialCharacter(),
+                    selection = TextRange(taskName.removeSpecialCharacter().length),
                 ),
                 onPositive = {
                     onEditActions(
