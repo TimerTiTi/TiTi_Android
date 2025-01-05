@@ -6,8 +6,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.titi.app.feature.measure.ui.MeasuringScreen
-import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
 
 private const val MEASURE_SCREEN = "measure"
 const val MEASURE_ARG = "splashResultState"
@@ -29,12 +27,6 @@ fun NavGraphBuilder.measureGraph(onFinish: (isFinish: Boolean) -> Unit) {
         MeasuringScreen(
             splashResultState = it.arguments
                 ?.getString(MEASURE_ARG, "")
-                ?.let { jsonString ->
-                    URLDecoder.decode(
-                        jsonString,
-                        StandardCharsets.UTF_8.toString(),
-                    )
-                }
                 ?: "",
             onFinish = onFinish,
         )

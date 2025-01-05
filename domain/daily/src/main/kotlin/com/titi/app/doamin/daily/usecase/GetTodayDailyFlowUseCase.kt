@@ -2,7 +2,7 @@ package com.titi.app.doamin.daily.usecase
 
 import com.titi.app.core.util.getDailyDayWithHour
 import com.titi.app.data.daily.api.DailyRepository
-import com.titi.app.doamin.daily.mapper.toDomainModel
+import com.titi.app.doamin.daily.mapper.toDomainModelWithRemovingSpecialCharacters
 import com.titi.app.doamin.daily.model.Daily
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -17,6 +17,6 @@ class GetTodayDailyFlowUseCase @Inject constructor(
         return dailyRepository.getDateDailyFlow(
             startDateTime = timePair.first,
             endDateTime = timePair.second,
-        ).map { it?.toDomainModel() ?: Daily() }
+        ).map { it?.toDomainModelWithRemovingSpecialCharacters() ?: Daily() }
     }
 }

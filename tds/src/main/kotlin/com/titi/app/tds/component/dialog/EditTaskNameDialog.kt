@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.titi.app.core.util.containsSpecialCharacter
 import com.titi.app.tds.R
 import com.titi.app.tds.component.TtdsOutLinedTextField
 import com.titi.app.tds.model.TtdsDialogInfo
@@ -57,7 +58,7 @@ fun EditTaskNameDialog(
                 .focusRequester(modifyTaskNameFocusRequester),
             text = editTaskName,
             onValueChange = {
-                if (it.text.length <= 12) {
+                if (it.text.length <= 12 && !it.text.containsSpecialCharacter()) {
                     editTaskName = it
                 }
             },

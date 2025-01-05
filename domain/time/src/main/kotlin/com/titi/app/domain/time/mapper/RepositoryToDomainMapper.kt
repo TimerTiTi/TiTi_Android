@@ -1,5 +1,6 @@
 package com.titi.app.domain.time.mapper
 
+import com.titi.app.core.util.removeSpecialCharacter
 import com.titi.app.data.time.api.model.CurrentTaskRepositoryModel
 import com.titi.app.data.time.api.model.RecordTimesRepositoryModel
 import com.titi.app.domain.time.model.CurrentTask
@@ -19,7 +20,7 @@ internal fun RecordTimesRepositoryModel.toDomainModel() = RecordTimes(
 )
 
 internal fun CurrentTaskRepositoryModel.toDomainModel() = CurrentTask(
-    taskName = taskName,
+    taskName = taskName.removeSpecialCharacter(),
     taskTargetTime = taskTargetTime,
     isTaskTargetTimeOn = isTaskTargetTimeOn,
 )

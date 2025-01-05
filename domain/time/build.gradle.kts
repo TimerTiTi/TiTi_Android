@@ -9,6 +9,6 @@ android {
 
 dependencies {
     implementation(project(":data:time:api"))
-
+    implementation(project(":core:util"))
     implementation(libs.threetenabp)
 }
