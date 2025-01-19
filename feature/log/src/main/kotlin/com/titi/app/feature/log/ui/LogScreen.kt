@@ -1,7 +1,6 @@
 package com.titi.app.feature.log.ui
 
 import android.content.res.Configuration
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,7 +43,6 @@ import com.titi.app.feature.log.ui.component.SettingBottomSheet
 import java.time.LocalDate
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LogScreen(
     viewModel: LogViewModel = mavericksViewModel(),
@@ -52,6 +51,8 @@ fun LogScreen(
 ) {
     val scope = rememberCoroutineScope()
     val orientation = LocalConfiguration.current.orientation
+    val context = LocalContext.current
+    val isTablet = context.resources.configuration.smallestScreenWidthDp >= 600
 
     val pagerState = rememberPagerState(
         pageCount = {
@@ -138,7 +139,10 @@ fun LogScreen(
                     },
                 )
 
-                if (showSettingButton && orientation == Configuration.ORIENTATION_PORTRAIT) {
+                if (
+                    (showSettingButton && orientation == Configuration.ORIENTATION_PORTRAIT) ||
+                    (showSettingButton && isTablet)
+                ) {
                     TdsIconButton(
                         modifier = Modifier.align(Alignment.CenterEnd),
                         onClick = {

@@ -1,2 +1,4 @@
-TiTi android 1.4.10
-- Special Characters 대응
+TiTi android 1.4.11
+- 측정 시작 시 알림
+- 기록 두번 측정되는 현상 수정
+- 태블릿 ui 수정

@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
@@ -170,11 +171,13 @@ private fun StopWatchScreen(
     onNavigateToDestination: (TopLevelDestination) -> Unit,
 ) {
     val configuration = LocalConfiguration.current
+    val context = LocalContext.current
+    val isTablet = context.resources.configuration.smallestScreenWidthDp >= 600
 
     Scaffold(
         containerColor = Color(uiState.timeColor.stopwatchBackgroundColor),
         bottomBar = {
-            if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT || isTablet) {
                 TdsBottomNavigationBar(
                     currentTopLevelDestination = TopLevelDestination.STOPWATCH,
                     bottomNavigationColor = uiState.timeColor.stopwatchBackgroundColor,
@@ -183,8 +186,8 @@ private fun StopWatchScreen(
             }
         },
     ) {
-        when (configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> {
+        when {
+            configuration.orientation == Configuration.ORIENTATION_PORTRAIT || isTablet -> {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
