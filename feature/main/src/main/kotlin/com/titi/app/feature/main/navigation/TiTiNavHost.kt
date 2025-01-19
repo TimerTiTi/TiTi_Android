@@ -39,6 +39,7 @@ import com.titi.app.feature.webview.webViewGraph
 @Composable
 fun TiTiNavHost(
     modifier: Modifier = Modifier,
+    isConfigurationChange: Boolean,
     splashResultState: SplashResultState,
     onShowResetDailySnackBar: (String) -> Unit,
 ) {
@@ -46,7 +47,7 @@ fun TiTiNavHost(
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        if (splashResultState.recordTimes.recording) {
+        if (splashResultState.recordTimes.recording && !isConfigurationChange) {
             navController.navigateToMeasure(splashResultState.toJson())
         }
     }
