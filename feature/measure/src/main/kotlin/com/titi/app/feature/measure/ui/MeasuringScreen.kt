@@ -34,14 +34,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
@@ -79,7 +76,6 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
 
     val uiState by viewModel.collectAsState()
     val context = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
     var showSetExactAlarmPermissionDialog by remember { mutableStateOf(false) }
 
     val (alarmTitle, alarmFinishMessage, alarmFiveMinutesBeforeFinish) =
@@ -98,6 +94,8 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
         }
 
     val stopMeasuring = {
+        context.removeNotification()
+
         viewModel.stopMeasuring(
             recordTimes = uiState.recordTimes,
             measureTime = uiState.measureTime,
@@ -111,53 +109,14 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
         }
     }
 
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            when (event) {
-                Lifecycle.Event.ON_CREATE, Lifecycle.Event.ON_START,
-                Lifecycle.Event.ON_ANY, Lifecycle.Event.ON_RESUME,
-                -> Unit
-
-                Lifecycle.Event.ON_STOP, Lifecycle.Event.ON_PAUSE, Lifecycle.Event.ON_DESTROY -> {
-                    if (!isFinish) {
-                        makeInProgressNotification(context)
-                    }
-                }
-            }
-        }
-
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
-
     LaunchedEffect(isFinish) {
         if (isFinish) {
             stopMeasuring()
-        } else {
-            val timerTime = splashResultStateModel.recordTimes.savedTimerTime
-            val stopWatchTime = splashResultStateModel.recordTimes.savedStopWatchTime
-            val recordingMode = splashResultStateModel.recordTimes.recordingMode
-
-            viewModel.setAlarm(
-                title = alarmTitle,
-                finishMessage = alarmFinishMessage,
-                fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
-                measureTime = if (recordingMode == 1) {
-                    timerTime - uiState.measureTime
-                } else {
-                    stopWatchTime + uiState.measureTime
-                },
-            )
-
-            showSetExactAlarmPermissionDialog = !viewModel.canSetAlarm()
         }
     }
 
     BackHandler {
         stopMeasuring()
-        context.removeNotification()
     }
 
     DisposableEffect(Unit) {
@@ -171,6 +130,25 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
     }
 
     LaunchedEffect(Unit) {
+        makeInProgressNotification(context)
+
+        val timerTime = splashResultStateModel.recordTimes.savedTimerTime
+        val stopWatchTime = splashResultStateModel.recordTimes.savedStopWatchTime
+        val recordingMode = splashResultStateModel.recordTimes.recordingMode
+
+        viewModel.setAlarm(
+            title = alarmTitle,
+            finishMessage = alarmFinishMessage,
+            fiveMinutesBeforeFinish = alarmFiveMinutesBeforeFinish,
+            measureTime = if (recordingMode == 1) {
+                timerTime - uiState.measureTime
+            } else {
+                stopWatchTime + uiState.measureTime
+            },
+        )
+
+        showSetExactAlarmPermissionDialog = !viewModel.canSetAlarm()
+
         viewModel.onFinish.collectLatest {
             if (it) {
                 onFinish(uiState.measuringRecordTimes.savedTime <= 0L)
@@ -208,7 +186,6 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
         },
         onFinishClick = {
             stopMeasuring()
-            context.removeNotification()
         },
     )
 }
