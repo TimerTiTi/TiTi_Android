@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedContentLambdaTargetStateParameter")
 @Composable
-fun TiTiApp(splashResultState: SplashResultState) {
+fun TiTiApp(isConfigurationChange: Boolean, splashResultState: SplashResultState) {
     val requestPermissionLauncher =
         rememberLauncherForActivityResult(
             ActivityResultContracts.RequestPermission(),
@@ -64,6 +64,7 @@ fun TiTiApp(splashResultState: SplashResultState) {
 
         TiTiNavHost(
             modifier = Modifier.fillMaxSize(),
+            isConfigurationChange = isConfigurationChange,
             splashResultState = splashResultState,
             onShowResetDailySnackBar = { date ->
                 scope.launch {
