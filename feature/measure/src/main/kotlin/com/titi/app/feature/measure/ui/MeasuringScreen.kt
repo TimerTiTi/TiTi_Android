@@ -197,10 +197,12 @@ private fun MeasuringScreen(
     onFinishClick: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
+    val context = LocalContext.current
+    val isTablet = context.resources.configuration.smallestScreenWidthDp >= 600
 
     Scaffold(containerColor = Color.Black) {
-        when (configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> {
+        when {
+            configuration.orientation == Configuration.ORIENTATION_PORTRAIT || isTablet -> {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
