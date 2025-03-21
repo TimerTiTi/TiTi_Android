@@ -6,7 +6,8 @@
             android:name=".ui.main.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.TiTi.SplashScreen">
+            android:theme="@style/Theme.TiTi.SplashScreen"
+            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
