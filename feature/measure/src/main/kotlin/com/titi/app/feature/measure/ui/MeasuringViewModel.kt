@@ -21,10 +21,12 @@ import com.titi.domain.sleep.SetSleepModeUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
@@ -117,35 +119,46 @@ class MeasuringViewModel @AssistedInject constructor(
 
     fun stopMeasuring(recordTimes: RecordTimes, measureTime: Long, endTime: String) {
         viewModelScope.launch {
+            val jobs = mutableListOf<Job>()
             val taskName = recordTimes.currentTask?.taskName
             val startTime =
                 recordTimes.recordStartAt ?: ZonedDateTime.now(ZoneOffset.UTC).toString()
 
             if (taskName != null) {
-                launch {
-                    addMeasureTimeAtDailyUseCase(
-                        taskName = taskName,
-                        startTime = startTime,
-                        endTime = endTime,
-                    )
-                }
+                jobs.add(
+                    launch {
+                        addMeasureTimeAtDailyUseCase(
+                            taskName = taskName,
+                            startTime = startTime,
+                            endTime = endTime,
+                        )
+                    },
+                )
 
-                launch {
-                    addMeasureTimeAtRecordTimesUseCase(
-                        recordTimes = recordTimes,
-                        measureTime = measureTime,
-                    )
-                }
+                jobs.add(
+                    launch {
+                        addMeasureTimeAtRecordTimesUseCase(
+                            recordTimes = recordTimes,
+                            measureTime = measureTime,
+                        )
+                    },
+                )
 
-                launch {
-                    addMeasureTimeAtTaskUseCase(
-                        taskName = taskName,
-                        measureTime = measureTime,
-                    )
-                }
+                jobs.add(
+                    launch {
+                        addMeasureTimeAtTaskUseCase(
+                            taskName = taskName,
+                            measureTime = measureTime,
+                        )
+                    },
+                )
             }
 
-            cancelAlarmsUseCase()
+            jobs.add(
+                launch { cancelAlarmsUseCase() },
+            )
+
+            jobs.joinAll()
         }.invokeOnCompletion {
             viewModelScope.launch {
                 _onFinish.emit(true)
