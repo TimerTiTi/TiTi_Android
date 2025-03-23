@@ -1,4 +1,3 @@
-TiTi android 1.4.11
-- 측정 시작 시 알림
-- 기록 두번 측정되는 현상 수정
-- 태블릿 ui 수정
+TiTi android 1.4.12
+- Notification 삭제된 후 다시 안뜨는 이슈
+- 알람 취소안되는 이슈
