@@ -39,6 +39,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
@@ -74,6 +77,7 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
             },
         )
 
+    val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.collectAsState()
     val context = LocalContext.current
     var showSetExactAlarmPermissionDialog by remember { mutableStateOf(false) }
@@ -125,13 +129,25 @@ fun MeasuringScreen(splashResultState: String, onFinish: (isFinish: Boolean) -> 
         }
     }
 
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                makeInProgressNotification(context)
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
     LaunchedEffect(uiState.isSleepMode) {
         context.setBrightness(uiState.isSleepMode)
     }
 
     LaunchedEffect(Unit) {
-        makeInProgressNotification(context)
-
         val timerTime = splashResultStateModel.recordTimes.savedTimerTime
         val stopWatchTime = splashResultStateModel.recordTimes.savedStopWatchTime
         val recordingMode = splashResultStateModel.recordTimes.recordingMode
