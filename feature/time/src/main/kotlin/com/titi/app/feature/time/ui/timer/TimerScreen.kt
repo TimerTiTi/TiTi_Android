@@ -177,7 +177,12 @@ fun TimerScreen(
             }
         },
         onClickSettingTimer = {
-            showUpdateTimerDialog = true
+            if (uiState.recordTimes.setTimerTime == uiState.recordTimes.savedTimerTime) {
+                showUpdateTimerDialog = true
+            } else {
+                viewModel.updateSetTimerTime(uiState.recordTimes.setTimerTime)
+                onChangeFinishStateFalse()
+            }
         },
         onNavigateToDestination = onNavigateToDestination,
     )
