@@ -1,3 +1,2 @@
-TiTi android 1.4.12
-- Notification 삭제된 후 다시 안뜨는 이슈
-- 알람 취소안되는 이슈
+TiTi android 1.4.13
+- 타이머 리셋
