@@ -1,2 +1,2 @@
-TiTi android 1.4.13
-- 타이머 리셋
+TiTi android 1.4.14
+- 네비게이션 리팩토링
