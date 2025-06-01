@@ -1,29 +1,12 @@
 package com.titi.app.feature.log.navigation
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.titi.app.core.designsystem.navigation.TopLevelDestination
+import com.titi.app.core.ui.NavigationActions
 import com.titi.app.feature.log.ui.LogScreen
 
-private const val LOG_SCREEN = "log"
-const val LOG_ROUTE = LOG_SCREEN
-
-fun NavController.navigateToLog(navOptions: NavOptions) {
-    navigate(LOG_ROUTE, navOptions)
-}
-
-fun NavGraphBuilder.logGraph(
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
-    onNavigateToEdit: (String) -> Unit,
-) {
-    composable(route = LOG_ROUTE) {
-        LogScreen(
-            onNavigateToDestination = onNavigateToDestination,
-            onNavigateToEdit = {
-                onNavigateToEdit(it.toString())
-            },
-        )
+fun NavGraphBuilder.logGraph(onNavigationActions: (NavigationActions) -> Unit) {
+    composable<NavigationActions.Log> {
+        LogScreen(onNavigationActions = onNavigationActions)
     }
 }

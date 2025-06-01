@@ -40,11 +40,12 @@ import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
+import com.titi.app.core.ui.NavigationActions
 import com.titi.app.feature.setting.model.Version
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdatesListScreen(onNavigateUp: () -> Unit) {
+fun UpdatesListScreen(onNavigationActions: (NavigationActions) -> Unit) {
     val firebaseDatabase = FirebaseDatabase.getInstance()
     val databaseReference = firebaseDatabase.getReference("versions")
 
@@ -82,7 +83,7 @@ fun UpdatesListScreen(onNavigateUp: () -> Unit) {
                     containerColor = TdsColor.GROUPED_BACKGROUND.getColor(),
                 ),
                 navigationIcon = {
-                    TdsIconButton(onClick = onNavigateUp) {
+                    TdsIconButton(onClick = { onNavigationActions(NavigationActions.Up) }) {
                         Icon(
                             modifier = Modifier.size(32.dp),
                             painter = painterResource(id = R.drawable.arrow_left_icon),

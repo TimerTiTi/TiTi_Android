@@ -39,15 +39,14 @@ import com.titi.app.core.designsystem.navigation.TdsBottomNavigationBar
 import com.titi.app.core.designsystem.navigation.TopLevelDestination
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.ui.NavigationActions
 import com.titi.app.feature.log.ui.component.SettingBottomSheet
-import java.time.LocalDate
 import kotlinx.coroutines.launch
 
 @Composable
 fun LogScreen(
     viewModel: LogViewModel = mavericksViewModel(),
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
-    onNavigateToEdit: (LocalDate) -> Unit,
+    onNavigationActions: (NavigationActions) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val orientation = LocalConfiguration.current.orientation
@@ -111,7 +110,25 @@ fun LogScreen(
             TdsBottomNavigationBar(
                 currentTopLevelDestination = TopLevelDestination.LOG,
                 bottomNavigationColor = containerColor,
-                onNavigateToDestination = onNavigateToDestination,
+                onNavigateToDestination = {
+                    when (it) {
+                        TopLevelDestination.TIMER -> {
+                            onNavigationActions(NavigationActions.Timer)
+                        }
+
+                        TopLevelDestination.STOPWATCH -> {
+                            onNavigationActions(NavigationActions.StopWatch)
+                        }
+
+                        TopLevelDestination.LOG -> {
+                            onNavigationActions(NavigationActions.Log)
+                        }
+
+                        TopLevelDestination.SETTING -> {
+                            onNavigationActions(NavigationActions.Setting)
+                        }
+                    }
+                },
             )
         },
     ) {
@@ -194,7 +211,7 @@ fun LogScreen(
                             )
                         },
                         onNavigateToEdit = {
-                            onNavigateToEdit(uiState.dailyUiState.currentDate)
+                            onNavigationActions(NavigationActions.Edit(uiState.dailyUiState.currentDate.toString()))
                         },
                     )
 
@@ -214,7 +231,7 @@ fun LogScreen(
                             viewModel.updateHasDailyAtWeekTab(it)
                         },
                         onNavigateToEdit = {
-                            onNavigateToEdit(uiState.weekUiState.currentDate)
+                            onNavigationActions(NavigationActions.Edit(uiState.weekUiState.currentDate.toString()))
                         },
                     )
                 }
@@ -227,9 +244,6 @@ fun LogScreen(
 @Composable
 private fun LogScreenPreview() {
     TiTiTheme {
-        LogScreen(
-            onNavigateToEdit = {},
-            onNavigateToDestination = {},
-        )
+        LogScreen(onNavigationActions = {})
     }
 }

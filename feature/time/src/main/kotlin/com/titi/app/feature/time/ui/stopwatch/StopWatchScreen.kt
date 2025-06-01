@@ -28,6 +28,7 @@ import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.extension.getTdsTime
 import com.titi.app.core.designsystem.navigation.TdsBottomNavigationBar
 import com.titi.app.core.designsystem.navigation.TopLevelDestination
+import com.titi.app.core.ui.NavigationActions
 import com.titi.app.core.util.parseZoneDateTime
 import com.titi.app.feature.time.component.TimeButtonComponent
 import com.titi.app.feature.time.component.TimeCheckTaskDialog
@@ -43,8 +44,7 @@ import com.titi.app.feature.time.ui.task.TaskBottomSheet
 fun StopWatchScreen(
     splashResultState: SplashResultState,
     onNavigateToColor: () -> Unit,
-    onNavigateToMeasure: (String) -> Unit,
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
+    onNavigationActions: (NavigationActions) -> Unit,
     onShowResetDailySnackBar: (String) -> Unit,
 ) {
     val viewModel: StopWatchViewModel = mavericksViewModel(
@@ -123,7 +123,7 @@ fun StopWatchScreen(
 
     LaunchedEffect(uiState.splashResultStateString) {
         uiState.splashResultStateString?.let {
-            onNavigateToMeasure(it)
+            onNavigationActions(NavigationActions.Measure(it))
             viewModel.initSplashResultStateString()
         }
     }
@@ -155,7 +155,7 @@ fun StopWatchScreen(
         onClickResetStopWatch = {
             viewModel.updateSavedStopWatchTime()
         },
-        onNavigateToDestination = onNavigateToDestination,
+        onNavigationActions = onNavigationActions,
     )
 }
 
@@ -168,7 +168,7 @@ private fun StopWatchScreen(
     onClickGoalTimeEdit: () -> Unit,
     onClickStartRecord: () -> Unit,
     onClickResetStopWatch: () -> Unit,
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
+    onNavigationActions: (NavigationActions) -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val context = LocalContext.current
@@ -181,7 +181,25 @@ private fun StopWatchScreen(
                 TdsBottomNavigationBar(
                     currentTopLevelDestination = TopLevelDestination.STOPWATCH,
                     bottomNavigationColor = uiState.timeColor.stopwatchBackgroundColor,
-                    onNavigateToDestination = onNavigateToDestination,
+                    onNavigateToDestination = {
+                        when (it) {
+                            TopLevelDestination.TIMER -> {
+                                onNavigationActions(NavigationActions.Timer)
+                            }
+
+                            TopLevelDestination.STOPWATCH -> {
+                                onNavigationActions(NavigationActions.StopWatch)
+                            }
+
+                            TopLevelDestination.LOG -> {
+                                onNavigationActions(NavigationActions.Log)
+                            }
+
+                            TopLevelDestination.SETTING -> {
+                                onNavigationActions(NavigationActions.Setting)
+                            }
+                        }
+                    },
                 )
             }
         },
@@ -217,11 +235,11 @@ private fun StopWatchScreen(
                             outCircularLineColor = textColor,
                             outCircularProgress = outCircularProgress,
                             inCircularLineTrackColor =
-                            if (uiState.stopWatchColor.isTextColorBlack) {
-                                Color.White
-                            } else {
-                                Color(0x8C000000)
-                            },
+                                if (uiState.stopWatchColor.isTextColorBlack) {
+                                    Color.White
+                                } else {
+                                    Color(0x8C000000)
+                                },
                             inCircularProgress = inCircularProgress,
                             fontColor = textColor,
                             recordingMode = 2,
@@ -263,11 +281,11 @@ private fun StopWatchScreen(
                             outCircularLineColor = textColor,
                             outCircularProgress = outCircularProgress,
                             inCircularLineTrackColor =
-                            if (uiState.stopWatchColor.isTextColorBlack) {
-                                Color.White
-                            } else {
-                                Color(0x8C000000)
-                            },
+                                if (uiState.stopWatchColor.isTextColorBlack) {
+                                    Color.White
+                                } else {
+                                    Color(0x8C000000)
+                                },
                             inCircularProgress = inCircularProgress,
                             fontColor = textColor,
                             recordingMode = 2,

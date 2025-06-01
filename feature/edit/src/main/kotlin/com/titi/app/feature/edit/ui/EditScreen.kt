@@ -64,6 +64,7 @@ import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.extension.getTimeString
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
+import com.titi.app.core.ui.NavigationActions
 import com.titi.app.core.util.removeSpecialCharacter
 import com.titi.app.core.util.toOnlyTime
 import com.titi.app.feature.edit.mapper.toFeatureModel
@@ -75,11 +76,14 @@ import com.titi.app.tds.component.dialog.AddTaskNameDialog
 import com.titi.app.tds.component.dialog.EditTaskNameDialog
 import com.titi.app.tds.component.dialog.TtdsDialog
 import com.titi.app.tds.model.TtdsDialogInfo
-import java.time.LocalDate
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @Composable
-fun EditScreen(currentDate: String, onBack: () -> Unit) {
+fun EditScreen(
+    currentDate: String,
+    onNavigationActions: (NavigationActions) -> Unit,
+) {
     val viewModel: EditViewModel = mavericksViewModel(
         argsFactory = {
             currentDate.asMavericksArgs()
@@ -98,9 +102,7 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
                 title = stringResource(R.string.edit_popup_nosavetitle),
                 positiveText = stringResource(id = R.string.common_text_ok),
                 negativeText = stringResource(id = R.string.common_text_cancel),
-                onPositive = {
-                    onBack()
-                },
+                onPositive = { onNavigationActions(NavigationActions.Up) },
             ),
             onShowDialog = { showBackDialog = it },
         )
@@ -108,7 +110,7 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
 
     LaunchedEffect(uiState.finishEvent) {
         if (uiState.finishEvent) {
-            onBack()
+            onNavigationActions(NavigationActions.Up)
         }
     }
 
@@ -120,7 +122,7 @@ fun EditScreen(currentDate: String, onBack: () -> Unit) {
                     if (uiState.saveEnabled) {
                         showBackDialog = true
                     } else {
-                        onBack()
+                        onNavigationActions(NavigationActions.Up)
                     }
                 }
 

@@ -1,33 +1,16 @@
 package com.titi.app.feature.measure.navigation
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
+import com.titi.app.core.ui.NavigationActions
 import com.titi.app.feature.measure.ui.MeasuringScreen
 
-private const val MEASURE_SCREEN = "measure"
-const val MEASURE_ARG = "splashResultState"
-const val MEASURE_ROUTE = "$MEASURE_SCREEN?$MEASURE_ARG={$MEASURE_ARG}"
-
-fun NavController.navigateToMeasure(splashResultState: String) {
-    navigate("$MEASURE_SCREEN?$MEASURE_ARG=$splashResultState")
-}
-
 fun NavGraphBuilder.measureGraph(onFinish: (isFinish: Boolean) -> Unit) {
-    composable(
-        route = MEASURE_ROUTE,
-        arguments = listOf(
-            navArgument(MEASURE_ARG) {
-                type = NavType.StringType
-            },
-        ),
-    ) {
+    composable<NavigationActions.Measure> {
+        val args = it.toRoute<NavigationActions.Measure>()
         MeasuringScreen(
-            splashResultState = it.arguments
-                ?.getString(MEASURE_ARG, "")
-                ?: "",
+            splashResultState = args.splashResultState,
             onFinish = onFinish,
         )
     }

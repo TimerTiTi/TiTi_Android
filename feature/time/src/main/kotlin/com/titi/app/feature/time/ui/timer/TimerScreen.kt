@@ -29,6 +29,7 @@ import com.titi.app.core.designsystem.component.TdsTimer
 import com.titi.app.core.designsystem.extension.getTdsTime
 import com.titi.app.core.designsystem.navigation.TdsBottomNavigationBar
 import com.titi.app.core.designsystem.navigation.TopLevelDestination
+import com.titi.app.core.ui.NavigationActions
 import com.titi.app.core.util.parseZoneDateTime
 import com.titi.app.feature.time.component.TimeButtonComponent
 import com.titi.app.feature.time.component.TimeCheckTaskDialog
@@ -47,8 +48,7 @@ fun TimerScreen(
     isFinish: Boolean,
     onChangeFinishStateFalse: () -> Unit,
     onNavigateToColor: () -> Unit,
-    onNavigateToMeasure: (String) -> Unit,
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
+    onNavigationActions: (NavigationActions) -> Unit,
     onShowResetDailySnackBar: (String) -> Unit,
 ) {
     val viewModel: TimerViewModel = mavericksViewModel(
@@ -146,7 +146,7 @@ fun TimerScreen(
 
     LaunchedEffect(uiState.splashResultStateString) {
         uiState.splashResultStateString?.let {
-            onNavigateToMeasure(it)
+            onNavigationActions(NavigationActions.Measure(it))
             viewModel.initSplashResultStateString()
         }
     }
@@ -184,7 +184,7 @@ fun TimerScreen(
                 onChangeFinishStateFalse()
             }
         },
-        onNavigateToDestination = onNavigateToDestination,
+        onNavigationActions = onNavigationActions,
     )
 }
 
@@ -198,7 +198,7 @@ private fun TimerScreen(
     onClickGoalTimeEdit: () -> Unit,
     onClickStartRecord: () -> Unit,
     onClickSettingTimer: () -> Unit,
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
+    onNavigationActions: (NavigationActions) -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val context = LocalContext.current
@@ -211,7 +211,25 @@ private fun TimerScreen(
                 TdsBottomNavigationBar(
                     currentTopLevelDestination = TopLevelDestination.TIMER,
                     bottomNavigationColor = uiState.timeColor.timerBackgroundColor,
-                    onNavigateToDestination = onNavigateToDestination,
+                    onNavigateToDestination = {
+                        when (it) {
+                            TopLevelDestination.TIMER -> {
+                                onNavigationActions(NavigationActions.Timer)
+                            }
+
+                            TopLevelDestination.STOPWATCH -> {
+                                onNavigationActions(NavigationActions.StopWatch)
+                            }
+
+                            TopLevelDestination.LOG -> {
+                                onNavigationActions(NavigationActions.Log)
+                            }
+
+                            TopLevelDestination.SETTING -> {
+                                onNavigationActions(NavigationActions.Setting)
+                            }
+                        }
+                    },
                 )
             }
         },

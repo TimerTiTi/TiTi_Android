@@ -6,49 +6,36 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navOptions
-import com.titi.app.core.designsystem.navigation.TopLevelDestination
+import com.titi.app.core.ui.NavigationActions
 import com.titi.app.core.util.toJson
 import com.titi.app.feature.edit.navigation.editGraph
-import com.titi.app.feature.edit.navigation.navigateToEdit
 import com.titi.app.feature.log.navigation.logGraph
-import com.titi.app.feature.log.navigation.navigateToLog
 import com.titi.app.feature.main.model.SplashResultState
 import com.titi.app.feature.main.model.toFeatureTimeModel
 import com.titi.app.feature.measure.navigation.measureGraph
-import com.titi.app.feature.measure.navigation.navigateToMeasure
 import com.titi.app.feature.popup.PopUpActivity
 import com.titi.app.feature.popup.PopUpActivity.Companion.COLOR_RECORDING_MODE_KEY
-import com.titi.app.feature.setting.navigation.navigateToFeatures
-import com.titi.app.feature.setting.navigation.navigateToSetting
-import com.titi.app.feature.setting.navigation.navigateToUpdates
 import com.titi.app.feature.setting.navigation.settingGraph
-import com.titi.app.feature.time.navigation.STOPWATCH_SCREEN
 import com.titi.app.feature.time.navigation.TIMER_FINISH_KEY
-import com.titi.app.feature.time.navigation.TIMER_SCREEN
-import com.titi.app.feature.time.navigation.navigateToStopWatch
-import com.titi.app.feature.time.navigation.navigateToTimer
 import com.titi.app.feature.time.navigation.timeGraph
-import com.titi.app.feature.webview.navigateToWebView
 import com.titi.app.feature.webview.webViewGraph
 
 @Composable
 fun TiTiNavHost(
     modifier: Modifier = Modifier,
+    navController: NavHostController,
     isConfigurationChange: Boolean,
     splashResultState: SplashResultState,
     onShowResetDailySnackBar: (String) -> Unit,
+    onNavigationActions: (NavigationActions) -> Unit,
 ) {
-    val navController = rememberNavController()
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         if (splashResultState.recordTimes.recording && !isConfigurationChange) {
-            navController.navigateToMeasure(splashResultState.toJson())
+            onNavigationActions(NavigationActions.Measure(splashResultState.toJson()))
         }
     }
 
@@ -56,9 +43,9 @@ fun TiTiNavHost(
         modifier = modifier,
         navController = navController,
         startDestination = if (splashResultState.recordTimes.recordingMode == 1) {
-            TIMER_SCREEN
+            NavigationActions.Timer
         } else {
-            STOPWATCH_SCREEN
+            NavigationActions.StopWatch
         },
     ) {
         timeGraph(
@@ -72,12 +59,7 @@ fun TiTiNavHost(
                 }
                 context.startActivity(intent)
             },
-            onNavigateToMeasure = {
-                navController.navigateToMeasure(it)
-            },
-            onNavigateToDestination = {
-                navController.navigateToTopLevelDestination(it)
-            },
+            onNavigationActions = onNavigationActions,
             onShowResetDailySnackBar = onShowResetDailySnackBar,
         )
 
@@ -86,22 +68,13 @@ fun TiTiNavHost(
                 navController.previousBackStackEntry
                     ?.savedStateHandle
                     ?.set(TIMER_FINISH_KEY, isFinish)
-                navController.navigateUp()
+                onNavigationActions(NavigationActions.Up)
             },
         )
 
-        logGraph(
-            onNavigateToDestination = {
-                navController.navigateToTopLevelDestination(it)
-            },
-            onNavigateToEdit = {
-                navController.navigateToEdit(it)
-            },
-        )
+        logGraph(onNavigationActions = onNavigationActions)
 
         settingGraph(
-            onNavigateToFeatures = { navController.navigateToFeatures() },
-            onNavigateToUpdates = { navController.navigateToUpdates() },
             onNavigateToPlayStore = {
                 val intent = Intent(
                     Intent.ACTION_VIEW,
@@ -110,16 +83,7 @@ fun TiTiNavHost(
 
                 context.startActivity(intent)
             },
-            onNavigateUp = { navController.navigateUp() },
-            onNavigateToWebView = { title, url ->
-                navController.navigateToWebView(
-                    title = title,
-                    url = url,
-                )
-            },
-            onNavigateToDestination = {
-                navController.navigateToTopLevelDestination(it)
-            },
+            onNavigationActions = onNavigationActions,
             onNavigateToExternalWeb = {
                 val intent = Intent(
                     Intent.ACTION_VIEW,
@@ -130,29 +94,8 @@ fun TiTiNavHost(
             },
         )
 
-        webViewGraph(onNavigateUp = { navController.navigateUp() })
+        webViewGraph(onNavigationActions = onNavigationActions)
 
-        editGraph(
-            onBack = { navController.navigateUp() },
-        )
-    }
-}
-
-fun NavController.navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
-    val topLevelNavOptions =
-        navOptions {
-            popUpTo(graph.findStartDestination().id) {
-                saveState = true
-            }
-
-            launchSingleTop = true
-            restoreState = true
-        }
-
-    when (topLevelDestination) {
-        TopLevelDestination.TIMER -> navigateToTimer(topLevelNavOptions)
-        TopLevelDestination.STOPWATCH -> navigateToStopWatch(topLevelNavOptions)
-        TopLevelDestination.LOG -> navigateToLog(topLevelNavOptions)
-        TopLevelDestination.SETTING -> navigateToSetting(topLevelNavOptions)
+        editGraph(onNavigationActions = onNavigationActions)
     }
 }
