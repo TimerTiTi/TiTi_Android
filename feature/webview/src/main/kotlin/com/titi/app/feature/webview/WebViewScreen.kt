@@ -23,10 +23,15 @@ import com.titi.app.core.designsystem.component.TdsIconButton
 import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
+import com.titi.app.core.ui.NavigationActions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WebViewScreen(title: String, url: String, onNavigateUp: () -> Unit) {
+fun WebViewScreen(
+    title: String,
+    url: String,
+    onNavigationActions: (NavigationActions) -> Unit,
+) {
     Scaffold(
         containerColor = Color.White,
         modifier = Modifier.fillMaxSize(),
@@ -36,7 +41,7 @@ fun WebViewScreen(title: String, url: String, onNavigateUp: () -> Unit) {
                     containerColor = TdsColor.GROUPED_BACKGROUND.getColor(),
                 ),
                 navigationIcon = {
-                    TdsIconButton(onClick = onNavigateUp) {
+                    TdsIconButton(onClick = { onNavigationActions(NavigationActions.Up) }) {
                         Icon(
                             painter = painterResource(id = R.drawable.arrow_left_icon),
                             contentDescription = "back",

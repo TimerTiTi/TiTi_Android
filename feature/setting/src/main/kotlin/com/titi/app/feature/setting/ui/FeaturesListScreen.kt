@@ -31,6 +31,7 @@ import com.titi.app.core.designsystem.component.TdsText
 import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
+import com.titi.app.core.ui.NavigationActions
 import com.titi.app.feature.setting.model.FeaturesUiState
 import com.titi.app.feature.setting.model.makeFeatures
 
@@ -38,8 +39,7 @@ import com.titi.app.feature.setting.model.makeFeatures
 @Composable
 fun FeaturesListScreen(
     viewModel: FeaturesListViewModel = mavericksViewModel(),
-    onNavigateUp: () -> Unit,
-    onNavigateWebView: (title: String, url: String) -> Unit,
+    onNavigationActions: (NavigationActions) -> Unit,
 ) {
     val context = LocalContext.current
     val uiState by viewModel.collectAsState()
@@ -62,7 +62,7 @@ fun FeaturesListScreen(
                     containerColor = TdsColor.GROUPED_BACKGROUND.getColor(),
                 ),
                 navigationIcon = {
-                    TdsIconButton(onClick = onNavigateUp) {
+                    TdsIconButton(onClick = { onNavigationActions(NavigationActions.Up) }) {
                         Icon(
                             painter = painterResource(id = R.drawable.arrow_left_icon),
                             contentDescription = "back",
@@ -88,7 +88,9 @@ fun FeaturesListScreen(
                 .safeDrawingPadding()
                 .padding(it),
             uiState = uiState,
-            onClick = onNavigateWebView,
+            onClick = { title, url ->
+                onNavigationActions(NavigationActions.WebView(title, url))
+            },
         )
     }
 }

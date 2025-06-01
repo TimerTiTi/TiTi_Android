@@ -1,6 +1,7 @@
 plugins {
     id("titi.android.compose")
     id("titi.android.library")
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -9,4 +10,5 @@ android {
 
 dependencies {
     implementation(libs.androidx.compose.navigation)
+    implementation(libs.kotlinx.serialization.json)
 }

@@ -58,6 +58,7 @@ import com.titi.app.core.designsystem.theme.TdsColor
 import com.titi.app.core.designsystem.theme.TdsTextStyle
 import com.titi.app.core.designsystem.theme.TiTiTheme
 import com.titi.app.core.ui.LanguageManager
+import com.titi.app.core.ui.NavigationActions
 import com.titi.app.feature.setting.model.SettingActions
 import com.titi.app.feature.setting.model.SettingUiState
 import com.titi.app.feature.setting.model.Version
@@ -67,7 +68,7 @@ import com.titi.app.feature.setting.model.Version
 internal fun SettingScreen(
     viewModel: SettingViewModel = mavericksViewModel(),
     handleNavigateActions: (SettingActions.Navigates) -> Unit,
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
+    onNavigationActions: (NavigationActions) -> Unit,
 ) {
     val uiState by viewModel.collectAsState()
 
@@ -139,7 +140,14 @@ internal fun SettingScreen(
             TdsBottomNavigationBar(
                 currentTopLevelDestination = TopLevelDestination.SETTING,
                 bottomNavigationColor = containerColor,
-                onNavigateToDestination = onNavigateToDestination,
+                onNavigateToDestination = {
+                    when(it){
+                        TopLevelDestination.TIMER -> onNavigationActions(NavigationActions.Timer)
+                        TopLevelDestination.STOPWATCH -> onNavigationActions(NavigationActions.StopWatch)
+                        TopLevelDestination.LOG -> onNavigationActions(NavigationActions.Log)
+                        TopLevelDestination.SETTING -> onNavigationActions(NavigationActions.Setting)
+                    }
+                },
             )
         },
     ) {

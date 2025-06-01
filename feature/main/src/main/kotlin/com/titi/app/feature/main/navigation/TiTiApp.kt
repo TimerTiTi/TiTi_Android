@@ -21,10 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.rememberNavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.titi.app.core.ui.NavigationActions
 import com.titi.app.core.ui.isTablet
 import com.titi.app.feature.main.model.SplashResultState
 import com.titi.app.tds.R
@@ -46,6 +49,7 @@ fun TiTiApp(isConfigurationChange: Boolean, splashResultState: SplashResultState
     val snackbarHostState = remember { TtdsSnackbarHostState() }
     val configuration = LocalConfiguration.current
     val multiple = if (configuration.isTablet()) 2 else 1
+    val navController = rememberNavController()
 
     fun askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -66,6 +70,7 @@ fun TiTiApp(isConfigurationChange: Boolean, splashResultState: SplashResultState
             modifier = Modifier.fillMaxSize(),
             isConfigurationChange = isConfigurationChange,
             splashResultState = splashResultState,
+            navController = navController,
             onShowResetDailySnackBar = { date ->
                 scope.launch {
                     snackbarHostState.showSnackbar(
@@ -87,6 +92,27 @@ fun TiTiApp(isConfigurationChange: Boolean, splashResultState: SplashResultState
                         message = snackbarMessage,
                         targetDpFromTop = 40.dp * multiple,
                     )
+                }
+            },
+            onNavigationActions = {
+                when (it) {
+                    NavigationActions.Timer,
+                    NavigationActions.StopWatch,
+                    NavigationActions.Log,
+                    NavigationActions.Setting, -> {
+                        navController.navigate(it) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+
+                    NavigationActions.Up -> navController.navigateUp()
+
+                    else -> navController.navigate(it)
                 }
             },
         )
